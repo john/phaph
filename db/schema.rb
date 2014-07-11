@@ -14,11 +14,23 @@
 ActiveRecord::Schema.define(version: 20140710065649) do
 
   create_table "grants", force: true do |t|
-    t.string   "name"
+    t.string   "name",                                                           null: false
     t.text     "description"
     t.string   "source"
-    t.decimal  "amount",                 precision: 10, scale: 0
-    t.float    "overhead",    limit: 24
+    t.string   "source_id"
+    t.string   "principal_investigators"
+    t.text     "investigators"
+    t.string   "program_manager"
+    t.string   "sponsor"
+    t.string   "nsf_programs"
+    t.string   "nsf_program_reference_code"
+    t.string   "nsf_program_element_code"
+    t.datetime "awarded_at"
+    t.datetime "starts_at"
+    t.datetime "expires_at"
+    t.decimal  "amount",                                precision: 10, scale: 0
+    t.float    "overhead",                   limit: 24
+    t.integer  "creator_id",                                                     null: false
     t.integer  "user_id"
     t.integer  "lab_id"
     t.string   "state"
@@ -27,6 +39,7 @@ ActiveRecord::Schema.define(version: 20140710065649) do
   end
 
   add_index "grants", ["lab_id"], name: "index_grants_on_lab_id", using: :btree
+  add_index "grants", ["name"], name: "index_grants_on_name", using: :btree
   add_index "grants", ["user_id"], name: "index_grants_on_user_id", using: :btree
 
   create_table "identities", force: true do |t|
@@ -40,10 +53,10 @@ ActiveRecord::Schema.define(version: 20140710065649) do
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "labs", force: true do |t|
-    t.string   "name"
+    t.string   "name",        null: false
     t.text     "description"
-    t.integer  "user_id"
-    t.string   "state"
+    t.integer  "creator_id",  null: false
+    t.string   "state",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -51,11 +64,12 @@ ActiveRecord::Schema.define(version: 20140710065649) do
   add_index "labs", ["name"], name: "index_labs_on_name", using: :btree
 
   create_table "memberships", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "belongable_id"
-    t.string   "belongable_type"
+    t.integer  "user_id",         null: false
+    t.integer  "belongable_id",   null: false
+    t.string   "belongable_type", null: false
+    t.integer  "creator_id",      null: false
     t.text     "notes"
-    t.string   "state"
+    t.string   "state",           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -66,6 +80,7 @@ ActiveRecord::Schema.define(version: 20140710065649) do
   create_table "users", force: true do |t|
     t.string   "name",                   default: ""
     t.string   "email",                  default: "", null: false
+    t.integer  "creator_id"
     t.string   "encrypted_password",     default: "", null: false
     t.text     "description"
     t.string   "reset_password_token"

@@ -12,7 +12,7 @@ class LabsController < ApplicationController
 
   # GET /labs/new
   def new
-    @lab = Lab.new
+    @lab = Lab.new( creator_id: current_user.id )
   end
 
   # GET /labs/1/edit
@@ -53,6 +53,6 @@ class LabsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def lab_params
-      params.require(:lab).permit(:name, :description, :user_id, :state)
+      params.require(:lab).permit(:name, :description, :creator_id, :state)
     end
 end

@@ -6,6 +6,12 @@ class Lab < ActiveRecord::Base
   
   validates :name, presence: true
   
+  STATES = [:active, :inactive]
+  state_machine :state, :initial => :active do
+    event :deactivate do transition STATES => :inactive end
+    event :activate do transition STATES => :active end
+  end
+  
   def people
     Membership.where( :belongable_id => id, :belongable_type => Lab.to_s ).map{|membership| membership.user}
   end

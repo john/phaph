@@ -17,8 +17,16 @@ class User < ActiveRecord::Base
   
   validates_format_of :email, without: TEMP_EMAIL_REGEX, on: :update
   
+  
+  
+  # def people
+  #   Membership.where( :belongable_id => id, :belongable_type => Lab.to_s ).map{|membership| membership.user}
+  # end
+
+
+# Membership.where( :belongable_id => id, :belongable_type => Grant.to_s ).map{|membership| membership.user}
   def labs
-    memberships.map{ |m| m.lab }
+    Membership.where( :user_id => id, :belongable_type => Lab.to_s ).map{|membership| membership.belongable}
   end
   
   # http://sourcey.com/rails-4-omniauth-using-devise-with-twitter-facebook-and-linkedin/

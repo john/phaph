@@ -53,6 +53,6 @@ class GrantsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def grant_params
-      params.require(:grant).permit(:name, :description, :source, :amount, :overhead, :user_id, :lab_id, :state)
+      params.require(:grant).permit(:name, :description, :source, :source_id, :principal_investigators, :investigators, :program_manager, :sponsor, :nsf_programs, :nsf_program_reference_code, :nsf_program_element_code, :awarded_at, :starts_at, :expires_at, :amount, :overhead, :creator_id, :user_id, :lab_id, :state)
     end
 end
