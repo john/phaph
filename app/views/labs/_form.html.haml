@@ -5,9 +5,10 @@
       %ul
         - @lab.errors.full_messages.each do |msg|
           %li= msg
-
+  = f.hidden_field :creator_id
+  
   %div
-    = f.text_field :name, autofocus: true, style: "width: 400px;"
+    = f.text_field :name, autofocus: true, style: "width: 400px;", :placeholder => 'Lab name'
     
   %div
     %br

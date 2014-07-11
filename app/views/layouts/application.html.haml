@@ -16,14 +16,10 @@
     
     %title= (Rails.env == 'development' ? '[DEV] ' : '') + (@title ? @title : 'Erlenmeyer')
     
-    
-    
-    
-    
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
-    -# = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'
-    = stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/fonts/glyphicons-halflings-regular.svg'
+    = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'
+    -# = stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/fonts/glyphicons-halflings-regular.svg'
     
     
     

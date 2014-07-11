@@ -1,15 +1,18 @@
-%h1
-  Users
+.col-sm-7
+  .pull-right
+    = link_to 'New User', new_user_path, :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
+    
+  %h1
+    Users
 
-%table.table
+.clearfix
 
-  - @users.each do |user|
-    %tr
-      %td= user.name
-      %td= link_to 'Show', user
-      %td= link_to 'Edit', edit_user_path(user)
-      %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New User', new_user_path, :class => 'btn btn-primary', :role => 'button'
+.col-sm-7
+  %table.table.table-hover
+    - @users.each do |user|
+      %tr
+        %td
+          %b
+            = link_to user.name, people_path(user, user.name.parameterize)
+        %td{:style => 'text-align: right;'}
+          #{link_to 'Edit', edit_user_path(user)} &nbsp;&#183;&nbsp; #{link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }}

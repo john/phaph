@@ -1,12 +1,20 @@
-%h1
+%h1{:style => 'margin-bottom: 5px;'}
   = @user.name
   
+%div{:style => 'margin-top: 0;'}
+  = @user.description
+  
+%br
 %h4
   Labs
-  
-%ul
-  - @user.labs.each do |lab|
-    %li
-      = link_to lab.name, lab_path(lab)
 
-= link_to 'Edit', edit_user_path(@user)
+
+
+%ul{:class => 'list-unstyled'}
+  - if @user.labs.present?
+    - @user.labs.each do |lab|
+      %li
+        = link_to lab.name, slugged_lab_path( lab.id, lab.name.parameterize)
+  - else
+    %li
+      None, yet.

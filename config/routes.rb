@@ -18,11 +18,15 @@ Rails.application.routes.draw do
   end
   
   resources :grants
+  match '/grants/:id/:slug' => 'users#show', :via => :get, :as => :slugged_grant
+  
   resources :labs
+  match '/labs/:id/:slug' => 'labs#show', :via => :get, :as => :slugged_lab
+  
   resources :memberships
   
   resources :users
-  match '/people/:id' => 'users#show', :via => :get, :as => :people
+  match '/people/:id/:slug' => 'users#show', :via => :get, :as => :people
   
   
   # Example of regular route:

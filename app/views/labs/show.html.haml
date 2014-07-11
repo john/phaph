@@ -1,11 +1,10 @@
-%h1
+%h1{:style => 'margin-bottom: 5px;'}
   = @lab.name
   
-%div
+%div{:style => 'margin-top: 0;'}
   = @lab.description
-  
-%br
 
+%br
 %h4
   Members
   %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
@@ -14,6 +13,8 @@
       
 .add_member{:style => 'display:none;'}
   = form_for Membership.new, :html => {:class => 'form-inline'} do |f|
+    = f.hidden_field :creator_id, :value => current_user.id
+    = f.hidden_field :belongable_id, :value => @lab.id
     = f.hidden_field :belongable_id, :value => @lab.id
     = f.hidden_field :belongable_type, :value => Lab.to_s
     
@@ -23,49 +24,48 @@
     &nbsp;
     = f.submit "Go", :id => 'membership_submit', :class => 'btn btn-default'
     
-    
     &nbsp;&nbsp;
     %a{:href => '#', :onclick => "$('.add_member').toggle()"}
       Cancel
       
       
-%ul
+%ul{:class => 'list-unstyled'}
   - if @lab.people.present?
     - @lab.people.each do |person|
       %li
-        = link_to person.name, people_path(person)
+        = link_to person.name, people_path(person, person.name.parameterize)
   - else
     %li
       None, yet.
 
-      
-      
 %br
-%h6
-  %a{:onclick => "$('.add_grant').toggle();", :class => 'add_grant'}
-    Add grant
+
+%h4
+  Grants
+  %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
+    %a{:onclick => "$('.add_grant').toggle();", :class => 'add_grant'}
+      add
+      
+.add_grant{:style => 'display:none;'}
+  = form_for Grant.new, :html => {:class => 'form-inline'} do |f|
+    = f.hidden_field :lab_id, :value => @lab.id
+    = f.hidden_field :creator_id, :value => current_user.id
+    -# = f.select :user_id, options_from_collection_for_select(User.all, :id, :name)
     
-  .add_grant{:style => 'display:none;'}
-  
-    = form_for Grant.new, :html => {:class => 'form-inline'} do |f|
-      = f.hidden_field :lab_id, :value => @lab.id
-      -# = f.select :user_id, options_from_collection_for_select(User.all, :id, :name)
-      
-      = f.label :name, :class => 'sr-only'
-      = f.text_field :name, :class => 'form-control', :placeholder => 'Grant name'
-      
-      &nbsp;
-      = f.submit "Go", :class => 'btn btn-default', :id => 'grant_submit'
-      
-      &nbsp;&nbsp;
-      %a{:href => '#', :onclick => "$('.add_grant').toggle()"}
-        Cancel
+    = f.label :name, :class => 'sr-only'
+    = f.text_field :name, :class => 'form-control', :placeholder => 'Grant name'
+    
+    &nbsp;
+    = f.submit "Go", :class => 'btn btn-default', :id => 'grant_submit'
+    
+    &nbsp;&nbsp;
+    %a{:href => '#', :onclick => "$('.add_grant').toggle()"}
+      Cancel
       
 - if @lab.grants.present?
   %div
-    Grants:
-    %ul
+    %ul{:class => 'list-unstyled'}
       - @lab.grants.each do |grant|
         %li
-          = link_to grant.name, grant_path(grant)
+          = link_to grant.name, slugged_grant_path(grant.id, grant.name.parameterize)
         

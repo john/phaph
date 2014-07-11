@@ -1,33 +1,18 @@
-%h1 Grants
+.col-sm-7
+  .pull-right
+    = link_to 'New grant', new_grant_path, :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
+    
+  %h1
+    Grants
 
-%table.table
-  %tr
-    %th Name
-    %th Description
-    %th Source
-    %th Amount
-    %th Overhead
-    %th User
-    %th Lab
-    %th State
-    %th
-    %th
-    %th
+.clearfix
 
-  - @grants.each do |grant|
-    %tr
-      %td= grant.name
-      %td= grant.description
-      %td= grant.source
-      %td= grant.amount
-      %td= grant.overhead
-      %td= grant.user_id
-      %td= grant.lab_id
-      %td= grant.state
-      %td= link_to 'Show', grant
-      %td= link_to 'Edit', edit_grant_path(grant)
-      %td= link_to 'Destroy', grant, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Grant', new_grant_path
+.col-sm-7
+  %table.table.table-hover
+    - @grants.each do |grant|
+      %tr
+        %td
+          %b
+            = link_to grant.name, grant
+        %td{:style => 'text-align: right;'}
+          #{link_to 'Edit', edit_grant_path(grant)} &nbsp;&#183;&nbsp; #{link_to 'Destroy', grant, :method => :delete, :data => { :confirm => 'Are you certain?' }}
