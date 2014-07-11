@@ -1,0 +1,12 @@
+.col-sm-7
+  .div
+    edit
+  %h3{:style => 'margin: 0 0 20px 0;'}
+    #{link_to @grant.name, grant_path}
+
+.clearfix
+= render 'form'
+
+= link_to 'Show', @grant
+\|
+= link_to 'Back', grants_path

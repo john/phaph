@@ -1,0 +1,12 @@
+%h1
+  = @user.name
+  
+%h4
+  Labs
+  
+%ul
+  - @user.labs.each do |lab|
+    %li
+      = link_to lab.name, lab_path(lab)
+
+= link_to 'Edit', edit_user_path(@user)

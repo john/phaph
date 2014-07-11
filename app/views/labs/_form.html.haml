@@ -1,0 +1,17 @@
+= form_for @lab do |f|
+  - if @lab.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@lab.errors.count, "error")} prohibited this lab from being saved:"
+      %ul
+        - @lab.errors.full_messages.each do |msg|
+          %li= msg
+
+  %div
+    = f.text_field :name, autofocus: true, style: "width: 400px;"
+    
+  %div
+    %br
+    = f.text_area :description, style: 'width:400px; height:200px;'
+  .actions
+    %br
+    = f.submit 'Save', :class => 'btn btn-primary'

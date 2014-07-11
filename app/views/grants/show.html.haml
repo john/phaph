@@ -1,0 +1,28 @@
+%p
+  %b Name:
+  = @grant.name
+%p
+  %b Description:
+  = @grant.description
+%p
+  %b Source:
+  = @grant.source
+%p
+  %b Amount:
+  = @grant.amount
+%p
+  %b Overhead:
+  = @grant.overhead
+%p
+  %b User:
+  = @grant.user_id
+%p
+  %b Lab:
+  = @grant.lab_id
+%p
+  %b State:
+  = @grant.state
+
+= link_to 'Edit', edit_grant_path(@grant)
+\|
+= link_to 'Delete', grant_path(@grant), method: :delete, confirm: "Are you certain?"
