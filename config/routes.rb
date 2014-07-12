@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   root 'home#index'
   
   devise_for  :users,
@@ -17,8 +17,11 @@ Rails.application.routes.draw do
     
   end
   
+  resources :categories
+  match '/categories/:id/:slug' => 'categories#show', :via => :get, :as => :slugged_category
+  
   resources :grants
-  match '/grants/:id/:slug' => 'users#show', :via => :get, :as => :slugged_grant
+  match '/grants/:id/:slug' => 'grants#show', :via => :get, :as => :slugged_grant
   
   resources :labs
   match '/labs/:id/:slug' => 'labs#show', :via => :get, :as => :slugged_lab

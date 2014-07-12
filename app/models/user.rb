@@ -9,6 +9,12 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: true
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   
+  STATES = [:active, :inactive]
+  state_machine :state, :initial => :active do
+    event :deactivate do transition STATES => :inactive end
+    event :activate do transition STATES => :active end
+  end
+  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

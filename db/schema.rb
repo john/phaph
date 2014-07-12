@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140710065649) do
+ActiveRecord::Schema.define(version: 20140712062418) do
+
+  create_table "categories", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "creator_id"
+    t.integer  "lab_id"
+    t.integer  "grant_id"
+    t.string   "state",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "grants", force: true do |t|
     t.string   "name",                                                           null: false
@@ -32,8 +43,8 @@ ActiveRecord::Schema.define(version: 20140710065649) do
     t.float    "overhead",                   limit: 24
     t.integer  "creator_id",                                                     null: false
     t.integer  "user_id"
-    t.integer  "lab_id"
-    t.string   "state"
+    t.integer  "lab_id",                                                         null: false
+    t.string   "state",                                                          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -83,6 +94,7 @@ ActiveRecord::Schema.define(version: 20140710065649) do
     t.integer  "creator_id"
     t.string   "encrypted_password",     default: "", null: false
     t.text     "description"
+    t.string   "state",                               null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

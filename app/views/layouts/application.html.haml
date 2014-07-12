@@ -16,7 +16,9 @@
     
     %title= (Rails.env == 'development' ? '[DEV] ' : '') + (@title ? @title : 'Erlenmeyer')
     
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    -# = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'app'
+    
     = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
     = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'
     -# = stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/fonts/glyphicons-halflings-regular.svg'
@@ -45,15 +47,16 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          = link_to 'Erlenmeyer', root_path, :class => 'navbar-brand'
+          = link_to 'Erlenmeyer', root_path, class: 'navbar-brand'
         .navbar-collapse.collapse
           %ul.nav.navbar-nav
-            %li
-              %a{:href => users_path} Users
-            %li
+            %li{:class => (controller_name == 'users') ? 'active' : ''}
+              = link_to 'Users', users_path
+            
+            %li{:class => (controller_name == 'labs') ? 'active' : ''}
               %a{:href => labs_path} Labs
-            %li.dropdown
-            %li
+              
+            %li{:class => (controller_name == 'grants' || controller_name == 'categories') ? 'active' : ''}
               %a{:href => grants_path} Grants
             %li.dropdown
           -#     %a.dropdown-toggle{:'data-toggle' => 'dropdown'}
@@ -88,8 +91,8 @@
     
     .container
       
-      = content_tag(:div, flash[:error], :id => "error") if flash[:error]
-      = content_tag(:div, flash[:notice], :id => "notice") if flash[:notice]
-      = content_tag(:div, flash[:alert], :id => "alert") if flash[:alert]
+      = content_tag(:div, flash[:error], :id => "error", :class => "bg-warning") if flash[:error]
+      = content_tag(:div, flash[:notice], :id => "notice", :class => "bg-success") if flash[:notice]
+      = content_tag(:div, flash[:alert], :id => "alert", :class => "bg-danger") if flash[:alert]
       
       = yield

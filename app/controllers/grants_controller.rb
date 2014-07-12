@@ -12,7 +12,7 @@ class GrantsController < ApplicationController
 
   # GET /grants/new
   def new
-    @grant = Grant.new
+    @grant = Grant.new( creator_id: current_user.id )
   end
 
   # GET /grants/1/edit

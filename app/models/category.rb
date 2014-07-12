@@ -1,8 +1,8 @@
-class Grant < ActiveRecord::Base
+class Category < ActiveRecord::Base
   
   belongs_to :creator, class_name: "User"
   belongs_to :lab
-  has_many :categories
+  belongs_to :grant
   
   validates :name, presence: true
   validates :creator_id, presence: true
@@ -12,14 +12,6 @@ class Grant < ActiveRecord::Base
   state_machine :state, :initial => :active do
     event :deactivate do transition STATES => :inactive end
     event :activate do transition STATES => :active end
-  end
-  
-  def people
-    Membership.where( :belongable_id => id, :belongable_type => Grant.to_s ).map{|membership| membership.user}
-  end
-  
-  def amount_remaining
-    'tk'
   end
   
 end

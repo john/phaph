@@ -13,6 +13,7 @@
       %tr
         %td
           %b
-            = link_to grant.name, grant
+            = link_to grant.name, slugged_grant_path(grant, grant.name.parameterize)
+            
         %td{:style => 'text-align: right;'}
           #{link_to 'Edit', edit_grant_path(grant)} &nbsp;&#183;&nbsp; #{link_to 'Destroy', grant, :method => :delete, :data => { :confirm => 'Are you certain?' }}

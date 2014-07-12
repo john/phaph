@@ -21,7 +21,7 @@ class CreateGrants < ActiveRecord::Migration
       t.integer :user_id
       t.integer :lab_id, null: false
       
-      t.string :state
+      t.string :state, null: false
 
       t.timestamps
     end
