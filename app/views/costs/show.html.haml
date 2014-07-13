@@ -1,0 +1,66 @@
+:css
+  h5 { margin: 15px 0 0 0;}
+
+
+%div{:style => 'margin-bottom: 0;'}
+  Cost
+
+%h1{:style => 'margin: 0 0 5px 0;'}
+  = @cost.name
+  
+%div{:style => 'margin-top: 0;'}
+  = @cost.description
+  
+-# %h5
+-#   %b Creator
+-# %div
+-#   = link_to @cost.creator.name, people_path( @cost.creator.id, @cost.creator.name.parameterize )
+
+%h5
+  Grant:
+%div
+  = link_to @cost.grant.name, @cost.grant
+
+%h5
+  Lab
+%div
+  = link_to @cost.lab.name, slugged_lab_path( @cost.lab.id, @cost.lab.name.parameterize )
+  
+%h5
+  Amount:
+%div
+  = number_to_currency @cost.amount
+
+
+
+%h5
+  Category:
+%div
+  = @cost.category_id
+
+%h5
+  Periodicity:
+%div
+  = Periodicity.as_string( @cost.periodicity )
+
+%h5
+  Starts at:
+%div
+  = @cost.starts_at.strftime("%B %d, %Y")
+
+%h5
+  Ends at:
+%div
+  = @cost.ends_at.strftime("%B %d, %Y")
+
+%h5
+  %b State:
+%div
+  = @cost.state
+  
+%br
+%br
+
+= link_to 'Edit', edit_cost_path(@cost)
+\|
+= link_to 'Back', costs_path

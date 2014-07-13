@@ -1,0 +1,41 @@
+%h1 Listing costs
+
+%table
+  %tr
+    %th Name
+    %th Description
+    %th Amount
+    %th Creator
+    %th User
+    %th Lab
+    %th Grant
+    %th Category
+    %th Periodicity
+    %th Starts at
+    %th Ends at
+    %th State
+    %th
+    %th
+    %th
+
+  - @costs.each do |cost|
+    %tr
+      %td= cost.name
+      %td= cost.description
+      %td= cost.amount
+      %td= cost.creator_id
+      %td= cost.user_id
+      %td= cost.lab_id
+      %td= cost.grant_id
+      %td= cost.category_id
+      %td= cost.periodicity
+      %td= cost.starts_at
+      %td= cost.ends_at
+      %td= cost.state
+      %td= link_to 'Show', cost
+      %td= link_to 'Edit', edit_cost_path(cost)
+      %td= link_to 'Destroy', cost, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Cost', new_cost_path

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140712062418) do
+ActiveRecord::Schema.define(version: 20140712193659) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -20,6 +20,23 @@ ActiveRecord::Schema.define(version: 20140712062418) do
     t.integer  "lab_id"
     t.integer  "grant_id"
     t.string   "state",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "costs", force: true do |t|
+    t.string   "name",                                 null: false
+    t.text     "description"
+    t.decimal  "amount",      precision: 10, scale: 0
+    t.integer  "creator_id",                           null: false
+    t.integer  "user_id"
+    t.integer  "lab_id",                               null: false
+    t.integer  "grant_id"
+    t.integer  "category_id"
+    t.integer  "periodicity"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.string   "state",                                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

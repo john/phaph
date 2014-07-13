@@ -1,0 +1,69 @@
+= form_for @cost, :role => 'form', :html => {:class => 'form-horizontal'} do |f|
+  
+  - if @cost.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@cost.errors.count, "error")} prohibited this cost from being saved:"
+      %ul
+        - @cost.errors.full_messages.each do |msg|
+          %li= msg
+          
+  .form-group
+    .col-sm-7
+      = f.text_field :name, class: 'form-control', placeholder: 'Cost name'
+    
+  .form-group
+    .col-sm-7
+      = f.text_area :description, class: 'form-control', placeholder: 'Description'
+      
+  .form-group
+    .col-sm-7
+      = f.number_field :amount, class: 'form-control', :placeholder => '$ Amount'
+
+  -# .form-group
+  -#   -# = f.label :user_id, 'Owner', :class => 'col-sm-2 control-label'
+  -#   .col-sm-7
+  -#     -# = f.number_field :user_id, class: 'form-control'
+  -#     Creator: &nbsp;
+  -#     = f.select :creator_id, options_from_collection_for_select(User.all, :id, :name, @cost.creator_id), :class => 'form-control', include_blank: '-- Select creator --'
+  
+  -# .field
+  -#   = f.label :user_id
+  -#   = f.number_field :user_id
+  
+  -# .field
+  -#   = f.label :lab_id
+  -#   = f.number_field :lab_id
+  -# .field
+  -#   = f.label :grant_id
+  -#   = f.number_field :grant_id
+  -#
+  -# .field
+  -#   = f.label :category_id
+  -#   = f.number_field :category_id
+    
+  .form-group
+    .col-sm-7
+      -# = f.label :periodicity
+      -# periodicity: #{f.number_field :periodicity}
+      
+      periodicity: #{f.select :periodicity, options_for_select(Periodicity.options_hash, @cost.periodicity), :class => 'form-control'}
+  
+  .form-group
+    .col-sm-7
+      -# = f.label :starts_at
+      Start date: #{f.date_select :starts_at}
+  
+  .form-group
+    .col-sm-7
+      -# = f.label :ends_at
+      End date: #{f.date_select :ends_at}
+
+  .form-group
+    -# = f.label :state, :class => 'col-sm-2 control-label'
+    .col-sm-7
+      -# = f.text_field :state, class: 'form-control'
+      State: &nbsp;
+      = f.select :state, options_for_select(Cost::STATES, @cost.state), :class => 'form-control'
+      
+  .actions
+    = f.submit 'Save', :class => 'btn btn-primary'
