@@ -14,29 +14,29 @@
 ActiveRecord::Schema.define(version: 20140712193659) do
 
   create_table "categories", force: true do |t|
-    t.string   "name"
+    t.string   "name",        null: false
     t.text     "description"
-    t.integer  "creator_id"
-    t.integer  "lab_id"
-    t.integer  "grant_id"
+    t.integer  "creator_id",  null: false
+    t.integer  "lab_id",      null: false
+    t.integer  "grant_id",    null: false
     t.string   "state",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "costs", force: true do |t|
-    t.string   "name",                                 null: false
+    t.string   "name",                                             null: false
     t.text     "description"
-    t.decimal  "amount",      precision: 10, scale: 0
-    t.integer  "creator_id",                           null: false
+    t.decimal  "amount",      precision: 10, scale: 0, default: 0
+    t.integer  "creator_id",                                       null: false
     t.integer  "user_id"
-    t.integer  "lab_id",                               null: false
+    t.integer  "lab_id",                                           null: false
     t.integer  "grant_id"
     t.integer  "category_id"
     t.integer  "periodicity"
     t.datetime "starts_at"
     t.datetime "ends_at"
-    t.string   "state",                                null: false
+    t.string   "state",                                            null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 20140712193659) do
     t.string   "nsf_program_element_code"
     t.datetime "awarded_at"
     t.datetime "starts_at"
-    t.datetime "expires_at"
+    t.datetime "ends_at"
     t.decimal  "amount",                                precision: 10, scale: 0
     t.float    "overhead",                   limit: 24
     t.integer  "creator_id",                                                     null: false

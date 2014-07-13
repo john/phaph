@@ -46,12 +46,14 @@
 %h5
   Starts at:
 %div
-  = @cost.starts_at.strftime("%B %d, %Y")
+  - if @cost.starts_at.present?
+    = @cost.starts_at.strftime("%B %d, %Y")
 
 %h5
   Ends at:
 %div
-  = @cost.ends_at.strftime("%B %d, %Y")
+  - if @cost.ends_at.present?
+    = @cost.ends_at.strftime("%B %d, %Y")
 
 %h5
   %b State:

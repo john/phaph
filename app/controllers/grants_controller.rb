@@ -12,7 +12,11 @@ class GrantsController < ApplicationController
 
   # GET /grants/new
   def new
-    @grant = Grant.new( creator_id: current_user.id )
+    vals = { creator_id: current_user.id }
+    if params[:l].present?
+      vals[:lab_id] = params[:l].to_i
+    end
+    @grant = Grant.new( vals )
   end
 
   # GET /grants/1/edit
@@ -24,7 +28,11 @@ class GrantsController < ApplicationController
     @grant = Grant.new(grant_params)
 
     if @grant.save
-      redirect_to @grant, notice: 'Grant was successfully created.'
+      if params[:redirect_to].present?
+        redirect_to params[:redirect_to]
+      else
+        redirect_to @grant, notice: 'Grant was successfully created.'
+      end
     else
       render :new
     end
@@ -53,6 +61,6 @@ class GrantsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def grant_params
-      params.require(:grant).permit(:name, :description, :source, :source_id, :principal_investigators, :investigators, :program_manager, :sponsor, :nsf_programs, :nsf_program_reference_code, :nsf_program_element_code, :awarded_at, :starts_at, :expires_at, :amount, :overhead, :creator_id, :user_id, :lab_id, :state)
+      params.require(:grant).permit(:name, :description, :source, :source_id, :principal_investigators, :investigators, :program_manager, :sponsor, :nsf_programs, :nsf_program_reference_code, :nsf_program_element_code, :awarded_at, :starts_at, :ends_at, :amount, :overhead, :creator_id, :user_id, :lab_id, :state)
     end
 end

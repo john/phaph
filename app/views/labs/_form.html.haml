@@ -1,4 +1,4 @@
-= form_for @lab do |f|
+= form_for @lab, :role => 'form', :html => {:class => 'form-horizontal'} do |f|
   - if @lab.errors.any?
     #error_explanation
       %h2= "#{pluralize(@lab.errors.count, "error")} prohibited this lab from being saved:"
@@ -7,12 +7,22 @@
           %li= msg
   = f.hidden_field :creator_id
   
-  %div
-    = f.text_field :name, autofocus: true, style: "width: 400px;", :placeholder => 'Lab name'
-    
-  %div
-    %br
-    = f.text_area :description, style: 'width:400px; height:200px;'
-  .actions
-    %br
-    = f.submit 'Save', :class => 'btn btn-primary'
+  .form-group
+    .col-sm-7
+      = f.label :name, :class => 'sr-only'
+      = f.text_field :name, autofocus: true, class: 'form-control', style: "width: 400px;", :placeholder => 'Lab name'
+      
+  .form-group
+    .col-sm-7
+      = f.label :description, :class => 'sr-only'
+      = f.text_area :description, class: 'form-control', style: 'width:400px; height:200px;'
+      
+  .form-group
+    .col-sm-7
+      State:
+      = f.label :state, :class => 'sr-only'
+      = f.select :state, options_for_select([['active', 'active'], ['inactive', 'inactive']], @lab.state), :class => 'form-control'
+      
+  .form-group
+    .col-sm-7
+      = f.submit 'Save', :class => 'btn btn-primary'

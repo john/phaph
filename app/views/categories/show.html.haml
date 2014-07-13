@@ -12,22 +12,22 @@
   = @category.description
   
 %h5
-  %b Creator
+  Creator
 %div
   = link_to @category.creator.name, people_path( @category.creator.id, @category.creator.name.parameterize )
 
 %h5
-  %b Lab
+  Lab
 %div
   = link_to @category.lab.name, slugged_lab_path( @category.lab.id, @category.lab.name.parameterize )
 
 %h5
-  %b Grant:
+  Grant:
 %div
   = @category.grant.name
 
 %h5
-  %b State:
+  State:
 %div
   = @category.state
 

@@ -6,30 +6,32 @@
         - @grant.errors.full_messages.each do |msg|
           %li= msg
   = f.hidden_field :creator_id
+  - if params[:l].present?
+    = hidden_field_tag :redirect_to, lab_path( params[:l] )
   
   .form-group
-    -# = f.label :name, :class => 'col-sm-2 control-label'
     .col-sm-7
+      = f.label :name, :class => 'sr-only'
       = f.text_field :name, class: 'form-control', placeholder: 'Grant name'
     
   .form-group
-    -# = f.label :description, :class => 'col-sm-2 control-label'
+    = f.label :description, :class => 'sr-only'
     .col-sm-7
       = f.text_area :description, class: 'form-control', placeholder: 'Description'
       
   .form-group
-    -# = f.label :source, :class => 'col-sm-2 control-label'
     .col-sm-7
+      = f.label :source, :class => 'sr-only'
       = f.text_field :source, class: 'form-control', placeholder: 'Source'
     
   .form-group
-    -# = f.label :amount, :class => 'col-sm-2 control-label'
     .col-sm-7
-      = f.number_field :amount, class: 'form-control', :placeholder => '$ Amount'
+      = f.label :amount, :class => 'sr-only'
+      = f.number_field :amount, class: 'form-control', :placeholder => '$ Amount', :pattern => "(^\\$?(([1-9](\\d*|\\d{0,2}(,\\d{3})*))|0)(\\.\\d{1,2})?$)"
     
   .form-group
-    -# = f.label :overhead, :class => 'col-sm-2 control-label'
     .col-sm-7
+      = f.label :overhead, :class => 'sr-only'
       = f.number_field :overhead, class: 'form-control', :placeholder => 'Overhead %'
     
   -# .form-group
@@ -38,22 +40,28 @@
   -#     -# = f.number_field :user_id, class: 'form-control'
   -#     Creator: &nbsp;
   -#     = f.select :creator_id, options_from_collection_for_select(User.all, :id, :name, @grant.user_id), :class => 'form-control', include_blank: '-- Select creator --'
+  .form-group
+    .col-sm-7
+      -# = f.label :starts_at
+      Start date: #{f.date_select :starts_at}
+  
+  .form-group
+    .col-sm-7
+      -# = f.label :ends_at
+      End date: #{f.date_select :ends_at}
       
   .form-group
-    -# = f.label :lab_id, :class => 'col-sm-2 control-label'
     .col-sm-7
-      -# = f.number_field :lab_id, class: 'form-control', placeholder: 'Lab ID'
+      = f.label :lab_id, :class => 'sr-only'
       Lab: &nbsp;
       = f.select :lab_id, options_from_collection_for_select(Lab.all, :id, :name, @grant.lab_id), :class => 'form-control', include_blank: '-- Select a lab --'
       
   .form-group
-    -# = f.label :state, :class => 'col-sm-2 control-label'
     .col-sm-7
-      -# = f.text_field :state, class: 'form-control'
+      = f.label :state, :class => 'sr-only'
       State: &nbsp;
       = f.select :state, options_for_select(Grant::STATES, @grant.state), :class => 'form-control'
       
   .form-group
     .col-sm-7
-      %br
-      = f.submit 'Save', :class => 'btn btn-default'
+      = f.submit 'Save', :class => 'btn btn-primary'

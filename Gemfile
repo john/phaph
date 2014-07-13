@@ -16,8 +16,8 @@ gem 'pundit'
 gem 'rails', '4.1.4'
 gem 'sass-rails', '~> 4.0.3'
 gem 'state_machine', git: 'https://github.com/seuros/state_machine.git'
-
 gem 'therubyracer'
+# gem 'time_difference'
 gem 'turbolinks' # Read more: https://github.com/rails/turbolinks
 gem 'uglifier', '>= 1.3.0'
 

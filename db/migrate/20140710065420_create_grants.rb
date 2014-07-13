@@ -14,7 +14,7 @@ class CreateGrants < ActiveRecord::Migration
       t.string :nsf_program_element_code
       t.datetime :awarded_at
       t.datetime :starts_at
-      t.datetime :expires_at
+      t.datetime :ends_at
       t.decimal :amount
       t.float :overhead
       t.integer :creator_id, null: false
