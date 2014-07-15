@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :samples
+
   resources :costs
 
   root 'home#index'

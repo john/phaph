@@ -35,6 +35,13 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = javascript_include_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'
     
+    <!--[if lte IE 8]>
+    = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/flot/0.8.2/excanvas.min.js'
+    <![endif]-->
+    = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/flot/0.8.2/jquery.flot.min.js'
+    = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/flot/0.8.2/jquery.flot.time.min.js'
+    
+    
     = csrf_meta_tags
     
   %body{:role => 'document'}
@@ -54,11 +61,15 @@
               = link_to 'Users', users_path
             
             %li{:class => (controller_name == 'labs') ? 'active' : ''}
-              %a{:href => labs_path} Labs
+              = link_to 'Labs', labs_path
               
             %li{:class => (controller_name == 'grants' || controller_name == 'categories') ? 'active' : ''}
-              %a{:href => grants_path} Grants
-            %li.dropdown
+              = link_to 'Grants', grants_path
+              
+            %li{:class => (controller_name == 'samples') ? 'active' : ''}
+              = link_to 'Samples', samples_path
+              
+          -# %li.dropdown
           -#     %a.dropdown-toggle{:'data-toggle' => 'dropdown'}
           -#       Dropdown
           -#       %span.caret
@@ -96,3 +107,4 @@
       = content_tag(:div, flash[:alert], :id => "alert", :class => "bg-danger") if flash[:alert]
       
       = yield
+      

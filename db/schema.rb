@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140712193659) do
+ActiveRecord::Schema.define(version: 20140714224729) do
 
   create_table "categories", force: true do |t|
     t.string   "name",        null: false
@@ -104,6 +104,24 @@ ActiveRecord::Schema.define(version: 20140712193659) do
 
   add_index "memberships", ["belongable_id", "belongable_type"], name: "index_memberships_on_belongable_id_and_belongable_type", unique: true, using: :btree
   add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
+
+  create_table "samples", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "source"
+    t.integer  "creator_id"
+    t.integer  "lab_id"
+    t.integer  "grant_id"
+    t.string   "location"
+    t.decimal  "latitude",        precision: 15, scale: 10
+    t.decimal  "longitude",       precision: 15, scale: 10
+    t.decimal  "collection_temp", precision: 10, scale: 0
+    t.datetime "collected_at"
+    t.datetime "prepped_at"
+    t.datetime "analyzed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name",                   default: ""

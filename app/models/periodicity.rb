@@ -11,7 +11,7 @@ class Periodicity
   ANNUALLY = 8
   
   def self.options_hash
-    { 'Once' => ONCE, 'Daily' => DAILY, 'Weekly' => WEEKLY, 'Fortnightly' => FORTNIGHTLY,
+    { '--Select frequency--' => '', 'Once' => ONCE, 'Daily' => DAILY, 'Weekly' => WEEKLY, 'Fortnightly' => FORTNIGHTLY,
     'Monthly' => MONTHLY, 'Bimonthly' => BIMONTHLY, 'Quarterly' => QUARTERLY, 'Biannually' => BIANNUALLY,
     'Annually' => ANNUALLY }
   end

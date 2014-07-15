@@ -1,0 +1,54 @@
+:css
+  h5 { margin: 15px 0 0 0;}
+
+%h1{:style => 'margin-bottom: 5px;'}
+  = @sample.name
+  
+%div{:style => 'margin-top: 0;'}
+  = @sample.description
+
+%div
+  #{link_to @grant.creator.name, people_path( @grant.creator.id, @grant.creator.name.parameterize )}, 
+  = link_to @grant.lab.name, slugged_lab_path( @grant.lab.id, @grant.lab.name.parameterize )
+    
+
+%h5
+  %b
+    Source
+%div
+  = @sample.source
+  
+%p
+  %b Creator:
+  = @sample.creator_id
+%p
+  %b Lab:
+  = @sample.lab_id
+%p
+  %b Grant:
+  = @sample.grant_id
+%p
+  %b Collection location:
+  = @sample.collection_location
+%p
+  %b Collection latitude:
+  = @sample.collection_latitude
+%p
+  %b Collection longitude:
+  = @sample.collection_longitude
+%p
+  %b Collection temp:
+  = @sample.collection_temp
+%p
+  %b Collected at:
+  = @sample.collected_at
+%p
+  %b Prepped at:
+  = @sample.prepped_at
+%p
+  %b Analyzed at:
+  = @sample.analyzed_at
+
+= link_to 'Edit', edit_sample_path(@sample)
+\|
+= link_to 'Back', samples_path

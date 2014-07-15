@@ -12,7 +12,14 @@ class CostsController < ApplicationController
 
   # GET /costs/new
   def new
-    @cost = Cost.new
+    # @cost = Cost.new
+    vals = { creator_id: current_user.id }
+    if params[:g].present?
+      grant = Grant.find(params[:g])
+      vals[:grant_id] = grant.id
+      vals[:lab_id] = grant.lab.id.to_i
+    end
+    @cost = Cost.new( vals )
   end
 
   # GET /costs/1/edit
@@ -22,9 +29,14 @@ class CostsController < ApplicationController
   # POST /costs
   def create
     @cost = Cost.new(cost_params)
-
+    @cost.ends_at = nil if @cost.periodicity == Periodicity::ONCE
+    
     if @cost.save
-      redirect_to @cost, notice: 'Cost was successfully created.'
+      if params[:redirect_to].present?
+        redirect_to params[:redirect_to]
+      else
+        redirect_to @cost, notice: 'Cost was successfully created.'
+      end
     else
       render :new
     end

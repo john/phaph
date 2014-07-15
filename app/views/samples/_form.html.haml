@@ -1,0 +1,84 @@
+= form_for @sample, :role => 'form', :html => {:class => 'form-horizontal'} do |f|
+  - if @sample.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@sample.errors.count, "error")} prohibited this sample from being saved:"
+      %ul
+        - @sample.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.hidden_field :creator_id
+  - if params[:l].present?
+    = hidden_field_tag :redirect_to, lab_path( params[:l] )
+    
+  .form-group
+    .col-sm-7
+      = f.label :name, :class => 'sr-only'
+      = f.text_field :name, class: 'form-control', placeholder: 'Sample name'
+    
+  .form-group
+    = f.label :description, :class => 'sr-only'
+    .col-sm-7
+      = f.text_area :description, class: 'form-control', placeholder: 'Description'
+      
+  .form-group
+    .col-sm-7
+      = f.label :source, :class => 'sr-only'
+      = f.text_field :source, class: 'form-control', placeholder: 'Source'
+      
+  .form-group
+    .col-sm-7
+      = f.label :location, :class => 'sr-only'
+      = f.text_field :location, class: 'form-control', placeholder: 'Location'
+      
+  .form-group
+    .col-sm-7
+      = f.label :lab_id, :class => 'sr-only'
+      Lab: &nbsp;
+      = f.select :lab_id, options_from_collection_for_select(Lab.all, :id, :name, @sample.lab_id), :class => 'form-control', include_blank: '-- Select a lab --'
+      
+  .form-group
+    .col-sm-7
+      = f.label :state, :class => 'sr-only'
+      State: &nbsp;
+      = f.select :state, options_for_select(Sample::STATES, @sample.state), :class => 'form-control'
+      
+  -# .field
+  -#   = f.label :grant_id
+  -#   = f.number_field :grant_id
+  .form-group
+    .col-sm-7
+      = f.label :grant_id, :class => 'sr-only'
+      Grant: &nbsp;
+      = f.select :grant_id, options_from_collection_for_select(Grant.all, :id, :name, @sample.lab_id), :class => 'form-control', include_blank: '-- Select a lab --'
+      
+  -# .field
+  -#   = f.label :latitude
+  -#   = f.text_field :latitude
+  -# .field
+  -#   = f.label :longitude
+  -#   = f.text_field :longitude
+  -# .field
+  -#   = f.label :collection_temp
+  -#   = f.text_field :collection_temp
+  
+  .form-group
+    .col-sm-7
+      = f.label :collected_at, :class => 'sr-only'
+      Collected at: &nbsp;
+      = f.datetime_select :collected_at
+      
+  .form-group
+    .col-sm-7
+      = f.label :prepped_at, :class => 'sr-only'
+      Prepped at: &nbsp;
+      = f.datetime_select :prepped_at
+      
+  .form-group
+    .col-sm-7
+      = f.label :analyzed_at, :class => 'sr-only'
+      Analyzed at: &nbsp;
+      = f.datetime_select :analyzed_at
+      
+  .form-group
+    .col-sm-7
+      = f.submit 'Save', :class => 'btn btn-primary'

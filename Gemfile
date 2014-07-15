@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
+# gem 'acts_as_commentable_with_threading'
+# gem 'acts-as-taggable-on'
 gem 'devise'
 gem 'haml-rails'
 # gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jquery-rails'
-
 gem 'mechanize', require: false
-
 gem 'mysql2'
 gem 'omniauth'
 gem 'omniauth-twitter'
@@ -15,9 +15,9 @@ gem 'omniauth-twitter'
 gem 'pundit'
 gem 'rails', '4.1.4'
 gem 'sass-rails', '~> 4.0.3'
+# gem 'socialization'
 gem 'state_machine', git: 'https://github.com/seuros/state_machine.git'
 gem 'therubyracer'
-# gem 'time_difference'
 gem 'turbolinks' # Read more: https://github.com/rails/turbolinks
 gem 'uglifier', '>= 1.3.0'
 

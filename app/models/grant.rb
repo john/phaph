@@ -34,77 +34,62 @@ class Grant < ActiveRecord::Base
     end
   end
   
-  def graph_expenditures
+  def costs_array
     if granted.present?
       
+      onces = Cost.where( ['periodicity = ? AND starts_at >= ? AND ends_at <= ?', Periodicity::ONCE, starts_at, ends_at] )
       dailies = Cost.where( ['periodicity = ? AND starts_at >= ? AND ends_at <= ?', Periodicity::DAILY, starts_at, ends_at] )
       weeklies = Cost.where( ['periodicity = ? AND starts_at >= ? AND ends_at <= ?', Periodicity::WEEKLY, starts_at, ends_at] )
       monthlies = Cost.where( ['periodicity = ? AND starts_at >= ? AND ends_at <= ?', Periodicity::MONTHLY, starts_at, ends_at] )
       
-      puts "dailies: #{dailies.size}"
-      puts "monthlies: #{monthlies.size}"
-      
-      
       costs_array = []
-
+      
       first_day_of_month = starts_at.to_date.strftime('%-d').to_i
       
       (starts_at.to_date..ends_at.to_date).each_with_index do |day, i|
         total_daily_amount = 0
         
-        # daily costs
+        onces.each do |once|
+          if day == once.starts_at.to_date
+            total_daily_amount += once.amount
+          end
+        end
+        
         dailies.each do |daily|
-          # puts "IN DAILY"
-          if day >= daily.starts_at.to_date &&
-              day <= daily.ends_at.to_date
+          if day >= daily.starts_at.to_date && day <= daily.ends_at.to_date
             total_daily_amount += daily.amount
           end
         end
         
+        weeklies.each do |weekly|
+          if day >= weekly.starts_at.to_date && day <= weekly.ends_at.to_date
+            if i % 7 == 0
+              total_daily_amount += weekly.amount
+            end
+          end
+        end
+        
         monthlies.each do |monthly|
-          # puts "monthly.starts_at.to_date: #{monthly.starts_at.to_date}"
-          # puts "day: #{day}"
-          # puts "--"
           if day >= monthly.starts_at.to_date && day <= monthly.ends_at.to_date
-            # puts "IN MONTHLY, #{day.strftime('%-d').to_i}, #{first_day_of_month.to_i}"
             if day.strftime('%-d').to_i == first_day_of_month.to_i
-              # puts "DAY MATCHED: #{monthly.amount}"
               total_daily_amount += monthly.amount
             end
           end
         end
         
-        # puts "day: #{day.strftime('%-d')}: #{total_daily_amount}"
         costs_array << total_daily_amount
-        
       end
       
       amount_available = granted
-      output_array = []
+      output_array = [{(starts_at.to_i * 1000) => amount_available}]
+      # output_array = [{starts_at.strftime("%Y-%m-%d") => amount_available}]
+      
       (starts_at.to_date..ends_at.to_date).each_with_index do |day, i|
         amount_available -= costs_array[i]
-        output_array << {day.strftime("%Y-%m-%d") => amount_available}
+        # output_array << {day.strftime("%Y-%m-%d") => amount_available}
+        output_array << {(day.to_time.to_i * 1000) => amount_available} # need to use epoch time * 1k because js time is in milliseconds, not seconds.
       end
       
-      
-      
-      # Clone costs into a local array
-      # Calculate payment dates for each cost
-      
-      # You should end up with an array of hashes, with dates as keys,
-      #   and total payments on that day as values: [{'2014-04-03' => $600}, {'2014-04-04' => 0} ...]
-      
-      
-      
-      
-      # Create empty output hash: out = {}
-      # Get number of days in grant
-      # Iterate through them
-        
-        # Check if there's a cost on that day
-          # Yes: deduct cost from total
-          # No: don't do that
-          # Append that date to the output array, with date as key and money remaining as value
       output_array
     else
       0

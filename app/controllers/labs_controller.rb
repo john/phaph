@@ -53,6 +53,6 @@ class LabsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def lab_params
-      params.require(:lab).permit(:name, :description, :creator_id, :state)
+      params.require(:lab).permit(:name, :description, :email, :location, :latitude, :longitude, :creator_id, :state)
     end
 end

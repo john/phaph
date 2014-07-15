@@ -1,0 +1,19 @@
+.col-sm-7
+  .pull-right
+    = link_to 'New Samples', new_sample_path, :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
+    
+  %h1
+    Samples
+
+.clearfix
+
+.col-sm-7
+  %table.table.table-hover
+    - @samples.each do |lab|
+      %tr
+        %td
+          %b
+            = link_to sample.name, slugged_sample_path(sample.id, sample.name.parameterize)
+        %td{:style => 'text-align: right;'}
+          #{link_to 'Edit', edit_sample_path(lab)} &nbsp;&#183;&nbsp; #{link_to 'Destroy', lab, :method => :delete, :data => { :confirm => 'Are you certain?' }}
+

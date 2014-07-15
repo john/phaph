@@ -11,6 +11,7 @@
 // about supported directives.
 //
 
+//= require application-namespaced.js
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .

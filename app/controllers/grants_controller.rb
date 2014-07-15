@@ -8,6 +8,10 @@ class GrantsController < ApplicationController
 
   # GET /grants/1
   def show
+    @costs = @grant.costs_array
+    @costs_array = @costs.map do |p|
+      p.first
+    end
   end
 
   # GET /grants/new
