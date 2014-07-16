@@ -20,7 +20,6 @@ class CreateGrants < ActiveRecord::Migration
       t.integer :creator_id, null: false
       t.integer :user_id
       t.integer :lab_id, null: false
-      
       t.string :state, null: false
 
       t.timestamps

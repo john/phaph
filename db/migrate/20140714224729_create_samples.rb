@@ -1,6 +1,7 @@
 class CreateSamples < ActiveRecord::Migration
   def change
     create_table :samples do |t|
+      # t.string :guid
       t.string :name
       t.text :description
       t.string :source
@@ -14,7 +15,8 @@ class CreateSamples < ActiveRecord::Migration
       t.datetime :collected_at
       t.datetime :prepped_at
       t.datetime :analyzed_at
-
+      t.string :state, null: false
+      
       t.timestamps
     end
   end

@@ -1,0 +1,23 @@
+.col-sm-7
+  .pull-right
+    = link_to "New #{@model}", new_polymorphic_path(@model), :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
+    
+  %h1
+    = @model.to_s.pluralize(0)
+
+.clearfix
+
+.col-sm-7
+  %table.table.table-hover
+    - @resources.each do |resource|
+      %tr
+        %td
+          %b
+            
+            
+            = link_to resource.name, "#{polymorphic_path(resource)}/#{resource.name.parameterize}"
+            
+            -# = link_to resource.name, slugged_resource_path(resource.id, resource.name.parameterize)
+        %td{:style => 'text-align: right;'}
+          #{link_to 'Edit', edit_polymorphic_path(resource)} &nbsp;&#183;&nbsp; #{link_to 'Destroy', resource, :method => :delete, :data => { :confirm => 'Are you certain?' }}
+

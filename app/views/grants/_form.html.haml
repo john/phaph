@@ -12,7 +12,7 @@
   .form-group
     .col-sm-7
       = f.label :name, :class => 'sr-only'
-      = f.text_field :name, class: 'form-control', placeholder: 'Grant name'
+      = f.text_field :name, class: 'form-control', placeholder: 'Grant name', autofocus: true
     
   .form-group
     = f.label :description, :class => 'sr-only'
@@ -40,6 +40,7 @@
   -#     -# = f.number_field :user_id, class: 'form-control'
   -#     Creator: &nbsp;
   -#     = f.select :creator_id, options_from_collection_for_select(User.all, :id, :name, @grant.user_id), :class => 'form-control', include_blank: '-- Select creator --'
+  
   .form-group
     .col-sm-7
       -# = f.label :starts_at
@@ -54,13 +55,14 @@
     .col-sm-7
       = f.label :lab_id, :class => 'sr-only'
       Lab: &nbsp;
-      = f.select :lab_id, options_from_collection_for_select(Lab.all, :id, :name, @grant.lab_id), :class => 'form-control', include_blank: '-- Select a lab --'
+      = f.select :lab_id, options_from_collection_for_select(current_user.labs, :id, :name, @grant.lab_id), :class => 'form-control', include_blank: '-- Select a lab --'
       
-  .form-group
-    .col-sm-7
-      = f.label :state, :class => 'sr-only'
-      State: &nbsp;
-      = f.select :state, options_for_select(Grant::STATES, @grant.state), :class => 'form-control'
+  - if action_name == 'edit'
+    .form-group
+      .col-sm-7
+        = f.label :state, :class => 'sr-only'
+        State: &nbsp;
+        = f.select :state, options_for_select(Grant::STATES, @grant.state), :class => 'form-control'
       
   .form-group
     .col-sm-7

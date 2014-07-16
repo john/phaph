@@ -39,9 +39,9 @@
   - else
     %li
       None, yet.
-
+      
+      
 %br
-
 %h4
   Grants
   %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
@@ -53,4 +53,32 @@
       - @lab.grants.each do |grant|
         %li
           = link_to grant.name, slugged_grant_path(grant.id, grant.name.parameterize)
-        
+          
+          
+%br
+%h4
+  Samples
+  %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
+    = link_to 'add', new_sample_path(l: @lab.id)
+    
+- if @lab.samples.present?
+  %div
+    %ul{:class => 'list-unstyled'}
+      - @lab.samples.each do |sample|
+        %li
+          = link_to sample.name, slugged_sample_path(sample.id, sample.name.parameterize)
+          
+          
+%br
+%h4
+  Papers
+  %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
+    = link_to 'add', new_paper_path(l: @lab.id)
+    
+- if @lab.papers.present?
+  %div
+    %ul{:class => 'list-unstyled'}
+      - @lab.papers.each do |paper|
+        %li
+          = link_to paper.name, slugged_paper_path(paper.id, paper.name.parameterize)
+          

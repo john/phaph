@@ -4,9 +4,11 @@ class Lab < ActiveRecord::Base
   # has_many :people, through: :memberships, source: :user
   has_many :grants
   has_many :samples
+  has_many :papers
   
   validates :name, presence: true
-  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, unless: Proc.new {|c| c.email.blank?}
+  
   
   STATES = [:active, :inactive]
   state_machine :state, :initial => :active do

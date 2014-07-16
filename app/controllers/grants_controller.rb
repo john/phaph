@@ -3,12 +3,16 @@ class GrantsController < ApplicationController
 
   # GET /grants
   def index
-    @grants = Grant.all
+    # @grants = Grant.all
+    @model = Grant
+    @resources = Grant.all
+    render :template => '/shared/resource/index'
   end
 
   # GET /grants/1
   def show
     @costs = @grant.costs_array
+    logger.debug "----------> @costs: #{@costs.inspect}"
     @costs_array = @costs.map do |p|
       p.first
     end
@@ -35,7 +39,7 @@ class GrantsController < ApplicationController
       if params[:redirect_to].present?
         redirect_to params[:redirect_to]
       else
-        redirect_to @grant, notice: 'Grant was successfully created.'
+        redirect_to @grant, notice: 'Grant successfully created.'
       end
     else
       render :new
@@ -45,7 +49,7 @@ class GrantsController < ApplicationController
   # PATCH/PUT /grants/1
   def update
     if @grant.update(grant_params)
-      redirect_to @grant, notice: 'Grant was successfully updated.'
+      redirect_to @grant, notice: 'Grant successfully updated.'
     else
       render :edit
     end

@@ -1,18 +1,18 @@
-.col-sm-7
-  .pull-right
-    = link_to 'New Lab', new_lab_path, :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
-    
-  %h1
-    Labs
-
-.clearfix
-
-.col-sm-7
-  %table.table.table-hover
-    - @labs.each do |lab|
-      %tr
-        %td
-          %b
-            = link_to lab.name, slugged_lab_path(lab.id, lab.name.parameterize)
-        %td{:style => 'text-align: right;'}
-          #{link_to 'Edit', edit_lab_path(lab)} &nbsp;&#183;&nbsp; #{link_to 'Destroy', lab, :method => :delete, :data => { :confirm => 'Are you certain?' }}
+-# .col-sm-7
+-#   .pull-right
+-#     = link_to 'New Lab', new_lab_path, :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
+-#
+-#   %h1
+-#     Labs
+-#
+-# .clearfix
+-#
+-# .col-sm-7
+-#   %table.table.table-hover
+-#     - @labs.each do |lab|
+-#       %tr
+-#         %td
+-#           %b
+-#             = link_to lab.name, slugged_lab_path(lab.id, lab.name.parameterize)
+-#         %td{:style => 'text-align: right;'}
+-#           #{link_to 'Edit', edit_lab_path(lab)} &nbsp;&#183;&nbsp; #{link_to 'Destroy', lab, :method => :delete, :data => { :confirm => 'Are you certain?' }}

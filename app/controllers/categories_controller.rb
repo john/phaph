@@ -3,7 +3,10 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @categories = Category.all
+    # @categories = Category.all
+    @model = Category
+    @resources = Category.all
+    render :template => '/shared/resource/index'
   end
 
   # GET /categories/1

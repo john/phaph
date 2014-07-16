@@ -1,0 +1,42 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @paper.name
+%p
+  %b Description:
+  = @paper.description
+%p
+  %b Source:
+  = @paper.source
+%p
+  %b Journal:
+  = @paper.journal
+%p
+  %b Published at:
+  = @paper.published_at
+%p
+  %b Principle authors:
+  = @paper.principle_authors
+%p
+  %b Other authors:
+  = @paper.other_authors
+%p
+  %b Rights:
+  = @paper.rights
+%p
+  %b Creator:
+  = @paper.creator_id
+%p
+  %b Lab:
+  = @paper.lab_id
+%p
+  %b Grant:
+  = @paper.grant_id
+%p
+  %b State:
+  = @paper.state
+
+= link_to 'Edit', edit_paper_path(@paper)
+\|
+= link_to 'Back', papers_path

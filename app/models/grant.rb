@@ -92,7 +92,7 @@ class Grant < ActiveRecord::Base
       
       output_array
     else
-      0
+      []
     end
   end
   

@@ -3,7 +3,10 @@ class LabsController < ApplicationController
 
   # GET /labs
   def index
-    @labs = Lab.all
+    # @labs = Lab.all
+    @model = Lab
+    @resources = Lab.all
+    render :template => '/shared/resource/index'
   end
 
   # GET /labs/1

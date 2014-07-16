@@ -7,14 +7,14 @@
     %meta{:name => 'viewport', :content => 'initial-scale=1.0, width=device-width'}
     %meta{:name => 'description', :content => 'Lab Management System'}
     %meta{:name => 'author', :content => 'John McGrath'}
-    %meta{:content => "Erlenmeyer", :property => "og:title"}
+    %meta{:content => "Phaph", :property => "og:title"}
     %meta{:content => "Lab Management System", :property => "og:description"}
     %meta{:content => "//og_erlenmeyer.png", :property => "og:image"}
     %meta{:content => "//www.erlenmeyer.co", :property => "og:url"}
     
     %link{ :rel => "shortcut icon", :href => "/favicon.ico", :type => "image/x-icon"}
     
-    %title= (Rails.env == 'development' ? '[DEV] ' : '') + (@title ? @title : 'Erlenmeyer')
+    %title= (Rails.env == 'development' ? '[DEV] ' : '') + (@title ? @title : 'Phaph')
     
     -# = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = stylesheet_link_tag 'app'
@@ -22,8 +22,6 @@
     = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
     = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'
     -# = stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/fonts/glyphicons-halflings-regular.svg'
-    
-    
     
     -# HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
     <!--[if lt IE 9]>
@@ -41,7 +39,6 @@
     = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/flot/0.8.2/jquery.flot.min.js'
     = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/flot/0.8.2/jquery.flot.time.min.js'
     
-    
     = csrf_meta_tags
     
   %body{:role => 'document'}
@@ -54,7 +51,7 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          = link_to 'Erlenmeyer', root_path, class: 'navbar-brand'
+          = link_to 'Phaph', root_path, class: 'navbar-brand'
         .navbar-collapse.collapse
           %ul.nav.navbar-nav
             %li{:class => (controller_name == 'users') ? 'active' : ''}
@@ -68,6 +65,9 @@
               
             %li{:class => (controller_name == 'samples') ? 'active' : ''}
               = link_to 'Samples', samples_path
+              
+            %li{:class => (controller_name == 'papers') ? 'active' : ''}
+              = link_to 'Papers', papers_path
               
           -# %li.dropdown
           -#     %a.dropdown-toggle{:'data-toggle' => 'dropdown'}

@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :samples
-
-  resources :costs
-
   root 'home#index'
   
   devise_for  :users,
@@ -24,6 +20,9 @@ Rails.application.routes.draw do
   resources :categories
   match '/categories/:id/:slug' => 'categories#show', :via => :get, :as => :slugged_category
   
+  resources :costs
+  match '/costs/:id/:slug' => 'costs#show', :via => :get, :as => :slugged_cost
+  
   resources :grants
   match '/grants/:id/:slug' => 'grants#show', :via => :get, :as => :slugged_grant
   
@@ -31,6 +30,12 @@ Rails.application.routes.draw do
   match '/labs/:id/:slug' => 'labs#show', :via => :get, :as => :slugged_lab
   
   resources :memberships
+  
+  resources :papers
+  match '/papers/:id/:slug' => 'papers#show', :via => :get, :as => :slugged_paper
+  
+  resources :samples
+  match '/samples/:id/:slug' => 'samples#show', :via => :get, :as => :slugged_sample
   
   resources :users
   match '/people/:id/:slug' => 'users#show', :via => :get, :as => :people

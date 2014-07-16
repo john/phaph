@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140714224729) do
+ActiveRecord::Schema.define(version: 20140715203738) do
 
   create_table "categories", force: true do |t|
     t.string   "name",        null: false
@@ -25,18 +25,18 @@ ActiveRecord::Schema.define(version: 20140714224729) do
   end
 
   create_table "costs", force: true do |t|
-    t.string   "name",                                             null: false
+    t.string   "name",                                 null: false
     t.text     "description"
-    t.decimal  "amount",      precision: 10, scale: 0, default: 0
-    t.integer  "creator_id",                                       null: false
+    t.decimal  "amount",      precision: 10, scale: 0
+    t.integer  "creator_id",                           null: false
     t.integer  "user_id"
-    t.integer  "lab_id",                                           null: false
+    t.integer  "lab_id",                               null: false
     t.integer  "grant_id"
     t.integer  "category_id"
-    t.integer  "periodicity"
+    t.integer  "periodicity",                          null: false
     t.datetime "starts_at"
     t.datetime "ends_at"
-    t.string   "state",                                            null: false
+    t.string   "state",                                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -81,10 +81,14 @@ ActiveRecord::Schema.define(version: 20140714224729) do
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "labs", force: true do |t|
-    t.string   "name",        null: false
+    t.string   "name",                                  null: false
     t.text     "description"
-    t.integer  "creator_id",  null: false
-    t.string   "state",       null: false
+    t.string   "email"
+    t.string   "location"
+    t.decimal  "latitude",    precision: 15, scale: 10
+    t.decimal  "longitude",   precision: 15, scale: 10
+    t.integer  "creator_id",                            null: false
+    t.string   "state",                                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -105,6 +109,23 @@ ActiveRecord::Schema.define(version: 20140714224729) do
   add_index "memberships", ["belongable_id", "belongable_type"], name: "index_memberships_on_belongable_id_and_belongable_type", unique: true, using: :btree
   add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
 
+  create_table "papers", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "source"
+    t.string   "journal"
+    t.datetime "published_at"
+    t.string   "principle_authors"
+    t.string   "other_authors"
+    t.string   "rights"
+    t.integer  "creator_id"
+    t.integer  "lab_id"
+    t.integer  "grant_id"
+    t.string   "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "samples", force: true do |t|
     t.string   "name"
     t.text     "description"
@@ -119,21 +140,25 @@ ActiveRecord::Schema.define(version: 20140714224729) do
     t.datetime "collected_at"
     t.datetime "prepped_at"
     t.datetime "analyzed_at"
+    t.string   "state",                                     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
-    t.string   "name",                   default: ""
-    t.string   "email",                  default: "", null: false
-    t.integer  "creator_id"
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "name",                                             default: ""
     t.text     "description"
-    t.string   "state",                               null: false
+    t.string   "email",                                            default: "", null: false
+    t.string   "location"
+    t.decimal  "latitude",               precision: 15, scale: 10
+    t.decimal  "longitude",              precision: 15, scale: 10
+    t.integer  "creator_id"
+    t.string   "encrypted_password",                               default: "", null: false
+    t.string   "state",                                                         null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",                                    default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -142,7 +167,7 @@ ActiveRecord::Schema.define(version: 20140714224729) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",        default: 0,  null: false
+    t.integer  "failed_attempts",                                  default: 0,  null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
     t.datetime "created_at"

@@ -3,7 +3,10 @@ class CostsController < ApplicationController
 
   # GET /costs
   def index
-    @costs = Cost.all
+    # @costs = Cost.all
+    @model = Cost
+    @resources = Cost.all
+    render :template => '/shared/resource/index'
   end
 
   # GET /costs/1

@@ -30,9 +30,13 @@ class User < ActiveRecord::Base
   # end
 
 
-# Membership.where( :belongable_id => id, :belongable_type => Grant.to_s ).map{|membership| membership.user}
+  # Membership.where( :belongable_id => id, :belongable_type => Grant.to_s ).map{|membership| membership.user}
   def labs
     Membership.where( :user_id => id, :belongable_type => Lab.to_s ).map{|membership| membership.belongable}
+  end
+  
+  def grants
+    Membership.where( :user_id => id, :belongable_type => Grant.to_s ).map{|membership| membership.belongable}
   end
   
   # http://sourcey.com/rails-4-omniauth-using-devise-with-twitter-facebook-and-linkedin/
