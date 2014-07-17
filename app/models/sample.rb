@@ -4,6 +4,9 @@ class Sample < ActiveRecord::Base
   belongs_to :lab
   has_many :costs
   
+  has_many :presences, as: :locatable
+  has_many :locations, through: :presences
+  
   alias_attribute :granted, :amount
   
   validates :name, presence: true

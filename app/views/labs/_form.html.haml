@@ -10,19 +10,35 @@
   .form-group
     .col-sm-7
       = f.label :name, :class => 'sr-only'
-      = f.text_field :name, class: 'form-control', style: "width: 400px;", :placeholder => 'Lab name', autofocus: true
+      = f.text_field :name, class: 'form-control', :placeholder => 'Lab name', autofocus: true
       
   .form-group
     .col-sm-7
       = f.label :description, :class => 'sr-only'
-      = f.text_area :description, class: 'form-control', style: 'width:400px; height:200px;'
+      = f.text_area :description, class: 'form-control', style: 'height:200px;'
       
   .form-group
     .col-sm-7
-      State:
-      = f.label :state, :class => 'sr-only'
-      = f.select :state, options_for_select([['active', 'active'], ['inactive', 'inactive']], @lab.state), :class => 'form-control'
+      = f.email_field :email, class: 'form-control', placeholder: 'Email'
       
+  .form-group
+    .col-sm-7
+      - location = (@lab.locations.present?) ? @lab.locations.first.name : ''
+      = text_field_tag :location, location, class: 'form-control', placeholder: 'Location'
+      
+  .form-group
+    .col-sm-7
+      Visibility:
+      = f.label :scope, :class => 'sr-only'
+      = f.select :scope, options_for_select(Scope.options_hash, @lab.scope), :class => 'form-control'
+      
+  - if action_name == 'edit'
+    .form-group
+      .col-sm-7
+        State:
+        = f.label :state, :class => 'sr-only'
+        = f.select :state, options_for_select([['active', 'active'], ['inactive', 'inactive']], @lab.state), :class => 'form-control'
+        
   .form-group
     .col-sm-7
       = f.submit 'Save', :class => 'btn btn-primary'

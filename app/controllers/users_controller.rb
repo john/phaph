@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   # end
   
   def user_params
-    accessible = [ :name, :email, :description, :location, :latitude, :longitude ] # extend with your own params
+    accessible = [ :name, :email, :description, :location, :latitude, :longitude, :state ] # extend with your own params
     accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
     params.require(:user).permit(accessible)
   end
@@ -61,6 +61,12 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      
+      if params[:location].present?
+        location = Location.find_or_create_by!( name: params[:location] )
+        Presence.find_or_create_by!( location: location, locatable_id: @user.id, locatable_type: @user.class.to_s )
+      end
+      
       redirect_to @user, notice: 'User was successfully created.'
     else
       render :new
@@ -70,6 +76,12 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
+      
+      if params[:location].present?
+        location = Location.find_or_create_by!( name: params[:location] )
+        Presence.find_or_create_by!( location: location, locatable_id: @user.id, locatable_type: @user.class.to_s )
+      end
+      
       redirect_to @user, notice: 'User was successfully updated.'
     else
       render :edit

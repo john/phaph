@@ -5,12 +5,12 @@
     %meta{'http-equiv' => 'X-UA-Compatible', :content => 'IE=edge,chrome=1'}
     
     %meta{:name => 'viewport', :content => 'initial-scale=1.0, width=device-width'}
-    %meta{:name => 'description', :content => 'Lab Management System'}
+    %meta{:name => 'description', :content => 'Phaph: holds your science.'}
     %meta{:name => 'author', :content => 'John McGrath'}
     %meta{:content => "Phaph", :property => "og:title"}
-    %meta{:content => "Lab Management System", :property => "og:description"}
-    %meta{:content => "//og_erlenmeyer.png", :property => "og:image"}
-    %meta{:content => "//www.erlenmeyer.co", :property => "og:url"}
+    %meta{:content => "Phap. For science!", :property => "og:description"}
+    %meta{:content => "//phaph.png", :property => "og:image"}
+    %meta{:content => "//www.phaph.com", :property => "og:url"}
     
     %link{ :rel => "shortcut icon", :href => "/favicon.ico", :type => "image/x-icon"}
     
@@ -19,8 +19,15 @@
     -# = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = stylesheet_link_tag 'app'
     
-    = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
-    = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'
+    -# = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
+    
+    -# = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'
+    
+    = stylesheet_link_tag 'http://bootswatch.com/simplex/bootstrap.min.css'
+    
+    <link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+    
+    
     -# = stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/fonts/glyphicons-halflings-regular.svg'
     
     -# HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -43,7 +50,8 @@
     
   %body{:role => 'document'}
   
-    .navbar.navbar-inverse.navbar-static-top{:role => 'navigation'}
+    -#.navbar-inverse
+    .navbar.navbar-default.navbar-static-top{:role => 'navigation'}
       .container
         .navbar-header
           %button.navbar-toggle{:type => 'button', :'data-toggle' => 'collapse', :'data-target' => '.navbar-collapse'}
@@ -51,7 +59,8 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          = link_to 'Phaph', root_path, class: 'navbar-brand'
+          = link_to 'phaph', root_path, class: 'navbar-brand', style: "font-family: 'Bubblegum Sans', cursive; color: #B80000; font-size: 1.8em;"
+          
         .navbar-collapse.collapse
           %ul.nav.navbar-nav
             %li{:class => (controller_name == 'users') ? 'active' : ''}

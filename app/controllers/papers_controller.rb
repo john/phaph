@@ -1,4 +1,6 @@
 class PapersController < ApplicationController
+  
+  before_action :authenticate_user!, only: [:index, :new, :edit, :create, :destroy]
   before_action :set_paper, only: [:show, :edit, :update, :destroy]
 
   # GET /papers
@@ -60,6 +62,6 @@ class PapersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def paper_params
-      params.require(:paper).permit(:name, :description, :source, :journal, :published_at, :principle_author, :other_authors, :rights, :creator_id, :lab_id, :grant_id, :state)
+      params.require(:paper).permit(:name, :description, :source, :journal, :published_at, :principle_author, :other_authors, :rights, :creator_id, :lab_id, :grant_id, :scope, :state)
     end
 end

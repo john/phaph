@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 # gem 'acts_as_commentable_with_threading'
 # gem 'acts-as-taggable-on'
 gem 'devise'
+gem 'geocoder'
 gem 'haml-rails'
 # gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jquery-rails'

@@ -1,6 +1,11 @@
 %h1{:style => 'margin-bottom: 5px;'}
   = @user.name
   
+- if @user.locations.present?
+  %div{:style => 'margin-top: 0;'}
+    - @user.locations.each do |location|
+      = location.name
+  
 %div{:style => 'margin-top: 0;'}
   = @user.description
   

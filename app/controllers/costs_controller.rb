@@ -1,4 +1,6 @@
 class CostsController < ApplicationController
+  
+  before_action :authenticate_user!, only: [:index, :new, :edit, :create, :destroy]
   before_action :set_cost, only: [:show, :edit, :update, :destroy]
 
   # GET /costs
@@ -68,6 +70,6 @@ class CostsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def cost_params
-      params.require(:cost).permit(:name, :description, :amount, :creator_id, :user_id, :lab_id, :grant_id, :category_id, :periodicity, :starts_at, :ends_at, :state)
+      params.require(:cost).permit(:name, :description, :amount, :creator_id, :user_id, :lab_id, :grant_id, :category_id, :periodicity, :starts_at, :ends_at, :scope, :state)
     end
 end

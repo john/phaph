@@ -3,9 +3,10 @@ class CreateCategories < ActiveRecord::Migration
     create_table :categories do |t|
       t.string :name, null: false
       t.text :description
-      t.integer :creator_id, null: false
-      t.integer :lab_id, null: false
-      t.integer :grant_id, null: false
+      t.references :creator, index: true, null: false
+      t.references :lab, index: true, null: false
+      t.references :grant, index: true, null: false
+      t.integer :scope, null: false, default: Scope::PUBLIC
       t.string :state, null: false
 
       t.timestamps

@@ -3,7 +3,8 @@ class User < ActiveRecord::Base
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
   
-  has_many :memberships
+  has_many :presences, as: :locatable
+  has_many :locations, through: :presences
   
   validates :name, :email, presence: true
   validates :email, uniqueness: true

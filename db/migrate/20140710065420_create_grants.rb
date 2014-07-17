@@ -17,17 +17,18 @@ class CreateGrants < ActiveRecord::Migration
       t.datetime :ends_at
       t.decimal :amount
       t.float :overhead
-      t.integer :creator_id, null: false
-      t.integer :user_id
-      t.integer :lab_id, null: false
+      t.references :creator, index: true, null: false
+      t.references :lab, index: true, null: false
+      
+      t.integer :scope, null: false, default: Scope::PUBLIC
       t.string :state, null: false
 
       t.timestamps
     end
     
     add_index :grants, :name
-    add_index :grants, :user_id
-    add_index :grants, :lab_id
+    # add_index :grants, :user_id
+    # add_index :grants, :lab_id
     
   end
 end

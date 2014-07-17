@@ -48,9 +48,6 @@
     
   .form-group
     .col-sm-7
-      -# = f.label :periodicity
-      -# periodicity: #{f.number_field :periodicity}
-      
       periodicity: #{f.select :periodicity, options_for_select(Periodicity.options_hash, @cost.periodicity), :class => 'form-control'}
   
   .form-group

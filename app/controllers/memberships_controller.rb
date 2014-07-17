@@ -1,5 +1,7 @@
 class MembershipsController < ApplicationController
-
+  
+  before_action :authenticate_user!
+  
   # POST /labs
   def create
     @membership = Membership.new(membership_params)
@@ -16,7 +18,7 @@ class MembershipsController < ApplicationController
   
     # Only allow a trusted parameter "white list" through.
     def membership_params
-      params.require(:membership).permit(:creator_id, :user_id, :belongable_id, :belongable_type, :state)
+      params.require(:membership).permit(:creator_id, :user_id, :belongable_id, :belongable_type, :scope, :state)
     end
 
 end

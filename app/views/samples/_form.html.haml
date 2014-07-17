@@ -27,21 +27,14 @@
       
   .form-group
     .col-sm-7
-      = f.label :location, :class => 'sr-only'
-      = f.text_field :location, class: 'form-control', placeholder: 'Location'
+      - location = (@sample.locations.present?) ? @sample.locations.first.name : ''
+      = text_field_tag :location, location, class: 'form-control', placeholder: 'Location'
       
   .form-group
     .col-sm-7
       = f.label :lab_id, :class => 'sr-only'
       Lab: &nbsp;
       = f.select :lab_id, options_from_collection_for_select(current_user.labs, :id, :name, @sample.lab_id), :class => 'form-control', include_blank: '-- Select a lab --'
-      
-  - if action_name == 'edit'
-    .form-group
-      .col-sm-7
-        = f.label :state, :class => 'sr-only'
-        State: &nbsp;
-        = f.select :state, options_for_select(Sample::STATES, @sample.state), :class => 'form-control'
       
   -# .field
   -#   = f.label :grant_id
@@ -51,6 +44,12 @@
       = f.label :grant_id, :class => 'sr-only'
       Grant: &nbsp;
       = f.select :grant_id, options_from_collection_for_select(Grant.all, :id, :name, @sample.lab_id), :class => 'form-control', include_blank: '-- Select a lab --'
+      
+  .form-group
+    .col-sm-7
+      Visibility:
+      = f.label :scope, :class => 'sr-only'
+      = f.select :scope, options_for_select(Scope.options_hash, @sample.scope), :class => 'form-control'
       
   -# .field
   -#   = f.label :latitude
@@ -80,11 +79,12 @@
       Analyzed at: &nbsp;
       = f.datetime_select :analyzed_at
       
-  .form-group
-    .col-sm-7
-      = f.label :state, :class => 'sr-only'
-      State: &nbsp;
-      = f.select :state, options_for_select(Sample::STATES, @sample.state), :class => 'form-control'
+  - if action_name == 'edit'
+    .form-group
+      .col-sm-7
+        = f.label :state, :class => 'sr-only'
+        State: &nbsp;
+        = f.select :state, options_for_select(Sample::STATES, @sample.state), :class => 'form-control'
       
   .form-group
     .col-sm-7

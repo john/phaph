@@ -5,11 +5,9 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :name, default: ''
       t.text :description
       t.string :email, null: false, default: ''
-      t.string :location
-      t.decimal :latitude, :precision => 15, :scale => 10
-      t.decimal :longitude, :precision => 15, :scale => 10
       t.integer :creator_id
       t.string :encrypted_password, null: false, default: ''
+      t.integer :scope, null: false, default: Scope::PUBLIC
       t.string :state, null: false
 
       ## Recoverable

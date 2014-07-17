@@ -4,6 +4,11 @@
 %h1{:style => 'margin-bottom: 5px;'}
   = @lab.name
   
+- if @lab.locations.present?
+  %div{:style => 'margin-top: 0;'}
+    - @lab.locations.each do |location|
+      = location.name
+    
 %div{:style => 'margin-top: 0;'}
   = @lab.description
 
@@ -53,7 +58,6 @@
       - @lab.grants.each do |grant|
         %li
           = link_to grant.name, slugged_grant_path(grant.id, grant.name.parameterize)
-          
           
 %br
 %h4

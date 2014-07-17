@@ -9,9 +9,10 @@ class CreatePapers < ActiveRecord::Migration
       t.string :principle_authors
       t.string :other_authors
       t.string :rights
-      t.integer :creator_id
-      t.integer :lab_id
-      t.integer :grant_id
+      t.references :creator, index: true, null: false
+      t.references :lab, index: true, null: false
+      t.references :grant, index: true, null: false
+      t.integer :scope, null: false, default: Scope::PUBLIC
       t.string :state
 
       t.timestamps

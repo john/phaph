@@ -1,4 +1,6 @@
 class SamplesController < ApplicationController
+  
+  before_action :authenticate_user!, only: [:index, :new, :edit, :create, :destroy]
   before_action :set_sample, only: [:show, :edit, :update, :destroy]
 
   # GET /samples
@@ -32,6 +34,12 @@ class SamplesController < ApplicationController
     @sample = Sample.new(sample_params)
 
     if @sample.save
+      
+      if params[:location].present?
+        location = Location.find_or_create_by!( name: params[:location] )
+        Presence.find_or_create_by!( location: location, locatable_id: @sample.id, locatable_type: @sample.class.to_s )
+      end
+      
       # redirect_to @sample, notice: 'Sample was successfully created.'
       if params[:redirect_to].present?
         redirect_to params[:redirect_to]
@@ -46,6 +54,12 @@ class SamplesController < ApplicationController
   # PATCH/PUT /samples/1
   def update
     if @sample.update(sample_params)
+      
+      if params[:location].present?
+        location = Location.find_or_create_by!( name: params[:location] )
+        Presence.find_or_create_by!( location: location, locatable_id: @sample.id, locatable_type: @sample.class.to_s )
+      end
+      
       redirect_to @sample, notice: 'Sample successfully updated.'
     else
       render :edit
@@ -67,6 +81,6 @@ class SamplesController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def sample_params
       
-      params.require(:sample).permit(:name, :description, :source, :creator_id, :lab_id, :grant_id, :location, :latitude, :longitude, :collection_temp, :collected_at, :prepped_at, :analyzed_at, :state)
+      params.require(:sample).permit(:name, :description, :source, :creator_id, :lab_id, :grant_id, :location, :latitude, :longitude, :collection_temp, :collected_at, :prepped_at, :analyzed_at, :scope, :state)
     end
 end
