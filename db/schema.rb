@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20140717080855) do
     t.text     "description"
     t.integer  "creator_id",              null: false
     t.integer  "lab_id",                  null: false
-    t.integer  "grant_id",                null: false
+    t.integer  "grant_id"
     t.integer  "scope",       default: 3, null: false
     t.string   "state",                   null: false
     t.datetime "created_at"
@@ -36,7 +36,8 @@ ActiveRecord::Schema.define(version: 20140717080855) do
     t.integer  "creator_id",                                       null: false
     t.integer  "user_id",                                          null: false
     t.integer  "lab_id",                                           null: false
-    t.integer  "grant_id",                                         null: false
+    t.integer  "grant_id"
+    t.integer  "category_id"
     t.integer  "periodicity",                                      null: false
     t.datetime "starts_at"
     t.datetime "ends_at"
@@ -46,6 +47,7 @@ ActiveRecord::Schema.define(version: 20140717080855) do
     t.datetime "updated_at"
   end
 
+  add_index "costs", ["category_id"], name: "index_costs_on_category_id", using: :btree
   add_index "costs", ["creator_id"], name: "index_costs_on_creator_id", using: :btree
   add_index "costs", ["grant_id"], name: "index_costs_on_grant_id", using: :btree
   add_index "costs", ["lab_id"], name: "index_costs_on_lab_id", using: :btree
@@ -78,7 +80,6 @@ ActiveRecord::Schema.define(version: 20140717080855) do
 
   add_index "grants", ["creator_id"], name: "index_grants_on_creator_id", using: :btree
   add_index "grants", ["lab_id"], name: "index_grants_on_lab_id", using: :btree
-  add_index "grants", ["name"], name: "index_grants_on_name", using: :btree
 
   create_table "identities", force: true do |t|
     t.integer  "user_id"
@@ -102,10 +103,9 @@ ActiveRecord::Schema.define(version: 20140717080855) do
   end
 
   add_index "labs", ["creator_id"], name: "index_labs_on_creator_id", using: :btree
-  add_index "labs", ["name"], name: "index_labs_on_name", using: :btree
 
   create_table "locations", force: true do |t|
-    t.string   "name"
+    t.string   "name",                                     null: false
     t.decimal  "latitude",       precision: 15, scale: 10
     t.decimal  "longitude",      precision: 15, scale: 10
     t.string   "city"
@@ -118,7 +118,6 @@ ActiveRecord::Schema.define(version: 20140717080855) do
   end
 
   add_index "locations", ["locatable_id", "locatable_type"], name: "index_locations_on_locatable_id_and_locatable_type", unique: true, using: :btree
-  add_index "locations", ["name"], name: "index_locations_on_name", using: :btree
 
   create_table "memberships", force: true do |t|
     t.integer  "user_id",                     null: false
@@ -147,7 +146,7 @@ ActiveRecord::Schema.define(version: 20140717080855) do
     t.string   "rights"
     t.integer  "creator_id",                    null: false
     t.integer  "lab_id",                        null: false
-    t.integer  "grant_id",                      null: false
+    t.integer  "grant_id"
     t.integer  "scope",             default: 3, null: false
     t.string   "state"
     t.datetime "created_at"
@@ -168,7 +167,6 @@ ActiveRecord::Schema.define(version: 20140717080855) do
   end
 
   add_index "presences", ["locatable_id", "locatable_type"], name: "index_presences_on_locatable_id_and_locatable_type", using: :btree
-  add_index "presences", ["location_id"], name: "index_presences_on_location_id", using: :btree
 
   create_table "samples", force: true do |t|
     t.string   "name"
@@ -176,7 +174,7 @@ ActiveRecord::Schema.define(version: 20140717080855) do
     t.string   "source"
     t.integer  "creator_id",                                            null: false
     t.integer  "lab_id",                                                null: false
-    t.integer  "grant_id",                                              null: false
+    t.integer  "grant_id"
     t.string   "location"
     t.decimal  "latitude",        precision: 15, scale: 10
     t.decimal  "longitude",       precision: 15, scale: 10
@@ -195,20 +193,17 @@ ActiveRecord::Schema.define(version: 20140717080855) do
   add_index "samples", ["lab_id"], name: "index_samples_on_lab_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "name",                                             default: ""
+    t.string   "name",                   default: ""
     t.text     "description"
-    t.string   "email",                                            default: "", null: false
-    t.string   "location"
-    t.decimal  "latitude",               precision: 15, scale: 10
-    t.decimal  "longitude",              precision: 15, scale: 10
+    t.string   "email",                  default: "", null: false
     t.integer  "creator_id"
-    t.string   "encrypted_password",                               default: "", null: false
-    t.integer  "scope",                                            default: 3,  null: false
-    t.string   "state",                                                         null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.integer  "scope",                  default: 3,  null: false
+    t.string   "state",                               null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                                    default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -217,7 +212,7 @@ ActiveRecord::Schema.define(version: 20140717080855) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",                                  default: 0,  null: false
+    t.integer  "failed_attempts",        default: 0,  null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
     t.datetime "created_at"
@@ -226,7 +221,7 @@ ActiveRecord::Schema.define(version: 20140717080855) do
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["name"], name: "index_users_on_name", unique: true, using: :btree
+  add_index "users", ["name"], name: "index_users_on_name", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 

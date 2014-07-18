@@ -3,8 +3,10 @@ require 'rails_helper'
 RSpec.describe "labs/index", :type => :view do
   before(:each) do
     assign(:labs, [
-      Lab.create!(),
-      Lab.create!()
+      # Lab.create!(),
+      # Lab.create!()
+      FactoryGirl.create(:lab),
+      FactoryGirl.create(:lab)
     ])
   end
 

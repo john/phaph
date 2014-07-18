@@ -2,12 +2,12 @@ class CreateSamples < ActiveRecord::Migration
   def change
     create_table :samples do |t|
       # t.string :guid
-      t.string :name
+      t.string :name, index: true
       t.text :description
       t.string :source
       t.references :creator, index: true, null: false
       t.references :lab, index: true, null: false
-      t.references :grant, index: true, null: false
+      t.references :grant, index: true
       
       t.string :location
       t.decimal :latitude, :precision => 15, :scale => 10

@@ -1,7 +1,7 @@
 class CreateGrants < ActiveRecord::Migration
   def change
     create_table :grants do |t|
-      t.string :name, null: false
+      t.string :name, index: true, null: false
       t.text :description
       t.string :source
       t.string :source_id
@@ -25,10 +25,5 @@ class CreateGrants < ActiveRecord::Migration
 
       t.timestamps
     end
-    
-    add_index :grants, :name
-    # add_index :grants, :user_id
-    # add_index :grants, :lab_id
-    
   end
 end

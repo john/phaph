@@ -52,12 +52,12 @@ RSpec.describe LabsController, :type => :controller do
     end
   end
 
-  describe "GET new" do
-    it "assigns a new lab as @lab" do
-      get :new, {}, valid_session
-      expect(assigns(:lab)).to be_a_new(Lab)
-    end
-  end
+  # describe "GET new" do
+  #   it "assigns a new lab as @lab" do
+  #     get :new, {}, valid_session
+  #     expect(assigns(:lab)).to be_a_new(Lab)
+  #   end
+  # end
 
   describe "GET edit" do
     it "assigns the requested lab as @lab" do

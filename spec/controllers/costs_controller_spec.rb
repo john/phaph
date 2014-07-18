@@ -52,12 +52,12 @@ RSpec.describe CostsController, :type => :controller do
     end
   end
 
-  describe "GET new" do
-    it "assigns a new cost as @cost" do
-      get :new, {}, valid_session
-      expect(assigns(:cost)).to be_a_new(Cost)
-    end
-  end
+  # describe "GET new" do
+  #   it "assigns a new cost as @cost" do
+  #     get :new, {}, valid_session
+  #     expect(assigns(:cost)).to be_a_new(Cost)
+  #   end
+  # end
 
   describe "GET edit" do
     it "assigns the requested cost as @cost" do

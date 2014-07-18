@@ -19,7 +19,12 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe UsersController, :type => :controller do
-
+  
+  before(:each) do
+    john = FactoryGirl.create(:user)
+    @controller.stub(:current_user).and_return(john)
+  end
+  
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
@@ -52,12 +57,12 @@ RSpec.describe UsersController, :type => :controller do
     end
   end
 
-  describe "GET new" do
-    it "assigns a new user as @user" do
-      get :new, {}, valid_session
-      expect(assigns(:user)).to be_a_new(User)
-    end
-  end
+  # describe "GET new" do
+  #   it "assigns a new user as @user" do
+  #     get :new #, {}, valid_session
+  #     expect(assigns(:user)).to be_a_new(User)
+  #   end
+  # end
 
   describe "GET edit" do
     it "assigns the requested user as @user" do

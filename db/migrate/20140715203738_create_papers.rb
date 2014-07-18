@@ -1,7 +1,7 @@
 class CreatePapers < ActiveRecord::Migration
   def change
     create_table :papers do |t|
-      t.string :name
+      t.string :name, index: true
       t.text :description
       t.string :source
       t.string :journal
@@ -11,7 +11,7 @@ class CreatePapers < ActiveRecord::Migration
       t.string :rights
       t.references :creator, index: true, null: false
       t.references :lab, index: true, null: false
-      t.references :grant, index: true, null: false
+      t.references :grant, index: true
       t.integer :scope, null: false, default: Scope::PUBLIC
       t.string :state
 

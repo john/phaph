@@ -17,8 +17,6 @@ class Sample < ActiveRecord::Base
   #
   # private
   #
-  # private
-  #
   # def assign_unique_token
   #   self.unique_token = ActiveSupport::SecureRandom.hex(10) until unique_token?
   # end

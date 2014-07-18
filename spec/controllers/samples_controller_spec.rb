@@ -52,12 +52,12 @@ RSpec.describe SamplesController, :type => :controller do
     end
   end
 
-  describe "GET new" do
-    it "assigns a new sample as @sample" do
-      get :new, {}, valid_session
-      expect(assigns(:sample)).to be_a_new(Sample)
-    end
-  end
+  # describe "GET new" do
+  #   it "assigns a new sample as @sample" do
+  #     get :new, {}, valid_session
+  #     expect(assigns(:sample)).to be_a_new(Sample)
+  #   end
+  # end
 
   describe "GET edit" do
     it "assigns the requested sample as @sample" do

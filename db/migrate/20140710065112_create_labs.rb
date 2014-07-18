@@ -1,7 +1,7 @@
 class CreateLabs < ActiveRecord::Migration
   def change
     create_table :labs do |t|
-      t.string :name, null: false
+      t.string :name, index: true, null: false
       t.text :description
       t.string :email
       t.references :creator, index: true, null: false
@@ -10,8 +10,5 @@ class CreateLabs < ActiveRecord::Migration
 
       t.timestamps
     end
-    
-    add_index :labs, :name
-    
   end
 end

@@ -21,10 +21,11 @@
 %div
   = link_to @category.lab.name, slugged_lab_path( @category.lab.id, @category.lab.name.parameterize )
 
-%h5
-  Grant:
-%div
-  = @category.grant.name
+- if @category.grant.present?
+  %h5
+    Grant:
+  %div
+    = @category.grant.name
 
 %h5
   State:

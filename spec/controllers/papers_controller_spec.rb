@@ -52,12 +52,12 @@ RSpec.describe PapersController, :type => :controller do
     end
   end
 
-  describe "GET new" do
-    it "assigns a new paper as @paper" do
-      get :new, {}, valid_session
-      expect(assigns(:paper)).to be_a_new(Paper)
-    end
-  end
+  # describe "GET new" do
+  #   it "assigns a new paper as @paper" do
+  #     get :new, {}, valid_session
+  #     expect(assigns(:paper)).to be_a_new(Paper)
+  #   end
+  # end
 
   describe "GET edit" do
     it "assigns the requested paper as @paper" do

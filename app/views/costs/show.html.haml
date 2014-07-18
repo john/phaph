@@ -16,10 +16,11 @@
 -# %div
 -#   = link_to @cost.creator.name, people_path( @cost.creator.id, @cost.creator.name.parameterize )
 
-%h5
-  Grant:
-%div
-  = link_to @cost.grant.name, @cost.grant
+- if @cost.grant.present?
+  %h5
+    Grant:
+  %div
+    = link_to @cost.grant.name, @cost.grant
 
 %h5
   Lab

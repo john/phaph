@@ -52,12 +52,12 @@ RSpec.describe GrantsController, :type => :controller do
     end
   end
 
-  describe "GET new" do
-    it "assigns a new grant as @grant" do
-      get :new, {}, valid_session
-      expect(assigns(:grant)).to be_a_new(Grant)
-    end
-  end
+  # describe "GET new" do
+  #   it "assigns a new grant as @grant" do
+  #     get :new, {}, valid_session
+  #     expect(assigns(:grant)).to be_a_new(Grant)
+  #   end
+  # end
 
   describe "GET edit" do
     it "assigns the requested grant as @grant" do

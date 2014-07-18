@@ -1,7 +1,7 @@
 class CreateLocations < ActiveRecord::Migration
   def change
     create_table :locations do |t|
-      t.string :name
+      t.string :name, index: true, null: false
       t.decimal :latitude, :precision => 15, :scale => 10
       t.decimal :longitude, :precision => 15, :scale => 10
       t.string :city
@@ -13,7 +13,6 @@ class CreateLocations < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :locations, :name
     add_index :locations, [:locatable_id, :locatable_type], :unique => true
     
   end
