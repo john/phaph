@@ -1,0 +1,3 @@
+$('#comment_textarea').val('');
+var item = $('<%= j render :partial => 'comments/comment', :locals => {:comment => @comment} %>').hide().fadeIn();
+$('#comments ul').append( item );

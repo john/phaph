@@ -1,88 +1,95 @@
 :css
   label { display: block; font-weight: normal; }
 
-%h1{:style => 'margin-bottom: 5px;'}
-  = @lab.name
+.col-sm-7
+  %h1{:style => 'margin-bottom: 5px;'}
+    = @lab.name
   
-- if @lab.locations.present?
+  - if @lab.locations.present?
+    %div{:style => 'margin-top: 0;'}
+      - @lab.locations.each do |location|
+        = location.name
+    
   %div{:style => 'margin-top: 0;'}
-    - @lab.locations.each do |location|
-      = location.name
-    
-%div{:style => 'margin-top: 0;'}
-  = @lab.description
+    = @lab.description
 
-%br
-%h4
-  Members
-  %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
-    %a{:onclick => "$('.add_member').toggle();", :class => 'add_member'}
-      add
+  %br
+  %h4
+    Members
+    %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
+      %a{:onclick => "$('.add_member').toggle();", :class => 'add_member'}
+        add
       
-.add_member{:style => 'display:none;'}
-  = form_for Membership.new, :html => {:class => 'form-inline'} do |f|
-    = f.hidden_field :creator_id, :value => current_user.id
-    = f.hidden_field :belongable_id, :value => @lab.id
-    = f.hidden_field :belongable_id, :value => @lab.id
-    = f.hidden_field :belongable_type, :value => Lab.to_s
+  .add_member{:style => 'display:none;'}
+    = form_for Membership.new, :html => {:class => 'form-inline'} do |f|
+      = f.hidden_field :creator_id, :value => current_user.id
+      = f.hidden_field :belongable_id, :value => @lab.id
+      = f.hidden_field :belongable_id, :value => @lab.id
+      = f.hidden_field :belongable_type, :value => Lab.to_s
     
-    = f.label :user_id, :class => 'sr-only'
-    = f.select :user_id, options_from_collection_for_select(User.all, :id, :name), :class => 'form-control'
+      = f.label :user_id, :class => 'sr-only'
+      = f.select :user_id, options_from_collection_for_select(User.all, :id, :name), :class => 'form-control'
     
-    &nbsp;
-    = f.submit "Go", :id => 'membership_submit', :class => 'btn btn-default'
+      &nbsp;
+      = f.submit "Go", :id => 'membership_submit', :class => 'btn btn-default'
     
-    &nbsp;&nbsp;
-    %a{:href => '#', :onclick => "$('.add_member').toggle()"}
-      Cancel
+      &nbsp;&nbsp;
+      %a{:href => '#', :onclick => "$('.add_member').toggle()"}
+        Cancel
       
-%ul{:class => 'list-unstyled'}
-  - if @lab.people.present?
-    - @lab.people.each do |person|
+  %ul{:class => 'list-unstyled'}
+    - if @lab.people.present?
+      - @lab.people.each do |person|
+        %li
+          = link_to person.name, people_path(person, person.name.parameterize)
+    - else
       %li
-        = link_to person.name, people_path(person, person.name.parameterize)
-  - else
-    %li
-      None, yet.
+        None, yet.
       
       
-%br
-%h4
-  Grants
-  %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
-    = link_to 'add', new_grant_path(l: @lab.id)
+  %br
+  %h4
+    Grants
+    %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
+      = link_to 'add', new_grant_path(l: @lab.id)
     
-- if @lab.grants.present?
-  %div
-    %ul{:class => 'list-unstyled'}
-      - @lab.grants.each do |grant|
-        %li
-          = link_to grant.name, slugged_grant_path(grant.id, grant.name.parameterize)
+  - if @lab.grants.present?
+    %div
+      %ul{:class => 'list-unstyled'}
+        - @lab.grants.each do |grant|
+          %li
+            = link_to grant.name, slugged_grant_path(grant.id, grant.name.parameterize)
           
-%br
-%h4
-  Samples
-  %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
-    = link_to 'add', new_sample_path(l: @lab.id)
+  %br
+  %h4
+    Samples
+    %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
+      = link_to 'add', new_sample_path(l: @lab.id)
     
-- if @lab.samples.present?
-  %div
-    %ul{:class => 'list-unstyled'}
-      - @lab.samples.each do |sample|
-        %li
-          = link_to sample.name, slugged_sample_path(sample.id, sample.name.parameterize)
+  - if @lab.samples.present?
+    %div
+      %ul{:class => 'list-unstyled'}
+        - @lab.samples.each do |sample|
+          %li
+            = link_to sample.name, slugged_sample_path(sample.id, sample.name.parameterize)
           
           
-%br
-%h4
-  Papers
-  %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
-    = link_to 'add', new_paper_path(l: @lab.id)
+  %br
+  %h4
+    Papers
+    %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
+      = link_to 'add', new_paper_path(l: @lab.id)
     
-- if @lab.papers.present?
-  %div
-    %ul{:class => 'list-unstyled'}
-      - @lab.papers.each do |paper|
-        %li
-          = link_to paper.name, slugged_paper_path(paper.id, paper.name.parameterize)
+  - if @lab.papers.present?
+    %div
+      %ul{:class => 'list-unstyled'}
+        - @lab.papers.each do |paper|
+          %li
+            = link_to paper.name, slugged_paper_path(paper.id, paper.name.parameterize)
           
+  %br
+  %h4
+    Comments
+  
+  #comments
+    = render partial: '/comments/show', locals: { :resource => @lab }

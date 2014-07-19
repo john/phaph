@@ -1,4 +1,5 @@
 class Lab < ActiveRecord::Base
+  acts_as_commentable
   
   has_many :memberships
   has_many :grants

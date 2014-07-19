@@ -13,6 +13,8 @@ class LabsController < ApplicationController
 
   # GET /labs/1
   def show
+    # @comment = Comment.new
+    # @comments = @lab.root_comments
   end
 
   # GET /labs/new

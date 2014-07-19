@@ -1,7 +1,9 @@
 source 'https://rubygems.org'
 
-# gem 'acts_as_commentable_with_threading'
+gem 'acts_as_commentable_with_threading'
 # gem 'acts-as-taggable-on'
+gem 'acts_as_votable'
+gem 'awesome_nested_set', git: 'https://github.com/collectiveidea/awesome_nested_set.git'
 gem 'devise'
 gem 'geocoder'
 gem 'haml-rails'
