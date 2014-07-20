@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe "comments/index", :type => :view do
   before(:each) do
     assign(:comments, [
-      Comment.create!(),
-      Comment.create!()
+      FactoryGirl.create(:comment),
+      FactoryGirl.create(:comment)
     ])
   end
 

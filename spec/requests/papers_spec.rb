@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe "Papers", :type => :request do
-  describe "GET /papers" do
+RSpec.describe "Documents", :type => :request do
+  describe "GET /documents" do
     it "redirects when not logged in" do
-      get papers_path
+      get documents_path
       expect(response.status).to be(302)
     end
   end

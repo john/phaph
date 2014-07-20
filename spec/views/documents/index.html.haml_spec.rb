@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe "papers/index", :type => :view do
+RSpec.describe "documents/index", :type => :view do
   before(:each) do
-    assign(:papers, [
-      # Paper.create!(
+    assign(:documents, [
+      # document.create!(
       #   :name => "Name",
       #   :description => "MyText",
       #   :source => "Source",
@@ -16,7 +16,7 @@ RSpec.describe "papers/index", :type => :view do
       #   :grant_id => 3,
       #   :state => "State"
       # ),
-      # Paper.create!(
+      # document.create!(
       #   :name => "Name",
       #   :description => "MyText",
       #   :source => "Source",
@@ -29,12 +29,12 @@ RSpec.describe "papers/index", :type => :view do
       #   :grant_id => 3,
       #   :state => "State"
       # )
-      FactoryGirl.create(:paper),
-      FactoryGirl.create(:paper)
+      FactoryGirl.create(:document),
+      FactoryGirl.create(:document)
     ])
   end
 
-  it "renders a list of papers" do
+  it "renders" do
     render
     # assert_select "tr>td", :text => "Name".to_s, :count => 2
     # assert_select "tr>td", :text => "MyText".to_s, :count => 2

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "papers/edit", :type => :view do
+RSpec.describe "documents/edit", :type => :view do
   before(:each) do
-    # @paper = assign(:paper, Paper.create!(
+    # @paper = assign(:paper, document.create!(
     #   :name => "MyString",
     #   :description => "MyText",
     #   :source => "MyString",
@@ -17,10 +17,10 @@ RSpec.describe "papers/edit", :type => :view do
     # ))
     john = FactoryGirl.create(:user)
     view.stub(:current_user).and_return(john)
-    @paper = FactoryGirl.create(:paper)
+    @document = FactoryGirl.create(:document)
   end
 
-  it "renders the edit paper form" do
+  it "renders" do
     render
 
     # assert_select "form[action=?][method=?]", paper_path(@paper), "post" do

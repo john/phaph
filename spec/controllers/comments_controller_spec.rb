@@ -52,12 +52,12 @@ RSpec.describe CommentsController, :type => :controller do
     end
   end
 
-  describe "GET new" do
-    it "assigns a new comment as @comment" do
-      get :new, {}, valid_session
-      expect(assigns(:comment)).to be_a_new(Comment)
-    end
-  end
+  # describe "GET new" do
+  #   it "assigns a new comment as @comment" do
+  #     get :new, {}, valid_session
+  #     expect(assigns(:comment)).to be_a_new(Comment)
+  #   end
+  # end
 
   describe "GET edit" do
     it "assigns the requested comment as @comment" do

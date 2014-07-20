@@ -1,6 +1,6 @@
-class CreatePapers < ActiveRecord::Migration
+class CreateDocuments < ActiveRecord::Migration
   def change
-    create_table :papers do |t|
+    create_table :documents do |t|
       t.string :name, index: true
       t.text :description
       t.string :source

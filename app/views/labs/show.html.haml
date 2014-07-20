@@ -14,8 +14,9 @@
     = @lab.description
 
   %br
-  %h4
-    Members
+  %h3
+    %b
+      Members
     %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
       %a{:onclick => "$('.add_member').toggle();", :class => 'add_member'}
         add
@@ -48,8 +49,9 @@
       
       
   %br
-  %h4
-    Grants
+  %h3
+    %b
+      Grants
     %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
       = link_to 'add', new_grant_path(l: @lab.id)
     
@@ -61,8 +63,9 @@
             = link_to grant.name, slugged_grant_path(grant.id, grant.name.parameterize)
           
   %br
-  %h4
-    Samples
+  %h3
+    %b
+      Samples
     %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
       = link_to 'add', new_sample_path(l: @lab.id)
     
@@ -75,21 +78,23 @@
           
           
   %br
-  %h4
-    Papers
+  %h3
+    %b
+      Documents
     %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
-      = link_to 'add', new_paper_path(l: @lab.id)
+      = link_to 'add', new_document_path(l: @lab.id)
     
-  - if @lab.papers.present?
+  - if @lab.documents.present?
     %div
       %ul{:class => 'list-unstyled'}
-        - @lab.papers.each do |paper|
+        - @lab.documents.each do |document|
           %li
-            = link_to paper.name, slugged_paper_path(paper.id, paper.name.parameterize)
+            = link_to document.name, slugged_document_path(document.id, document.name.parameterize)
           
   %br
-  %h4
-    Comments
+  %h3
+    %b
+      Comments
   
   #comments
     = render partial: '/comments/show', locals: { :resource => @lab }

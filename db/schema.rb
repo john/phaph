@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20140718193659) do
     t.integer  "parent_id"
     t.integer  "lft"
     t.integer  "rgt"
+    t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -69,6 +70,28 @@ ActiveRecord::Schema.define(version: 20140718193659) do
   add_index "costs", ["grant_id"], name: "index_costs_on_grant_id", using: :btree
   add_index "costs", ["lab_id"], name: "index_costs_on_lab_id", using: :btree
   add_index "costs", ["user_id"], name: "index_costs_on_user_id", using: :btree
+
+  create_table "documents", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "source"
+    t.string   "journal"
+    t.datetime "published_at"
+    t.string   "principle_authors"
+    t.string   "other_authors"
+    t.string   "rights"
+    t.integer  "creator_id",                    null: false
+    t.integer  "lab_id",                        null: false
+    t.integer  "grant_id"
+    t.integer  "scope",             default: 3, null: false
+    t.string   "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "documents", ["creator_id"], name: "index_documents_on_creator_id", using: :btree
+  add_index "documents", ["grant_id"], name: "index_documents_on_grant_id", using: :btree
+  add_index "documents", ["lab_id"], name: "index_documents_on_lab_id", using: :btree
 
   create_table "grants", force: true do |t|
     t.string   "name",                                                                       null: false
@@ -151,28 +174,6 @@ ActiveRecord::Schema.define(version: 20140718193659) do
   add_index "memberships", ["belongable_id", "belongable_type"], name: "index_memberships_on_belongable_id_and_belongable_type", using: :btree
   add_index "memberships", ["creator_id"], name: "index_memberships_on_creator_id", using: :btree
   add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
-
-  create_table "papers", force: true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.string   "source"
-    t.string   "journal"
-    t.datetime "published_at"
-    t.string   "principle_authors"
-    t.string   "other_authors"
-    t.string   "rights"
-    t.integer  "creator_id",                    null: false
-    t.integer  "lab_id",                        null: false
-    t.integer  "grant_id"
-    t.integer  "scope",             default: 3, null: false
-    t.string   "state"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "papers", ["creator_id"], name: "index_papers_on_creator_id", using: :btree
-  add_index "papers", ["grant_id"], name: "index_papers_on_grant_id", using: :btree
-  add_index "papers", ["lab_id"], name: "index_papers_on_lab_id", using: :btree
 
   create_table "presences", force: true do |t|
     t.integer  "location_id",    null: false

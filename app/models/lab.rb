@@ -4,7 +4,7 @@ class Lab < ActiveRecord::Base
   has_many :memberships
   has_many :grants
   has_many :samples
-  has_many :papers
+  has_many :documents
   
   has_many :presences, as: :locatable
   has_many :locations, through: :presences

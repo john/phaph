@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "papers/show", :type => :view do
+RSpec.describe "documents/show", :type => :view do
   before(:each) do
-    # @paper = assign(:paper, Paper.create!(
+    # @paper = assign(:paper, document.create!(
     #   :name => "Name",
     #   :description => "MyText",
     #   :source => "Source",
@@ -17,7 +17,7 @@ RSpec.describe "papers/show", :type => :view do
     # ))
     john = FactoryGirl.create(:user)
     view.stub(:current_user).and_return(john)
-    @paper = FactoryGirl.create(:paper)
+    @document = FactoryGirl.create(:document)
   end
 
   it "renders" do

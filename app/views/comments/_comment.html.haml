@@ -6,7 +6,7 @@
       %small
         = link_to '<button type="button" class="close"><span aria-hidden="true">&times;</span>'.html_safe, comment_path(comment), remote: 'true', method: 'delete'
     
-    %h4
+    %h5
       %b
         = link_to comment.user.name, people_path(comment.user.id, comment.user.name.parameterize)
       %small
