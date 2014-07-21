@@ -1,11 +1,11 @@
 class Category < ActiveRecord::Base
   
-  belongs_to :creator, class_name: "User"
+  belongs_to :user
   belongs_to :lab
   belongs_to :grant
   
   validates :name, presence: true
-  validates :creator_id, presence: true
+  validates :user_id, presence: true
   validates :lab_id, presence: true
   
   STATES = [:active, :inactive]

@@ -4,8 +4,8 @@ FactoryGirl.define do
     name 'carey'
     
     before(:create) do |grant|
-      creator = FactoryGirl.create(:user, email: "lab_user_#{Time.now.to_i + rand(10000)}@foo.com")
-      grant.creator_id = creator.id
+      user = FactoryGirl.create(:user, email: "lab_user_#{Time.now.to_i + rand(10000)}@foo.com")
+      grant.user_id = user.id
       
       lab = FactoryGirl.create(:lab)
       grant.lab_id = lab.id

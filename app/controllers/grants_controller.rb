@@ -23,7 +23,7 @@ class GrantsController < ApplicationController
 
   # GET /grants/new
   def new
-    vals = { creator_id: current_user.id }
+    vals = { user_id: current_user.id }
     if params[:l].present?
       vals[:lab_id] = params[:l].to_i
     end
@@ -72,6 +72,6 @@ class GrantsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def grant_params
-      params.require(:grant).permit(:name, :description, :source, :source_id, :principal_investigators, :investigators, :program_manager, :sponsor, :nsf_programs, :nsf_program_reference_code, :nsf_program_element_code, :awarded_at, :starts_at, :ends_at, :amount, :overhead, :creator_id, :user_id, :lab_id, :scope, :state)
+      params.require(:grant).permit(:name, :description, :source, :source_id, :principal_investigators, :investigators, :program_manager, :sponsor, :nsf_programs, :nsf_program_reference_code, :nsf_program_element_code, :awarded_at, :starts_at, :ends_at, :amount, :overhead, :user_id, :user_id, :lab_id, :scope, :state)
     end
 end

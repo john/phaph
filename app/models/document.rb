@@ -1,6 +1,10 @@
 class Document < ActiveRecord::Base
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
   
-  belongs_to :creator, class_name: "User"
+  mount_uploader :file, FileUploader
+  
+  belongs_to :user
   belongs_to :lab
   
   validates :name, presence: true

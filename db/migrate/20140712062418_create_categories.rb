@@ -3,7 +3,7 @@ class CreateCategories < ActiveRecord::Migration
     create_table :categories do |t|
       t.string :name, index: true, null: false
       t.text :description
-      t.references :creator, index: true, null: false
+      t.references :user, index: true, null: false
       t.references :lab, index: true, null: false
       t.references :grant, index: true
       t.integer :scope, null: false, default: Scope::PUBLIC

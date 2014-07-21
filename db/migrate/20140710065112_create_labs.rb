@@ -4,7 +4,7 @@ class CreateLabs < ActiveRecord::Migration
       t.string :name, index: true, null: false
       t.text :description
       t.string :email
-      t.references :creator, index: true, null: false
+      t.references :user, index: true, null: false
       t.integer :scope, null: false, default: Scope::PUBLIC
       t.string :state, null: false
 

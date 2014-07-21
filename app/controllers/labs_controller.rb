@@ -19,7 +19,7 @@ class LabsController < ApplicationController
 
   # GET /labs/new
   def new
-    @lab = Lab.new( creator_id: current_user.id )
+    @lab = Lab.new( user_id: current_user.id )
     # @lab.locations.build
   end
 
@@ -85,6 +85,6 @@ class LabsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def lab_params
       # locations_attributes: [:name, :latitude, :longitude, :city, :state, :country]
-      params.require(:lab).permit(:name, :description, :email, :creator_id, :scope, :state )
+      params.require(:lab).permit(:name, :description, :email, :user_id, :scope, :state )
     end
 end

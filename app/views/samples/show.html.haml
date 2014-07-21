@@ -8,7 +8,7 @@
   = @sample.description
 
 %div
-  #{link_to @sample.creator.name, people_path( @sample.creator.id, @sample.creator.name.parameterize )}, 
+  #{link_to @sample.user.name, people_path( @sample.user.id, @sample.user.name.parameterize )}, 
   = link_to @sample.lab.name, slugged_lab_path( @sample.lab.id, @sample.lab.name.parameterize )
     
 
@@ -20,7 +20,7 @@
   
 %p
   %b Creator:
-  = @sample.creator_id
+  = @sample.user_id
 %p
   %b Lab:
   = @sample.lab_id

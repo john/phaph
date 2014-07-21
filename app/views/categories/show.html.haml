@@ -14,7 +14,7 @@
 %h5
   Creator
 %div
-  = link_to @category.creator.name, people_path( @category.creator.id, @category.creator.name.parameterize )
+  = link_to @category.user.name, people_path( @category.user.id, @category.user.name.parameterize )
 
 %h5
   Lab

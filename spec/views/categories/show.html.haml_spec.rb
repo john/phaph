@@ -15,7 +15,7 @@ RSpec.describe "categories/show", :type => :view do
     @category = FactoryGirl.create(:category)
   end
 
-  it "renders attributes in <p>" do
+  it "renders" do
     render
     # expect(rendered).to match(/Name/)
     # expect(rendered).to match(/MyText/)

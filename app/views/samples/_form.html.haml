@@ -6,7 +6,7 @@
         - @sample.errors.full_messages.each do |msg|
           %li= msg
 
-  = f.hidden_field :creator_id
+  = f.hidden_field :user_id
   - if params[:l].present?
     = hidden_field_tag :redirect_to, lab_path( params[:l] )
     

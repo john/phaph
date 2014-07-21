@@ -5,9 +5,9 @@ class Lab < ActiveRecord::Base
   has_many :grants
   has_many :samples
   has_many :documents
-  
   has_many :presences, as: :locatable
   has_many :locations, through: :presences
+  belongs_to :user
   
   # accepts_nested_attributes_for :locations
   # accepts_nested_attributes_for :presences

@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140718193659) do
+ActiveRecord::Schema.define(version: 20140720063419) do
 
   create_table "categories", force: true do |t|
     t.string   "name",                    null: false
     t.text     "description"
-    t.integer  "creator_id",              null: false
+    t.integer  "user_id",                 null: false
     t.integer  "lab_id",                  null: false
     t.integer  "grant_id"
     t.integer  "scope",       default: 3, null: false
@@ -25,9 +25,9 @@ ActiveRecord::Schema.define(version: 20140718193659) do
     t.datetime "updated_at"
   end
 
-  add_index "categories", ["creator_id"], name: "index_categories_on_creator_id", using: :btree
   add_index "categories", ["grant_id"], name: "index_categories_on_grant_id", using: :btree
   add_index "categories", ["lab_id"], name: "index_categories_on_lab_id", using: :btree
+  add_index "categories", ["user_id"], name: "index_categories_on_user_id", using: :btree
 
   create_table "comments", force: true do |t|
     t.integer  "commentable_id",   default: 0
@@ -80,18 +80,19 @@ ActiveRecord::Schema.define(version: 20140718193659) do
     t.string   "principle_authors"
     t.string   "other_authors"
     t.string   "rights"
-    t.integer  "creator_id",                    null: false
+    t.integer  "user_id",                       null: false
     t.integer  "lab_id",                        null: false
     t.integer  "grant_id"
     t.integer  "scope",             default: 3, null: false
     t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "file"
   end
 
-  add_index "documents", ["creator_id"], name: "index_documents_on_creator_id", using: :btree
   add_index "documents", ["grant_id"], name: "index_documents_on_grant_id", using: :btree
   add_index "documents", ["lab_id"], name: "index_documents_on_lab_id", using: :btree
+  add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
 
   create_table "grants", force: true do |t|
     t.string   "name",                                                                       null: false
@@ -110,7 +111,7 @@ ActiveRecord::Schema.define(version: 20140718193659) do
     t.datetime "ends_at"
     t.decimal  "amount",                                precision: 10, scale: 0
     t.float    "overhead",                   limit: 24
-    t.integer  "creator_id",                                                                 null: false
+    t.integer  "user_id",                                                                    null: false
     t.integer  "lab_id",                                                                     null: false
     t.integer  "scope",                                                          default: 3, null: false
     t.string   "state",                                                                      null: false
@@ -118,8 +119,8 @@ ActiveRecord::Schema.define(version: 20140718193659) do
     t.datetime "updated_at"
   end
 
-  add_index "grants", ["creator_id"], name: "index_grants_on_creator_id", using: :btree
   add_index "grants", ["lab_id"], name: "index_grants_on_lab_id", using: :btree
+  add_index "grants", ["user_id"], name: "index_grants_on_user_id", using: :btree
 
   create_table "identities", force: true do |t|
     t.integer  "user_id"
@@ -135,14 +136,14 @@ ActiveRecord::Schema.define(version: 20140718193659) do
     t.string   "name",                    null: false
     t.text     "description"
     t.string   "email"
-    t.integer  "creator_id",              null: false
+    t.integer  "user_id",                 null: false
     t.integer  "scope",       default: 3, null: false
     t.string   "state",                   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "labs", ["creator_id"], name: "index_labs_on_creator_id", using: :btree
+  add_index "labs", ["user_id"], name: "index_labs_on_user_id", using: :btree
 
   create_table "locations", force: true do |t|
     t.string   "name",                                     null: false
@@ -190,7 +191,7 @@ ActiveRecord::Schema.define(version: 20140718193659) do
     t.string   "name"
     t.text     "description"
     t.string   "source"
-    t.integer  "creator_id",                                            null: false
+    t.integer  "user_id",                                               null: false
     t.integer  "lab_id",                                                null: false
     t.integer  "grant_id"
     t.string   "location"
@@ -206,9 +207,9 @@ ActiveRecord::Schema.define(version: 20140718193659) do
     t.datetime "updated_at"
   end
 
-  add_index "samples", ["creator_id"], name: "index_samples_on_creator_id", using: :btree
   add_index "samples", ["grant_id"], name: "index_samples_on_grant_id", using: :btree
   add_index "samples", ["lab_id"], name: "index_samples_on_lab_id", using: :btree
+  add_index "samples", ["user_id"], name: "index_samples_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name",                   default: ""

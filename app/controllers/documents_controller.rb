@@ -26,7 +26,7 @@ class DocumentsController < ApplicationController
   # POST /documents
   def create
     @document = Document.new(document_params)
-    @document.creator_id = current_user.id
+    @document.user_id = current_user.id
     
     if @document.save
       # redirect_to @document, notice: 'Document was successfully created.'
@@ -64,6 +64,6 @@ class DocumentsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def document_params
-      params.require(:document).permit(:name, :original, :description, :source, :journal, :published_at, :principle_author, :other_authors, :rights, :creator_id, :lab_id, :grant_id, :scope, :state)
+      params.require(:document).permit(:name, :file, :file_cache, :description, :source, :journal, :published_at, :principle_authors, :other_authors, :rights, :user_id, :lab_id, :grant_id, :scope, :state)
     end
 end

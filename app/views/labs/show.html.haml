@@ -23,7 +23,7 @@
       
   .add_member{:style => 'display:none;'}
     = form_for Membership.new, :html => {:class => 'form-inline'} do |f|
-      = f.hidden_field :creator_id, :value => current_user.id
+      = f.hidden_field :user_id, :value => current_user.id
       = f.hidden_field :belongable_id, :value => @lab.id
       = f.hidden_field :belongable_id, :value => @lab.id
       = f.hidden_field :belongable_type, :value => Lab.to_s

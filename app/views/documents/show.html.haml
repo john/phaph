@@ -1,47 +1,55 @@
-%p#notice= notice
-
-%p
-  %b Name:
+%h5
+  %b Name
+%div
   = @document.name
--#
--# %p
--#   %b File:
--#   = link_to "Download", @document.original.url
--#
-%p
-  %b Description:
+
+%h5
+  %b File
+%div
+  = link_to "Download", @document.file_url, target: '_blank'
+
+%h5
+  %b Description
+%div
   = @document.description
-%p
+
+%h5
   %b Source:
   = @document.source
-%p
+
+%h5
   %b Journal:
   = @document.journal
-%p
+
+%h5
   %b Published at:
   = @document.published_at
-%p
+
+%h5
   %b Principle authors:
   = @document.principle_authors
-%p
+
+%h5
   %b Other authors:
   = @document.other_authors
-%p
+
+%h5
   %b Rights:
   = @document.rights
-%p
+
+%h5
   %b Creator:
-  = @document.creator_id
-%p
+  = @document.user_id
+
+%h5
   %b Lab:
   = @document.lab_id
-%p
+
+%h5
   %b Grant:
   = @document.grant_id
-%p
+%h5
   %b State:
   = @document.state
 
 = link_to 'Edit', edit_document_path(@document)
-\|
-= link_to 'Back', documents_path

@@ -9,7 +9,7 @@ class CreateDocuments < ActiveRecord::Migration
       t.string :principle_authors
       t.string :other_authors
       t.string :rights
-      t.references :creator, index: true, null: false
+      t.references :user, index: true, null: false
       t.references :lab, index: true, null: false
       t.references :grant, index: true
       t.integer :scope, null: false, default: Scope::PUBLIC

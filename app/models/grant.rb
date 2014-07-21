@@ -1,14 +1,14 @@
 class Grant < ActiveRecord::Base
   
-  belongs_to :creator, class_name: "User"
-  belongs_to :lab
   has_many :categories
   has_many :costs
+  belongs_to :user
+  belongs_to :lab
   
   alias_attribute :granted, :amount
   
   validates :name, presence: true
-  validates :creator_id, presence: true
+  validates :user_id, presence: true
   validates :lab_id, presence: true
   
   STATES = [:active, :inactive]

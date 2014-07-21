@@ -5,7 +5,7 @@
       %ul
         - @document.errors.full_messages.each do |msg|
           %li= msg
-  = f.hidden_field :creator_id
+  = f.hidden_field :user_id
   - if params[:l].present?
     = hidden_field_tag :redirect_to, lab_path( params[:l] )
     
@@ -17,8 +17,9 @@
     
   .form-group
     .col-sm-7
-      = f.label :original, :class => 'sr-only'
-      = f.file_field :original, class: 'form-control'
+      = f.label :file, :class => 'sr-only'
+      = f.file_field :file, class: 'form-control'
+      = f.hidden_field :file_cache
       
   .form-group
     = f.label :description, :class => 'sr-only'

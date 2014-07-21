@@ -5,7 +5,7 @@ class CreateSamples < ActiveRecord::Migration
       t.string :name, index: true
       t.text :description
       t.string :source
-      t.references :creator, index: true, null: false
+      t.references :user, index: true, null: false
       t.references :lab, index: true, null: false
       t.references :grant, index: true
       
