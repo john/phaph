@@ -17,7 +17,10 @@ Rails.application.routes.draw do
   
   resources :categories
   resources :costs
+  
+  match '/documents/search' => 'documents#search', :via => :get, :as => :search_documents
   resources :documents
+  
   resources :grants
   resources :labs
   resources :locations

@@ -1,0 +1,13 @@
+%h1
+  Results
+  
+  
+%ul{:class => 'list-unstyled'}
+  - if @results.present?
+    - @results.each do |result|
+      %li
+        = link_to result.name, slugged_document_path(result.id, result.name.parameterize)
+  - else
+    %li
+      %i
+        No results :-(

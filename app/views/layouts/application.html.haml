@@ -65,17 +65,24 @@
               = link_to 'Users', users_path
             
             %li{:class => (controller_name == 'labs') ? 'active' : ''}
-              = link_to 'Labs', labs_path
+              = link_to 'Groups', labs_path
               
-            %li{:class => (controller_name == 'grants' || controller_name == 'categories') ? 'active' : ''}
-              = link_to 'Grants', grants_path
-              
-            %li{:class => (controller_name == 'samples') ? 'active' : ''}
-              = link_to 'Samples', samples_path
+            -# %li{:class => (controller_name == 'grants' || controller_name == 'categories') ? 'active' : ''}
+            -#   = link_to 'Grants', grants_path
+            -#
+            -# %li{:class => (controller_name == 'samples') ? 'active' : ''}
+            -#   = link_to 'Samples', samples_path
               
             %li{:class => (controller_name == 'papers') ? 'active' : ''}
               = link_to 'Documents', documents_path
               
+            -# %li
+            -#
+            -#   = form_tag( search_documents_path, :method => :get, :class => 'form-horizontal', :role => 'form', :style => 'margin-top: 15px;') do
+            -#     = text_field_tag 'q', (params[:q].present? ? params[:q] : '')
+            -#     = submit_tag 'Search', :class => 'btn btn-xs'
+                
+                
           -# %li.dropdown
           -#     %a.dropdown-toggle{:'data-toggle' => 'dropdown'}
           -#       Dropdown

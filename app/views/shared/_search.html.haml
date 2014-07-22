@@ -1,0 +1,9 @@
+.form-group
+  = form_tag( search_documents_path, :method => :get, :class => 'form-horizontal', :role => 'form', :style => 'margin-top: 15px;') do
+    .col-sm-6
+      - if params[:q].present?
+        = text_field_tag 'q', params[:q], :class => :'form-control', :placeholder => 'keywords', :autofocus => true
+      - else
+        = text_field_tag 'q', '', :class => :'form-control', :placeholder => 'keywords'
+    .col-sm-1
+      = submit_tag 'Phaph', :class => 'btn'

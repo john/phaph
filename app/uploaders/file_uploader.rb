@@ -12,7 +12,6 @@ class FileUploader < CarrierWave::Uploader::Base
     # else
     #   :file
     # end
-    puts "-------------> IN CLASS Method!"
     :file
   end
   storage set_storage
@@ -26,8 +25,6 @@ class FileUploader < CarrierWave::Uploader::Base
   #
   # # https://github.com/sorentwo/carrierwave-aws
   # # https://github.com/robin850/carrierwave-dropbox
-  
-  
   
   
   def extension_white_list

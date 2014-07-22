@@ -7,11 +7,17 @@ class DocumentsController < ApplicationController
   def index
     @model = Document
     @resources = Document.all
-    render :template => '/shared/resource/index'
+    # render :template => '/shared/resource/index'
   end
 
   # GET /documents/1
   def show
+  end
+  
+  def search
+    @model = Document
+    @resources = Document.search( params[:q] ).records
+    render :template => '/documents/index'
   end
 
   # GET /documents/new
@@ -42,7 +48,13 @@ class DocumentsController < ApplicationController
 
   # PATCH/PUT /documents/1
   def update
-    if @document.update(paper_params)
+    
+    logger.debug "------UPDATE1----> #{@document.inspect}"
+    
+    if @document.update(document_params)
+      logger.debug "------UPDATE2----> #{@document.inspect}"
+      
+      @document.save
       redirect_to @document, notice: 'Document successfully updated.'
     else
       render :edit

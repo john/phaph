@@ -1,41 +1,37 @@
--# %h1 Listing papers
--#
--# %table
--#   %tr
--#     %th Name
--#     %th Description
--#     %th Source
--#     %th Journal
--#     %th Published at
--#     %th Principle author
--#     %th Other authors
--#     %th Rights
--#     %th Creator
--#     %th Lab
--#     %th Grant
--#     %th State
--#     %th
--#     %th
--#     %th
--#
--#   - @papers.each do |paper|
--#     %tr
--#       %td= paper.name
--#       %td= paper.description
--#       %td= paper.source
--#       %td= paper.journal
--#       %td= paper.published_at
--#       %td= paper.principle_author
--#       %td= paper.other_authors
--#       %td= paper.rights
--#       %td= paper.creator_id
--#       %td= paper.lab_id
--#       %td= paper.grant_id
--#       %td= paper.state
--#       %td= link_to 'Show', paper
--#       %td= link_to 'Edit', edit_paper_path(paper)
--#       %td= link_to 'Destroy', paper, :method => :delete, :data => { :confirm => 'Are you sure?' }
--#
--# %br
--#
--# = link_to 'New Document', new_document_path
+= render :partial => 'shared/search'
+
+.col-sm-7
+  .clearfix
+  %hr
+  .clearfix
+
+.col-sm-7
+  - if params[:q].present?
+    %div
+      Results for
+    %h2{:style => 'margin-top: 0;'}
+      = params[:q]
+    
+  - else
+    .pull-right
+      = link_to "New #{@model}", new_polymorphic_path(@model), :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
+    
+    %h1
+      = @model.to_s.pluralize(0)
+
+.clearfix
+
+.col-sm-7
+  %br
+  %table.table.table-hover
+  
+    - if @resources.present?
+      - @resources.each do |result|
+        -# %li
+        -#   = link_to result.name, slugged_document_path(result.id, result.name.parameterize)
+        = render :partial => 'documents/document', :locals => {:resource => result}
+    - else
+      %li
+        %i
+          No results :-(
+          
