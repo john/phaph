@@ -12,8 +12,7 @@ class Document < ActiveRecord::Base
   belongs_to :user
   belongs_to :lab
   
-  validates :name, presence: true
-  validates :lab_id, presence: true
+  validates_presence_of :name, :state
   
   STATES = [:active, :inactive]
   state_machine :state, :initial => :active do
@@ -46,20 +45,7 @@ class Document < ActiveRecord::Base
     Base64.encode64(open( "#{Rails.root}/public#{path_to_attachment}" ) { |file| file.read })
   end
   
-  # # # def to_indexed_json
-  # # #   to_json(methods: [:attachment])
-  # # # end
-  # def as_indexed_json(options={})
-  #   self.as_json(
-  #     include: { attachment: { methods: [:attachment] } }
-  #   )
-  # end
-  
   def as_indexed_json(options={})
-    # self.as_json(
-    #   only: [:name],
-    #   methods: [:attachment]
-    # )
     {
       name: name,
       description: description,
@@ -76,9 +62,5 @@ class Document < ActiveRecord::Base
       attachment: attachment
     }
   end
-  
-  # def nameplus
-  #   "foobar"
-  # end
   
 end

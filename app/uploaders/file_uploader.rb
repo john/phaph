@@ -5,17 +5,33 @@ class FileUploader < CarrierWave::Uploader::Base
   # storage :file
   # # storage :fog
   
+  
+  # to use dropbox you need to create a dropbox app:
+  # https://www.dropbox.com/developers/apps
+  
+  # some info on dynamcially setting storage:
   # https://github.com/carrierwaveuploader/carrierwave/wiki/How-to%3A-Dynamically-set-storage-type
+  
+  # apparently using dropbox requires a rake task to be run. maybe this can be done programatically
+  # when the credentialls are added to the app?
+  # load "carrierwave/dropbox/authorize.rake"
+  # rake dropbox:authorize APP_KEY=app_key APP_SECRET=app_secret ACCESS_TYPE=dropbox|app_folder
+  
+  # though that just provides credentials... so maybe if you already have those, it's not necessary?
+  
   def self.set_storage
     # if Configuration.use_cloudfiles?
     #   :fog
     # else
     #   :file
     # end
-    :file
+    
+    # :file
+    :dropbox
   end
+  
   storage set_storage
-
+  
   # # https://groups.google.com/forum/#!topic/carrierwave/CFGFKYFfyG4
   # # "All the config options are ultimately instance methods, so you should be
   # # able to do something like (below), and so on, for the other variables.

@@ -6,6 +6,10 @@ RSpec.describe DocumentsController, :type => :routing do
     it "routes to #index" do
       expect(:get => "/documents").to route_to("documents#index")
     end
+    
+    it "routes to #import" do
+      expect(:get => "/documents/import").to route_to("documents#import")
+    end
 
     it "routes to #new" do
       expect(:get => "/documents/new").to route_to("documents#new")

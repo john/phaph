@@ -11,3 +11,6 @@
     %li
       %i
         No results :-(
+        
+- if @results
+    = will_paginate @results, :next_label => '&raquo;', :inner_window => '2', :next_label => 'Next &raquo;', :previous_label => '&laquo;'

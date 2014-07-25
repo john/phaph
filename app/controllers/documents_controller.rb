@@ -6,8 +6,12 @@ class DocumentsController < ApplicationController
   # GET /documents
   def index
     @model = Document
-    @resources = Document.all
+    @resources = Document.paginate(:page => params[:page])
     # render :template => '/shared/resource/index'
+  end
+  
+  # GET /imports
+  def import
   end
 
   # GET /documents/1
@@ -16,7 +20,7 @@ class DocumentsController < ApplicationController
   
   def search
     @model = Document
-    @resources = Document.search( params[:q] ).records
+    @resources = Document.search( params[:q] ).records.paginate(:page => params[:page])
     render :template => '/documents/index'
   end
 
@@ -48,13 +52,14 @@ class DocumentsController < ApplicationController
 
   # PATCH/PUT /documents/1
   def update
-    
-    logger.debug "------UPDATE1----> #{@document.inspect}"
-    
     if @document.update(document_params)
-      logger.debug "------UPDATE2----> #{@document.inspect}"
       
-      @document.save
+      # The .update call above should be handling this. Or the .update_document call below should be.
+      # Neither is working though, but .index_document does, and it updates in place rather than
+      # creating a new es record. Whatever.
+      # @document.__elasticsearch__.update_document
+      @document.__elasticsearch__.index_document
+      
       redirect_to @document, notice: 'Document successfully updated.'
     else
       render :edit

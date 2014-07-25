@@ -9,6 +9,7 @@ gem 'carrierwave'
 gem 'carrierwave-aws'
 gem 'carrierwave-dropbox'
 gem 'devise'
+gem 'dropbox-sdk'
 gem 'elasticsearch'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
@@ -20,6 +21,7 @@ gem 'mechanize', require: false
 gem 'mysql2'
 gem 'omniauth'
 gem 'omniauth-twitter'
+gem 'omniauth-dropbox'
 gem 'patron' # http library that supports keep-alive connections, recommended for elasticsearch-ruby
 # gem 'omniauth-facebook'
 # gem 'omniauth-linkedin'
@@ -32,6 +34,8 @@ gem 'state_machine', git: 'https://github.com/seuros/state_machine.git'
 gem 'therubyracer'
 gem 'turbolinks' # Read more: https://github.com/rails/turbolinks
 gem 'uglifier', '>= 1.3.0'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc

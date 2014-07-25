@@ -4,9 +4,7 @@ class Cost < ActiveRecord::Base
   belongs_to :lab
   belongs_to :grant
   
-  validates :name, presence: true
-  validates :creator_id, presence: true
-  validates :lab_id, presence: true
+  validates_presence_of :name, :creator, :lab, :state
   
   STATES = [:active, :inactive]
   state_machine :state, :initial => :active do

@@ -1,6 +1,7 @@
 class Membership < ActiveRecord::Base
   
   belongs_to :user
+  # belongs_to :lab
   belongs_to :belongable, :polymorphic => true
   
   STATES = [:active, :inactive]

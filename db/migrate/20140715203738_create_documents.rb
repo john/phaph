@@ -1,7 +1,7 @@
 class CreateDocuments < ActiveRecord::Migration
   def change
     create_table :documents do |t|
-      t.string :name, index: true
+      t.string :name, index: true, null: false
       t.text :description
       t.string :source
       t.string :journal
@@ -10,10 +10,10 @@ class CreateDocuments < ActiveRecord::Migration
       t.string :other_authors
       t.string :rights
       t.references :user, index: true, null: false
-      t.references :lab, index: true, null: false
+      t.references :lab, index: true
       t.references :grant, index: true
       t.integer :scope, null: false, default: Scope::PUBLIC
-      t.string :state
+      t.string :state, null: false
 
       t.timestamps
     end

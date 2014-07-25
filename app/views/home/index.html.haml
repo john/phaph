@@ -15,4 +15,30 @@
 %h1
   Search everything from everywhere
   
-= render :partial => 'shared/search'
+- if signed_in?
+  = render :partial => 'shared/search_form'
+- else
+
+  %br
+  %br
+  %div
+    = link_to "Sign in", new_user_session_path, :class => 'btn btn-primary'
+  
+  %br
+  %br
+  &mdash; OR &mdash;
+  
+  %br
+  %br
+  %div
+    = link_to "Sign up", new_user_registration_path, :class => 'btn btn-primary'
+    
+.clearfix
+
+%br
+%h5
+  Benefits
+  
+%ul
+  %li
+    You should be able to find your data in Dropbox and get it out—it shouldn't be a Roach Motel.

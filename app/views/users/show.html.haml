@@ -1,25 +1,43 @@
-%h1{:style => 'margin-bottom: 5px;'}
-  = @user.name
+.col-sm-8
+  .pull-right
+    = link_to "Dropbox", '', :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
+    
+  %h1{:style => 'margin-bottom: 5px;'}
+    = @user.name
   
-- if @user.locations.present?
+  - if @user.locations.present?
+    %div{:style => 'margin-top: 0;'}
+      - @user.locations.each do |location|
+        = location.name
+  
   %div{:style => 'margin-top: 0;'}
-    - @user.locations.each do |location|
-      = location.name
+    = @user.description
   
-%div{:style => 'margin-top: 0;'}
-  = @user.description
+  %br
+  %h3
+    Documents
   
-%br
-%h4
-  Labs
+.clearfix
 
-
-
-%ul{:class => 'list-unstyled'}
-  - if @user.labs.present?
-    - @user.labs.each do |lab|
+.col-sm-8
+  %br
+  %table.table.table-hover
+    - if @user.documents.present?
+      - @user.documents.each do |document|
+        = render :partial => 'documents/document', :locals => {:resource => document}
+    - else
       %li
-        = link_to lab.name, slugged_lab_path( lab.id, lab.name.parameterize)
-  - else
-    %li
-      None, yet.
+        None, yet.
+
+
+  -# %h4
+  -#   Labs
+  -#
+  -# %ul{:class => 'list-unstyled'}
+  -#   - if @user.labs.present?
+  -#     - @user.labs.each do |lab|
+  -#       %li
+  -#         = link_to lab.name, slugged_lab_path( lab.id, lab.name.parameterize)
+  -#   - else
+  -#     %li
+  -#       None, yet.

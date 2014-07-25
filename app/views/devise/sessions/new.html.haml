@@ -1,4 +1,4 @@
-%h2
+%h2{ :style => 'margin-bottom: 30px;'}
   Sign in
 
 = form_for(resource, as: resource_name, url: session_path(resource_name), :role => 'form', :html => {:class => 'form-horizontal'} ) do |f|
@@ -21,6 +21,17 @@
   .form-group
     .col-sm-7
       = f.submit "Sign in", :class => 'btn btn-primary'
+      
+      
 
+&mdash; OR &mdash;
+
+.clearfix
+
+%br
+= link_to 'Sign in with Dropbox', user_omniauth_authorize_url(:dropbox), :class => 'btn btn-primary'
+
+%br
+%br
 %br
 = render "devise/shared/links"

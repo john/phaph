@@ -43,6 +43,14 @@ RSpec.describe DocumentsController, :type => :controller do
       expect(assigns(:documents)).to eq([document])
     end
   end
+  
+  describe "GET imports" do
+    it "assigns importable documents as @documents" do
+      document = document.create! valid_attributes
+      get :imports, {}, valid_session
+      expect(assigns(:documents)).to eq([document])
+    end
+  end
 
   describe "GET show" do
     it "assigns the requested document as @document" do

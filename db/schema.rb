@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140720063419) do
+ActiveRecord::Schema.define(version: 20140724223519) do
+
+  create_table "authentications", force: true do |t|
+    t.integer  "user_id"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "token"
+    t.string   "secret"
+    t.datetime "token_expires_at"
+    t.string   "state",            null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "categories", force: true do |t|
     t.string   "name",                    null: false
@@ -39,7 +51,7 @@ ActiveRecord::Schema.define(version: 20140720063419) do
     t.integer  "parent_id"
     t.integer  "lft"
     t.integer  "rgt"
-    t.string   "state"
+    t.string   "state",                        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -72,7 +84,7 @@ ActiveRecord::Schema.define(version: 20140720063419) do
   add_index "costs", ["user_id"], name: "index_costs_on_user_id", using: :btree
 
   create_table "documents", force: true do |t|
-    t.string   "name"
+    t.string   "name",                          null: false
     t.text     "description"
     t.string   "source"
     t.string   "journal"
@@ -81,10 +93,10 @@ ActiveRecord::Schema.define(version: 20140720063419) do
     t.string   "other_authors"
     t.string   "rights"
     t.integer  "user_id",                       null: false
-    t.integer  "lab_id",                        null: false
+    t.integer  "lab_id"
     t.integer  "grant_id"
     t.integer  "scope",             default: 3, null: false
-    t.string   "state"
+    t.string   "state",                         null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "file"
@@ -121,16 +133,6 @@ ActiveRecord::Schema.define(version: 20140720063419) do
 
   add_index "grants", ["lab_id"], name: "index_grants_on_lab_id", using: :btree
   add_index "grants", ["user_id"], name: "index_grants_on_user_id", using: :btree
-
-  create_table "identities", force: true do |t|
-    t.integer  "user_id"
-    t.string   "provider"
-    t.string   "uid"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "labs", force: true do |t|
     t.string   "name",                    null: false

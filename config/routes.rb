@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
+  
+  
 
-  resources :comments
+  resources :authentications
 
+  # # http://sreeharikmarar.blogspot.com/2013/07/ruby-on-rails-practice-some-safe.html
+  # match '/dropbox/authorize' => 'dropbox#authorize' , :method => :get , :as => :dropbox_auth
+  # match '/dropbox/callback' => 'dropbox#callback' , :method => :get , :as =>  :dropbox_callback
+  
   root 'home#index'
   
   devise_for  :users,
@@ -14,12 +20,14 @@ Rails.application.routes.draw do
       get 'index', on: :collection
     end
   end
-  
-  resources :categories
+    resources :categories
+  resources :comments
   resources :costs
   
   match '/documents/search' => 'documents#search', :via => :get, :as => :search_documents
-  resources :documents
+  resources :documents do
+    get 'import', on: :collection
+  end
   
   resources :grants
   resources :labs

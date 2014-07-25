@@ -1,55 +1,55 @@
-%h5
-  %b Name
-%div
-  = @document.name
+.col-sm-7
 
-%h5
-  %b File
-%div
-  = link_to "Download", @document.file_url, target: '_blank'
+  %h1
+    = @document.name
 
-%h5
-  %b Description
-%div
-  = @document.description
+  - if @document.principle_authors.present? || @document.other_authors.present?
+    %div
+      by
+      - if @document.principle_authors.present?
+        %b
+          = @document.principle_authors
+          
+        
+      @document.other_authors].join( ', ')
+  
+  - if @document.journal.present?
+    %div
+      in
+      = @document.journal
 
-%h5
-  %b Source:
-  = @document.source
+  - if @document.description.present?
+    %div{:style => 'margin-top: 20px;'}
+      = @document.description
+      
+  %div{:style => 'margin-top: 20px;'}
+    = link_to "Download", @document.file_url, target: '_blank', class: 'btn btn-primary'
+    
+-# %h5
+-#   %b Published at:
+-#   = @document.published_at
 
-%h5
-  %b Journal:
-  = @document.journal
+-# %h5
+-#   %b Source:
+-#   = @document.source
+-# 
+-# %h5
+-#   %b Rights:
+-#   = @document.rights
+-#
+-# %h5
+-#   %b Creator:
+-#   = @document.user_id
+-#
+-# %h5
+-#   %b Lab:
+-#   = @document.lab_id
+-#
+-# %h5
+-#   %b Grant:
+-#   = @document.grant_id
+-# %h5
+-#   %b State:
+-#   = @document.state
 
-%h5
-  %b Published at:
-  = @document.published_at
-
-%h5
-  %b Principle authors:
-  = @document.principle_authors
-
-%h5
-  %b Other authors:
-  = @document.other_authors
-
-%h5
-  %b Rights:
-  = @document.rights
-
-%h5
-  %b Creator:
-  = @document.user_id
-
-%h5
-  %b Lab:
-  = @document.lab_id
-
-%h5
-  %b Grant:
-  = @document.grant_id
-%h5
-  %b State:
-  = @document.state
-
-= link_to 'Edit', edit_document_path(@document)
+-# = link_to 'Edit', edit_document_path(@document)

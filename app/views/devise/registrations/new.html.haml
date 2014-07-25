@@ -21,8 +21,15 @@
 
   .form-group
     .col-sm-7
-      = f.submit "Sign up", :class => 'btn btn-primary'
+      = f.submit "Sign up", class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
+    
+  %br
+  %br
+  &mdash; OR &mdash;
   
+  %br
+  %br
+    = link_to 'Sign up with Dropbox', user_omniauth_authorize_url(:dropbox), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
   
 %br
 = render "devise/shared/links"

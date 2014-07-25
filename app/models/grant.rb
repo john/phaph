@@ -5,11 +5,9 @@ class Grant < ActiveRecord::Base
   belongs_to :user
   belongs_to :lab
   
-  alias_attribute :granted, :amount
+  validates_presence_of :name, :user, :lab, :state
   
-  validates :name, presence: true
-  validates :user_id, presence: true
-  validates :lab_id, presence: true
+  alias_attribute :granted, :amount
   
   STATES = [:active, :inactive]
   state_machine :state, :initial => :active do

@@ -1,11 +1,11 @@
-= render :partial => 'shared/search'
 
-.col-sm-7
+
+.col-sm-8
   .clearfix
   %hr
   .clearfix
 
-.col-sm-7
+.col-sm-8
   - if params[:q].present?
     %div
       Results for
@@ -14,24 +14,31 @@
     
   - else
     .pull-right
-      = link_to "New #{@model}", new_polymorphic_path(@model), :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
+      = link_to "Upload from computer", new_document_path, :class => 'btn btn-primary btn-xs', :role => 'button', :style => 'margin-top: 25px;'
+      = link_to "Import from Dropbox", import_documents_path, :class => 'btn btn-primary btn-xs', :role => 'button', :style => 'margin-top: 25px;'
     
     %h1
-      = @model.to_s.pluralize(0)
+      Phaphable Documents
+      
+.clearfix
+%br
+= render :partial => 'shared/search_form'
+
 
 .clearfix
 
-.col-sm-7
+.col-sm-8
   %br
   %table.table.table-hover
   
     - if @resources.present?
       - @resources.each do |result|
-        -# %li
-        -#   = link_to result.name, slugged_document_path(result.id, result.name.parameterize)
         = render :partial => 'documents/document', :locals => {:resource => result}
     - else
-      %li
-        %i
+      %tr
+        %td{ colspan: 2 }
           No results :-(
           
+  - if @resources
+    = will_paginate @resources, renderer: BootstrapPagination::Rails
+    -# , :next_label => '&raquo;', :inner_window => '2', :next_label => 'Next &raquo;', :previous_label => '&laquo;'
