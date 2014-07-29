@@ -12,6 +12,15 @@ class DocumentsController < ApplicationController
   
   # GET /imports
   def import
+    
+    # access_token = current_user.authentications.first.token
+    # logger.debug "------------------> access_token: #{access_token}"
+    
+    # @client = DropboxClient.new(access_token)
+    # logger.debug "------------------> client: #{client.inspect}"
+    
+    # @documents = client.metadata('/')
+    
   end
 
   # GET /documents/1

@@ -74,7 +74,7 @@
     
     
   #costs
-    %ul{:class => 'list-unstyled'}
+    %ul.list-unstyled
       - @grant.costs.each do |cost|
         %li
           %h5
@@ -111,7 +111,7 @@
 -#
 -# - if @grant.categories.present?
 -#   %div
--#     %ul{:class => 'list-unstyled'}
+-#     %ul.list-unstyled
 -#       - @grant.categories.each do |category|
 -#         %li
 -#           = link_to category.name, slugged_category_path(category.id, category.name.parameterize)

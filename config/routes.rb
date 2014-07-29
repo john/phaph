@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  
-  
-
-  resources :authentications
 
   # # http://sreeharikmarar.blogspot.com/2013/07/ruby-on-rails-practice-some-safe.html
   # match '/dropbox/authorize' => 'dropbox#authorize' , :method => :get , :as => :dropbox_auth
@@ -12,7 +8,7 @@ Rails.application.routes.draw do
   
   devise_for  :users,
               path_names: {sign_in: "sign_in", sign_out: "sign_out"},
-              controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+              controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations" }
   match '/people/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   
   namespace :admin do
@@ -20,7 +16,9 @@ Rails.application.routes.draw do
       get 'index', on: :collection
     end
   end
-    resources :categories
+  
+  resources :authentications
+  resources :categories
   resources :comments
   resources :costs
   
@@ -34,6 +32,10 @@ Rails.application.routes.draw do
   resources :locations
   resources :memberships
   resources :samples
+  
+  
+  match '/users/authorize' => 'users#authorize', :via => :get, :as => :user_authorize
+  match '/users/dropbox_callback' => 'users#dropbox_callback', :via => :get, :as => :user_dropbox_callback
   resources :users
   
   match '/categories/:id/:slug' => 'categories#show', :via => :get, :as => :slugged_category

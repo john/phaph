@@ -19,11 +19,17 @@ ActiveRecord::Schema.define(version: 20140724223519) do
     t.string   "uid"
     t.string   "token"
     t.string   "secret"
+    t.boolean  "authorized"
+    t.string   "account_email"
     t.datetime "token_expires_at"
-    t.string   "state",            null: false
+    t.text     "serialized_session"
+    t.string   "state",              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "authentications", ["account_email"], name: "index_authentications_on_account_email", using: :btree
+  add_index "authentications", ["authorized"], name: "index_authentications_on_authorized", using: :btree
 
   create_table "categories", force: true do |t|
     t.string   "name",                    null: false

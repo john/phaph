@@ -1,0 +1,13 @@
+defaults: &defaults
+  dropbox:
+    key: "jtgzmeyw4zj2pxb"
+    secret: "mc0yzmdeudwmr2m"
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

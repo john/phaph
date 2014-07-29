@@ -15,6 +15,9 @@
 %h1
   Search everything from everywhere
   
+%h3
+  Search everything from anywhere
+  
 - if signed_in?
   = render :partial => 'shared/search_form'
 - else
@@ -36,9 +39,16 @@
 .clearfix
 
 %br
-%h5
-  Benefits
+
+- if signed_in? && @dropbox.present?
+  %ul.list-unstyled
+    - @dropbox['contents'].each do |file|
+      = render :partial => 'documents/file', :locals => { :file => file }
+    
+- else
+  %h5
+    Benefits
   
-%ul
-  %li
-    You should be able to find your data in Dropbox and get it out—it shouldn't be a Roach Motel.
+  %ul
+    %li
+      You should be able to find your data in Dropbox and get it out—it shouldn't be a Roach Motel.

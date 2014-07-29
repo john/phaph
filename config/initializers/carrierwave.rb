@@ -16,18 +16,24 @@
 # access_token_secret: 0rxjyqwxwccaf0d
 # user_id: 21335485
 
+
+API = YAML::load_file("#{Rails.root}/config/api_keys.yml")[Rails.env]
+
 CarrierWave.configure do |config|
   
-  # these three from the dropbox app dashboar
-  config.dropbox_app_key = 'jtgzmeyw4zj2pxb'
-  config.dropbox_app_secret = 'mc0yzmdeudwmr2m'
-  config.dropbox_access_token = 'yjfyzdrrnfzaxv1n'
+  # these three from the dropbox app dashboard
   
-  # this should come through oauth, but you can get it on the command line
-  config.dropbox_access_token_secret = '0rxjyqwxwccaf0d'
+  config.dropbox_app_key = API['dropbox']['key']
+  config.dropbox_app_secret = API['dropbox']['secret']
   
-  # user_id i figured out by looking at files in my dropbox
-  config.dropbox_user_id = '21335485'
+  # config.dropbox_access_token = 'yjfyzdrrnfzaxv1n'
+  #
+  # # this should come through oauth, but you can get it on the command line
+  # config.dropbox_access_token_secret = '0rxjyqwxwccaf0d'
+  #
+  # # user_id i figured out by looking at files in my dropbox
+  # # also present as uid in oauth response
+  # config.dropbox_user_id = '21335485'
   
   config.dropbox_access_type = "dropbox"
 end

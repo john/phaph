@@ -1,0 +1,8 @@
+-# probably want to create a light wrapper around this hash
+
+-# {"read_only"=>false, "revision"=>790, "rev"=>"31602002335", "thumb_exists"=>false, "bytes"=>0, "modified"=>"Sat, 19 Jul 2014 08:58:08 +0000", "path"=>"/444 Townsend", "is_dir"=>true, "icon"=>"folder_user", "root"=>"dropbox", "size"=>"0 bytes"} 
+
+%li
+  - if file['is_dir']
+    [dir]
+  #{file['path']}

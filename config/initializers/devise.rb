@@ -1,3 +1,5 @@
+API = YAML::load_file("#{Rails.root}/config/api_keys.yml")[Rails.env]
+
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -234,7 +236,7 @@ Devise.setup do |config|
   # config.omniauth :facebook, "KEY", "SECRET"
   # config.omniauth :twitter, "KEY", "SECRET"
   # config.omniauth :linked_in, "KEY", "SECRET"
-  config.omniauth :dropbox, "jtgzmeyw4zj2pxb", "mc0yzmdeudwmr2m"
+  config.omniauth :dropbox_oauth2, API['dropbox']['key'], API['dropbox']['secret']
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

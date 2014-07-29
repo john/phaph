@@ -21,7 +21,9 @@ gem 'mechanize', require: false
 gem 'mysql2'
 gem 'omniauth'
 gem 'omniauth-twitter'
-gem 'omniauth-dropbox'
+# gem 'omniauth-dropbox'
+gem 'omniauth-dropbox-oauth2'
+
 gem 'patron' # http library that supports keep-alive connections, recommended for elasticsearch-ruby
 # gem 'omniauth-facebook'
 # gem 'omniauth-linkedin'

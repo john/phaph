@@ -38,7 +38,7 @@
       %a{:href => '#', :onclick => "$('.add_member').toggle()"}
         Cancel
       
-  %ul{:class => 'list-unstyled'}
+  %ul.list-unstyled
     - if @lab.people.present?
       - @lab.people.each do |person|
         %li

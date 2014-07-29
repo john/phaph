@@ -3,6 +3,57 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!, except: [:finish_signup]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   
+  
+  
+  
+  #
+  # # @Params : None
+  # # @Return : None
+  # # @Purpose : To create new dropbox session for authorization
+  # def authorize
+  #   dbsession = DropboxSession.new('jtgzmeyw4zj2pxb', 'mc0yzmdeudwmr2m')
+  #   #serialize and save this DropboxSession
+  #   session[:dropbox_session] = dbsession.serialize
+  #
+  #   logger.debug "------> WE JUST SERIALIZED: #{session[:dropbox_session]}"
+  #
+  #   #pass to get_authorize_url a callback url that will return the user here
+  #   redirect_to dbsession.get_authorize_url url_for(:action => 'dropbox_callback')
+  # end
+  #
+  #
+  # # @Params : None
+  # # @Return : None
+  # # @Purpose : To callback for dropbox authorization
+  # def dropbox_callback
+  #   dbsession = DropboxSession.deserialize(session[:dropbox_session])
+  #   dbsession.get_access_token #we've been authorized, so now request an access_token
+  #
+  #   # logger.debug "--> access_token: #{access_token.inspect}"
+  #   session[:dropbox_session] = dbsession.serialize
+  #
+  #   logger.debug "------> WE JUST RE-SERIALIZED (should have more info!): #{session[:dropbox_session]}"
+  #
+  #
+  #   client = DropboxClient.new(dbsession, 'dropbox')
+  #   logger.debug "----------- ACCOUNT INFO: #{client.account_info.inspect}"
+  #   logger.debug "----------- root info: #{client.metadata('/').inspect}"
+  #
+  #   # current_user.update_attributes(:dropbox_session => session[:dropbox_session])
+  #   # session.delete :dropbox_session
+  #
+  #
+  #   flash[:success] = "You have successfully authorized with dropbox."
+  #   redirect_to root_path
+  # end # end of dropbox_callback action
+  #
+  
+  
+  
+  
+  
+  
+  # Should require a username, in case we ever need to part ways with Dropbox (or anyone else)
   def finish_signup
     if request.patch? && params[:user] #&& params[:user][:email]
       if current_user.update(user_params)
