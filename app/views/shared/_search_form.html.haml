@@ -1,6 +1,8 @@
-.form-group
-  = form_tag( search_documents_path, :method => :get, :class => 'form-horizontal', :role => 'form', :style => 'margin-top: 15px;') do
-    .col-sm-7
-      = text_field_tag 'q', params[:q].present? ? params[:q] : '', :class => :'form-control', :placeholder => 'Search your docs', :autofocus => true
-    .col-sm-1
-      = submit_tag 'Phaph', :class => 'btn hidden-xs'
+= form_tag( search_documents_path, :method => :get, :class => 'form-horizontal', :role => 'search', :style => 'margin-top: 15px;') do
+  .row
+    .col-sm-8
+      .input-group
+        = text_field_tag 'q', params[:q].present? ? params[:q] : '', :class => :'form-control', :placeholder => 'Search', :autofocus => true
+        %span.input-group-btn
+          %button.btn.btn-default{type: 'submit'}
+            %span.glyphicon.glyphicon-search

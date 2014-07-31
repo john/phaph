@@ -43,8 +43,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if @user.persisted?
       # client = DropboxClient.new( auth.credentials.token )
-      # # logger.debug "----------- ACCOUNT INFO: #{client.account_info.inspect}"
-      # logger.debug "----------- root info: #{client.metadata('/').inspect}"
+      # @dropbox = client.metadata('/')
       
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: 'Dropbox') if is_navigational_format?

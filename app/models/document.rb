@@ -1,18 +1,24 @@
+# drop index:
+# Document.__elasticsearch__.client.indices.delete index: '_all'
+
+# create index:
+# Document.__elasticsearch__.create_index! force: true
+
 class Document < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
-  
+
   # # this shouldn't be necesary...
   # after_commit on: [:update] do
   #   update_document
   # end
-    
+  
   mount_uploader :file, FileUploader
   
   belongs_to :user
   belongs_to :lab
   
-  validates_presence_of :name, :state
+  validates_presence_of :user_id, :name, :state
   
   STATES = [:active, :inactive]
   state_machine :state, :initial => :active do
@@ -46,6 +52,7 @@ class Document < ActiveRecord::Base
   end
   
   def as_indexed_json(options={})
+    
     {
       name: name,
       description: description,

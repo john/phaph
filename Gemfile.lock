@@ -1,9 +1,27 @@
 GIT
-  remote: https://github.com/collectiveidea/awesome_nested_set.git
-  revision: f823ffb304ccf5ca9c4f14b60ff1f45ad2c3f440
+  remote: https://github.com/carrierwaveuploader/carrierwave.git
+  revision: c2ee2e89d3aa447c6b81186be6d627202d33a97f
   specs:
-    awesome_nested_set (3.0.0.rc.6)
+    carrierwave (0.10.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
+
+GIT
+  remote: https://github.com/collectiveidea/awesome_nested_set.git
+  revision: aa561ac2828b940982799875fc2ba0e4a2c613af
+  specs:
+    awesome_nested_set (3.0.0)
       activerecord (>= 4.0.0, < 5)
+
+GIT
+  remote: https://github.com/john/carrierwave-dropbox.git
+  revision: 554e93c02ef825a4be36a32b932481db036fe377
+  specs:
+    carrierwave-dropbox (1.2.1)
+      carrierwave (~> 0.9)
+      dropbox-sdk (~> 1.6)
 
 GIT
   remote: https://github.com/seuros/state_machine.git
@@ -51,17 +69,6 @@ GEM
       nokogiri (>= 1.4.4)
     bcrypt (3.1.7)
     builder (3.2.2)
-    carrierwave (0.10.0)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
-      json (>= 1.7)
-      mime-types (>= 1.16)
-    carrierwave-aws (0.4.1)
-      aws-sdk (>= 1.29)
-      carrierwave (>= 0.7)
-    carrierwave-dropbox (1.2.1)
-      carrierwave (~> 0.9)
-      dropbox-sdk (~> 1.6)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -275,9 +282,8 @@ DEPENDENCIES
   acts_as_votable
   awesome_nested_set!
   aws-sdk
-  carrierwave
-  carrierwave-aws
-  carrierwave-dropbox
+  carrierwave!
+  carrierwave-dropbox!
   devise
   dropbox-sdk
   elasticsearch

@@ -12,15 +12,10 @@ class DocumentsController < ApplicationController
   
   # GET /imports
   def import
-    
-    # access_token = current_user.authentications.first.token
-    # logger.debug "------------------> access_token: #{access_token}"
-    
-    # @client = DropboxClient.new(access_token)
-    # logger.debug "------------------> client: #{client.inspect}"
-    
-    # @documents = client.metadata('/')
-    
+    if signed_in?
+      client = DropboxClient.new( current_user.authentications.first.token )
+      @dropbox = client.metadata('/')
+    end
   end
 
   # GET /documents/1
@@ -46,6 +41,9 @@ class DocumentsController < ApplicationController
   def create
     @document = Document.new(document_params)
     @document.user_id = current_user.id
+    
+    logger.debug "--------------------> document coming..."
+    logger.debug "--------------------> @document: #{@document.inspect}"
     
     if @document.save
       # redirect_to @document, notice: 'Document was successfully created.'

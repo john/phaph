@@ -1,10 +1,20 @@
 # encoding: utf-8
 
 class FileUploader < CarrierWave::Uploader::Base
+  
+  after :store, :exprt
+  def exprt(file)
+    client = DropboxClient.new( model.user.authentications.first.token )
+    
+    
+    fle = open( "#{Rails.root}/public#{model.file_url}" )
+    log = Logger.new(STDOUT)
+    log.debug "--------> model.file: #{model.file.inspect}"
+    response = client.put_file(filename, fle)
+  end
 
   # storage :file
   # # storage :fog
-  
   
   # to use dropbox you need to create a dropbox app:
   # https://www.dropbox.com/developers/apps
@@ -23,11 +33,11 @@ class FileUploader < CarrierWave::Uploader::Base
     # if Configuration.use_cloudfiles?
     #   :fog
     # else
-    #   :file
+      :file
     # end
     
     # :file
-    :dropbox
+    # :dropbox
   end
   
   storage set_storage
@@ -42,6 +52,13 @@ class FileUploader < CarrierWave::Uploader::Base
   # # https://github.com/sorentwo/carrierwave-aws
   # # https://github.com/robin850/carrierwave-dropbox
   
+  def dropbox_access_token
+    model.user.authentications.first.token
+  end
+
+  def dropbox_user_id
+    model.user.authentications.first.uid
+  end
   
   def extension_white_list
     %w(pdf txt doc docx)

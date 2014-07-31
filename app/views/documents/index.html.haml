@@ -1,44 +1,28 @@
+- if signed_in?
+  = render :partial => 'shared/search_form'
 
-
-.col-sm-8
-  .clearfix
-  %hr
-  .clearfix
-
-.col-sm-8
-  - if params[:q].present?
-    %div
-      Results for
-    %h2{:style => 'margin-top: 0;'}
-      = params[:q]
-    
-  - else
-    .pull-right
-      = link_to "Upload from computer", new_document_path, :class => 'btn btn-primary btn-xs', :role => 'button', :style => 'margin-top: 25px;'
-      = link_to "Import from Dropbox", import_documents_path, :class => 'btn btn-primary btn-xs', :role => 'button', :style => 'margin-top: 25px;'
-    
-    %h1
-      Phaphable Documents
+.row
+  .col-sm-8
+    - if params[:q].present?
+      %div
+        Results for
+      %h2{:style => 'margin-top: 0;'}
+        = params[:q]
       
-.clearfix
-%br
-= render :partial => 'shared/search_form'
+  .clearfix
 
-
-.clearfix
-
-.col-sm-8
-  %br
-  %table.table.table-hover
+  .col-sm-8
+    %br
+    %table.table.table-hover
   
-    - if @resources.present?
-      - @resources.each do |result|
-        = render :partial => 'documents/document', :locals => {:resource => result}
-    - else
-      %tr
-        %td{ colspan: 2 }
-          No results :-(
+      - if @resources.present?
+        - @resources.each do |result|
+          = render :partial => 'documents/document', :locals => {:resource => result}
+      - else
+        %tr
+          %td{ colspan: 2 }
+            No results :-(
           
-  - if @resources
-    = will_paginate @resources, renderer: BootstrapPagination::Rails
-    -# , :next_label => '&raquo;', :inner_window => '2', :next_label => 'Next &raquo;', :previous_label => '&laquo;'
+    - if @resources
+      = will_paginate @resources, renderer: BootstrapPagination::Rails
+      -# , :next_label => '&raquo;', :inner_window => '2', :next_label => 'Next &raquo;', :previous_label => '&laquo;'

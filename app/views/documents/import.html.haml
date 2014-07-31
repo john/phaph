@@ -1,10 +1,8 @@
-= @client.account_info().inspect
+- if signed_in?
+  -# = render :partial => 'shared/search_form'
 
--# %h1
--#   In Dropbox
--#
--# - if @documents
--#   %ul
--#     - @documents.contents.each do |doc|
--#       %li
--#         = doc.path
+  %br
+  %br
+  %ul.list-unstyled
+    - @dropbox['contents'].each do |file|
+      = render :partial => 'documents/file', :locals => { :file => file }

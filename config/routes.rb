@@ -33,7 +33,6 @@ Rails.application.routes.draw do
   resources :memberships
   resources :samples
   
-  
   match '/users/authorize' => 'users#authorize', :via => :get, :as => :user_authorize
   match '/users/dropbox_callback' => 'users#dropbox_callback', :via => :get, :as => :user_dropbox_callback
   resources :users
