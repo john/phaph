@@ -8,7 +8,6 @@ gem 'aws-sdk'
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 
 # gem 'carrierwave-aws'
-# gem 'carrierwave-dropbox', git: 'https://github.com/john/carrierwave-dropbox.git'
 gem 'carrierwave-dropbox', git: 'https://github.com/john/carrierwave-dropbox.git'
 # gem 'carrierwave-dropbox', path: '/Users/john/projects/apps/carrierwave-dropbox'
 

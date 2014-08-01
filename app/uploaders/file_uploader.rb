@@ -2,15 +2,26 @@
 
 class FileUploader < CarrierWave::Uploader::Base
   
-  after :store, :exprt
-  def exprt(file)
+  after :store, :export_to_dropbox
+  
+  # Make this a user setting setting; dropbox doesn't need to be required.
+  # Need to store docs outside of /public, with some kind of link method, so
+  # that access control can be applied.
+  def export_to_dropbox(file)
     client = DropboxClient.new( model.user.authentications.first.token )
     
+    file = open( "#{Rails.root}/public#{model.file_url}" )
+    response = client.put_file(filename, file)
     
-    fle = open( "#{Rails.root}/public#{model.file_url}" )
-    log = Logger.new(STDOUT)
-    log.debug "--------> model.file: #{model.file.inspect}"
-    response = client.put_file(filename, fle)
+    model.service = 'Dropbox'
+    model.service_id = response['rev']
+    model.service_revision = response['revision']
+    model.service_root = response['root']
+    model.service_path = response['path']
+    model.service_modified_at = response['modified']
+    model.service_size_in_bytes = response['bytes'].to_i
+    model.service_mime_type = response['mime_type']
+    model.save
   end
 
   # storage :file

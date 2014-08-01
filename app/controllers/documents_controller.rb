@@ -75,7 +75,16 @@ class DocumentsController < ApplicationController
 
   # DELETE /documents/1
   def destroy
+    
+    # add a conditional so that removal from dropbox is optional
+    # also remove from dropbox?
+    if @document.service_path.present?
+      client = DropboxClient.new( current_user.authentications.first.token )
+      client.file_delete( @document.service_path )
+    end
+    
     @document.destroy
+    
     redirect_to documents_url, notice: 'Document was successfully destroyed.'
   end
 
@@ -88,6 +97,10 @@ class DocumentsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def document_params
-      params.require(:document).permit(:name, :file, :file_cache, :description, :source, :journal, :published_at, :principle_authors, :other_authors, :rights, :user_id, :lab_id, :grant_id, :scope, :state)
+      params.require(:document).permit(
+      :name, :file, :file_cache, :description, :source, :journal, :published_at,
+      :principle_authors, :other_authors, :rights, :user_id, :lab_id, :grant_id, :scope,
+      :service, :service_id, :service_revision, :service_root, :service_path, :service_modified_at,
+      :service_size_in_bytes, :service_mime_type, :state)
     end
 end
