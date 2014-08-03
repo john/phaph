@@ -11,7 +11,7 @@ class FileUploader < CarrierWave::Uploader::Base
     client = DropboxClient.new( model.user.authentications.first.token )
     
     file = open( "#{Rails.root}/public#{model.file_url}" )
-    response = client.put_file(filename, file)
+    response = client.put_file("/Public/#{filename}", file)
     
     model.service = 'Dropbox'
     model.service_id = response['rev']
@@ -71,9 +71,9 @@ class FileUploader < CarrierWave::Uploader::Base
     model.user.authentications.first.uid
   end
   
-  def extension_white_list
-    %w(pdf txt doc docx)
-  end
+  # def extension_white_list
+  #   %w(pdf txt doc docx)
+  # end
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:

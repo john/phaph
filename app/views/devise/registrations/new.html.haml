@@ -1,35 +1,38 @@
 %h2
   Sign up
 
-= form_for(resource, as: resource_name, url: registration_path(resource_name), :role => 'form', :html => {:class => 'form-horizontal'} ) do |f|
-  = devise_error_messages!
-
-  .form-group
-    .col-sm-7
-      = f.label :name, :class => 'sr-only'
-      = f.text_field :name, autofocus: true, class: 'form-control', :placeholder => 'Your name'
-
-  .form-group
-    .col-sm-7
-      = f.label :email, :class => 'sr-only'
-      = f.email_field :email, class: 'form-control', :placeholder => 'Your email'
-
-  .form-group
-    .col-sm-7
-      = f.label :password, :class => 'sr-only'
-      = f.password_field :password, autocomplete: "off", class: 'form-control', :placeholder => 'Password'
-
-  .form-group
-    .col-sm-7
-      = f.submit "Sign up", class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
-
-  %br
-  %br
-  &mdash; OR &mdash;
-
-  %br
-  %br
-    = link_to 'Sign up with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
-
+-# = form_for(resource, as: resource_name, url: registration_path(resource_name), :role => 'form', :html => {:class => 'form-horizontal'} ) do |f|
+-#   = devise_error_messages!
+-#
+-#   .form-group
+-#     .col-sm-7
+-#       = f.label :name, :class => 'sr-only'
+-#       = f.text_field :name, autofocus: true, class: 'form-control', :placeholder => 'Your name'
+-#
+-#   .form-group
+-#     .col-sm-7
+-#       = f.label :email, :class => 'sr-only'
+-#       = f.email_field :email, class: 'form-control', :placeholder => 'Your email'
+-#
+-#   .form-group
+-#     .col-sm-7
+-#       = f.label :password, :class => 'sr-only'
+-#       = f.password_field :password, autocomplete: "off", class: 'form-control', :placeholder => 'Password'
+-#
+-#   .form-group
+-#     .col-sm-7
+-#       = f.submit "Sign up", class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
+-#
+-# %br
+-# %br
+-# &mdash; OR &mdash;
+-#
 %br
-= render "devise/shared/links"
+%br
+
+= link_to 'Sign up with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
+
+-# %br
+-# %br
+-# %br
+-# = render "devise/shared/links"

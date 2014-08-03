@@ -34,6 +34,7 @@ gem 'patron' # http library that supports keep-alive connections, recommended fo
 gem 'pundit'
 gem 'rails', '4.1.4'
 gem 'sass-rails', '~> 4.0.3'
+gem 'sidekiq'
 # gem 'socialization'
 gem 'state_machine', git: 'https://github.com/seuros/state_machine.git'
 gem 'therubyracer'

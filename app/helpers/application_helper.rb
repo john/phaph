@@ -9,4 +9,8 @@ module ApplicationHelper
     end
   end
   
+  def dropbox_url( service_path )
+    "https://www.dropbox.com/home#{ File.dirname( service_path ) }"
+  end
+  
 end

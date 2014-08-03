@@ -52,6 +52,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to new_user_registration_url
     end
   end
+  alias_method :dropbox, :dropbox_oauth2
 
   def after_sign_in_path_for(resource)
     if resource.email_verified?

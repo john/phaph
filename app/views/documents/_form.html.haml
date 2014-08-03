@@ -9,11 +9,12 @@
   - if params[:l].present?
     = hidden_field_tag :redirect_to, lab_path( params[:l] )
     
-  .form-group
-    .col-sm-7
-      = f.label :file, :class => 'sr-only'
-      = f.file_field :file, class: 'form-control'
-      = f.hidden_field :file_cache
+  - unless action_name == 'edit'
+    .form-group
+      .col-sm-7
+        = f.label :file, :class => 'sr-only'
+        = f.file_field :file, class: 'form-control'
+        = f.hidden_field :file_cache
       
   .form-group
     .col-sm-7
