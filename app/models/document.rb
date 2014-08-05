@@ -7,7 +7,9 @@
 class Document < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
-
+  
+  attr_accessor :file_data
+  
   # # this shouldn't be necesary...
   # after_commit on: [:update] do
   #   update_document
@@ -46,13 +48,17 @@ class Document < ActiveRecord::Base
     end
   end
 
+  # def attachment
+  #   path_to_attachment = self.file_url
+  #   Base64.encode64(open( "#{Rails.root}/public#{path_to_attachment}" ) { |file| file.read })
+  # end
+  
   def attachment
-    path_to_attachment = self.file_url
-    Base64.encode64(open( "#{Rails.root}/public#{path_to_attachment}" ) { |file| file.read })
+    # path_to_attachment = self.file_url
+    Base64.encode64( file_data )
   end
   
   def as_indexed_json(options={})
-    
     {
       name: name,
       description: description,

@@ -26,7 +26,8 @@
   %br
   %br
   %div
-    = link_to "Sign in", new_user_session_path, :class => 'btn btn-primary'
+    -# = link_to "Sign in", new_user_session_path, :class => 'btn btn-primary'
+    = link_to 'Sign in with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), :class => 'btn btn-primary'
   
   %br
   %br
@@ -35,7 +36,8 @@
   %br
   %br
   %div
-    = link_to "Sign up", new_user_registration_path, :class => 'btn btn-primary'
+    -# = link_to "Sign up", new_user_registration_path, :class => 'btn btn-primary'
+    = link_to 'Sign up with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
     
 .clearfix
 

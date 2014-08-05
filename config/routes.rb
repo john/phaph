@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-
+  
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+  
   # # http://sreeharikmarar.blogspot.com/2013/07/ruby-on-rails-practice-some-safe.html
   # match '/dropbox/authorize' => 'dropbox#authorize' , :method => :get , :as => :dropbox_auth
   # match '/dropbox/callback' => 'dropbox#callback' , :method => :get , :as =>  :dropbox_callback

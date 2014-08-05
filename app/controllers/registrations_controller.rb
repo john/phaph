@@ -1,14 +1,14 @@
 class RegistrationsController < Devise::RegistrationsController
   
   def new
+    
+    logger.info "About to call super in RegistrationsController"
     super
     
-    # dbsession = DropboxSession.new('jtgzmeyw4zj2pxb', 'mc0yzmdeudwmr2m')
-    #
-    # logger.debug "ABOUT to serialize dbsession:"
-    # logger.debug dbsession.inspect
-    #
-    # session[:dropbox_session] = dbsession.serialize
+    # # Kick of sidekiq process to index dropbox
+#     logger.info "--------------> next up: GetDropboxFiles.perform_async in RegistrationsController"
+#     GetDropboxFiles.perform_async( current_user.id )
+#     logger.info "----------> async should have happened."
   end
   
 end
