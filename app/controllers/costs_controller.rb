@@ -22,7 +22,7 @@ class CostsController < ApplicationController
     if params[:g].present?
       grant = Grant.find(params[:g])
       vals[:grant_id] = grant.id
-      vals[:lab_id] = grant.lab.id.to_i
+      vals[:organization_id] = grant.organization.id.to_i
     end
     @cost = Cost.new( vals )
   end
@@ -70,6 +70,6 @@ class CostsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def cost_params
-      params.require(:cost).permit(:name, :description, :amount, :creator_id, :user_id, :lab_id, :grant_id, :category_id, :periodicity, :starts_at, :ends_at, :scope, :state)
+      params.require(:cost).permit(:name, :description, :amount, :creator_id, :user_id, :organization_id, :grant_id, :category_id, :periodicity, :starts_at, :ends_at, :scope, :state)
     end
 end

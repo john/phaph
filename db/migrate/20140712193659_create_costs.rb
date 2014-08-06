@@ -6,7 +6,7 @@ class CreateCosts < ActiveRecord::Migration
       t.decimal :amount
       t.references :creator, index: true, null: false
       t.references :user, index: true, null: false
-      t.references :lab, index: true, null: false
+      t.references :organization, index: true, null: false
       t.references :grant, index: true
       t.references :category, index: true
       t.integer :periodicity, null: false

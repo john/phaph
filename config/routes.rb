@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   end
   
   resources :grants
-  resources :labs
+  resources :organizations
   resources :locations
   resources :memberships
   resources :samples
@@ -43,7 +43,7 @@ Rails.application.routes.draw do
   match '/categories/:id/:slug' => 'categories#show', :via => :get, :as => :slugged_category
   match '/costs/:id/:slug' => 'costs#show', :via => :get, :as => :slugged_cost
   match '/grants/:id/:slug' => 'grants#show', :via => :get, :as => :slugged_grant
-  match '/labs/:id/:slug' => 'labs#show', :via => :get, :as => :slugged_lab
+  match '/organizations/:id/:slug' => 'organizations#show', :via => :get, :as => :slugged_organization
   match '/documents/:id/:slug' => 'documents#show', :via => :get, :as => :slugged_document
   match '/samples/:id/:slug' => 'samples#show', :via => :get, :as => :slugged_sample
   match '/people/:id/:slug' => 'users#show', :via => :get, :as => :people

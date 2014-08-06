@@ -7,7 +7,6 @@ class MembershipsController < ApplicationController
     @membership = Membership.new(membership_params)
 
     if @membership.save
-      # redirect_to Lab.find(@membership.lab_id), notice: 'Membership was successfully created.'
       redirect_to @membership.belongable, notice: 'Membership was successfully created.'
     else
       redirect_to root_path, notice: 'Something went wrong.'

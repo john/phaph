@@ -5,13 +5,13 @@ class Sample < ActiveRecord::Base
   has_many :locations, through: :presences
   
   belongs_to :user
-  belongs_to :lab
+  belongs_to :organization
   
   alias_attribute :granted, :amount
   
   validates :name, presence: true
   validates :user_id, presence: true
-  validates :lab_id, presence: true
+  validates :organization_id, presence: true
   
   # before_create :assign_unique_token
   #

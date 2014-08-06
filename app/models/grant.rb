@@ -3,9 +3,9 @@ class Grant < ActiveRecord::Base
   has_many :categories
   has_many :costs
   belongs_to :user
-  belongs_to :lab
+  belongs_to :organization
   
-  validates_presence_of :name, :user, :lab, :state
+  validates_presence_of :name, :user, :organization, :state
   
   alias_attribute :granted, :amount
   

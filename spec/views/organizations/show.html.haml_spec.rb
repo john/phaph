@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe "labs/show", :type => :view do
+RSpec.describe "organizations/show", :type => :view do
   before(:each) do
-    # @lab = assign(:lab, Lab.create!())
     john = FactoryGirl.create(:user)
     view.stub(:current_user).and_return(john)
-    @lab = FactoryGirl.create(:lab)
+    @organization = FactoryGirl.create(:organization)
   end
 
   it "renders" do

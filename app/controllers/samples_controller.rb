@@ -20,7 +20,7 @@ class SamplesController < ApplicationController
     # @sample = Sample.new
     vals = { user_id: current_user.id }
     if params[:l].present?
-      vals[:lab_id] = params[:l].to_i
+      vals[:organization_id] = params[:o].to_i
     end
     @sample = Sample.new( vals )
   end
@@ -81,6 +81,6 @@ class SamplesController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def sample_params
       
-      params.require(:sample).permit(:name, :description, :source, :user_id, :lab_id, :grant_id, :location, :latitude, :longitude, :collection_temp, :collected_at, :prepped_at, :analyzed_at, :scope, :state)
+      params.require(:sample).permit(:name, :description, :source, :user_id, :organization_id, :grant_id, :location, :latitude, :longitude, :collection_temp, :collected_at, :prepped_at, :analyzed_at, :scope, :state)
     end
 end

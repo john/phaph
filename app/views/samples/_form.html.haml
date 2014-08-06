@@ -32,9 +32,9 @@
       
   .form-group
     .col-sm-7
-      = f.label :lab_id, :class => 'sr-only'
+      = f.label :organization_id, :class => 'sr-only'
       Lab: &nbsp;
-      = f.select :lab_id, options_from_collection_for_select(current_user.labs, :id, :name, @sample.lab_id), :class => 'form-control', include_blank: '-- Select a lab --'
+      = f.select :organization_id, options_from_collection_for_select(current_user.organizations, :id, :name, @sample.organization_id), :class => 'form-control', include_blank: '-- Select an organization --'
       
   -# .field
   -#   = f.label :grant_id
@@ -43,7 +43,7 @@
     .col-sm-7
       = f.label :grant_id, :class => 'sr-only'
       Grant: &nbsp;
-      = f.select :grant_id, options_from_collection_for_select(Grant.all, :id, :name, @sample.lab_id), :class => 'form-control', include_blank: '-- Select a lab --'
+      = f.select :grant_id, options_from_collection_for_select(Grant.all, :id, :name, @sample.organization_id), :class => 'form-control', include_blank: '-- Select an organization --'
       
   .form-group
     .col-sm-7

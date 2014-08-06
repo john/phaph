@@ -69,8 +69,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def labs
-    Membership.where( :user_id => id, :belongable_type => Lab.to_s ).map{|membership| membership.belongable}
+  def organizations
+    Membership.where( :user_id => id, :belongable_type => Organization.to_s ).map{|membership| membership.belongable}
   end
   
   def grants

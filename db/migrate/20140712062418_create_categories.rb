@@ -4,7 +4,7 @@ class CreateCategories < ActiveRecord::Migration
       t.string :name, index: true, null: false
       t.text :description
       t.references :user, index: true, null: false
-      t.references :lab, index: true, null: false
+      t.references :organization, index: true, null: false
       t.references :grant, index: true
       t.integer :scope, null: false, default: Scope::PUBLIC
       t.string :state, null: false

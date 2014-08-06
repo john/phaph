@@ -1,10 +1,10 @@
 class Cost < ActiveRecord::Base
   
   belongs_to :creator, class_name: "User"
-  belongs_to :lab
+  belongs_to :organization
   belongs_to :grant
   
-  validates_presence_of :name, :creator, :lab, :state
+  validates_presence_of :name, :creator, :organization, :state
   
   STATES = [:active, :inactive]
   state_machine :state, :initial => :active do

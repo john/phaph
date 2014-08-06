@@ -9,11 +9,11 @@ FactoryGirl.define do
       cost.creator_id = creator.id
       cost.user_id = creator.id
       
-      lab = FactoryGirl.create(:lab)
-      cost.lab_id = lab.id
+      org = FactoryGirl.create(:organization)
+      cost.organization_id = org.id
       
       grant = FactoryGirl.create(:grant)
-      cost.grant_id = lab.id
+      cost.grant_id = grant.id
     end
     
   end

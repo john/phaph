@@ -52,12 +52,12 @@ RSpec.describe AuthenticationsController, :type => :controller do
     end
   end
 
-  describe "GET new" do
-    it "assigns a new authentication as @authentication" do
-      get :new, {}, valid_session
-      expect(assigns(:authentication)).to be_a_new(Authentication)
-    end
-  end
+  # describe "GET new" do
+  #   it "assigns a new authentication as @authentication" do
+  #     get :new, {}, valid_session
+  #     expect(assigns(:authentication)).to be_a_new(Authentication)
+  #   end
+  # end
 
   describe "GET edit" do
     it "assigns the requested authentication as @authentication" do

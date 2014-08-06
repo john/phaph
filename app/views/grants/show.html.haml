@@ -9,7 +9,7 @@
 
 %div
   #{link_to @grant.user.name, people_path( @grant.user.id, @grant.user.name.parameterize )}, 
-  = link_to @grant.lab.name, slugged_lab_path( @grant.lab.id, @grant.lab.name.parameterize )
+  = link_to @grant.organization.name, slugged_organization_path( @grant.organization.id, @grant.organization.name.parameterize )
     
 
 %h5

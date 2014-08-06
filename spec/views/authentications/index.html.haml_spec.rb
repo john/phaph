@@ -6,18 +6,18 @@ RSpec.describe "authentications/index", :type => :view do
       Authentication.create!(
         :user_id => 1,
         :provider => "Provider",
-        :uid => "Uid",
-        :access_token => "Access Token",
-        :access_token_secret => "Access Token Secret",
-        :state => "State"
+        :uid => "12",
+        # :access_token => "Access Token",
+        # :access_token_secret => "Access Token Secret",
+        :state => "active"
       ),
       Authentication.create!(
         :user_id => 1,
         :provider => "Provider",
-        :uid => "Uid",
-        :access_token => "Access Token",
-        :access_token_secret => "Access Token Secret",
-        :state => "State"
+        :uid => "23",
+        # :access_token => "Access Token",
+        # :access_token_secret => "Access Token Secret",
+        :state => "active"
       )
     ])
   end

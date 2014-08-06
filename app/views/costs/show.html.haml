@@ -23,9 +23,9 @@
     = link_to @cost.grant.name, @cost.grant
 
 %h5
-  Lab
+  Organization
 %div
-  = link_to @cost.lab.name, slugged_lab_path( @cost.lab.id, @cost.lab.name.parameterize )
+  = link_to @cost.organization.name, slugged_organization_path( @cost.organization.id, @cost.organization.name.parameterize )
   
 %h5
   Amount:

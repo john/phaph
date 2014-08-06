@@ -32,19 +32,19 @@ ActiveRecord::Schema.define(version: 20140724223519) do
   add_index "authentications", ["authorized"], name: "index_authentications_on_authorized", using: :btree
 
   create_table "categories", force: true do |t|
-    t.string   "name",                    null: false
+    t.string   "name",                        null: false
     t.text     "description"
-    t.integer  "user_id",                 null: false
-    t.integer  "lab_id",                  null: false
+    t.integer  "user_id",                     null: false
+    t.integer  "organization_id",             null: false
     t.integer  "grant_id"
-    t.integer  "scope",       default: 3, null: false
-    t.string   "state",                   null: false
+    t.integer  "scope",           default: 3, null: false
+    t.string   "state",                       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "categories", ["grant_id"], name: "index_categories_on_grant_id", using: :btree
-  add_index "categories", ["lab_id"], name: "index_categories_on_lab_id", using: :btree
+  add_index "categories", ["organization_id"], name: "index_categories_on_organization_id", using: :btree
   add_index "categories", ["user_id"], name: "index_categories_on_user_id", using: :btree
 
   create_table "comments", force: true do |t|
@@ -66,19 +66,19 @@ ActiveRecord::Schema.define(version: 20140724223519) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "costs", force: true do |t|
-    t.string   "name",                                             null: false
+    t.string   "name",                                                 null: false
     t.text     "description"
-    t.decimal  "amount",      precision: 10, scale: 0
-    t.integer  "creator_id",                                       null: false
-    t.integer  "user_id",                                          null: false
-    t.integer  "lab_id",                                           null: false
+    t.decimal  "amount",          precision: 10, scale: 0
+    t.integer  "creator_id",                                           null: false
+    t.integer  "user_id",                                              null: false
+    t.integer  "organization_id",                                      null: false
     t.integer  "grant_id"
     t.integer  "category_id"
-    t.integer  "periodicity",                                      null: false
+    t.integer  "periodicity",                                          null: false
     t.datetime "starts_at"
     t.datetime "ends_at"
-    t.integer  "scope",                                default: 2, null: false
-    t.string   "state",                                            null: false
+    t.integer  "scope",                                    default: 2, null: false
+    t.string   "state",                                                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 20140724223519) do
   add_index "costs", ["category_id"], name: "index_costs_on_category_id", using: :btree
   add_index "costs", ["creator_id"], name: "index_costs_on_creator_id", using: :btree
   add_index "costs", ["grant_id"], name: "index_costs_on_grant_id", using: :btree
-  add_index "costs", ["lab_id"], name: "index_costs_on_lab_id", using: :btree
+  add_index "costs", ["organization_id"], name: "index_costs_on_organization_id", using: :btree
   add_index "costs", ["user_id"], name: "index_costs_on_user_id", using: :btree
 
   create_table "documents", force: true do |t|
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 20140724223519) do
     t.string   "other_authors"
     t.string   "rights"
     t.integer  "user_id",                           null: false
-    t.integer  "lab_id"
+    t.integer  "organization_id"
     t.integer  "grant_id"
     t.integer  "scope",                 default: 3, null: false
     t.string   "service"
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 20140724223519) do
   end
 
   add_index "documents", ["grant_id"], name: "index_documents_on_grant_id", using: :btree
-  add_index "documents", ["lab_id"], name: "index_documents_on_lab_id", using: :btree
+  add_index "documents", ["organization_id"], name: "index_documents_on_organization_id", using: :btree
   add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
 
   create_table "grants", force: true do |t|
@@ -138,28 +138,15 @@ ActiveRecord::Schema.define(version: 20140724223519) do
     t.decimal  "amount",                                precision: 10, scale: 0
     t.float    "overhead",                   limit: 24
     t.integer  "user_id",                                                                    null: false
-    t.integer  "lab_id",                                                                     null: false
+    t.integer  "organization_id",                                                            null: false
     t.integer  "scope",                                                          default: 3, null: false
     t.string   "state",                                                                      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "grants", ["lab_id"], name: "index_grants_on_lab_id", using: :btree
+  add_index "grants", ["organization_id"], name: "index_grants_on_organization_id", using: :btree
   add_index "grants", ["user_id"], name: "index_grants_on_user_id", using: :btree
-
-  create_table "labs", force: true do |t|
-    t.string   "name",                    null: false
-    t.text     "description"
-    t.string   "email"
-    t.integer  "user_id",                 null: false
-    t.integer  "scope",       default: 3, null: false
-    t.string   "state",                   null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "labs", ["user_id"], name: "index_labs_on_user_id", using: :btree
 
   create_table "locations", force: true do |t|
     t.string   "name",                                     null: false
@@ -192,6 +179,19 @@ ActiveRecord::Schema.define(version: 20140724223519) do
   add_index "memberships", ["creator_id"], name: "index_memberships_on_creator_id", using: :btree
   add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
 
+  create_table "organizations", force: true do |t|
+    t.string   "name",                    null: false
+    t.text     "description"
+    t.string   "email"
+    t.integer  "user_id",                 null: false
+    t.integer  "scope",       default: 3, null: false
+    t.string   "state",                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "organizations", ["user_id"], name: "index_organizations_on_user_id", using: :btree
+
   create_table "presences", force: true do |t|
     t.integer  "location_id",    null: false
     t.integer  "locatable_id",   null: false
@@ -208,7 +208,7 @@ ActiveRecord::Schema.define(version: 20140724223519) do
     t.text     "description"
     t.string   "source"
     t.integer  "user_id",                                               null: false
-    t.integer  "lab_id",                                                null: false
+    t.integer  "organization_id",                                       null: false
     t.integer  "grant_id"
     t.string   "location"
     t.decimal  "latitude",        precision: 15, scale: 10
@@ -224,7 +224,7 @@ ActiveRecord::Schema.define(version: 20140724223519) do
   end
 
   add_index "samples", ["grant_id"], name: "index_samples_on_grant_id", using: :btree
-  add_index "samples", ["lab_id"], name: "index_samples_on_lab_id", using: :btree
+  add_index "samples", ["organization_id"], name: "index_samples_on_organization_id", using: :btree
   add_index "samples", ["user_id"], name: "index_samples_on_user_id", using: :btree
 
   create_table "users", force: true do |t|

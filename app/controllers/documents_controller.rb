@@ -72,7 +72,7 @@ class DocumentsController < ApplicationController
 
   # GET /documents/new
   def new
-    @document = Document.new(lab: current_user.labs.first)
+    @document = Document.new(organization: current_user.organizations.first)
   end
 
   # GET /documents/1/edit
@@ -138,7 +138,7 @@ class DocumentsController < ApplicationController
     def document_params
       params.require(:document).permit(
       :name, :file, :file_cache, :description, :source, :journal, :published_at,
-      :principle_authors, :other_authors, :rights, :user_id, :lab_id, :grant_id, :scope,
+      :principle_authors, :other_authors, :rights, :user_id, :organization_id, :grant_id, :scope,
       :service, :service_id, :service_revision, :service_root, :service_path, :service_modified_at,
       :service_size_in_bytes, :service_mime_type, :state)
     end

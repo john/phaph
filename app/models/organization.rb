@@ -1,4 +1,4 @@
-class Lab < ActiveRecord::Base
+class Organization < ActiveRecord::Base
   
   acts_as_commentable
   
@@ -24,7 +24,7 @@ class Lab < ActiveRecord::Base
   
   # replace with association: has_many :people, through: :memberships, classname: User
   def people
-    Membership.where( :belongable_id => id, :belongable_type => Lab.to_s ).map{|membership| membership.user}
+    Membership.where( :belongable_id => id, :belongable_type => Organization.to_s ).map{ |membership| membership.user }
   end
   
 end

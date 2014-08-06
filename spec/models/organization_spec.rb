@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Lab, :type => :model do
+RSpec.describe Organization, :type => :model do
   
   it { should belong_to (:user) }
   # it { should have_many (:memberships) }

@@ -22,7 +22,7 @@ class Document < ActiveRecord::Base
   mount_uploader :file, FileUploader
   
   belongs_to :user
-  belongs_to :lab
+  belongs_to :organization
   
   validates_presence_of :user_id, :name, :state
   
@@ -37,7 +37,7 @@ class Document < ActiveRecord::Base
   settings index: { number_of_shards: 5, number_of_replicas: 1 } do
     mappings do
       indexes :user_id, type: 'integer', index: :not_analyzed
-      indexes :lab_id, type: 'integer', index: :not_analyzed
+      indexes :organization_id, type: 'integer', index: :not_analyzed
       indexes :name, type: 'string'
       indexes :description, type: 'string'
       indexes :source, type: 'string'
@@ -78,7 +78,7 @@ class Document < ActiveRecord::Base
       other_authors: other_authors,
       rights: rights,
       user_id: user_id,
-      lab_id: lab_id,
+      organization_id: organization_id,
       created_at: created_at,
       updated_at: updated_at,
       attachment: attachment

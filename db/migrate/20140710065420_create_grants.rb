@@ -18,7 +18,7 @@ class CreateGrants < ActiveRecord::Migration
       t.decimal :amount
       t.float :overhead
       t.references :user, index: true, null: false
-      t.references :lab, index: true, null: false
+      t.references :organization, index: true, null: false
       
       t.integer :scope, null: false, default: Scope::PUBLIC
       t.string :state, null: false

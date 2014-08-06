@@ -5,9 +5,9 @@
     %th User
     %th Provider
     %th Uid
-    %th Access token
-    %th Access token secret
-    %th Access token expires at
+    -# %th Access token
+    -# %th Access token secret
+    -# %th Access token expires at
     %th State
     %th
     %th
@@ -18,9 +18,9 @@
       %td= authentication.user_id
       %td= authentication.provider
       %td= authentication.uid
-      %td= authentication.access_token
-      %td= authentication.access_token_secret
-      %td= authentication.access_token_expires_at
+      -# %td= authentication.access_token
+      -# %td= authentication.access_token_secret
+      -# %td= authentication.access_token_expires_at
       %td= authentication.state
       %td= link_to 'Show', authentication
       %td= link_to 'Edit', edit_authentication_path(authentication)

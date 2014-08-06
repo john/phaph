@@ -7,7 +7,7 @@
         - @cost.errors.full_messages.each do |msg|
           %li= msg
   = f.hidden_field :creator_id
-  = f.hidden_field :lab_id
+  = f.hidden_field :organization_id
   = f.hidden_field :grant_id
   - if params[:g].present?
     = hidden_field_tag :redirect_to, grant_path( params[:g] )

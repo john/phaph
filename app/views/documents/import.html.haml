@@ -1,8 +1,6 @@
-- if signed_in?
-  -# = render :partial => 'shared/search_form'
-
-  %br
-  %br
-  %ul.list-unstyled
+%br
+%br
+%ul.list-unstyled
+  - if @dropbox.present?
     - @dropbox['contents'].each do |file|
       = render :partial => 'documents/file', :locals => { :file => file }

@@ -2,11 +2,11 @@ class Scope
   
   PRIVATE = 0
   SHARED = 1
-  LAB = 2
+  ORGANIZATION = 2
   PUBLIC = 3
   
   def self.options_hash
-    { '--Select scope--' => '', 'Public' => PUBLIC, 'Entire lab' => LAB, 'Shared' => SHARED, 'Private' => PRIVATE }
+    { '--Select scope--' => '', 'Public' => PUBLIC, 'Entire organization' => ORGANIZATION, 'Shared' => SHARED, 'Private' => PRIVATE }
   end
   
   def self.as_string(constant)
