@@ -1,16 +1,4 @@
-- if signed_in?
-  = render :partial => 'shared/search_form'
-
 .row
-  .col-sm-8
-    - if params[:q].present?
-      %div{:style => 'margin-top: 25px;'}
-        Results for
-      %h2{:style => 'margin-top: 0;'}
-        = params[:q]
-      
-  .clearfix
-
   .col-sm-8
     %br
     %table.table.table-hover
@@ -21,8 +9,8 @@
       - else
         %tr
           %td{ colspan: 2 }
-            No results :-(
+            No documents, yet. You should connect your dropbox account, or upload some.
           
     - if @resources
-      = will_paginate @resources, renderer: BootstrapPagination::Rails
-      -# , :next_label => '&raquo;', :inner_window => '2', :next_label => 'Next &raquo;', :previous_label => '&laquo;'
+      = will_paginate @resources, renderer: BootstrapPagination::Rails, :next_label => 'Next &raquo;', :previous_label => '&laquo;'
+      

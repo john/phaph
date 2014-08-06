@@ -1,3 +1,5 @@
+# From: https://github.com/elasticsearch/elasticsearch-rails/tree/master/elasticsearch-model
+
 # drop index:
 # Document.__elasticsearch__.client.indices.delete index: '_all'
 
@@ -30,10 +32,12 @@ class Document < ActiveRecord::Base
     event :activate do transition STATES => :active end
   end
   
-  # From: https://github.com/elasticsearch/elasticsearch-rails/tree/master/elasticsearch-model
-  # Document.__elasticsearch__.create_index!
+  
+  # indexes :grant_id, type: 'integer'
   settings index: { number_of_shards: 5, number_of_replicas: 1 } do
     mappings do
+      indexes :user_id, type: 'integer', index: :not_analyzed
+      indexes :lab_id, type: 'integer', index: :not_analyzed
       indexes :name, type: 'string'
       indexes :description, type: 'string'
       indexes :source, type: 'string'
@@ -41,9 +45,6 @@ class Document < ActiveRecord::Base
       indexes :principle_authors, type: 'string'
       indexes :other_authors, type: 'string'
       indexes :rights, type: 'string'
-      indexes :user_id, type: 'integer'
-      indexes :lab_id, type: 'integer'
-      indexes :grant_id, type: 'integer'
       indexes :created_at, type: 'date'
       indexes :updated_at, type: 'date'
       indexes :attachment, type: 'attachment', fields: {
@@ -65,6 +66,7 @@ class Document < ActiveRecord::Base
     Base64.encode64( file_data )
   end
   
+  # grant_id: grant_id,
   def as_indexed_json(options={})
     # to_json(:methods => [:attachment])
     {
@@ -77,7 +79,6 @@ class Document < ActiveRecord::Base
       rights: rights,
       user_id: user_id,
       lab_id: lab_id,
-      grant_id: grant_id,
       created_at: created_at,
       updated_at: updated_at,
       attachment: attachment

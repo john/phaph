@@ -5,14 +5,15 @@
 -#   = render :partial => 'shared/search_form'
 
 
-%hr
-= @resources.inspect
-%hr
+-# %hr
+-# = @resources.inspect
+-# %hr
 .row
   .col-md-12
     - if params[:q].present?
       -# %div{:style => 'margin-top: 25px;'}
-      -#   #{number_with_delimiter(@resources.total)} #{'result'.pluralize(@resources.total)} Results for
+      -#   #{number_with_delimiter(@resources.total)} #{'result'.pluralize(@resources.total)}
+      Results for
       %h2{:style => 'margin-top: 0;'}
         = params[:q]
       
@@ -38,5 +39,4 @@
         
   - if @resources
     = will_paginate @resources, renderer: BootstrapPagination::Rails, :next_label => 'Next &raquo;', :previous_label => '&laquo;'
-    -# , :next_label => '&raquo;', :inner_window => '2', :next_label => 'Next &raquo;', :previous_label => '&laquo;'
     

@@ -27,7 +27,44 @@ class DocumentsController < ApplicationController
   def search
     @model = Document
     # @resources = Document.search( params[:q] ).records.paginate(:page => params[:page])
-    query = {query: { match: { attachment: "#{params[:q]}" } }, highlight: { fields: { attachment: {} }}}
+    # query = {
+    #           query: {
+    #             match: {
+    #               attachment: "#{params[:q]}"
+    #             }
+    #           },
+    #           highlight: {
+    #             fields: {
+    #               attachment: {}
+    #             }
+    #           }
+    #         }
+    
+    # https://gist.github.com/jprante/5095527
+    query = {
+              query: {
+                filtered: {
+                  filter: {
+                    term: {
+                      user_id: "#{current_user.id}"
+                    }
+                  },
+                  query: {
+                    match: {
+                      attachment: "#{params[:q]}"
+                    }
+                  }
+                }
+              },
+              highlight: {
+                fields: {
+                  attachment: {}
+                }
+              }
+            }
+            
+            
+    logger.info "----------------> query: #{query}"
     @resources = Document.search( query ).page( params[:page] ||= 1 )
     
     #render :template => '/documents/index'
