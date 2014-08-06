@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
           append_dropbox_files( path: file['path'], files: files )
         end
       else
-        if mime_types.include?( file['mime_type'] ) && file['path'] != '/climate-change-full.pdf'
+        if mime_types.include?( file['mime_type'] )
           puts "adding: #{file['path']}"
           files << file['path']
         else

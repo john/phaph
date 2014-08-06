@@ -2,7 +2,7 @@ class DocumentsController < ApplicationController
   
   before_action :authenticate_user!, only: [:index, :new, :edit, :create, :destroy]
   before_action :set_document, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /documents
   def index
     @model = Document
@@ -22,10 +22,15 @@ class DocumentsController < ApplicationController
   def show
   end
   
+  
+  
   def search
     @model = Document
-    @resources = Document.search( params[:q] ).records.paginate(:page => params[:page])
-    render :template => '/documents/index'
+    # @resources = Document.search( params[:q] ).records.paginate(:page => params[:page])
+    query = {query: { match: { attachment: "#{params[:q]}" } }, highlight: { fields: { attachment: {} }}}
+    @resources = Document.search( query ).page( params[:page] ||= 1 )
+    
+    #render :template => '/documents/index'
   end
 
   # GET /documents/new
@@ -41,9 +46,6 @@ class DocumentsController < ApplicationController
   def create
     @document = Document.new(document_params)
     @document.user_id = current_user.id
-    
-    logger.debug "--------------------> document coming..."
-    logger.debug "--------------------> @document: #{@document.inspect}"
     
     if @document.save
       # redirect_to @document, notice: 'Document was successfully created.'

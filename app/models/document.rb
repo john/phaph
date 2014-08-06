@@ -8,6 +8,8 @@ class Document < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   
+   # self.per_page = 10
+  
   attr_accessor :file_data
   
   # # this shouldn't be necesary...
@@ -44,7 +46,12 @@ class Document < ActiveRecord::Base
       indexes :grant_id, type: 'integer'
       indexes :created_at, type: 'date'
       indexes :updated_at, type: 'date'
-      indexes :attachment, type: 'attachment'
+      indexes :attachment, type: 'attachment', fields: {
+        attachment: {
+          term_vector: 'with_positions_offsets',
+          store: true
+        }
+      }
     end
   end
 
@@ -59,6 +66,7 @@ class Document < ActiveRecord::Base
   end
   
   def as_indexed_json(options={})
+    # to_json(:methods => [:attachment])
     {
       name: name,
       description: description,

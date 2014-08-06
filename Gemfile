@@ -13,9 +13,14 @@ gem 'carrierwave-dropbox', git: 'https://github.com/john/carrierwave-dropbox.git
 
 gem 'devise'
 gem 'dropbox-sdk'
+
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
+
 gem 'elasticsearch'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
+
 gem 'geocoder'
 gem 'haml-rails'
 # gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -41,8 +46,6 @@ gem 'state_machine', git: 'https://github.com/seuros/state_machine.git'
 gem 'therubyracer'
 gem 'turbolinks' # Read more: https://github.com/rails/turbolinks
 gem 'uglifier', '>= 1.3.0'
-gem 'will_paginate'
-gem 'will_paginate-bootstrap'
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
