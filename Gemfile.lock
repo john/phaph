@@ -25,7 +25,7 @@ GIT
 
 GIT
   remote: https://github.com/seuros/state_machine.git
-  revision: 809932adc60084e43cf4298a76b0b37675e55d25
+  revision: 1a373b2d23a21037d95cc369a4c5b0a9c551d326
   specs:
     state_machine (1.2.0)
 

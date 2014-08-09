@@ -1,31 +1,38 @@
 %h2
   Sign up
 
--# = form_for(resource, as: resource_name, url: registration_path(resource_name), :role => 'form', :html => {:class => 'form-horizontal'} ) do |f|
--#   = devise_error_messages!
--#
--#   .form-group
--#     .col-sm-7
--#       = f.label :name, :class => 'sr-only'
--#       = f.text_field :name, autofocus: true, class: 'form-control', :placeholder => 'Your name'
--#
--#   .form-group
--#     .col-sm-7
--#       = f.label :email, :class => 'sr-only'
--#       = f.email_field :email, class: 'form-control', :placeholder => 'Your email'
--#
--#   .form-group
--#     .col-sm-7
--#       = f.label :password, :class => 'sr-only'
--#       = f.password_field :password, autocomplete: "off", class: 'form-control', :placeholder => 'Password'
--#
--#   .form-group
--#     .col-sm-7
--#       = f.submit "Sign up", class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
--#
--# %br
--# %br
--# &mdash; OR &mdash;
+= form_for(resource, as: resource_name, url: registration_path(resource_name), :role => 'form', :html => {:class => 'form-horizontal'} ) do |f|
+  = devise_error_messages!
+
+  .form-group
+    .col-sm-7
+      = f.label :name, :class => 'sr-only'
+      = f.text_field :name, autofocus: true, class: 'form-control', :placeholder => 'Your name'
+      
+  .form-group
+    .col-sm-7
+      = f.label :username, :class => 'sr-only'
+      = f.text_field :username, class: 'form-control', :placeholder => 'Your username'
+
+  .form-group
+    .col-sm-7
+      = f.label :email, :class => 'sr-only'
+      = f.email_field :email, class: 'form-control', :placeholder => 'Your email'
+
+  .form-group
+    .col-sm-7
+      = f.label :password, :class => 'sr-only'
+      = f.password_field :password, autocomplete: "off", class: 'form-control', :placeholder => 'Password'
+
+  .form-group
+    .col-sm-7
+      = f.submit "Sign up", class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
+
+
+
+%br
+%br
+&mdash; OR &mdash;
 -#
 %br
 %br

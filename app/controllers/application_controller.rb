@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
   
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
   before_filter :ensure_signup_complete, only: [:new, :create, :update, :destroy]
-
+  before_filter :check_username
+  
   protected
 
   def configure_devise_permitted_parameters
@@ -39,6 +40,15 @@ class ApplicationController < ActionController::Base
     # email hasn't been verified yet
     if current_user && !current_user.email_verified?
       redirect_to finish_signup_path(current_user)
+    end
+  end
+  
+  def check_username
+    # Ensure we don't go into an infinite loop
+    return if action_name == 'set_username' || action_name == 'update'
+    
+    if current_user && current_user.username.blank?
+      redirect_to set_username_path
     end
   end
   

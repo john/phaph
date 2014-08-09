@@ -1,13 +1,13 @@
 class User < ActiveRecord::Base
   
-  after_create :get_dropbox
-  
-  def get_dropbox
-    # Kick of sidekiq process to index dropbox
-    logger.info "--------------> next up: GetDropboxFiles.perform_async in RegistrationsController"
-    GetDropboxFiles.perform_async( self.id )
-    logger.info "----------> async should have happened."
-  end
+  # after_create :get_dropbox
+  #
+  # def get_dropbox
+  #   # Kick off sidekiq process to index dropbox
+  #   logger.info "--------------> next up: GetDropboxFiles.perform_async in RegistrationsController"
+  #   GetDropboxFiles.perform_async( self.id )
+  #   logger.info "----------> async should have happened."
+  # end
   
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
   
   # PUT mime type list someplace better
   # This isn't a great method, really
-  def append_dropbox_files( path: path, files: [], mime_types: ['application/pdf', 'application/rtf', 'text/plain', 'text/html', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'] )
+  def append_dropbox_files( path: path, files: [], mime_types: Document::MIME_TYPES )
     directory = dropbox_client.metadata( path, 1000)
     directory['contents'].each do |file|
       if file['is_dir'] == true
@@ -73,9 +73,9 @@ class User < ActiveRecord::Base
     Membership.where( :user_id => id, :belongable_type => Organization.to_s ).map{|membership| membership.belongable}
   end
   
-  def grants
-    Membership.where( :user_id => id, :belongable_type => Grant.to_s ).map{|membership| membership.belongable}
-  end
+  # def grants
+  #   Membership.where( :user_id => id, :belongable_type => Grant.to_s ).map{|membership| membership.belongable}
+  # end
   
   def self.find_for_oauth(auth, signed_in_resource = nil)
 

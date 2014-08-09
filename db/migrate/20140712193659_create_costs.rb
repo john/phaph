@@ -12,7 +12,7 @@ class CreateCosts < ActiveRecord::Migration
       t.integer :periodicity, null: false
       t.datetime :starts_at
       t.datetime :ends_at
-      t.integer :scope, null: false, default: Scope::LAB
+      t.integer :scope, null: false, default: Scope::ORGANIZATION
       t.string :state, null: false
 
       t.timestamps

@@ -17,7 +17,7 @@ class CreateSamples < ActiveRecord::Migration
       t.datetime :collected_at
       t.datetime :prepped_at
       t.datetime :analyzed_at
-      t.integer :scope, null: false, default: Scope::LAB
+      t.integer :scope, null: false, default: Scope::ORGANIZATION
       t.string :state, null: false
       
       t.timestamps

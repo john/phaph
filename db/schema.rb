@@ -229,6 +229,7 @@ ActiveRecord::Schema.define(version: 20140724223519) do
 
   create_table "users", force: true do |t|
     t.string   "name",                   default: ""
+    t.string   "username"
     t.text     "description"
     t.string   "email",                  default: "", null: false
     t.integer  "creator_id"

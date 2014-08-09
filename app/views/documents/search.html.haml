@@ -12,8 +12,9 @@
   .col-md-12
     - if params[:q].present?
       -# %div{:style => 'margin-top: 25px;'}
-      -#   #{number_with_delimiter(@resources.total)} #{'result'.pluralize(@resources.total)}
-      Results for
+      -# #{number_with_delimiter(@resources.total)} #{'result'.pluralize(@resources.total)}
+      #{number_with_delimiter(@resources.results.size)} #{'result'.pluralize(@resources.results.size)}
+      for
       %h2{:style => 'margin-top: 0;'}
         = params[:q]
       

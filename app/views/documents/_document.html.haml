@@ -4,4 +4,5 @@
       = link_to resource.name, "#{polymorphic_path(resource)}/#{resource.name.parameterize}"
       
   %td{:style => 'text-align: right;'}
-    #{link_to 'Edit', edit_polymorphic_path(resource)} &nbsp;&#183;&nbsp; #{link_to 'Destroy', resource, :method => :delete, :data => { :confirm => 'Are you certain?' }}
+    .small
+      &nbsp;#{link_to 'Edit', edit_polymorphic_path(resource)}&nbsp;&nbsp;&#183;&nbsp;&nbsp;#{link_to 'Delete', resource, :method => :delete, :data => { :confirm => 'Are you certain?' }}

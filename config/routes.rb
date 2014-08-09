@@ -13,6 +13,8 @@ Rails.application.routes.draw do
               path_names: {sign_in: "sign_in", sign_out: "sign_out"},
               controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations" }
   match '/people/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  match '/people/set_username' => 'users#set_username', via: :get, :as => :set_username
+  
   
   namespace :admin do
     resources :users, only: [:index] do

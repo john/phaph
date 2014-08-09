@@ -1,43 +1,18 @@
--# %h1 Hello, Infonauts!
--#
--# %ul
--#   %li
--#     Don't get lost in the clouds
--#
--# %h1 Hello, Scientists!
--#
--# %ul
--#   %li
--#     Social Science
--#   %li
--#     Salesforce for Science
 
--# %h1
--#   Search everything from everywhere
--#
--# %h3
--#   Search everything from anywhere
--#
 - if signed_in?
   Hello!
   
 - else
 
-  %br
-  %br
-  %div
-    -# = link_to "Sign in", new_user_session_path, :class => 'btn btn-primary'
-    = link_to 'Sign in with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), :class => 'btn btn-primary'
-  
-  %br
-  %br
-  &mdash; OR &mdash;
-  
-  %br
-  %br
-  %div
-    -# = link_to "Sign up", new_user_registration_path, :class => 'btn btn-primary'
+  %h1
+    Phaph is Social Search
+    
+  %p
+    Import documents from Dropbox or upload them, and Phaph makes them searchable by you and the world. Collect documents into searchable sets for sharing and commenting. Need private search? It's cheap!
+    
+  %div{:style => 'margin-top: 35px; vertical-align: bottom;'}
     = link_to 'Sign up with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
+    &nbsp;&nbsp;or #{link_to "signup with email", new_user_registration_path, :style => 'vertical-align: bottom;'}
     
 .clearfix
 
