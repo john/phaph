@@ -1,6 +1,6 @@
 == README
 
-Search all your stuff on Dropbox... and beyond!
+Social search
 
 ==== Ruby version
 
@@ -14,6 +14,11 @@ Search all your stuff on Dropbox... and beyond!
   * http://elasticsearch-users.115913.n3.nabble.com/ANN-Elasticsearch-Mapper-Attachment-plugin-2-2-0-released-td4060636.html
   * https://github.com/elasticsearch/elasticsearch-mapper-attachments/tree/master
   * bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.2.0
+  
+==== Images
+
+* App uses MiniMagick, which has a dependency on Image/GraphicsMagick, and Ghostscript
+
 
 ==== Deployment
 
