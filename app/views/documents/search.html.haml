@@ -30,8 +30,9 @@
             -# = result.name
             = link_to result.name, "#{document_path(result.id)}/#{result.name.parameterize}"
             
-          %div{ :style => 'margin-top: 5px'}
-            #{result.highlight.attachment.first.html_safe}&hellip;
+          - if result.respond_to?( :highlight )
+            %div{ :style => 'margin-top: 5px'}
+              #{result.highlight.attachment.first.html_safe}&hellip;
             
     - else
       %tr

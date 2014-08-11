@@ -2,27 +2,29 @@
 
 class FileUploader < CarrierWave::Uploader::Base
   
-  after :store, :export_to_dropbox
+  # MAKE THIS AN OPTION. Phaph storage should probably be to S3 too.
   
-  # Make this a user setting setting; dropbox doesn't need to be required.
-  # Need to store docs outside of /public, with some kind of link method, so
-  # that access control can be applied.
-  def export_to_dropbox(file)
-    client = DropboxClient.new( model.user.authentications.first.token )
-    
-    file = open( "#{Rails.root}/public#{model.file_url}" )
-    response = client.put_file("/Public/#{filename}", file)
-    
-    model.service = 'Dropbox'
-    model.service_id = response['rev']
-    model.service_revision = response['revision']
-    model.service_root = response['root']
-    model.service_path = response['path']
-    model.service_modified_at = response['modified']
-    model.service_size_in_bytes = response['bytes'].to_i
-    model.service_mime_type = response['mime_type']
-    model.save
-  end
+  # after :store, :export_to_dropbox
+  #
+  # # Make this a user setting setting; dropbox doesn't need to be required.
+  # # Need to store docs outside of /public, with some kind of link method, so
+  # # that access control can be applied.
+  # def export_to_dropbox(file)
+  #   client = DropboxClient.new( model.user.authentications.first.token )
+  #
+  #   file = open( "#{Rails.root}/public#{model.file_url}" )
+  #   response = client.put_file("/Public/#{filename}", file)
+  #
+  #   model.service = 'Dropbox'
+  #   model.service_id = response['rev']
+  #   model.service_revision = response['revision']
+  #   model.service_root = response['root']
+  #   model.service_path = response['path']
+  #   model.service_modified_at = response['modified']
+  #   model.service_size_in_bytes = response['bytes'].to_i
+  #   model.service_mime_type = response['mime_type']
+  #   model.save
+  # end
 
   # storage :file
   # # storage :fog

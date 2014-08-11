@@ -14,10 +14,10 @@ class Document < ActiveRecord::Base
   
   attr_accessor :file_data
   
-  # # this shouldn't be necesary...
-  # after_commit on: [:update] do
-  #   update_document
-  # end
+  # this shouldn't be necesary...
+  after_commit on: [:update] do
+    update_document
+  end
   
   mount_uploader :file, FileUploader
   

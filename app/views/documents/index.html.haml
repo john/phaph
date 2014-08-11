@@ -1,7 +1,10 @@
 .row
   .col-md-9
     %h2
-      #{pluralize(@resources.count, 'Document')}
+      - if @resources.present?
+        #{pluralize(@resources.count, 'Document')}
+      - else
+        Documents
     %br
     %table.table.table-hover
   

@@ -1,7 +1,7 @@
 = form_tag( search_documents_path, :method => :get, :class => 'navbar-form navbar-left navbar-input-group', :role => 'search', :style => 'margin-top: 15px;') do
 
   .input-group
-    = text_field_tag 'q', params[:q].present? ? params[:q] : '', :class => :'form-control', :placeholder => 'Search', :autofocus => true, :'x-webkit-speech' => :'x-webkit-speech'
+    = text_field_tag 'q', params[:q].present? ? params[:q] : '', :class => :'form-control', :placeholder => 'Search', :'x-webkit-speech' => :'x-webkit-speech'
     %span.input-group-btn
       %button.btn.btn-default{type: 'submit'}
         %span.glyphicon.glyphicon-search

@@ -21,54 +21,6 @@ class DocumentsController < ApplicationController
   # GET /documents/1
   def show
   end
-  
-  
-  
-  def search
-    @model = Document
-    # @resources = Document.search( params[:q] ).records.paginate(:page => params[:page])
-    # query = {
-    #           query: {
-    #             match: {
-    #               attachment: "#{params[:q]}"
-    #             }
-    #           },
-    #           highlight: {
-    #             fields: {
-    #               attachment: {}
-    #             }
-    #           }
-    #         }
-    
-    # https://gist.github.com/jprante/5095527
-    query = {
-              query: {
-                filtered: {
-                  filter: {
-                    term: {
-                      user_id: "#{current_user.id}"
-                    }
-                  },
-                  query: {
-                    match: {
-                      attachment: "#{params[:q]}"
-                    }
-                  }
-                }
-              },
-              highlight: {
-                fields: {
-                  attachment: {}
-                }
-              }
-            }
-            
-            
-    logger.info "----------------> query: #{query}"
-    @resources = Document.search( query ).page( params[:page] ||= 1 )
-    
-    #render :template => '/documents/index'
-  end
 
   # GET /documents/new
   def new
@@ -83,9 +35,24 @@ class DocumentsController < ApplicationController
   def create
     @document = Document.new(document_params)
     @document.user_id = current_user.id
+    @document.file_data = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
     
     if @document.save
-      # redirect_to @document, notice: 'Document was successfully created.'
+      # ImageScience.with_image file do |@document.file_data|
+      #   img.cropped_thumbnail 100 do |thumb|
+      #     thumb.save "#{file}_cropped.png"
+      #   end
+      #
+      #   img.thumbnail 100 do |thumb|
+      #     thumb.save "#{file}_thumb.png"
+      #   end
+      # end
+      image = MiniMagick::Image.read( "#{Rails.root}/public#{ @document.file_url }" )
+      image.resize "425x550"
+      image.write  "output.jpg"
+      
+      
+        # redirect_to @document, notice: 'Document was successfully created.'
       if params[:redirect_to].present?
         redirect_to params[:redirect_to]
       else
@@ -126,7 +93,53 @@ class DocumentsController < ApplicationController
     
     redirect_to documents_url, notice: 'Document was successfully destroyed.'
   end
+  
+  
+  def search( everything: false )
+    @model = Document
 
+    # https://gist.github.com/jprante/5095527
+    query = {
+              query: {
+                filtered: {
+                  filter: user_query,
+                  query: keyword_query( params[:q] )
+                }
+              },
+              highlight: {
+                fields: {
+                  attachment: {}
+                }
+              }
+            }
+            
+    @resources = Document.search( query ).page( params[:page] ||= 1 )
+  end
+  
+  
+  def user_query
+    if true
+      return {
+        term: {
+          user_id: "#{current_user.id}"
+        }
+      }
+    else
+      return {}
+    end
+  end
+  
+  
+  def keyword_query( q )
+    return {
+      multi_match: {
+        query: "#{q}",
+        fields: ["attachment", "name", "description", "source"]
+      }
+    }
+  end
+  
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     

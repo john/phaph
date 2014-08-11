@@ -1,6 +1,17 @@
 
 - if signed_in?
-  Hello!
+  %p
+    Hello!
+  
+  %ul
+    %li
+      = link_to 'Upload a document', new_document_path
+      
+    %li
+      Connect Phaph to Dropbox, so you can import Dropbox docs
+    
+    %li
+      Search public documents
   
 - else
 

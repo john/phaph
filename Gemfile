@@ -21,11 +21,16 @@ gem 'elasticsearch'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 
+# gem 'free-image' # needed for image_science. AND... it fucks up the env!
+
 gem 'geocoder'
 gem 'haml-rails'
 # gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jquery-rails'
 gem 'mechanize', require: false
+
+gem 'mini_magick'
+
 gem 'mysql2'
 gem 'omniauth'
 gem 'omniauth-twitter'
