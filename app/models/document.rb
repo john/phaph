@@ -49,7 +49,6 @@ class Document < ActiveRecord::Base
   ]
   
   
-  # indexes :grant_id, type: 'integer'
   settings index: { number_of_shards: 5, number_of_replicas: 1 } do
     mappings do
       indexes :user_id, type: 'integer', index: :not_analyzed
@@ -82,7 +81,6 @@ class Document < ActiveRecord::Base
     Base64.encode64( file_data )
   end
   
-  # grant_id: grant_id,
   def as_indexed_json(options={})
     # to_json(:methods => [:attachment])
     {

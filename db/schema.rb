@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140724223519) do
+ActiveRecord::Schema.define(version: 20140812060333) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -31,21 +31,13 @@ ActiveRecord::Schema.define(version: 20140724223519) do
   add_index "authentications", ["account_email"], name: "index_authentications_on_account_email", using: :btree
   add_index "authentications", ["authorized"], name: "index_authentications_on_authorized", using: :btree
 
-  create_table "categories", force: true do |t|
-    t.string   "name",                        null: false
+  create_table "collections", force: true do |t|
+    t.string   "name"
     t.text     "description"
-    t.integer  "user_id",                     null: false
-    t.integer  "organization_id",             null: false
-    t.integer  "grant_id"
-    t.integer  "scope",           default: 3, null: false
-    t.string   "state",                       null: false
+    t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "categories", ["grant_id"], name: "index_categories_on_grant_id", using: :btree
-  add_index "categories", ["organization_id"], name: "index_categories_on_organization_id", using: :btree
-  add_index "categories", ["user_id"], name: "index_categories_on_user_id", using: :btree
 
   create_table "comments", force: true do |t|
     t.integer  "commentable_id",   default: 0
@@ -65,30 +57,6 @@ ActiveRecord::Schema.define(version: 20140724223519) do
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
-  create_table "costs", force: true do |t|
-    t.string   "name",                                                 null: false
-    t.text     "description"
-    t.decimal  "amount",          precision: 10, scale: 0
-    t.integer  "creator_id",                                           null: false
-    t.integer  "user_id",                                              null: false
-    t.integer  "organization_id",                                      null: false
-    t.integer  "grant_id"
-    t.integer  "category_id"
-    t.integer  "periodicity",                                          null: false
-    t.datetime "starts_at"
-    t.datetime "ends_at"
-    t.integer  "scope",                                    default: 2, null: false
-    t.string   "state",                                                null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "costs", ["category_id"], name: "index_costs_on_category_id", using: :btree
-  add_index "costs", ["creator_id"], name: "index_costs_on_creator_id", using: :btree
-  add_index "costs", ["grant_id"], name: "index_costs_on_grant_id", using: :btree
-  add_index "costs", ["organization_id"], name: "index_costs_on_organization_id", using: :btree
-  add_index "costs", ["user_id"], name: "index_costs_on_user_id", using: :btree
-
   create_table "documents", force: true do |t|
     t.string   "name",                              null: false
     t.text     "description"
@@ -100,7 +68,7 @@ ActiveRecord::Schema.define(version: 20140724223519) do
     t.string   "rights"
     t.integer  "user_id",                           null: false
     t.integer  "organization_id"
-    t.integer  "grant_id"
+    t.integer  "collection_id"
     t.integer  "scope",                 default: 3, null: false
     t.string   "service"
     t.string   "service_id"
@@ -116,37 +84,9 @@ ActiveRecord::Schema.define(version: 20140724223519) do
     t.string   "file"
   end
 
-  add_index "documents", ["grant_id"], name: "index_documents_on_grant_id", using: :btree
+  add_index "documents", ["collection_id"], name: "index_documents_on_collection_id", using: :btree
   add_index "documents", ["organization_id"], name: "index_documents_on_organization_id", using: :btree
   add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
-
-  create_table "grants", force: true do |t|
-    t.string   "name",                                                                       null: false
-    t.text     "description"
-    t.string   "source"
-    t.string   "source_id"
-    t.string   "principal_investigators"
-    t.text     "investigators"
-    t.string   "program_manager"
-    t.string   "sponsor"
-    t.string   "nsf_programs"
-    t.string   "nsf_program_reference_code"
-    t.string   "nsf_program_element_code"
-    t.datetime "awarded_at"
-    t.datetime "starts_at"
-    t.datetime "ends_at"
-    t.decimal  "amount",                                precision: 10, scale: 0
-    t.float    "overhead",                   limit: 24
-    t.integer  "user_id",                                                                    null: false
-    t.integer  "organization_id",                                                            null: false
-    t.integer  "scope",                                                          default: 3, null: false
-    t.string   "state",                                                                      null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "grants", ["organization_id"], name: "index_grants_on_organization_id", using: :btree
-  add_index "grants", ["user_id"], name: "index_grants_on_user_id", using: :btree
 
   create_table "locations", force: true do |t|
     t.string   "name",                                     null: false
@@ -202,30 +142,6 @@ ActiveRecord::Schema.define(version: 20140724223519) do
   end
 
   add_index "presences", ["locatable_id", "locatable_type"], name: "index_presences_on_locatable_id_and_locatable_type", using: :btree
-
-  create_table "samples", force: true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.string   "source"
-    t.integer  "user_id",                                               null: false
-    t.integer  "organization_id",                                       null: false
-    t.integer  "grant_id"
-    t.string   "location"
-    t.decimal  "latitude",        precision: 15, scale: 10
-    t.decimal  "longitude",       precision: 15, scale: 10
-    t.decimal  "collection_temp", precision: 10, scale: 0
-    t.datetime "collected_at"
-    t.datetime "prepped_at"
-    t.datetime "analyzed_at"
-    t.integer  "scope",                                     default: 2, null: false
-    t.string   "state",                                                 null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "samples", ["grant_id"], name: "index_samples_on_grant_id", using: :btree
-  add_index "samples", ["organization_id"], name: "index_samples_on_organization_id", using: :btree
-  add_index "samples", ["user_id"], name: "index_samples_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name",                   default: ""

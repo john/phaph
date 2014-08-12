@@ -1,5 +1,7 @@
 .col-sm-7
 
+  %div
+    = image_tag @document.file.thumb.url
   %h1
     = @document.name
 
@@ -20,37 +22,9 @@
       = @document.description
       
   %div{:style => 'margin-top: 20px;'}
-    = link_to "Download", @document.file_url, target: '_blank', class: 'btn btn-primary'
+    = link_to "Download", @document.file.url, target: '_blank', class: 'btn btn-primary'
     
     - if @document.service.present? && @document.service.downcase == 'dropbox'
       &#183;
       = link_to "View on dropbox", dropbox_url(@document.service_path), target: '_blank', class: 'btn btn-primary'
     
--# %h5
--#   %b Published at:
--#   = @document.published_at
-
--# %h5
--#   %b Source:
--#   = @document.source
--# 
--# %h5
--#   %b Rights:
--#   = @document.rights
--#
--# %h5
--#   %b Creator:
--#   = @document.user_id
--#
--# %h5
--#   %b Lab:
--#   = @document.lab_id
--#
--# %h5
--#   %b Grant:
--#   = @document.grant_id
--# %h5
--#   %b State:
--#   = @document.state
-
--# = link_to 'Edit', edit_document_path(@document)

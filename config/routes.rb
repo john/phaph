@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :collections
+
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
   
@@ -23,31 +25,23 @@ Rails.application.routes.draw do
   end
   
   resources :authentications
-  resources :categories
   resources :comments
-  resources :costs
   
   match '/documents/search' => 'documents#search', :via => :get, :as => :search_documents
   resources :documents do
     get 'import', on: :collection
   end
   
-  resources :grants
   resources :organizations
   resources :locations
   resources :memberships
-  resources :samples
   
   match '/users/authorize' => 'users#authorize', :via => :get, :as => :user_authorize
   match '/users/dropbox_callback' => 'users#dropbox_callback', :via => :get, :as => :user_dropbox_callback
   resources :users
   
-  match '/categories/:id/:slug' => 'categories#show', :via => :get, :as => :slugged_category
-  match '/costs/:id/:slug' => 'costs#show', :via => :get, :as => :slugged_cost
-  match '/grants/:id/:slug' => 'grants#show', :via => :get, :as => :slugged_grant
   match '/organizations/:id/:slug' => 'organizations#show', :via => :get, :as => :slugged_organization
   match '/documents/:id/:slug' => 'documents#show', :via => :get, :as => :slugged_document
-  match '/samples/:id/:slug' => 'samples#show', :via => :get, :as => :slugged_sample
   match '/people/:id/:slug' => 'users#show', :via => :get, :as => :people
   
 end

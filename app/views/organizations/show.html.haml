@@ -47,36 +47,6 @@
       %li
         None, yet.
       
-      
-  %br
-  %h3
-    %b
-      Grants
-    %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
-      = link_to 'add', new_grant_path(l: @organization.id)
-    
-  - if @organization.grants.present?
-    %div
-      %ul{:class => 'list-unstyled'}
-        - @organization.grants.each do |grant|
-          %li
-            = link_to grant.name, slugged_grant_path(grant.id, grant.name.parameterize)
-          
-  %br
-  %h3
-    %b
-      Samples
-    %span{:style => 'font-weight: normal; font-size: 0.8em; padding-left: 5px;'}
-      = link_to 'add', new_sample_path(l: @organization.id)
-    
-  - if @organization.samples.present?
-    %div
-      %ul{:class => 'list-unstyled'}
-        - @organization.samples.each do |sample|
-          %li
-            = link_to sample.name, slugged_sample_path(sample.id, sample.name.parameterize)
-          
-          
   %br
   %h3
     %b

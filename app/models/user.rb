@@ -73,10 +73,6 @@ class User < ActiveRecord::Base
     Membership.where( :user_id => id, :belongable_type => Organization.to_s ).map{|membership| membership.belongable}
   end
   
-  # def grants
-  #   Membership.where( :user_id => id, :belongable_type => Grant.to_s ).map{|membership| membership.belongable}
-  # end
-  
   def self.find_for_oauth(auth, signed_in_resource = nil)
 
       # Get the authentication and user if they exist

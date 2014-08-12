@@ -4,8 +4,6 @@ RSpec.describe Organization, :type => :model do
   
   it { should belong_to (:user) }
   # it { should have_many (:memberships) }
-  it { should have_many (:grants) }
-  it { should have_many (:samples) }
   it { should have_many (:documents) }
   it { should have_many (:presences) }
   it { should have_many (:locations) }

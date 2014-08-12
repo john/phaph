@@ -38,21 +38,14 @@ class DocumentsController < ApplicationController
     @document.file_data = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
     
     if @document.save
-      # ImageScience.with_image file do |@document.file_data|
-      #   img.cropped_thumbnail 100 do |thumb|
-      #     thumb.save "#{file}_cropped.png"
-      #   end
-      #
-      #   img.thumbnail 100 do |thumb|
-      #     thumb.save "#{file}_thumb.png"
-      #   end
-      # end
-      image = MiniMagick::Image.read( "#{Rails.root}/public#{ @document.file_url }" )
-      image.resize "425x550"
-      image.write  "output.jpg"
+      
+      # # Carrierwave should automatically do this
+      # image = MiniMagick::Image.open( "#{Rails.root}/public#{ @document.file_url }" )
+      # image.format( "gif" )
+      # image.resize( "425x550" )
+      # image.write  "public/uploads/document/file/thumbs/thumb_#{@document.id}.gif"
       
       
-        # redirect_to @document, notice: 'Document was successfully created.'
       if params[:redirect_to].present?
         redirect_to params[:redirect_to]
       else
@@ -151,7 +144,7 @@ class DocumentsController < ApplicationController
     def document_params
       params.require(:document).permit(
       :name, :file, :file_cache, :description, :source, :journal, :published_at,
-      :principle_authors, :other_authors, :rights, :user_id, :organization_id, :grant_id, :scope,
+      :principle_authors, :other_authors, :rights, :user_id, :organization_id, :scope,
       :service, :service_id, :service_revision, :service_root, :service_path, :service_modified_at,
       :service_size_in_bytes, :service_mime_type, :state)
     end

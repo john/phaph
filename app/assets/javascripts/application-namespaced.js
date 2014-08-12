@@ -2,17 +2,6 @@ AppJS = {
   shared : {
     init : function(){
       AppJS.shared.initCosts();
-    },
-    
-    initCosts: function(){
-      $('#cost_periodicity').change(function() {
-        console.log( $( "#cost_periodicity option:selected").val() );
-        if( $( "#cost_periodicity option:selected").val() == '0' ) {
-          $('#end_date').hide();
-        } else {
-          $('#end_date').show();
-        }
-      });
     }
   }
 };

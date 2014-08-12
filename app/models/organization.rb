@@ -3,8 +3,6 @@ class Organization < ActiveRecord::Base
   acts_as_commentable
   
   has_many :memberships
-  has_many :grants
-  has_many :samples
   has_many :documents
   has_many :presences, as: :locatable
   has_many :locations, through: :presences

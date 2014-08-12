@@ -11,7 +11,7 @@ class CreateDocuments < ActiveRecord::Migration
       t.string :rights
       t.references :user, index: true, null: false
       t.references :organization, index: true
-      t.references :grant, index: true
+      t.references :collection, index: true
       t.integer :scope, null: false, default: Scope::PUBLIC
       
       t.string :service
