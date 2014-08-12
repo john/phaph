@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @collection.name
+%p
+  %b Description:
+  = @collection.description
+%p
+  %b State:
+  = @collection.state
+
+= link_to 'Edit', edit_collection_path(@collection)
+\|
+= link_to 'Back', collections_path
