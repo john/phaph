@@ -1,4 +1,0 @@
-quartz
-feldspar
-dirt
-rock
