@@ -17,8 +17,16 @@ Rails.application.routes.draw do
   match '/people/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   match '/people/set_username' => 'users#set_username', via: :get, :as => :set_username
   
-  
   namespace :admin do
+    match '/' => 'base#index', via: [:get], :as => :admin_index
+    resources :collections, only: [:index] do
+      get 'index', on: :collection
+    end
+    
+    resources :documents, only: [:index] do
+      get 'index', on: :collection
+    end
+    
     resources :users, only: [:index] do
       get 'index', on: :collection
     end
@@ -41,6 +49,7 @@ Rails.application.routes.draw do
   resources :users
   
   match '/organizations/:id/:slug' => 'organizations#show', :via => :get, :as => :slugged_organization
+  match '/collections/:id/:slug' => 'collections#show', :via => :get, :as => :slugged_collection
   match '/documents/:id/:slug' => 'documents#show', :via => :get, :as => :slugged_document
   match '/people/:id/:slug' => 'users#show', :via => :get, :as => :people
   

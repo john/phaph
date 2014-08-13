@@ -1,11 +1,10 @@
 .row
   .col-md-9
     %h2
-      -# - if @resources.present?
-      -#   #{pluralize(@resources.count, 'Collection')}
-      -# - else
-      -#   Collections
-      Your Collections
+      - if @resources.present?
+        #{pluralize(@resources.count, 'Collection')}
+      - else
+        Collections
     %br
     %table.table.table-hover
   

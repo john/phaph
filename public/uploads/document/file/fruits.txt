@@ -1,0 +1,6 @@
+apple
+pear
+banana
+strawberry
+blueberry
+guava

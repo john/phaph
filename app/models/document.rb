@@ -21,10 +21,11 @@ class Document < ActiveRecord::Base
   
   mount_uploader :file, FileUploader
   
-  belongs_to :user
   belongs_to :organization
+  belongs_to :user
+  belongs_to :collection
   
-  validates_presence_of :user_id, :name, :state
+  validates_presence_of :user, :name, :state
   
   STATES = [:active, :inactive]
   state_machine :state, :initial => :active do

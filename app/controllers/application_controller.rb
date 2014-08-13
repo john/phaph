@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
     # Ensure we don't go into an infinite loop
     return if action_name == 'set_username' || action_name == 'update'
     
-    if current_user && current_user.username.blank?
+    if current_user.present? && current_user.username.blank?
       redirect_to set_username_path
     end
   end

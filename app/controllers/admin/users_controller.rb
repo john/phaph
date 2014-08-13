@@ -4,7 +4,7 @@ class Admin::UsersController < Admin::BaseController
   
   # GET /users
   def index
-    @users = User.all
+    @users = User.paginate(:page => params[:page])
   end
   
 end

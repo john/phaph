@@ -2,17 +2,12 @@ require 'rails_helper'
 
 RSpec.describe "collections/show", :type => :view do
   before(:each) do
-    @collection = assign(:collection, Collection.create!(
-      :name => "Name",
-      :description => "MyText",
-      :state => "State"
-    ))
+    john = FactoryGirl.create(:user)
+    view.stub(:current_user).and_return(john)
+    @collection = FactoryGirl.create(:collection)
   end
 
-  it "renders attributes in <p>" do
+  it "renders" do
     render
-    expect(rendered).to match(/Name/)
-    expect(rendered).to match(/MyText/)
-    expect(rendered).to match(/State/)
   end
 end

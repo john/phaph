@@ -10,6 +10,18 @@
   %b State:
   = @collection.state
 
-= link_to 'Edit', edit_collection_path(@collection)
-\|
-= link_to 'Back', collections_path
+  %br
+  %h3
+    Documents
+  
+.clearfix
+
+.col-sm-8
+  %br
+  %table.table.table-hover
+    - if @collection.documents.present?
+      - @collection.documents.each do |document|
+        = render :partial => 'documents/document', :locals => {:resource => document}
+    - else
+      %li
+        None, yet.

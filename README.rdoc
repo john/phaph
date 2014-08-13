@@ -17,7 +17,11 @@ Social search
   
 ==== Images
 
-* App uses MiniMagick, which has a dependency on Image/GraphicsMagick, and Ghostscript
+* MiniMagick, which requires
+  * Image/GraphicsMagick
+  * Ghostscript for PDF support
+  * libpng for... PNG support 
+
 
 
 ==== Deployment

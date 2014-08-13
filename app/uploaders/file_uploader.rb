@@ -6,7 +6,7 @@ class FileUploader < CarrierWave::Uploader::Base
   # from: https://github.com/carrierwaveuploader/carrierwave/wiki/Efficiently-converting-image-formats
   
   version :thumb do
-    process :efficient_conversion => [400, 400]
+    process :efficient_conversion => [400,400]
   end
 
   private

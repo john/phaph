@@ -1,18 +1,51 @@
-%h1 Listing users
+.row
+  .col-md-9
+    %h2
+      - if @users.present?
+        #{pluralize(@users.count, 'User')}
+      - else
+        Users
+    %br
+    %table.table.table-hover
+  
+      - if @users.present?
+        - @users.each do |resource|
+          %tr
+            %td
+              %b
+                = link_to resource.name, "#{polymorphic_path(resource)}/#{resource.name.parameterize}"
+      
+            %td{:style => 'text-align: right;'}
+              .small
+                &nbsp;#{link_to 'Edit', edit_polymorphic_path(resource)}&nbsp;&nbsp;&#183;&nbsp;&nbsp;#{link_to 'Delete', resource, :method => :delete, :data => { :confirm => 'Are you certain?' }}
+                
+                
+      - else
+        %tr
+          %td{ colspan: 2 }
+            No users, yet. #{link_to 'Create one', new_user_path}.
+          
+    - if @users
+      = will_paginate @users, renderer: BootstrapPagination::Rails, :next_label => 'Next &raquo;', :previous_label => '&laquo;'
+      
 
-%table
-  %tr
-    %th
-    %th
-    %th
 
-  - @users.each do |user|
-    %tr
-      %td= user.name
-      %td= link_to 'Show', user
-      %td= link_to 'Edit', edit_user_path(user)
-      %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-%br
-
-= link_to 'New User', new_user_path
+-# %h1 Listing users
+-#
+-# %table
+-#   %tr
+-#     %th
+-#     %th
+-#     %th
+-#
+-#   - @users.each do |user|
+-#     %tr
+-#       %td= user.name
+-#       %td= link_to 'Show', user
+-#       %td= link_to 'Edit', edit_user_path(user)
+-#       %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
+-#
+-# %br
+-#
+-# = link_to 'New User', new_user_path

@@ -6,8 +6,7 @@ class DocumentsController < ApplicationController
   # GET /documents
   def index
     @model = Document
-    @resources = Document.paginate(:page => params[:page])
-    # render :template => '/shared/resource/index'
+    @resources = Document.where(:user => current_user).paginate(:page => params[:page])
   end
   
   # GET /imports
@@ -20,6 +19,7 @@ class DocumentsController < ApplicationController
 
   # GET /documents/1
   def show
+    logger.info "-------------> yo"
   end
 
   # GET /documents/new
@@ -34,7 +34,7 @@ class DocumentsController < ApplicationController
   # POST /documents
   def create
     @document = Document.new(document_params)
-    @document.user_id = current_user.id
+    @document.user = current_user
     @document.file_data = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
     
     if @document.save
@@ -138,13 +138,19 @@ class DocumentsController < ApplicationController
     
     def set_document
       @document = Document.find(params[:id])
+      
+      unless @document.user == current_user
+        sign_out
+        redirect_to root_path, alert: "You've been signed out."  and return
+      end
+      
     end
 
     # Only allow a trusted parameter "white list" through.
     def document_params
       params.require(:document).permit(
       :name, :file, :file_cache, :description, :source, :journal, :published_at,
-      :principle_authors, :other_authors, :rights, :user_id, :organization_id, :scope,
+      :principle_authors, :other_authors, :rights, :user_id, :organization_id, :collection_id, :scope,
       :service, :service_id, :service_revision, :service_root, :service_path, :service_modified_at,
       :service_size_in_bytes, :service_mime_type, :state)
     end

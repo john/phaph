@@ -1,4 +1,4 @@
-= form_tag( search_documents_path, :method => :get, :class => 'navbar-form navbar-left navbar-input-group', :role => 'search', :style => 'margin-top: 15px;') do
+= form_tag( search_documents_path, :method => :get, :class => 'navbar-form navbar-left navbar-input-group', :role => 'search') do
 
   .input-group
     = text_field_tag 'q', params[:q].present? ? params[:q] : '', :class => :'form-control', :placeholder => 'Search', :'x-webkit-speech' => :'x-webkit-speech'

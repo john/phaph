@@ -3,7 +3,9 @@ class CollectionsController < ApplicationController
 
   # GET /collections
   def index
-    @collections = Collection.all
+    # @collections = Collection.all
+    @model = Collection
+    @resources = Collection.where(:user => current_user).paginate(:page => params[:page])
   end
 
   # GET /collections/1
@@ -22,6 +24,7 @@ class CollectionsController < ApplicationController
   # POST /collections
   def create
     @collection = Collection.new(collection_params)
+    @collection.user = current_user
 
     if @collection.save
       redirect_to @collection, notice: 'Collection was successfully created.'

@@ -1,7 +1,7 @@
 AppJS = {
   shared : {
     init : function(){
-      AppJS.shared.initCosts();
+      // AppJS.shared.initCosts();
     }
   }
 };

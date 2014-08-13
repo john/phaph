@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   has_many :locations, through: :presences
   has_many :authentications
   has_many :documents
+  has_many :collections
   
   validates :name, :email, presence: true
   validates :email, uniqueness: true
