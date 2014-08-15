@@ -1,27 +1,22 @@
-%p#notice= notice
+.row
+  .col-md-8
 
-%p
-  %b Name:
-  = @collection.name
-%p
-  %b Description:
-  = @collection.description
-%p
-  %b State:
-  = @collection.state
+    %h2
+      %b
+        = @collection.name
+    %p
+      = @collection.description
 
-  %br
-  %h3
-    Documents
-  
-.clearfix
+.row
+  .col-md-8
+    %h5
+      Documents
+    %table.table.table-hover
+      - if @collection.documents.present?
+        - @collection.documents.each do |document|
+          = render :partial => 'documents/document', :locals => {:resource => document}
+      - else
+        %li
+          None, yet.
 
-.col-sm-8
-  %br
-  %table.table.table-hover
-    - if @collection.documents.present?
-      - @collection.documents.each do |document|
-        = render :partial => 'documents/document', :locals => {:resource => document}
-    - else
-      %li
-        None, yet.
+= render partial: '/comments/show', locals: { :resource => @collection }

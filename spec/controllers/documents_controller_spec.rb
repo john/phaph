@@ -20,12 +20,11 @@ RSpec.describe DocumentsController, :type => :controller do
     describe "GET index" do
       
       it "assigns the user's documents as @documents" do
-        get :index
-        # document = FactoryGirl.create(:document, user_id: @user.id)
-        
         document = FactoryGirl.create(:document)
         document.user_id = @user.id
         document.save # to defeat the before create filter in the factory
+        
+        get :index
         
         expect(response).to have_http_status(:ok)
         expect(assigns(:resources)).to match_array([document])
@@ -42,20 +41,32 @@ RSpec.describe DocumentsController, :type => :controller do
     # end
 
     describe "GET show" do
+      
       it "assigns the requested document as @document" do
         document = FactoryGirl.create(:document, user_id: @user.id)
+        document.user_id = @user.id
+        document.save # to defeat the before create filter in the factory
+        
         get :show, {:id => document.to_param}
+        
         expect(assigns(:document)).to eq(document)
-        # expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:ok)
       end
+      
+      it "only lets you see your own docs" do
+        
+      end
+      
     end
 
-    # describe "GET new" do
-    #   it "assigns a new document as @document" do
-    #     get :new, {}, valid_session
-    #     expect(assigns(:document)).to be_a_new(document)
-    #   end
-    # end
+    describe "GET new" do
+      it "assigns a new document as @document" do
+        get :new
+        
+        # expect(assigns(:document)).to be_a_new(document)
+        expect(response).to have_http_status(:ok)
+      end
+    end
 
     describe "GET edit" do
       it "assigns the requested document as @document" do

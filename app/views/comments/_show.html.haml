@@ -1,32 +1,39 @@
 -# - comments = nil if local_assigns[:comments].nil?
 -# LOCALS: resource
 
-%ul.list-unstyled
-  - if resource.root_comments.present?
-    - resource.root_comments.each do |comment|
-      = render :partial => 'comments/comment', :locals => {:comment => comment}
-  - else
-    %li
-      No comments, yet.
-      
-- comment = Comment.new( commentable_type: resource.class.to_s, commentable_id: resource.id )
+.row
+  .col-md-8
+  
+    %h4
+      %b
+        Comments
 
-= form_for comment, :remote => true, :role => 'form', :html => {:class => 'form-horizontal'} do |f|
+    #comments
 
-  - if comment.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@comment.errors.count, "error")} prohibited this comment from being saved:"
-      %ul
-        - comment.errors.full_messages.each do |msg|
-          %li= msg
+      - comment = Comment.new( commentable_type: resource.class.to_s, commentable_id: resource.id )
+      = form_for comment, :remote => true, :role => 'form', :html => {:class => 'form-horizontal'} do |f|
+
+        - if comment.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@comment.errors.count, "error")} prohibited this comment from being saved:"
+            %ul
+              - comment.errors.full_messages.each do |msg|
+                %li= msg
           
-  = f.hidden_field :commentable_type
-  = f.hidden_field :commentable_id
-  .form-group
-    .col-sm-7
-      = f.label :body, :class => 'sr-only'
-      = f.text_area :body, class: 'form-control', id: 'comment_textarea', style: 'width:400px;height:100px;'
-  
-  
-  .actions
-    = f.submit 'Save', :class => 'btn btn-primary'
+        = f.hidden_field :commentable_type
+        = f.hidden_field :commentable_id
+    
+        .form-group
+          = f.label :body, :class => 'sr-only'
+          = f.text_area :body, class: 'form-control', style: 'margin-left: 15px; height:60px;'
+      
+        .actions#comment_save{style: 'display: none;'}
+          = f.submit 'Save', :class => 'btn btn-primary'
+
+      %ul.list-unstyled
+        - if resource.root_comments.present?
+          - resource.root_comments.order(created_at: :desc).each do |comment|
+            = render :partial => 'comments/comment', :locals => {:comment => comment}
+        - else
+          %li
+            No comments, yet.

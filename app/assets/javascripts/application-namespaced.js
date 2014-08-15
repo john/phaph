@@ -1,7 +1,25 @@
 AppJS = {
   shared : {
     init : function(){
-      // AppJS.shared.initCosts();
+      AppJS.shared.initComments();
+    },
+    
+    initComments: function(){      
+      $( "#comment_body" ).focus(function() {
+        // $( "#comment_body" ).css('height', '120px');
+        $( "#comment_save" ).fadeIn();
+        return true;
+      });
+
+      // $( "#comment_body" ).focusout(function() {
+      //   // $( "#comment_body" ).css('height', '40px');
+      //   $( "#comment_save" ).css('display', 'none');
+      //   return true;
+      // });
+      $('#new_comment').submit(function(){
+        $( "#comment_save" ).css('display', 'none');
+        $( "#comment_save" ).fadeOut();
+      })
     }
   }
 };
@@ -23,4 +41,5 @@ AppJSSetup = {
     // AppJSSetup.execNamespace(controller, action);
   }
 };
+
 $(document).ready(AppJSSetup.initialize);

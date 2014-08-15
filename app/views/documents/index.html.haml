@@ -1,25 +1,22 @@
-foo
+.row
+  .col-md-8
+    %h2
+      -# - if @resources.present?
+      -#   #{pluralize(@resources.count, 'Document')}
+      -# - else
+      -#   Documents
+      Your Documents
 
--# .row
--#   .col-md-9
--#     %h2
--#       -# - if @resources.present?
--#       -#   #{pluralize(@resources.count, 'Document')}
--#       -# - else
--#       -#   Documents
--#       Your Documents
--#
--#     %br
--#     %table.table.table-hover
--#
--#       - if @resources.present?
--#         - @resources.each do |result|
--#           = render :partial => 'documents/document', :locals => {:resource => result}
--#       - else
--#         %tr
--#           %td{ colspan: 2 }
--#             No documents, yet. #{link_to 'Upload one', new_document_path}
--#
--#     - if @resources
--#       = will_paginate @resources, renderer: BootstrapPagination::Rails, :next_label => 'Next &raquo;', :previous_label => '&laquo;'
--#
+    %br
+    %table.table.table-hover
+
+      - if @resources.present?
+        - @resources.each do |result|
+          = render :partial => 'documents/document', :locals => {:resource => result}
+      - else
+        %tr
+          %td{ colspan: 2 }
+            No documents, yet. #{link_to 'Upload one', new_document_path}
+
+    - if @resources
+      = will_paginate @resources, renderer: BootstrapPagination::Rails, :next_label => 'Next &raquo;', :previous_label => '&laquo;'

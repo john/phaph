@@ -1,17 +1,39 @@
 
 - if signed_in?
-  %p
-    Hello!
-  
-  %ul
-    %li
-      = link_to 'Upload a document', new_document_path
-      
-    %li
-      Connect Phaph to Dropbox, so you can import Dropbox docs
+
+  :css
+    dt { margin-top: 10px; }
     
-    %li
-      Search public documents
+  %h2
+    Recent collections
+    
+  %dl
+    - @collections.each do |collection|
+      %dt
+        = link_to collection.name, collection, :style => 'font-weight: normal;'
+      %dd
+        = collection.description
+    %dt
+      = link_to 'Create a collection', new_collection_path, :style => 'font-style: italic; font-weight: normal; color: gray;'
+  
+  %h2
+    Recent documents
+    
+  %dl
+    - @documents.each do |document|
+      %dt
+        = link_to document.name, document, :style => 'font-weight: normal;'
+      %dd
+        = document.description
+        
+    %dt
+      = link_to 'Upload a document', new_document_path, :style => 'font-style: italic; font-weight: normal; color: gray;'
+      
+    -# %li
+    -#   Connect Phaph to Dropbox, so you can import Dropbox docs
+    -#
+    -# %li
+    -#   Search public documents
   
 - else
 

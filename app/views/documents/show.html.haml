@@ -1,9 +1,9 @@
 .row
-  .col-md-5
+  .col-md-4
     %div
       = image_tag @document.file.thumb.url, style: 'border: 1px solid #ddd'
     
-  .col-md-7
+  .col-md-4
     %h3
       = @document.name
 
@@ -29,4 +29,5 @@
       - if @document.service.present? && @document.service.downcase == 'dropbox'
         &#183;
         = link_to "View on dropbox", dropbox_url(@document.service_path), target: '_blank', class: 'btn btn-primary'
-    
+        
+= render partial: '/comments/show', locals: { :resource => @document }

@@ -1,31 +1,41 @@
-.col-sm-8
-  .pull-right
-    = link_to "Dropbox", '', :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
+.row
+  .col-md-8
+    .pull-right
+      = link_to "Dropbox", '', :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
     
-  %h1{:style => 'margin-bottom: 5px;'}
-    = @user.name
-  
-  - if @user.locations.present?
+    %h1{:style => 'margin-bottom: 5px;'}
+      = @user.name
+      
+    - if @user.locations.present?
+      %div{:style => 'margin-top: 0;'}
+        - @user.locations.each do |location|
+          = location.name
+          
     %div{:style => 'margin-top: 0;'}
-      - @user.locations.each do |location|
-        = location.name
+      = @user.description
   
-  %div{:style => 'margin-top: 0;'}
-    = @user.description
+    %br
+    %h3
+      Documents
   
-  %br
-  %h3
-    Documents
-  
-.clearfix
-
-.col-sm-8
-  %br
-  %table.table.table-hover
-    - if @user.documents.present?
-      - @user.documents.each do |document|
-        = render :partial => 'documents/document', :locals => {:resource => document}
-    - else
-      %li
-        None, yet.
+.row
+  .col-md-8
+    %br
+    %table.table.table-hover
+      - if @user.documents.present?
+        - @user.documents.each do |document|
+          = render :partial => 'documents/document', :locals => {:resource => document}
+      - else
+        %li
+          None, yet.
         
+        
+.row
+  .col-md-8
+    %br
+    %h3
+      %b
+        Comments
+
+    #comments
+      = render partial: '/comments/show', locals: { :resource => @user }

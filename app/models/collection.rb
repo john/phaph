@@ -3,6 +3,8 @@ class Collection < ActiveRecord::Base
   has_many :documents
   belongs_to :user
   
+  acts_as_commentable
+  
   validates_presence_of :user, :name, :state
   
   STATES = [:active, :inactive]

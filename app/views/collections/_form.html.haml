@@ -23,12 +23,11 @@
   -#     = f.select :scope, options_for_select(Scope.options_hash, @collection.scope), :class => 'form-control'
       
   - if action_name == 'edit'
-    foo
-    -# .form-group
-    -#   .col-sm-7
-    -#     State:
-    -#     = f.label :state, :class => 'sr-only'
-    -#     = f.select :state, options_for_select([['active', 'active'], ['inactive', 'inactive']], @organization.state), :class => 'form-control'
+    .form-group
+      .col-sm-7
+        State:
+        = f.label :state, :class => 'sr-only'
+        = f.select :state, options_for_select([['active', 'active'], ['inactive', 'inactive']], @collection.state), :class => 'form-control'
         
   .form-group
     .col-sm-7

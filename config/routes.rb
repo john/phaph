@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  
-  resources :collections
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
@@ -33,6 +31,7 @@ Rails.application.routes.draw do
   end
   
   resources :authentications
+  resources :collections
   resources :comments
   
   match '/documents/search' => 'documents#search', :via => :get, :as => :search_documents

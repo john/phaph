@@ -21,6 +21,8 @@ class Document < ActiveRecord::Base
   
   mount_uploader :file, FileUploader
   
+  acts_as_commentable
+  
   belongs_to :organization
   belongs_to :user
   belongs_to :collection
