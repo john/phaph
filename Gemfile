@@ -58,6 +58,8 @@ gem 'rspec-rails', group: [:development, :test]
 
 group :development do
   # gem 'better_errors'
+  gem 'fog'
+  gem 'puppet'
   gem 'unicorn-rails'
 end
 
