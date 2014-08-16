@@ -15,7 +15,9 @@ class User < ActiveRecord::Base
   has_many :presences, as: :locatable
   has_many :locations, through: :presences
   has_many :authentications
+  
   has_many :documents
+  has_many :collectibles
   has_many :collections
   
   acts_as_commentable

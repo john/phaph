@@ -24,7 +24,11 @@ class DocumentsController < ApplicationController
 
   # GET /documents/new
   def new
-    @document = Document.new(organization: current_user.organizations.first)
+    if params[:collection_id].present?
+      @document = Document.new(organization: current_user.organizations.first, collection_id: params[:collection_id])
+    else
+      @document = Document.new(organization: current_user.organizations.first)
+    end
   end
 
   # GET /documents/1/edit
@@ -35,15 +39,43 @@ class DocumentsController < ApplicationController
   def create
     @document = Document.new(document_params)
     @document.user = current_user
-    @document.file_data = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
+    
+    # @document.file_data = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
+    
+    beatles_data = open( "http://en.wikipedia.org/wiki/Beatles" ) { |file| file.read }
+    
+    logger.debug "-----------------------> JUST GOT IT"
+    logger.debug beatles_data
+    
+    @document.file_data = open( "http://en.wikipedia.org/wiki/Beatles" ) { |file| file.read }
+    
+    logger.debug "-----------------------> SET IN THE DOC?"
+    logger.debug @document.file_data
     
     if @document.save
       
-      # # Carrierwave should automatically do this
+      logger.debug "-----------------------> @document SAVED!"
+      
+      # # Carrierwave automatically does this
       # image = MiniMagick::Image.open( "#{Rails.root}/public#{ @document.file_url }" )
       # image.format( "gif" )
       # image.resize( "425x550" )
       # image.write  "public/uploads/document/file/thumbs/thumb_#{@document.id}.gif"
+      if @document.collection_id.present?
+        logger.debug "-----------------------> @document.collection_id: PRESENT!"
+        @collection = Collection.find( @document.collection_id )
+      else
+        if current_user.collections.size == 0
+          logger.debug "-----------------------> @collection: CREATING!"
+          @collection = Collection.create!( user: current_user, name: "#{current_user.name}'s documents")
+        else
+          redirect_to root_path, alert: 'Something wrong, could not find or create a collection' and return
+        end
+      end
+      logger.debug "-----------------------> collectible: CREATING!"
+      collectible = Collectible.where(user: current_user, document: @document, collection: @collection ).first_or_create
+      
+      logger.debug "-----------------------> ...and we're done."
       
       
       if params[:redirect_to].present?

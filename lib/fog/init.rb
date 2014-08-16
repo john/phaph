@@ -67,9 +67,15 @@ cmd(server, "sudo apt-get -y upgrade")
 
 server.wait_for { ready? }
 puts '---'
-puts 'apt-getting libffi6 and friends...'
+puts 'apt-getting openssl and friends...'
 
-cmd(server, "sudo apt-get -y install libffi6 libyaml-0-2 libssl0.9.8")
+cmd(server, "sudo apt-get -y install build-essential openssl libreadline-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison libcurl4-openssl-dev")
+
+server.wait_for { ready? }
+puts '---'
+puts 'downloading wkhtmltopdf binary...'
+cmd(server, "sudo wget http://sourceforge.net/projects/wkhtmltopdf/files/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb/download?use_mirror=superb-dca2 -O /usr/bin/wkhtmltopdf")
+cmd(server, "chmod 755 /usr/bin/wkhtmltopdf")
 
 server.wait_for { ready? }
 puts '---'
@@ -80,7 +86,6 @@ server.scp("/Users/john/projects/apps/phaph/lib/fog/install_rvm.sh", '/home/ubun
 server.wait_for { ready? }
 puts '---'
 puts "installing RVM, Ruby, and Rubygems..."
-install_rvm.sh
 # http://stackoverflow.com/questions/23493984/how-to-install-ruby-2-and-ruby-gems-on-ubuntu-box-with-ansible
 
 cmd(server, "/home/ubuntu/install_rvm.sh")
@@ -93,18 +98,18 @@ cmd(server, "wget http://apt.puppetlabs.com/puppetlabs-release-trusty.deb")
 cmd(server, "sudo dpkg -i puppetlabs-release-trusty.deb")
 cmd(server, "sudo apt-get -y install puppet")
 
-server.wait_for { ready? }
-puts '---'
-puts "Sending puppet manifests ..."
-
-system("rm -f /tmp/puppet.tar && tar -cf /tmp/puppet.tar #{@entelo_root}/lib/puppet")
-server.scp("/tmp/puppet.tar", '/home/ubuntu/', :recursive => true)
-
-server.wait_for { ready? }
-puts '---'
-puts "Running puppet ..."
-cmd(server, "tar xf /home/ubuntu/puppet.tar")
-cmd(server, "sudo env PATH=$PATH puppet apply --modulepath=lib/puppet/modules lib/puppet/manifests/#{@options[:puppet]} --verbose")
+# server.wait_for { ready? }
+# puts '---'
+# puts "Sending puppet manifests ..."
+#
+# system("rm -f /tmp/puppet.tar && tar -cf /tmp/puppet.tar #{@entelo_root}/lib/puppet")
+# server.scp("/tmp/puppet.tar", '/home/ubuntu/', :recursive => true)
+#
+# server.wait_for { ready? }
+# puts '---'
+# puts "Running puppet ..."
+# cmd(server, "tar xf /home/ubuntu/puppet.tar")
+# cmd(server, "sudo env PATH=$PATH puppet apply --modulepath=lib/puppet/modules lib/puppet/manifests/#{@options[:puppet]} --verbose")
 
 
 puts "---"

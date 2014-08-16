@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140812060333) do
+ActiveRecord::Schema.define(version: 20140815201704) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -30,6 +30,18 @@ ActiveRecord::Schema.define(version: 20140812060333) do
 
   add_index "authentications", ["account_email"], name: "index_authentications_on_account_email", using: :btree
   add_index "authentications", ["authorized"], name: "index_authentications_on_authorized", using: :btree
+
+  create_table "collectibles", force: true do |t|
+    t.integer  "user_id",       null: false
+    t.integer  "document_id",   null: false
+    t.integer  "collection_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "collectibles", ["collection_id"], name: "index_collectibles_on_collection_id", using: :btree
+  add_index "collectibles", ["document_id"], name: "index_collectibles_on_document_id", using: :btree
+  add_index "collectibles", ["user_id"], name: "index_collectibles_on_user_id", using: :btree
 
   create_table "collections", force: true do |t|
     t.string   "name"
@@ -65,6 +77,7 @@ ActiveRecord::Schema.define(version: 20140812060333) do
   create_table "documents", force: true do |t|
     t.string   "name",                              null: false
     t.text     "description"
+    t.text     "url"
     t.string   "source"
     t.string   "journal"
     t.datetime "published_at"
@@ -73,7 +86,6 @@ ActiveRecord::Schema.define(version: 20140812060333) do
     t.string   "rights"
     t.integer  "user_id",                           null: false
     t.integer  "organization_id"
-    t.integer  "collection_id"
     t.integer  "scope",                 default: 3, null: false
     t.string   "service"
     t.string   "service_id"
@@ -89,7 +101,6 @@ ActiveRecord::Schema.define(version: 20140812060333) do
     t.string   "file"
   end
 
-  add_index "documents", ["collection_id"], name: "index_documents_on_collection_id", using: :btree
   add_index "documents", ["organization_id"], name: "index_documents_on_organization_id", using: :btree
   add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
 

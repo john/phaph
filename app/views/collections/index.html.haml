@@ -1,12 +1,10 @@
 .row
   .col-md-8
     %h2
-      -# - if @resources.present?
-      -#   #{pluralize(@resources.count, 'Collection')}
-      -# - else
-      -#   Collections
       Your Collections
-    %br
+      %small
+        = link_to 'New', new_collection_path, {:style => 'color: #b3b3b3; margin: 20px 0 0 0;'}
+        
     %table.table.table-hover
   
       - if @resources.present?

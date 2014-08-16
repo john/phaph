@@ -1,6 +1,7 @@
 class Collection < ActiveRecord::Base
   
-  has_many :documents
+  has_many :collectibles
+  has_many :documents, through: :collectibles
   belongs_to :user
   
   acts_as_commentable

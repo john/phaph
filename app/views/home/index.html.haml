@@ -12,7 +12,7 @@
       %dt
         = link_to collection.name, collection, :style => 'font-weight: normal;'
       %dd
-        = collection.description
+        = truncate(collection.description, length: 50)
     %dt
       = link_to 'Create a collection', new_collection_path, :style => 'font-style: italic; font-weight: normal; color: gray;'
   
@@ -24,7 +24,7 @@
       %dt
         = link_to document.name, document, :style => 'font-weight: normal;'
       %dd
-        = document.description
+        = truncate(document.description, length: 50)
         
     %dt
       = link_to 'Upload a document', new_document_path, :style => 'font-style: italic; font-weight: normal; color: gray;'
@@ -41,11 +41,15 @@
     Phaph is Social Search
     
   %p
-    Import documents from Dropbox or upload them, and Phaph makes them searchable by you and the world. Collect documents into searchable sets for sharing and commenting. Need private search? It's cheap!
+    -#Import documents from Dropbox or upload them,
+    Upload documents, and Phaph makes them searchable by you and the world. Create collections of documents for sharing and commenting. 
+  %p
+    Need private search? It's cheap!
     
   %div{:style => 'margin-top: 35px; vertical-align: bottom;'}
-    = link_to 'Sign up with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
-    &nbsp;&nbsp;or #{link_to "signup with email", new_user_registration_path, :style => 'vertical-align: bottom;'}
+    -# = link_to 'Sign up with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
+    -# &nbsp;&nbsp;or #{link_to "signup with email", new_user_registration_path, :style => 'vertical-align: bottom;'}
+    = link_to "Sign up", new_user_registration_path, class: 'btn btn-primary'
     
 .clearfix
 

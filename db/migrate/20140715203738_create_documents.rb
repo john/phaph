@@ -3,6 +3,7 @@ class CreateDocuments < ActiveRecord::Migration
     create_table :documents do |t|
       t.string :name, index: true, null: false
       t.text :description
+      t.text :url
       t.string :source
       t.string :journal
       t.datetime :published_at
@@ -11,7 +12,6 @@ class CreateDocuments < ActiveRecord::Migration
       t.string :rights
       t.references :user, index: true, null: false
       t.references :organization, index: true
-      t.references :collection, index: true
       t.integer :scope, null: false, default: Scope::PUBLIC
       
       t.string :service

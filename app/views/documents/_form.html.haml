@@ -10,13 +10,22 @@
     = hidden_field_tag :redirect_to, lab_path( params[:l] )
   
   <br />
-  - if current_user.collections.present?
-    .form-group
-      .col-sm-7
-        Collection:
+  .form-group
+    .col-sm-7
+      Collection:
+      
+      
+      
+      - if current_user.collections.present?
         = f.label :collection_id, :class => 'sr-only'
-        = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name'), :class => 'form-control'
-  
+        = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name', @document.collection_id), :class => 'form-control'
+      - else
+        #{current_user.name}'s documents
+      
+      
+      &nbsp;
+      (or #{link_to 'create a new collection', new_collection_path})
+        
   
   
   - unless action_name == 'edit'

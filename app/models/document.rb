@@ -10,8 +10,7 @@ class Document < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   
-   # self.per_page = 10
-  
+  attr_accessor :collection_id
   attr_accessor :file_data
   
   # this shouldn't be necesary...
@@ -21,11 +20,13 @@ class Document < ActiveRecord::Base
   
   mount_uploader :file, FileUploader
   
-  acts_as_commentable
-  
   belongs_to :organization
   belongs_to :user
-  belongs_to :collection
+  
+  has_many :collectible
+  has_many :collection, through: :collectible
+  
+  acts_as_commentable
   
   validates_presence_of :user, :name, :state
   

@@ -11,6 +11,9 @@
   .col-md-8
     %h5
       Documents
+      %small
+        &nbsp;
+        = link_to 'New document', new_document_path(collection_id: @collection.id), {:style => 'color: #b3b3b3; margin: 10px 0 0 0;'}
     %table.table.table-hover
       - if @collection.documents.present?
         - @collection.documents.each do |document|
