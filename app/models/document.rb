@@ -75,14 +75,8 @@ class Document < ActiveRecord::Base
     end
   end
 
-  # def attachment
-  #   path_to_attachment = self.file_url
-  #   Base64.encode64(open( "#{Rails.root}/public#{path_to_attachment}" ) { |file| file.read })
-  # end
-  
   def attachment
-    # path_to_attachment = self.file_url
-    Base64.encode64( file_data )
+    Base64.encode64( file_data ) if file_data.present?
   end
   
   def as_indexed_json(options={})

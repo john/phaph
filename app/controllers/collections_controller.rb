@@ -46,7 +46,7 @@ class CollectionsController < ApplicationController
   # DELETE /collections/1
   def destroy
     @collection.destroy
-    redirect_to collections_url, notice: 'Collection was successfully destroyed.'
+    redirect_to collections_url, notice: 'Collection was successfully deleted.'
   end
 
   private

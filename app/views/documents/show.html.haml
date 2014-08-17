@@ -1,11 +1,18 @@
 .row
-  .col-md-4
-    %div
-      = image_tag @document.file.thumb.url, style: 'border: 1px solid #ddd'
+  .col-md-5
+    %div{:style => 'padding: 10px;'}
+      - if @document.url.present?
+        = image_tag "/uploads/document/file/web/thumb_#{@document.id}.gif", style: 'border: 1px solid #ddd;'
+      - else
+        = image_tag @document.file.thumb.url, style: 'border: 1px solid #ddd'
     
-  .col-md-4
+  .col-md-5
     %h3
       = @document.name
+      - if @document.user == current_user
+        %small
+          = link_to 'edit', edit_document_path(@document), {:style => 'color: #b3b3b3; margin: 10px; 0 0 0;'}
+          = link_to 'delete', document_path(@document), method: :delete, data: { confirm: "You're sure? Can't be undone."}, style: 'color: #b3b3b3;'
 
     - if @document.principle_authors.present? || @document.other_authors.present?
       %div
@@ -30,4 +37,13 @@
         &#183;
         = link_to "View on dropbox", dropbox_url(@document.service_path), target: '_blank', class: 'btn btn-primary'
         
-= render partial: '/comments/show', locals: { :resource => @document }
+        
+.row
+  .col-md-5
+    
+    %h4
+      %b
+        Comments
+        
+    #comments
+      = render partial: '/comments/show', locals: { :resource => @document }

@@ -234,8 +234,8 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   
   # config.omniauth :facebook, "KEY", "SECRET"
-  # config.omniauth :twitter, "KEY", "SECRET"
   # config.omniauth :linked_in, "KEY", "SECRET"
+  config.omniauth :twitter, "KEY", "SECRET"
   config.omniauth :dropbox_oauth2, API['dropbox']['key'], API['dropbox']['secret']
 
   # ==> Warden configuration

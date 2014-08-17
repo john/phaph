@@ -69,13 +69,14 @@ server.wait_for { ready? }
 puts '---'
 puts 'apt-getting openssl and friends...'
 
-cmd(server, "sudo apt-get -y install build-essential openssl libreadline-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison libcurl4-openssl-dev")
+cmd(server, "sudo apt-get -y install build-essential libfreetype6-dev libpng-dev fontconfig xorg openssl libreadline-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison libcurl4-openssl-dev")
 
 server.wait_for { ready? }
 puts '---'
-puts 'downloading wkhtmltopdf binary...'
-cmd(server, "sudo wget http://sourceforge.net/projects/wkhtmltopdf/files/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb/download?use_mirror=superb-dca2 -O /usr/bin/wkhtmltopdf")
-cmd(server, "chmod 755 /usr/bin/wkhtmltopdf")
+puts 'installing wkhtmltopdf...'
+cmd(server, "sudo wget http://sourceforge.net/projects/wkhtmltopdf/files/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb/download -O /usr/bin/wkhtmltopdf")
+server.wait_for { ready? }
+cmd(server, "sudo dpkg -i /usr/bin/wkhtmltopdf")
 
 server.wait_for { ready? }
 puts '---'

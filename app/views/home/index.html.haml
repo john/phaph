@@ -48,8 +48,12 @@
     
   %div{:style => 'margin-top: 35px; vertical-align: bottom;'}
     -# = link_to 'Sign up with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
+    
+    -# = link_to 'Sign up with Twitter', user_omniauth_authorize_url(:twitter), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
+    
     -# &nbsp;&nbsp;or #{link_to "signup with email", new_user_registration_path, :style => 'vertical-align: bottom;'}
-    = link_to "Sign up", new_user_registration_path, class: 'btn btn-primary'
+    
+    = link_to "Sign up", new_user_registration_path, class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
     
 .clearfix
 

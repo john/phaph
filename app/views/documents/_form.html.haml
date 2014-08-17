@@ -5,40 +5,44 @@
       %ul
         - @document.errors.full_messages.each do |msg|
           %li= msg
-          
-  - if params[:l].present?
-    = hidden_field_tag :redirect_to, lab_path( params[:l] )
   
-  <br />
-  .form-group
+  %br
+  
+  .row
     .col-sm-7
-      Collection:
+      %div{:style => 'border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;'}
+        .form-group
+          .col-sm-11
+            Collection:
       
+            - if current_user.collections.present?
+              = f.label :collection_id, :class => 'sr-only'
+              = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name', @document.collection_id), :class => 'form-control'
+            - else
+              #{current_user.name}'s documents
       
+            &nbsp;
+            (or #{link_to 'create a new collection', new_collection_path})
       
-      - if current_user.collections.present?
-        = f.label :collection_id, :class => 'sr-only'
-        = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name', @document.collection_id), :class => 'form-control'
-      - else
-        #{current_user.name}'s documents
-      
-      
-      &nbsp;
-      (or #{link_to 'create a new collection', new_collection_path})
+        - unless action_name == 'edit'
+          .form-group
+            .col-sm-11
+              = f.label :file, :class => 'sr-only'
+              = f.file_field :file, class: 'form-control'
+              = f.hidden_field :file_cache
         
-  
-  
-  - unless action_name == 'edit'
-    .form-group
-      .col-sm-7
-        = f.label :file, :class => 'sr-only'
-        = f.file_field :file, class: 'form-control'
-        = f.hidden_field :file_cache
+              %br
+              &mdash; OR &mdash;
+      
+        .form-group
+          .col-sm-11
+            = f.label :url, :class => 'sr-only'
+            = f.text_field :url, class: 'form-control', placeholder: 'URL'
       
   .form-group
     .col-sm-7
       = f.label :name, :class => 'sr-only'
-      = f.text_field :name, class: 'form-control', placeholder: 'Name', autofocus: true
+      = f.text_field :name, class: 'form-control', placeholder: 'Name'
       
   .form-group
     = f.label :description, :class => 'sr-only'

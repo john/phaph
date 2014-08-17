@@ -2,6 +2,28 @@ AppJS = {
   shared : {
     init : function(){
       AppJS.shared.initComments();
+      AppJS.shared.initSearch();
+    },
+    
+    initSearch: function(){
+      $('.all-or-yours-not-selected').click(function(e){
+        e.preventDefault();
+        
+        var selected = $.trim($(this).text());
+        var not_selected = $('.all-or-yours-not-selected')
+        
+        $('.category').val(selected);
+        $('.all-or-yours').text( selected );
+        $('.all-or-yours').append( ' <span class="caret"></span>' );
+        
+        if( selected == 'Yours' ) {
+          $('.all-or-yours-not-selected').text( 'All' );
+          
+        } else {
+          $('.all-or-yours-not-selected').text( 'Yours' );
+        }
+        
+      });
     },
     
     initComments: function(){      

@@ -42,7 +42,7 @@ class AuthenticationsController < ApplicationController
   # DELETE /authentications/1
   def destroy
     @authentication.destroy
-    redirect_to authentications_url, notice: 'Authentication was successfully destroyed.'
+    redirect_to authentications_url, notice: 'Authentication was successfully deleted.'
   end
 
   private

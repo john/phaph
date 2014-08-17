@@ -40,27 +40,28 @@ class DocumentsController < ApplicationController
     @document = Document.new(document_params)
     @document.user = current_user
     
-    # @document.file_data = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
+    # should we be storing the full path to the doc in the db?
     
-    beatles_data = open( "http://en.wikipedia.org/wiki/Beatles" ) { |file| file.read }
-    
-    logger.debug "-----------------------> JUST GOT IT"
-    logger.debug beatles_data
-    
-    @document.file_data = open( "http://en.wikipedia.org/wiki/Beatles" ) { |file| file.read }
-    
-    logger.debug "-----------------------> SET IN THE DOC?"
-    logger.debug @document.file_data
+    if @document.url.present?
+      @document.file_data = open( @document.url ) { |file| file.read }
+    else
+      @document.file_data = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
+    end
     
     if @document.save
       
-      logger.debug "-----------------------> @document SAVED!"
+      if @document.url.present?
+        # generate pdf
+        pdf_out = `wkhtmltopdf #{@document.url} #{Rails.root}/public/uploads/document/file/web/screenshot_#{@document.id}.pdf`
+        
+        image = MiniMagick::Image.open( "#{Rails.root}/public/uploads/document/file/web/screenshot_#{@document.id}.pdf" )
+        image.format( "gif" )
+        image.resize( "425x550" )
+        image.write "#{Rails.root}/public/uploads/document/file/web/thumb_#{@document.id}.gif"
+      end
       
-      # # Carrierwave automatically does this
-      # image = MiniMagick::Image.open( "#{Rails.root}/public#{ @document.file_url }" )
-      # image.format( "gif" )
-      # image.resize( "425x550" )
-      # image.write  "public/uploads/document/file/thumbs/thumb_#{@document.id}.gif"
+      # update document with location of file and thumb
+      
       if @document.collection_id.present?
         logger.debug "-----------------------> @document.collection_id: PRESENT!"
         @collection = Collection.find( @document.collection_id )
@@ -96,7 +97,7 @@ class DocumentsController < ApplicationController
       # Neither is working though, but .index_document does, and it updates in place rather than
       # creating a new es record. Whatever.
       # @document.__elasticsearch__.update_document
-      @document.__elasticsearch__.index_document
+      # @document.__elasticsearch__.index_document
       
       redirect_to @document, notice: 'Document successfully updated.'
     else
@@ -116,7 +117,7 @@ class DocumentsController < ApplicationController
     
     @document.destroy
     
-    redirect_to documents_url, notice: 'Document was successfully destroyed.'
+    redirect_to documents_url, notice: 'Document was successfully deleted.'
   end
   
   
@@ -181,7 +182,7 @@ class DocumentsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def document_params
       params.require(:document).permit(
-      :name, :file, :file_cache, :description, :source, :journal, :published_at,
+      :name, :file, :file_cache, :url, :description, :source, :journal, :published_at,
       :principle_authors, :other_authors, :rights, :user_id, :organization_id, :collection_id, :scope,
       :service, :service_id, :service_revision, :service_root, :service_path, :service_modified_at,
       :service_size_in_bytes, :service_mime_type, :state)

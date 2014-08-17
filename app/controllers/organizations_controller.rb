@@ -73,7 +73,7 @@ class OrganizationsController < ApplicationController
   # DELETE /organizations/1
   def destroy
     @organization.destroy
-    redirect_to organizations_url, notice: 'Organization was successfully destroyed.'
+    redirect_to organizations_url, notice: 'Organization was successfully deleted.'
   end
 
   private
