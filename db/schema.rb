@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140815201704) do
+ActiveRecord::Schema.define(version: 20140817171959) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -75,27 +75,19 @@ ActiveRecord::Schema.define(version: 20140815201704) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "documents", force: true do |t|
-    t.string   "name",                              null: false
+    t.string   "name",                          null: false
     t.text     "description"
     t.text     "url"
     t.string   "source"
-    t.string   "journal"
     t.datetime "published_at"
+    t.string   "file_location"
     t.string   "principle_authors"
     t.string   "other_authors"
     t.string   "rights"
-    t.integer  "user_id",                           null: false
+    t.integer  "user_id",                       null: false
     t.integer  "organization_id"
-    t.integer  "scope",                 default: 3, null: false
-    t.string   "service"
-    t.string   "service_id"
-    t.integer  "service_revision"
-    t.string   "service_root"
-    t.string   "service_path"
-    t.datetime "service_modified_at"
-    t.integer  "service_size_in_bytes"
-    t.string   "service_mime_type"
-    t.string   "state",                             null: false
+    t.integer  "scope",             default: 3, null: false
+    t.string   "state",                         null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "file"
@@ -159,13 +151,28 @@ ActiveRecord::Schema.define(version: 20140815201704) do
 
   add_index "presences", ["locatable_id", "locatable_type"], name: "index_presences_on_locatable_id_and_locatable_type", using: :btree
 
+  create_table "searches", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "user_id",         null: false
+    t.integer  "organization_id"
+    t.string   "state"
+    t.string   "term"
+    t.string   "scope"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "searches", ["organization_id"], name: "index_searches_on_organization_id", using: :btree
+  add_index "searches", ["user_id"], name: "index_searches_on_user_id", using: :btree
+
   create_table "users", force: true do |t|
     t.string   "name",                   default: ""
     t.string   "username"
     t.text     "description"
     t.string   "email",                  default: "", null: false
-    t.integer  "creator_id"
     t.string   "encrypted_password",     default: "", null: false
+    t.integer  "creator_id"
     t.integer  "scope",                  default: 3,  null: false
     t.string   "state",                               null: false
     t.string   "reset_password_token"
@@ -187,11 +194,8 @@ ActiveRecord::Schema.define(version: 20140815201704) do
     t.datetime "updated_at"
   end
 
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["name"], name: "index_users_on_name", using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
   create_table "votes", force: true do |t|
     t.integer  "votable_id"

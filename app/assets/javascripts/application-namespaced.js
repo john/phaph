@@ -1,7 +1,7 @@
 AppJS = {
   shared : {
     init : function(){
-      AppJS.shared.initComments();
+      // AppJS.shared.initComments();
       AppJS.shared.initSearch();
     },
     
@@ -12,7 +12,7 @@ AppJS = {
         var selected = $.trim($(this).text());
         var not_selected = $('.all-or-yours-not-selected')
         
-        $('.category').val(selected);
+        $('.search_scope').val(selected);
         $('.all-or-yours').text( selected );
         $('.all-or-yours').append( ' <span class="caret"></span>' );
         
@@ -38,10 +38,10 @@ AppJS = {
       //   $( "#comment_save" ).css('display', 'none');
       //   return true;
       // });
-      $('#new_comment').submit(function(){
-        $( "#comment_save" ).css('display', 'none');
-        $( "#comment_save" ).fadeOut();
-      })
+      // $('#new_comment').submit(function(){
+      //   $( "#comment_save" ).css('display', 'none');
+      //   $( "#comment_save" ).fadeOut();
+      // })
     }
   }
 };

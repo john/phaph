@@ -96,5 +96,58 @@ class Document < ActiveRecord::Base
       attachment: attachment
     }
   end
+
+  def archive_url
+        
+
+        # generate a web archive
+        
+        # /:user_id/:year/:document_id/:file_name
+
+        # probably put this into "#{Rails.root}/tmp" for now, then send to S3 and record the S3 location
+        docroot = "#{Rails.root}/public/documents"
+
+        # archive path should be to redis/elasticache
+        archive_path = "#{self.user.id}/#{Time.now.strftime("%Y")}/#{id}/#{name.parameterize}"
+
+        `httrack #{url} --depth=1 --path=#{docroot}/#{archive_path}`
+        `tar cvf - #{docroot}/#{archive_path} | gzip > #{docroot}/#{archive_path}.tar.gz`
+
+        # put in memcache or whatever, then:
+        # `rm -rf #{docroot}/#{archive_path}`
+
+        bucket_name = 'phaph'
+        file_name = "#{archive_path}.tar.gz"
+
+
+
+
+
+
+
+        # api = YAML::load_file("#{Rails.root}/config/api_keys.yml")[Rails.env]
+        # # AWS::S3::Base.establish_connection!(
+        # #   :access_key_id => API['aws']['key'],
+        # #   :secret_access_key => API['aws']['secret']
+        # # )
+        # AWS.config(:access_key_id => API['aws']['key'], :secret_access_key => API['aws']['secret'])
+
+
+        # Get an instance of the S3 interface.
+        s3 = AWS::S3.new
+
+        # Upload a file.
+        key = File.basename(file_name)
+        s3.buckets[bucket_name].objects[key].write(:file => file_name)
+        logger.debug "Uploading file #{file_name} to bucket #{bucket_name}."
+
+
+
+        
+
+        # `phantomjs rasterize.js http://fryolator.com #{Rails.root}/public/fryolator.png`
+        # `phantomjs #{Rails.root}/lib/screenshot.js`
+        `phantomjs #{Rails.root}/lib/js/rasterize.js #{url} #{docroot}/#{archive_path}.png 950px*650px`
+  end
   
 end

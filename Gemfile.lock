@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/carrierwaveuploader/carrierwave.git
-  revision: c2ee2e89d3aa447c6b81186be6d627202d33a97f
+  revision: c31f2e7e7afc223a2b85696f39156e383b758d51
   specs:
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
@@ -14,6 +14,15 @@ GIT
   specs:
     awesome_nested_set (3.0.0)
       activerecord (>= 4.0.0, < 5)
+
+GIT
+  remote: https://github.com/elight/acts_as_commentable_with_threading
+  revision: 1d98549d741f9f98d43f060f74dd8469afb35786
+  specs:
+    acts_as_commentable_with_threading (1.2.0)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      awesome_nested_set (>= 2.0)
 
 GIT
   remote: https://github.com/john/carrierwave-dropbox.git
@@ -59,10 +68,6 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
-    acts_as_commentable_with_threading (1.2.0)
-      activerecord (>= 3.0)
-      activesupport (>= 3.0)
-      awesome_nested_set (>= 2.0)
     acts_as_votable (0.10.0)
     arel (5.0.1.20140414130214)
     aws-sdk (1.51.0)
@@ -87,7 +92,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    domain_name (0.5.19)
+    domain_name (0.5.20)
       unf (>= 0.0.5, < 1.0.0)
     dropbox-sdk (1.6.4)
       json
@@ -219,6 +224,7 @@ GEM
       omniauth-oauth (~> 1.0)
     orm_adapter (0.5.0)
     patron (0.4.18)
+    phantomjs (1.9.7.1)
     polyglot (0.3.5)
     pundit (0.2.3)
       activesupport (>= 3.0.0)
@@ -314,7 +320,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    turbolinks (2.2.2)
+    turbolinks (2.2.3)
       coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -342,7 +348,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts_as_commentable_with_threading
+  acts_as_commentable_with_threading!
   acts_as_votable
   awesome_nested_set!
   aws-sdk
@@ -365,6 +371,7 @@ DEPENDENCIES
   omniauth-dropbox-oauth2
   omniauth-twitter
   patron
+  phantomjs
   pundit
   puppet
   rails (= 4.1.4)

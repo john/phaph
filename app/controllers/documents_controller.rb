@@ -1,7 +1,7 @@
 class DocumentsController < ApplicationController
   
   before_action :authenticate_user!, only: [:index, :new, :edit, :create, :destroy]
-  before_action :set_document, only: [:show, :edit, :update, :destroy]
+  before_action :set_document, only: [:show, :view, :edit, :update, :destroy]
   
   # GET /documents
   def index
@@ -19,7 +19,6 @@ class DocumentsController < ApplicationController
 
   # GET /documents/1
   def show
-    logger.info "-------------> yo"
   end
 
   # GET /documents/new
@@ -51,33 +50,34 @@ class DocumentsController < ApplicationController
     if @document.save
       
       if @document.url.present?
-        # generate pdf
-        pdf_out = `wkhtmltopdf #{@document.url} #{Rails.root}/public/uploads/document/file/web/screenshot_#{@document.id}.pdf`
+        # generate a pdf
+        # pdf_out = `wkhtmltopdf #{@document.url}/#{@document.id}.pdf`
         
-        image = MiniMagick::Image.open( "#{Rails.root}/public/uploads/document/file/web/screenshot_#{@document.id}.pdf" )
-        image.format( "gif" )
-        image.resize( "425x550" )
-        image.write "#{Rails.root}/public/uploads/document/file/web/thumb_#{@document.id}.gif"
+        # generate of thumbnail of pdf
+        # image = MiniMagick::Image.open( "/screenshot_#{@document.id}.pdf" )
+        # image.format( "gif" )
+        # image.resize( "425x550" )
+        # image.write "#{Rails.root}/public/uploads/document/file/web/thumb_#{@document.id}.gif"
+
+        @document.archive_url
+
+        # then thumbnail it
+        # http://pielmeier.blogspot.com/2011/02/headless-html-page-rendering-with.html
+        # http://www.cambus.net/creating-thumbnails-using-phantomjs-and-imagemagick/
       end
       
       # update document with location of file and thumb
       
       if @document.collection_id.present?
-        logger.debug "-----------------------> @document.collection_id: PRESENT!"
         @collection = Collection.find( @document.collection_id )
       else
         if current_user.collections.size == 0
-          logger.debug "-----------------------> @collection: CREATING!"
           @collection = Collection.create!( user: current_user, name: "#{current_user.name}'s documents")
         else
           redirect_to root_path, alert: 'Something wrong, could not find or create a collection' and return
         end
       end
-      logger.debug "-----------------------> collectible: CREATING!"
       collectible = Collectible.where(user: current_user, document: @document, collection: @collection ).first_or_create
-      
-      logger.debug "-----------------------> ...and we're done."
-      
       
       if params[:redirect_to].present?
         redirect_to params[:redirect_to]
@@ -87,6 +87,10 @@ class DocumentsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def view
+
   end
 
   # PATCH/PUT /documents/1
@@ -121,49 +125,26 @@ class DocumentsController < ApplicationController
   end
   
   
-  def search( everything: false )
-    @model = Document
-
-    # https://gist.github.com/jprante/5095527
-    query = {
-              query: {
-                filtered: {
-                  filter: user_query,
-                  query: keyword_query( params[:q] )
-                }
-              },
-              highlight: {
-                fields: {
-                  attachment: {}
-                }
-              }
-            }
-            
-    @resources = Document.search( query ).page( params[:page] ||= 1 )
-  end
-  
-  
-  def user_query
-    if true
-      return {
-        term: {
-          user_id: "#{current_user.id}"
-        }
-      }
-    else
-      return {}
-    end
-  end
-  
-  
-  def keyword_query( q )
-    return {
-      multi_match: {
-        query: "#{q}",
-        fields: ["attachment", "name", "description", "source"]
-      }
-    }
-  end
+  # def search( everything: false )
+  #   @model = Document
+  #
+  #   # https://gist.github.com/jprante/5095527
+  #   query = {
+  #             query: {
+  #               filtered: {
+  #                 filter: user_query,
+  #                 query: keyword_query( params[:q] )
+  #               }
+  #             },
+  #             highlight: {
+  #               fields: {
+  #                 attachment: {}
+  #               }
+  #             }
+  #           }
+  #
+  #   @resources = Document.search( query ).page( params[:page] ||= 1 )
+  # end
   
   
   private
@@ -172,10 +153,10 @@ class DocumentsController < ApplicationController
     def set_document
       @document = Document.find(params[:id])
       
-      unless @document.user == current_user
-        sign_out
-        redirect_to root_path, alert: "You've been signed out."  and return
-      end
+      # unless @document.user == current_user
+      #   sign_out
+      #   redirect_to root_path, alert: "You've been signed out."  and return
+      # end
       
     end
 

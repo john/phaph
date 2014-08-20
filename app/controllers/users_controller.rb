@@ -11,9 +11,28 @@ class UsersController < ApplicationController
   # Should require a username, in case we ever need to part ways with Dropbox (or anyone else)
   def finish_signup
     if request.patch? && params[:user] #&& params[:user][:email]
-      if current_user.update(user_params)
-        current_user.skip_reconfirmation!
-        sign_in(current_user, :bypass => true)
+      logger.debug "-----------------> patch"
+      
+      logger.debug "-----------------> params[:user]: #{user_params.inspect}"
+      logger.debug "-----------------> user_params: #{user_params.inspect}"
+      logger.debug "-----------------> email: #{params[:user][:email]}"
+      logger.debug "-----------------> username: #{params[:user][:username]}"
+      
+      # if current_user.update(user_params)
+      
+      # current_user.confirm!
+      # current_user.skip_confirmation!
+      # current_user.save
+      
+      current_user.email = params[:user][:email]
+      current_user.username = params[:user][:username]
+      
+      if current_user.save #current_user.update(params[:user])
+        logger.debug "-----------------> updated user"
+        
+        # current_user.skip_reconfirmation!
+        # current_user.skip_confirmation!
+        
         redirect_to current_user, notice: 'Your profile was successfully updated.'
       else
         @show_errors = true
@@ -37,8 +56,8 @@ class UsersController < ApplicationController
   def user_params
     accessible = [ :name, :username, :email, :description, :location, :latitude, :longitude, :state ] # extend with your own params
     accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
-    # params.require(:user).permit(accessible)
-    params.permit(accessible)
+    # params.permit(accessible)
+    params.require(:user).permit(accessible)
   end
   
   

@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
   
   # after_create :get_dropbox
   #
@@ -25,6 +29,7 @@ class User < ActiveRecord::Base
   validates :name, :email, presence: true
   validates :email, uniqueness: true
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  validates_format_of :email, without: TEMP_EMAIL_REGEX, on: :update
   
   STATES = [:active, :inactive]
   state_machine :state, :initial => :active do
@@ -36,9 +41,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :omniauthable, :omniauth_providers => [:dropbox_oauth2]
-  
-  validates_format_of :email, without: TEMP_EMAIL_REGEX, on: :update
+         :confirmable, :lockable, :omniauthable, :omniauth_providers => [:dropbox_oauth2, :twitter]
   
   def email_verified?
     self.email && self.email !~ TEMP_EMAIL_REGEX

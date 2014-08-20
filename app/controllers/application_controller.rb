@@ -2,10 +2,11 @@ class ApplicationController < ActionController::Base
   
   layout 'application'
   
-  
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
-  before_filter :ensure_signup_complete, only: [:new, :create, :update, :destroy]
-  before_filter :check_username
+  before_filter :ensure_signup_complete, only: [:new, :create, :update] # , :destroy
+  
+  # needed if we ever support dropbox sign up again, to insure those accounts have usernames
+  # before_filter :check_username
   
   protected
 
@@ -43,14 +44,14 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def check_username
-    # Ensure we don't go into an infinite loop
-    return if action_name == 'set_username' || action_name == 'update'
-    
-    if current_user.present? && current_user.username.blank?
-      redirect_to set_username_path
-    end
-  end
+  # def check_username
+  #   # Ensure we don't go into an infinite loop
+  #   return if action_name == 'set_username' || action_name == 'update' || action_name == 'finish_signup'
+  #
+  #   if current_user.present? && current_user.username.blank?
+  #     redirect_to set_username_path
+  #   end
+  # end
   
   def after_sign_in_path_for(resource)
     if resource.email_verified?

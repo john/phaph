@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
-
+  
+  devise_for  :users,
+              path_names: {sign_in: "sign_in", sign_out: "sign_out"},
+              controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations" }
+  match '/people/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  match '/people/set_username' => 'users#set_username', via: :get, :as => :set_username
+  
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
   
@@ -8,12 +14,6 @@ Rails.application.routes.draw do
   # match '/dropbox/callback' => 'dropbox#callback' , :method => :get , :as =>  :dropbox_callback
   
   root 'home#index'
-  
-  devise_for  :users,
-              path_names: {sign_in: "sign_in", sign_out: "sign_out"},
-              controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations" }
-  match '/people/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
-  match '/people/set_username' => 'users#set_username', via: :get, :as => :set_username
   
   namespace :admin do
     match '/' => 'base#index', via: [:get], :as => :admin_index
@@ -39,9 +39,10 @@ Rails.application.routes.draw do
     get 'import', on: :collection
   end
   
-  resources :organizations
   resources :locations
+  resources :organizations
   resources :memberships
+  resources :searches
   
   match '/users/authorize' => 'users#authorize', :via => :get, :as => :user_authorize
   match '/users/dropbox_callback' => 'users#dropbox_callback', :via => :get, :as => :user_dropbox_callback

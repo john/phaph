@@ -42,7 +42,7 @@
   .form-group
     .col-sm-7
       = f.label :name, :class => 'sr-only'
-      = f.text_field :name, class: 'form-control', placeholder: 'Name'
+      = f.text_field :name, class: 'form-control', placeholder: 'Name', required: true
       
   .form-group
     = f.label :description, :class => 'sr-only'

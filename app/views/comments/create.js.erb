@@ -1,6 +1,6 @@
 $( "#comment_body" ).val('');
 var item = $('<%= j render :partial => 'comments/comment', :locals => {:comment => @comment} %>').hide().fadeIn();
 $('#comments ul').prepend( item );
-$( "#comment_save" ).css('display', 'none');
+// $( "#comment_save" ).fadeOut();
 $( "#no-comments" ).css('display', 'none');
 

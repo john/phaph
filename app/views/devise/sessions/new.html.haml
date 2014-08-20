@@ -1,5 +1,15 @@
 %h2{ :style => 'margin-bottom: 30px;'}
   Sign in
+  
+  
+= link_to "<img src='/sign-in-with-twitter-gray.png' style='width:158px; height: 28px' alt='Sign in with Twitter' />".html_safe, user_omniauth_authorize_url(:twitter)
+
+
+%br
+%br
+&mdash; OR &mdash;
+%br
+%br
 
 = form_for(resource, as: resource_name, url: session_path(resource_name), :role => 'form', :html => {:class => 'form-horizontal'} ) do |f|
 

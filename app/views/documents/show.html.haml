@@ -2,11 +2,11 @@
   .col-md-5
     %div{:style => 'padding: 10px;'}
       - if @document.url.present?
-        = image_tag "/uploads/document/file/web/thumb_#{@document.id}.gif", style: 'border: 1px solid #ddd;'
+        = image_tag "/documents/#{current_user.id}/#{@document.created_at.strftime("%Y")}/#{@document.id}/#{@document.name.parameterize}.png", style: 'border: 1px solid #ddd;'
       - else
         = image_tag @document.file.thumb.url, style: 'border: 1px solid #ddd'
     
-  .col-md-5
+  .col-md-7
     %h3
       = @document.name
       - if @document.user == current_user
@@ -39,11 +39,10 @@
         
         
 .row
-  .col-md-5
-    
+  .col-md-12#comments
     %h4
       %b
         Comments
-        
-    #comments
-      = render partial: '/comments/show', locals: { :resource => @document }
+  
+      
+  = render partial: '/comments/show', locals: { :resource => @document }

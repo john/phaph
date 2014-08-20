@@ -6,7 +6,7 @@ Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
-  # config.secret_key = 'ec1c7e0f05bd8947f76a52b09a3e11bce82bba01f2aef3c52ef3af852cacbb8dee72111a7b9f3a04acd7d870159a3d89948f6fec78dd0e386e13470ff97788dd'
+  # config.secret_key = '5cc627bf7e7c0918fa9f32cc25a961babb35368e916cb9420116deff8b5c690cfdf5f1017e2571e5a500389a239f104d276d68923d6e952c17664c312e361444'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -99,7 +99,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = '55a170dd5b80d17e5d11b77d0cd2d763a2f733ebbb57984296b337ca5c917cba876ccadbe2b3f50af32ce9106234835758ca2306f4cdc05c25f408ee0b7418ec'
+  # config.pepper = '19c587271f090176fc20f368e472972d81b9cfb3e43bf3f6ef8941349e00fac471ca787e8705ac067f5d2ec5c3e8d835d9181ad9d00997371207758e1badc319'
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -129,6 +129,9 @@ Devise.setup do |config|
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
   # config.remember_for = 2.weeks
+
+  # Invalidates all the remember me tokens when the user signs out.
+  config.expire_all_remember_me_on_sign_out = true
 
   # If true, extends the user's remember period when remembered via cookie.
   # config.extend_remember_period = false
@@ -183,12 +186,12 @@ Devise.setup do |config|
   # ==> Configuration for :recoverable
   #
   # Defines which key will be used when recovering the password for an account
-  # config.reset_password_keys = [ :email ]
+  config.reset_password_keys = [ :email ]
 
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to
   # change their passwords.
-  config.reset_password_within = 24.hours
+  config.reset_password_within = 6.hours
 
   # ==> Configuration for :encryptable
   # Allow you to use another encryption algorithm besides bcrypt (default). You can use
@@ -232,10 +235,9 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  
   # config.omniauth :facebook, "KEY", "SECRET"
   # config.omniauth :linked_in, "KEY", "SECRET"
-  config.omniauth :twitter, "KEY", "SECRET"
+  config.omniauth :twitter, API['twitter']['key'], API['twitter']['secret']
   config.omniauth :dropbox_oauth2, API['dropbox']['key'], API['dropbox']['secret']
 
   # ==> Warden configuration

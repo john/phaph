@@ -1,7 +1,13 @@
 defaults: &defaults
+  aws:
+    key: 'AKIAIHXOIL4LVGJVMXFA'
+    secret: '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'
   dropbox:
-    key: "jtgzmeyw4zj2pxb"
-    secret: "mc0yzmdeudwmr2m"
+    key: 'jtgzmeyw4zj2pxb'
+    secret: 'mc0yzmdeudwmr2m'
+  twitter:
+    key: 'd4JBeVpM7RjErD6B6TTkoxZ81'
+    secret: 'bySPEDusWUQnwJ6muhqQ1n0AyHydNf7ishHCx0UFSGtz6dIsHA'
 
 development:
   <<: *defaults

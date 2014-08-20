@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'acts_as_commentable_with_threading'
+gem 'acts_as_commentable_with_threading', git: 'https://github.com/elight/acts_as_commentable_with_threading'
 # gem 'acts-as-taggable-on'
 gem 'acts_as_votable'
 gem 'awesome_nested_set', git: 'https://github.com/collectiveidea/awesome_nested_set.git'
@@ -28,9 +28,7 @@ gem 'haml-rails'
 # gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jquery-rails'
 gem 'mechanize', require: false
-
 gem 'mini_magick'
-
 gem 'mysql2'
 gem 'omniauth'
 gem 'omniauth-twitter'
@@ -38,6 +36,7 @@ gem 'omniauth-twitter'
 gem 'omniauth-dropbox-oauth2'
 
 gem 'patron' # http library that supports keep-alive connections, recommended for elasticsearch-ruby
+gem 'phantomjs'
 # gem 'omniauth-facebook'
 # gem 'omniauth-linkedin'
 # gem 'paperclip', :git => 'git://github.com/thoughtbot/paperclip.git'

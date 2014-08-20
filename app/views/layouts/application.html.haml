@@ -56,19 +56,18 @@
           
         .navbar-collapse.collapse
           
-          = form_tag( search_documents_path, :method => :get, :class => 'navbar-form navbar-left navbar-input-group form-inline', :role => 'search') do
+          = form_tag( search_path('run'), :method => :get, :class => 'navbar-form navbar-left navbar-input-group form-inline', :role => 'search') do
             .input-group
               = text_field_tag 'q', params[:q].present? ? params[:q] : '', :class => :'form-control', :placeholder => 'Search', :'x-webkit-speech' => :'x-webkit-speech'
               
               .input-group-btn
-                -#  <span class="caret"></span>
                 %button.btn.btn-default.dropdown-toggle.all-or-yours{:'data-toggle' => 'dropdown'}
-                  All
+                  = (@scope == 'yours') ? 'Yours' : 'All'
                   <span class="caret"></span>
                 %ul.dropdown-menu
                   %li.all-or-yours-not-selected{ style: 'padding: 6px 12px'}
-                    Yours
-                <input type="hidden" name="category" class="category">
+                    = (@scope == 'yours') ? 'All' : 'Yours'
+                <input type="hidden" name="search_scope" class="search_scope" value="#{@scope}">
                     
               %span.input-group-btn
                 %button.btn.btn-default{type: 'submit'}
@@ -79,28 +78,30 @@
             
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
-              %li
-                = link_to '<span class="glyphicon glyphicon-folder-open" data-toggle="tooltip" data-placement="bottom" title="Your collections"></span>'.html_safe, collections_path
-                -# = link_to 'Your collections', collections_path
-              %li
-                = link_to '<span class="glyphicon glyphicon-file" data-toggle="tooltip" data-placement="bottom" title="Your documents"></span>'.html_safe, documents_path
-                -# = link_to 'Your documents', documents_path
-              %li
-                = link_to '<span class="glyphicon glyphicon-plus" data-toggle="tooltip" data-placement="bottom" title="Add document""></span>'.html_safe, new_document_path
-                -# = link_to 'upload', new_document_path
-              -# %li
-              -#   = link_to 'import', import_documents_path
               
               %li.dropdown
                 %a.dropdown-toggle{:'data-toggle' => 'dropdown'}
                   -# = current_user.name
-                  <span class="glyphicon glyphicon-user"></span>
+                  <span class="glyphicon glyphicon-th-list"></span>
                   %span.caret
                 %ul.dropdown-menu{:role => 'menu'}
                   %li
-                    -# = link_to '<span class="glyphicon glyphicon-user" style="font-size:1.2em data-toggle="tooltip" data-placement="bottom" title="Your profile""></span>'.html_safe, people_path(current_user.id, current_user.name.parameterize)
-                    = link_to "Your profile", people_path(current_user.id, current_user.name.parameterize)
-                    = link_to "Sign out", destroy_user_session_path, :method => :delete
+                    = link_to '<span class="glyphicon glyphicon-folder-open""></span> &nbsp;&nbsp;Your collections'.html_safe, collections_path
+                  %li
+                    = link_to '<span class="glyphicon glyphicon-file"></span> &nbsp;&nbsp;Your documents'.html_safe, documents_path
+                  %li
+                    = link_to '<span class="glyphicon glyphicon-plus"></span> &nbsp;&nbsp;Add a document'.html_safe, new_document_path
+                  
+                  %li.divider
+                  
+                  -# %li{:style => 'margin-left: 20px; font-size: 10px;'}
+                  -#   %i
+                  -#     Signed in as<br />#{current_user.name}
+                  
+                  %li
+                    = link_to "<span class='glyphicon glyphicon-user'></span> &nbsp;&nbsp;#{current_user.username}'s profile".html_safe, people_path(current_user.id, current_user.name.parameterize)
+                  %li
+                    = link_to '<span class="glyphicon glyphicon-log-out"></span> &nbsp;&nbsp;Sign out'.html_safe, destroy_user_session_path, :method => :delete
             - else
               %li
                 = link_to "Sign in", new_user_session_path
@@ -109,9 +110,26 @@
                 
     .container
       
-      = content_tag(:div, flash[:error], :id => "error", :class => "bg-warning") if flash[:error]
-      = content_tag(:div, flash[:notice], :id => "notice", :class => "bg-success") if flash[:notice]
-      = content_tag(:div, flash[:alert], :id => "alert", :class => "bg-danger") if flash[:alert]
+      - if flash[:notice]
+        #notice.alert.alert-success.alert-dismissable
+          = flash[:notice]
+          <button type="button" class="close" data-dismiss='alert'><span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+          </button>
+
+      - if flash[:error]
+        #notice.alert.alert-error.alert-dismissable
+          = flash[:error]
+          <button type="button" class="close" data-dismiss='alert'><span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+          </button>
+
+      - if flash[:alert]
+        #notice.alert.alert-warning.alert-dismissable
+          = flash[:alert]
+          <button type="button" class="close" data-dismiss='alert'><span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+          </button>
       
       = yield
       

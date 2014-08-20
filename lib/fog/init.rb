@@ -4,6 +4,8 @@
 require 'rubygems'
 require 'fog'
 
+API = YAML::load_file("#{Rails.root}/config/api_keys.yml")[Rails.env]
+
 def cmd(server, command)
   puts command.to_s
   result = server.ssh(command)[0]
@@ -24,8 +26,7 @@ flavor_id = 'm3.large'
 # public_key_path = "#{ENV['HOME']}/.ssh/entelo/id_rsa.pub"
 
 # fnnny account:
-aws_access_key_id = 'AKIAIHXOIL4LVGJVMXFA'
-aws_secret_access_key = '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'
+
 private_key_path = '/Users/john/.ssh/id_rsa'
 public_key_path = '/Users/john/.ssh/id_rsa.pub'
 
@@ -38,8 +39,8 @@ puts "creating connection..."
 connection = Fog::Compute.new(
   :provider => 'AWS',
   :region => region,
-  :aws_access_key_id => aws_access_key_id,
-  :aws_secret_access_key => aws_secret_access_key,
+  :aws_access_key_id => API['aws']['key'],
+  :aws_secret_access_key => API['aws']['secret'],
 )
 
 puts '---'
@@ -53,6 +54,22 @@ server = connection.servers.bootstrap(  :private_key_path => private_key_path,
                                         :groups => ['default'] )
                                         # :groups => ['linkedout-fetcher']
                                         # :groups => 'default'
+
+
+##############################################################
+#
+# I think a lot of this shit can and should be done with Puppet
+
+# In puppet manifest:
+# package { 'build-essential':
+#   ensure      => installed,
+# }
+# 
+# package { 'webhttrack':
+#   ensure      => installed,
+# }
+
+
 server.wait_for { ready? }
 puts '---'
 puts 'apt-get update...'
@@ -69,14 +86,20 @@ server.wait_for { ready? }
 puts '---'
 puts 'apt-getting openssl and friends...'
 
-cmd(server, "sudo apt-get -y install build-essential libfreetype6-dev libpng-dev fontconfig xorg openssl libreadline-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison libcurl4-openssl-dev")
+cmd(server, "sudo apt-get -y install webhttrack build-essential openssl libreadline-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison libcurl4-openssl-dev")
 
 server.wait_for { ready? }
 puts '---'
 puts 'installing wkhtmltopdf...'
+cmd(server, "sudo apt-get -y install libfreetype6-dev fontconfig xorg libpng-dev libjpeg-dev ")
 cmd(server, "sudo wget http://sourceforge.net/projects/wkhtmltopdf/files/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb/download -O /usr/bin/wkhtmltopdf")
 server.wait_for { ready? }
 cmd(server, "sudo dpkg -i /usr/bin/wkhtmltopdf")
+
+
+#
+##############################################################
+
 
 server.wait_for { ready? }
 puts '---'
