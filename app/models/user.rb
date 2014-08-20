@@ -1,8 +1,12 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  # devise :database_authenticatable, :registerable,
+  #        :recoverable, :rememberable, :trackable, :validatable
+
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+    :recoverable, :rememberable, :trackable, :validatable,
+    :confirmable, :lockable, :omniauthable, :omniauth_providers => [:dropbox_oauth2, :twitter]
   
   # after_create :get_dropbox
   #
@@ -98,8 +102,8 @@ class User < ActiveRecord::Base
         # Get the existing user by email if the provider gives us a verified email.
         # If no verified email was provided we assign a temporary email and ask the
         # user to verify it on the next step via UsersController.finish_signup
-        # email_is_verified = auth.info.email && (auth.info.verified || auth.info.verified_email)
-        email = auth.info.email # if email_is_verified
+        email_is_verified = auth.info.email && (auth.info.verified || auth.info.verified_email)
+        email = auth.info.email if email_is_verified
         user = User.where(:email => email).first if email
 
         # Create the user if it's a new registration
@@ -111,7 +115,6 @@ class User < ActiveRecord::Base
             password: Devise.friendly_token[0,20]
           )
           
-          # Probably don't really want to skip confirmation
           user.skip_confirmation!
           user.save!
         end
@@ -123,6 +126,10 @@ class User < ActiveRecord::Base
         authentication.save!
       end
       user
+    end
+
+    def email_verified?
+      self.email && self.email !~ TEMP_EMAIL_REGEX
     end
     
 end

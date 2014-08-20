@@ -1,10 +1,11 @@
 class UsersController < ApplicationController
   
-  before_filter :authenticate_user!, except: [:finish_signup]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  # before_filter :authenticate_user!, except: [:finish_signup]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :finish_signup]
   
   
   def set_username
+    logger.debug "-----------------> IN set_username"
     @user = current_user
   end
   
@@ -24,16 +25,20 @@ class UsersController < ApplicationController
       # current_user.skip_confirmation!
       # current_user.save
       
-      current_user.email = params[:user][:email]
-      current_user.username = params[:user][:username]
+      # current_user.email = params[:user][:email]
+      # current_user.username = params[:user][:username]
+      logger.debug "-----------------> current_user: #{current_user.inspect}"
+logger.debug "--------"
+      logger.debug "-----------------> @user: #{@user.inspect}"
+
+      current_user.skip_reconfirmation!
       
-      if current_user.save #current_user.update(params[:user])
-        logger.debug "-----------------> updated user"
+      if @user.update(user_params) #if current_user.save
+        logger.debug "-----------------> updated user: #{@user.inspect}"
         
-        # current_user.skip_reconfirmation!
-        # current_user.skip_confirmation!
         
-        redirect_to current_user, notice: 'Your profile was successfully updated.'
+        sign_in(@user, :bypass => true)
+        redirect_to @user, notice: 'Your profile was successfully updated.'
       else
         @show_errors = true
       end

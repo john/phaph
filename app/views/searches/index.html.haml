@@ -1,0 +1,23 @@
+%h1 Listing searches
+
+%table
+  %tr
+    %th User
+    %th Term
+    %th Scope
+    %th
+    %th
+    %th
+
+  - @searches.each do |search|
+    %tr
+      %td= search.user_id
+      %td= search.term
+      %td= search.scope
+      %td= link_to 'Show', search
+      %td= link_to 'Edit', edit_search_path(search)
+      %td= link_to 'Destroy', search, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Search', new_search_path

@@ -1,0 +1,42 @@
+:css
+  em { text-style: normal; font-weight: bold; }
+  td { margin-left}
+-# - if signed_in?
+-#   = render :partial => 'shared/search_form'
+
+
+-# %hr
+-# = @resources.inspect
+-# %hr
+.row
+  .col-md-12
+    
+    - if params[:q].present?
+      #{number_with_delimiter(@resources.results.size)} #{'result'.pluralize(@resources.results.size)}
+      for
+      %h2{:style => 'margin-top: 0;'}
+        = params[:q]
+      
+  .clearfix
+
+  .col-md-12
+    %br
+
+    - if @resources.present?
+      - @resources.each do |result|
+        %div{:style => 'margin-bottom: 30px'}
+          %b
+            = link_to result.name, "#{document_path(result.id)}/#{result.name.parameterize}"
+            
+          - if result.respond_to?( :highlight )
+            %div{ :style => 'margin-top: 5px'}
+              #{result.highlight.attachment.first.html_safe}&hellip;
+            
+    - else
+      %tr
+        %td{ colspan: 2 }
+          No results :-(
+        
+  - if @resources
+    = will_paginate @resources, renderer: BootstrapPagination::Rails, :next_label => 'Next &raquo;', :previous_label => '&laquo;'
+    
