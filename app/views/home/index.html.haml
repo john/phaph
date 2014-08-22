@@ -1,16 +1,11 @@
-.row
-  #home.col-md-12
+- if signed_in?
+  %h3
+    Recent collections
+    %small
+      = link_to 'new', new_collection_path
 
-    - if signed_in?
-
-      :css
-        dt { margin-top: 10px; }
-        
-      %h3
-        Recent collections
-        %small
-          = link_to 'new', new_collection_path
-        
+  .row
+    .col-md-12
       - @collections.each do |collection|
         <a href="#{url_for(collection)}">
         %div{ style: 'background-color: white; width: 180px'}
@@ -18,39 +13,51 @@
             = image_tag "#{document.file_location}_75.gif", style: 'margin: 5px;'
             = "<br />".html_safe if (i+1) % 2 == 0
         </a>
-        -# %dt
-        -#   = link_to collection.name, collection, :style => 'font-weight: normal;'
-        -# %dd
-        -#   = truncate(collection.description, length: 50)
 
-      
-      %br
-      %hr
-      %br
+  %br
+  %br
+  .clearfix
 
-      %h3{style: 'margin-bottom: 20px;'}
-        Recent documents
-        %small
-          = link_to 'new', new_document_path, class: 'btn btn-default btn-sm'
-        
-      - @documents.each do |document|
-        
-        .pull-left
+  %h3{style: 'margin-bottom: 20px;'}
+    Recent documents
+    %small
+      = link_to 'new', new_document_path, class: 'btn btn-default btn-sm'
 
-          .hpitem
-            <a href="#{url_for(document)}">
-            - if document.url.present?
-              = image_tag "#{document.file_location}_225.gif"
-            .txt
-              .small
-                = document.name
-              - if document.description.present?
-                .small
-                  %i
-                    = truncate(document.description, length: 50)
-            </a>
+  #docs
+    - @documents.each do |document|
+      .item
+        <a href="#{url_for(document)}">
+        - if document.url.present?
+          = image_tag "#{document.file_location}_225.gif"
+        .txt
+          .small
+            = document.name
+          - if document.description.present?
+            .small
+              %i
+                = truncate(document.description, length: 50)
+        </a>
 
-    - else
+  :javascript
+    var container = document.querySelector('#docs');
+    var msnry = new Masonry( container, {
+      itemSelector: '.item'
+    });
+    imagesLoaded( container, function() {
+      msnry.layout();
+    })
+
+    // initialize Masonry after all images have loaded  
+    //container.imagesLoaded( function() {
+    //  container.masonry({
+    //    columnWidth: 200,
+    //    itemSelector: '.item'
+    //  });
+    //});
+
+- else
+  .row
+    .col-md-12
 
       %h1
         Phaph is Social Search
@@ -71,12 +78,3 @@
         -# = link_to "Sign up", new_user_registration_path, class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
         
     .clearfix
-
-    %br
-
-      -# %h5
-      -#   Benefits
-      -#
-      -# %ul
-      -#   %li
-      -#     You should be able to find your data in Dropbox and get it out—it shouldn't be a Roach Motel.

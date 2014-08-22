@@ -22,9 +22,6 @@
     = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
     -# = stylesheet_link_tag 'http://bootswatch.com/readable/bootstrap.min.css'
     = stylesheet_link_tag 'app'
-    
-    -# = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-
     = stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/fonts/glyphicons-halflings-regular.svg'
     
     -# HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -36,10 +33,9 @@
     = javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = javascript_include_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'
-    
-    <!--[if lte IE 8]>
-    = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/flot/0.8.2/excanvas.min.js'
-    <![endif]-->
+
+    = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.min.js'
+    = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/masonry/3.1.5/masonry.pkgd.min.js'
     
     = csrf_meta_tags
     
@@ -94,10 +90,6 @@
                     = link_to '<span class="glyphicon glyphicon-plus"></span> &nbsp;&nbsp;Add a document'.html_safe, new_document_path
                   
                   %li.divider
-                  
-                  -# %li{:style => 'margin-left: 20px; font-size: 10px;'}
-                  -#   %i
-                  -#     Signed in as<br />#{current_user.name}
                   
                   %li
                     = link_to "<span class='glyphicon glyphicon-user'></span> &nbsp;&nbsp;#{current_user.username}'s profile".html_safe, people_path(current_user.id, current_user.name.parameterize)
