@@ -18,14 +18,14 @@ class CreateDocuments < ActiveRecord::Migration
       t.references :organization, index: true
       t.integer :scope, null: false, default: Scope::PUBLIC
       
-      # t.string :service
-      # t.string :service_id
-      # t.integer :service_revision
-      # t.string :service_root
-      # t.string :service_path
-      # t.datetime :service_modified_at
-      # t.integer :service_size_in_bytes
-      # t.string :service_mime_type
+      t.string :service
+      t.string :service_id
+      t.integer :service_revision
+      t.string :service_root
+      t.string :service_path
+      t.datetime :service_modified_at
+      t.integer :service_size_in_bytes
+      t.string :service_mime_type
       
       t.string :state, null: false
 

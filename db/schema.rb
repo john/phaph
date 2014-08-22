@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 20140817171959) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "documents", force: true do |t|
-    t.string   "name",                          null: false
+    t.string   "name",                              null: false
     t.text     "description"
     t.text     "url"
     t.string   "source"
@@ -84,10 +84,18 @@ ActiveRecord::Schema.define(version: 20140817171959) do
     t.string   "principle_authors"
     t.string   "other_authors"
     t.string   "rights"
-    t.integer  "user_id",                       null: false
+    t.integer  "user_id",                           null: false
     t.integer  "organization_id"
-    t.integer  "scope",             default: 3, null: false
-    t.string   "state",                         null: false
+    t.integer  "scope",                 default: 3, null: false
+    t.string   "service"
+    t.string   "service_id"
+    t.integer  "service_revision"
+    t.string   "service_root"
+    t.string   "service_path"
+    t.datetime "service_modified_at"
+    t.integer  "service_size_in_bytes"
+    t.string   "service_mime_type"
+    t.string   "state",                             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "file"

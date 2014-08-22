@@ -28,4 +28,4 @@
     = f.label :state
     = f.text_field :state
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save', class: 'btn btn-primary', data: { disable_with: 'Saving...' }

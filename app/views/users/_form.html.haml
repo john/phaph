@@ -40,4 +40,4 @@
         = f.select :state, options_for_select([['active', 'active'], ['inactive', 'inactive']], @user.state), :class => 'form-control'
       
   .actions
-    = f.submit 'Save', :class => 'btn btn-primary'
+    = f.submit 'Save', class: 'btn btn-primary', disable_with: 'Saving...'

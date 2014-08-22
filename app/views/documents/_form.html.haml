@@ -66,4 +66,4 @@
 
   .form-group
     .col-sm-7
-      = f.submit 'Save', :class => 'btn btn-primary'
+      = f.submit 'Save', class: 'btn btn-primary', data: { disable_with: 'Saving...' }

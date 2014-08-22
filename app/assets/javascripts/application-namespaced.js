@@ -3,12 +3,29 @@ AppJS = {
     init : function(){
       // AppJS.shared.initComments();
       AppJS.shared.initSearch();
+      AppJS.shared.initAlerts();
+    },
+
+    initAlerts: function(){
+
+      $( ".alert > .close" ).click(function(e) {
+        console.log( 'in here' );
+        $('.alert').fadeOut();
+        e.stopPropagation();
+      });
+
     },
     
     initSearch: function(){
+
+      $('.navbar-form').keypress(function(e) {
+          if (e.keyCode == 13 && e.target.type != "textarea") {
+              $(this).submit();
+              return false;
+          }
+      });
+
       $('.all-or-yours-not-selected').click(function(e){
-        e.preventDefault();
-        
         var selected = $.trim($(this).text());
         var not_selected = $('.all-or-yours-not-selected')
         

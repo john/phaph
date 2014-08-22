@@ -21,7 +21,7 @@
   
     .col-md-4.actions#comment_save
       -# {style: 'margin: 10px, 0 0 10px;'}
-      = f.submit 'Save', :class => 'btn btn-primary'
+      = f.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Saving...'}
 
 .row
   .col-md-8

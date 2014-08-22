@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/carrierwaveuploader/carrierwave.git
-  revision: c31f2e7e7afc223a2b85696f39156e383b758d51
+  revision: be840d15eaf8900f48241ab6d802fd62b5e3b584
   specs:
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
@@ -31,6 +31,17 @@ GIT
     carrierwave-dropbox (1.2.1)
       carrierwave (~> 0.9)
       dropbox-sdk (~> 1.6)
+
+GIT
+  remote: https://github.com/plataformatec/devise.git
+  revision: df43642cd5e5a4ed666fc8e57a1bee46de864394
+  specs:
+    devise (3.3.0)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
 
 GIT
   remote: https://github.com/seuros/state_machine.git
@@ -74,7 +85,12 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
     bcrypt (3.1.7)
+    binding_of_caller (0.7.3.pre1)
+      debug_inspector (>= 0.0.1)
     builder (3.2.2)
+    byebug (3.2.0)
+      columnize (~> 0.8)
+      debugger-linecache (~> 1.2)
     celluloid (0.15.2)
       timers (~> 1.1.0)
     coffee-rails (4.0.1)
@@ -84,13 +100,10 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.1)
+    columnize (0.8.9)
     connection_pool (2.0.0)
-    devise (3.3.0)
-      bcrypt (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 3.2.6, < 5)
-      thread_safe (~> 0.1)
-      warden (~> 1.2.3)
+    debug_inspector (0.0.2)
+    debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
     domain_name (0.5.20)
       unf (>= 0.0.5, < 1.0.0)
@@ -170,6 +183,8 @@ GEM
     jwt (1.0.0)
     kgio (2.9.2)
     libv8 (3.16.14.3)
+    loofah (2.0.1)
+      nokogiri (>= 1.5.9)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -248,6 +263,8 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.1.4)
       sprockets-rails (~> 2.0)
+    rails-html-sanitizer (1.0.0)
+      loofah (~> 2.0)
     railties (4.1.4)
       actionpack (= 4.1.4)
       activesupport (= 4.1.4)
@@ -320,7 +337,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    turbolinks (2.2.3)
+    turbolinks (2.3.0)
       coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -339,6 +356,11 @@ GEM
       unicorn
     warden (1.2.3)
       rack (>= 1.0)
+    web-console (2.0.0.beta3)
+      activemodel (~> 4.0)
+      binding_of_caller (= 0.7.3.pre1)
+      railties (~> 4.0)
+      sprockets-rails (>= 2.0, < 4.0)
     webrobots (0.1.1)
     will_paginate (3.0.7)
     will_paginate-bootstrap (1.0.1)
@@ -352,9 +374,10 @@ DEPENDENCIES
   acts_as_votable
   awesome_nested_set!
   aws-sdk
+  byebug
   carrierwave!
   carrierwave-dropbox!
-  devise
+  devise!
   dropbox-sdk
   elasticsearch
   elasticsearch-model
@@ -375,6 +398,7 @@ DEPENDENCIES
   pundit
   puppet
   rails (= 4.1.4)
+  rails-html-sanitizer (~> 1.0)
   rspec-rails
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
@@ -387,5 +411,6 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   unicorn-rails
+  web-console (~> 2.0.0.beta2)
   will_paginate
   will_paginate-bootstrap

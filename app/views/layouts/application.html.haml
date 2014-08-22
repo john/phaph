@@ -17,6 +17,7 @@
     %title= (Rails.env == 'development' ? '[DEV] ' : '') + (@title ? @title : 'Phaph')
     
     <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     
     = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
     -# = stylesheet_link_tag 'http://bootswatch.com/readable/bootstrap.min.css'
@@ -56,7 +57,7 @@
           
         .navbar-collapse.collapse
           
-          = form_tag( search_path('run'), :method => :get, :class => 'navbar-form navbar-left navbar-input-group form-inline', :role => 'search') do
+          = form_tag( search_path('run'), :method => :get, :class => 'navbar-form navbar-left navbar-input-group form-inline search-form', :role => 'search') do
             .input-group
               = text_field_tag 'q', params[:q].present? ? params[:q] : '', :class => :'form-control', :placeholder => 'Search', :'x-webkit-speech' => :'x-webkit-speech'
               

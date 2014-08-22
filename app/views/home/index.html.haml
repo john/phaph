@@ -1,67 +1,82 @@
+.row
+  #home.col-md-12
 
-- if signed_in?
+    - if signed_in?
 
-  :css
-    dt { margin-top: 10px; }
-    
-  %h2
-    Recent collections
-    
-  %dl
-    - @collections.each do |collection|
-      %dt
-        = link_to collection.name, collection, :style => 'font-weight: normal;'
-      %dd
-        = truncate(collection.description, length: 50)
-    %dt
-      = link_to 'Create a collection', new_collection_path, :style => 'font-style: italic; font-weight: normal; color: gray;'
-  
-  %h2
-    Recent documents
-    
-  %dl
-    - @documents.each do |document|
-      %dt
-        = link_to document.name, document, :style => 'font-weight: normal;'
-      %dd
-        = truncate(document.description, length: 50)
+      :css
+        dt { margin-top: 10px; }
         
-    %dt
-      = link_to 'Add a document', new_document_path, :style => 'font-style: italic; font-weight: normal; color: gray;'
+      %h3
+        Recent collections
+        %small
+          = link_to 'new', new_collection_path
+        
+      - @collections.each do |collection|
+        <a href="#{url_for(collection)}">
+        %div{ style: 'background-color: white; width: 180px'}
+          - collection.documents[0..3].each_with_index do |document,i|
+            = image_tag "#{document.file_location}_75.gif", style: 'margin: 5px;'
+            = "<br />".html_safe if (i+1) % 2 == 0
+        </a>
+        -# %dt
+        -#   = link_to collection.name, collection, :style => 'font-weight: normal;'
+        -# %dd
+        -#   = truncate(collection.description, length: 50)
+
       
-    -# %li
-    -#   Connect Phaph to Dropbox, so you can import Dropbox docs
-    -#
-    -# %li
-    -#   Search public documents
-  
-- else
+      %br
+      %hr
+      %br
 
-  %h1
-    Phaph is Social Search
-    
-  %p
-    -#Import documents from Dropbox or upload them,
-    Upload documents, and Phaph makes them searchable by you and the world. Create collections of documents for sharing and commenting. 
-  %p
-    Need private search? It's cheap!
-    
-  %div{:style => 'margin-top: 35px; vertical-align: bottom;'}
-    -# = link_to 'Sign up with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
-    -# = link_to 'Sign up with Twitter', user_omniauth_authorize_url(:twitter), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
-    = link_to "<img src='/sign-in-with-twitter-gray.png' style='width:158px; height: 28px' alt='Sign in with Twitter' />".html_safe, user_omniauth_authorize_url(:twitter)
-    
-    &nbsp;&nbsp;or #{link_to "signup with email", new_user_registration_path, :style => 'vertical-align: bottom;'}
-    
-    -# = link_to "Sign up", new_user_registration_path, class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
-    
-.clearfix
+      %h3{style: 'margin-bottom: 20px;'}
+        Recent documents
+        %small
+          = link_to 'new', new_document_path, class: 'btn btn-default btn-sm'
+        
+      - @documents.each do |document|
+        
+        .pull-left
 
-%br
+          .hpitem
+            <a href="#{url_for(document)}">
+            - if document.url.present?
+              = image_tag "#{document.file_location}_225.gif"
+            .txt
+              .small
+                = document.name
+              - if document.description.present?
+                .small
+                  %i
+                    = truncate(document.description, length: 50)
+            </a>
 
-  -# %h5
-  -#   Benefits
-  -#
-  -# %ul
-  -#   %li
-  -#     You should be able to find your data in Dropbox and get it out—it shouldn't be a Roach Motel.
+    - else
+
+      %h1
+        Phaph is Social Search
+        
+      %p
+        -#Import documents from Dropbox or upload them,
+        Upload documents, and Phaph makes them searchable by you and the world. Create collections of documents for sharing and commenting. 
+      %p
+        Need private search? It's cheap!
+        
+      %div{:style => 'margin-top: 35px; vertical-align: bottom;'}
+        -# = link_to 'Sign up with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
+        -# = link_to 'Sign up with Twitter', user_omniauth_authorize_url(:twitter), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
+        = link_to "<img src='/sign-in-with-twitter-gray.png' style='width:158px; height: 28px' alt='Sign in with Twitter' />".html_safe, user_omniauth_authorize_url(:twitter)
+        
+        &nbsp;&nbsp;or #{link_to "signup with email", new_user_registration_path, :style => 'vertical-align: bottom;'}
+        
+        -# = link_to "Sign up", new_user_registration_path, class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
+        
+    .clearfix
+
+    %br
+
+      -# %h5
+      -#   Benefits
+      -#
+      -# %ul
+      -#   %li
+      -#     You should be able to find your data in Dropbox and get it out—it shouldn't be a Roach Motel.

@@ -36,6 +36,7 @@ class DocumentsController < ApplicationController
 
   # POST /documents
   def create
+    logger.debug "---------------------> document_params: #{document_params.inspect}"
     @document = Document.new(document_params)
     @document.user = current_user
     
@@ -52,14 +53,8 @@ class DocumentsController < ApplicationController
       if @document.url.present?
         # generate a pdf
         # pdf_out = `wkhtmltopdf #{@document.url}/#{@document.id}.pdf`
-        
-        # generate of thumbnail of pdf
-        # image = MiniMagick::Image.open( "/screenshot_#{@document.id}.pdf" )
-        # image.format( "gif" )
-        # image.resize( "425x550" )
-        # image.write "#{Rails.root}/public/uploads/document/file/web/thumb_#{@document.id}.gif"
 
-        @document.archive_url
+        @document.archive_site
 
         # then thumbnail it
         # http://pielmeier.blogspot.com/2011/02/headless-html-page-rendering-with.html
@@ -161,9 +156,12 @@ class DocumentsController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
+
+    # :journal, 
+    
     def document_params
       params.require(:document).permit(
-      :name, :file, :file_cache, :url, :description, :source, :journal, :published_at,
+      :name, :file, :file_cache, :url, :description, :source, :published_at,
       :principle_authors, :other_authors, :rights, :user_id, :organization_id, :collection_id, :scope,
       :service, :service_id, :service_revision, :service_root, :service_path, :service_modified_at,
       :service_size_in_bytes, :service_mime_type, :state)

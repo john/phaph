@@ -30,6 +30,7 @@ class Document < ActiveRecord::Base
   
   validates_presence_of :user, :name, :state
   
+  ROOT = "#{Rails.root}/public/documents"
   STATES = [:active, :inactive]
   state_machine :state, :initial => :active do
     event :deactivate do transition STATES => :inactive end
@@ -52,7 +53,6 @@ class Document < ActiveRecord::Base
     'application/vnd.ms-powerpoint.slideshow.macroEnabled.12'
   ]
   
-  
   settings index: { number_of_shards: 5, number_of_replicas: 1 } do
     mappings do
       indexes :user_id, type: 'integer', index: :not_analyzed
@@ -60,7 +60,7 @@ class Document < ActiveRecord::Base
       indexes :name, type: 'string'
       indexes :description, type: 'string'
       indexes :source, type: 'string'
-      indexes :journal, type: 'string'
+      # indexes :journal, type: 'string'
       indexes :principle_authors, type: 'string'
       indexes :other_authors, type: 'string'
       indexes :rights, type: 'string'
@@ -85,7 +85,7 @@ class Document < ActiveRecord::Base
       name: name,
       description: description,
       source: source,
-      journal: journal,
+      # journal: journal,
       principle_authors: principle_authors,
       other_authors: other_authors,
       rights: rights,
@@ -97,57 +97,68 @@ class Document < ActiveRecord::Base
     }
   end
 
-  def archive_url
-        
+  # Path convention for archives.
+  # Local: /{Rails.root}/public/documents/:user_id/:year/:doc_id/:doc_name
+  def archive_site
+    # probably put this into "#{Rails.root}/tmp" for now, then send to S3 and record the S3 location
 
-        # generate a web archive
-        
-        # /:user_id/:year/:document_id/:file_name
+    # archive path should be to redis/elasticache
+    archive_path = "#{self.user.id}/#{Time.now.strftime("%Y")}/#{id}/#{name.parameterize}"
 
-        # probably put this into "#{Rails.root}/tmp" for now, then send to S3 and record the S3 location
-        docroot = "#{Rails.root}/public/documents"
+    `httrack #{url} --depth=1 --path=#{ROOT}/#{archive_path}`
+    
+    # put in memcache or whatever, then:
+    # `rm -rf #{ROOT}/#{archive_path}`
 
-        # archive path should be to redis/elasticache
-        archive_path = "#{self.user.id}/#{Time.now.strftime("%Y")}/#{id}/#{name.parameterize}"
+    `phantomjs #{Rails.root}/lib/js/rasterize.js #{url} #{ROOT}/#{archive_path}.png 950px*650px`
 
-        `httrack #{url} --depth=1 --path=#{docroot}/#{archive_path}`
-        `tar cvf - #{docroot}/#{archive_path} | gzip > #{docroot}/#{archive_path}.tar.gz`
+    generate_thumbnails( archive_path )
 
-        # put in memcache or whatever, then:
-        # `rm -rf #{docroot}/#{archive_path}`
+    `tar cvf - #{ROOT}/#{archive_path} | gzip > #{ROOT}/#{archive_path}.tar.gz`
 
-        bucket_name = 'phaph'
-        file_name = "#{archive_path}.tar.gz"
+    save_to_s3( "#{archive_path}.tar.gz" )
+    
+    self.file_location = "https://phaph.s3.amazonaws.com/#{archive_path}"
+    self.save
+  end
 
+  def save_to_s3( path )
+    s3 = AWS::S3.new
+    bucket = s3.buckets['phaph'] # makes no request
+    bucket = s3.buckets.create('phaph') unless bucket.exists?
+    bucket.acl = :public_read
+    bucket.objects["#{path}"].write(:file => "#{ROOT}/#{path}", :acl => :public_read)
+  end
 
+  def generate_thumbnails( path )
+    image = MiniMagick::Image.open( "#{ROOT}/#{path}.png" )
+    resize( path, 400  )
+    resize( path, 225  )
+    square( path, 75 )
+  end
 
+  def resize( path, size )
+    image = MiniMagick::Image.open( "#{ROOT}/#{path}.png" )
+    image.format( "gif" )
+    image.resize( "#{size}x#{size}" )
+    image.write "#{ROOT}/#{path}_#{size}.gif"
+    save_to_s3( "#{path}_#{size}.gif" )
+    return image
+  end
 
-
-
-
-        # api = YAML::load_file("#{Rails.root}/config/api_keys.yml")[Rails.env]
-        # # AWS::S3::Base.establish_connection!(
-        # #   :access_key_id => API['aws']['key'],
-        # #   :secret_access_key => API['aws']['secret']
-        # # )
-        # AWS.config(:access_key_id => API['aws']['key'], :secret_access_key => API['aws']['secret'])
-
-
-        # Get an instance of the S3 interface.
-        s3 = AWS::S3.new
-
-        # Upload a file.
-        key = File.basename(file_name)
-        s3.buckets[bucket_name].objects[key].write(:file => file_name)
-        logger.debug "Uploading file #{file_name} to bucket #{bucket_name}."
-
-
-
-        
-
-        # `phantomjs rasterize.js http://fryolator.com #{Rails.root}/public/fryolator.png`
-        # `phantomjs #{Rails.root}/lib/screenshot.js`
-        `phantomjs #{Rails.root}/lib/js/rasterize.js #{url} #{docroot}/#{archive_path}.png 950px*650px`
+  def square(path, size)
+    i = MiniMagick::Image.open( "#{ROOT}/#{path}.png" )
+    if i[:width] < i[:height]
+      remove = ((i[:height] - i[:width])/2).round
+      i.shave("0x#{remove}")
+    elsif i[:width] > i[:height]
+      remove = ((i[:width] - i[:height])/2).round
+      i.shave("#{remove}x0")
+    end
+    i.resize("#{size}x#{size}")
+    i.write "#{ROOT}/#{path}_#{size}.gif"
+    save_to_s3( "#{path}_#{size}.gif" )
+    return i
   end
   
 end

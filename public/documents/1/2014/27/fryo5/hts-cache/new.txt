@@ -1,0 +1,3 @@
+date	size'/'remotesize	flags(request:Update,Range state:File response:Modified,Chunked,gZipped)	statuscode	status ('servermsg')	MIME	Etag|Date	URL	localfile	(from URL)
+00:23:45	407/407	---M--	404	error ('Not%20Found')	text/html	date:Thu,%2021%20Aug%202014%2007:23:39%20GMT	http://fryolator.com/robots.txt		(from )
+00:23:45	9479/9479	---M--	200	added ('OK')	text/html	etag:%22360d919-2507-5002c7c541700%22	http://fryolator.com/	/Users/john/projects/apps/phaph/public/documents/1/2014/27/fryo5/fryolator.com/index.html	(from )

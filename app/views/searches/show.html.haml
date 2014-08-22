@@ -1,13 +1,7 @@
 :css
   em { text-style: normal; font-weight: bold; }
   td { margin-left}
--# - if signed_in?
--#   = render :partial => 'shared/search_form'
 
-
--# %hr
--# = @resources.inspect
--# %hr
 .row
   .col-md-12
     
@@ -20,14 +14,14 @@
   .clearfix
 
   .col-md-12
-    %br
 
     - if @resources.present?
       - @resources.each do |result|
         %div{:style => 'margin-bottom: 30px'}
-          %b
+          %h3
             = link_to result.name, "#{document_path(result.id)}/#{result.name.parameterize}"
-            
+          = render partial: 'documents/details', locals:{document: result} 
+
           - if result.respond_to?( :highlight )
             %div{ :style => 'margin-top: 5px'}
               #{result.highlight.attachment.first.html_safe}&hellip;

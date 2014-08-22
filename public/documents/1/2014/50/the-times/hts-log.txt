@@ -1,0 +1,11 @@
+HTTrack3.48-3 launched on Thu, 21 Aug 2014 01:45:15 at http://www.nytimes.com/
+(httrack http://www.nytimes.com/ -r1 -O /Users/john/projects/apps/phaph/public/documents/1/2014/50/the-times )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+
+HTTrack Website Copier/3.48-3 mirror complete in 1 seconds : 2 links scanned, 1 files written (273072 bytes overall) [41898 bytes received at 41898 bytes/sec], 273439 bytes transferred using HTTP compression in 2 files, ratio 14%
+(No errors, 0 warnings, 0 messages)
