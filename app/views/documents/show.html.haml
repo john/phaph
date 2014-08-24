@@ -4,15 +4,26 @@
       - if @document.url.present?
         -# = image_tag "/documents/#{current_user.id}/#{@document.created_at.strftime("%Y")}/#{@document.id}/#{@document.name.parameterize}_400.gif", style: 'border: 1px solid #ddd;'
 
-        = image_tag "#{@document.file_location}_400.gif", style: 'border: 1px solid #ddd;'
+        -# = image_tag "#{@document.thumb_lg}", style: 'border: 1px solid #ddd;'
+        <img src="https://phaph.s3.amazonaws.com/#{@document.thumb_lg}" style="border: 1px solid #ddd;" alt="thumbnail of #{@document.name}" /> 
 
       - else
-        = image_tag @document.file.thumb.url, style: 'border: 1px solid #ddd'
-    
+        -# = image_tag @document.file.thumb.url, style: 'border: 1px solid #ddd'
+        %img{ src: "/#{@document.thumb_lg}" }    
   .col-md-6
-    %h3
+    .small
+      In #{@document.collections.first.name}:
+    %h3{ style: 'margin: 5px 0 10px 0;'}
       = @document.name
-    = render partial: 'documents/details', locals:{document: @document}
+      
+    .small
+      Added #{@document.created_at.strftime("%b %-d, %Y")}
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      - if @document.user == current_user
+        = link_to 'edit', edit_document_path(@document)
+        &nbsp;&nbsp;&#183;&nbsp;&nbsp;
+        = link_to 'delete', document_path(@document), method: :delete, data: { confirm: "You're sure? Can't be undone."}
+
 
     - if @document.principle_authors.present? || @document.other_authors.present?
       %div
@@ -20,27 +31,14 @@
         - if @document.principle_authors.present?
           %b
             = [@document.principle_authors, @document.other_authors].compact.join( ', ')
-  
-    -# - if @document.journal.present?
-    -#   %div
-    -#     in
-    -#     = @document.journal
 
     - if @document.description.present?
       %div{:style => 'margin-top: 20px;'}
-        = @document.description
-      
-    %div{:style => 'margin-top: 20px;'}
-      = link_to "Download", @document.file.url, target: '_blank', class: 'btn btn-primary'
-    
-      - if @document.service.present? && @document.service.downcase == 'dropbox'
-        &#183;
-        = link_to "View on dropbox", dropbox_url(@document.service_path), target: '_blank', class: 'btn btn-primary'
-        
+        = @document.description   
         
 .row
   .col-md-12#comments
-    %h4
+    %h4{ style: 'margin: 10px;'}
       %b
         Comments
   

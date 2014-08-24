@@ -78,9 +78,13 @@ ActiveRecord::Schema.define(version: 20140817171959) do
     t.string   "name",                              null: false
     t.text     "description"
     t.text     "url"
+    t.string   "file"
+    t.string   "file_location"
+    t.string   "thumb_sm"
+    t.string   "thumb_md"
+    t.string   "thumb_lg"
     t.string   "source"
     t.datetime "published_at"
-    t.string   "file_location"
     t.string   "principle_authors"
     t.string   "other_authors"
     t.string   "rights"
@@ -98,7 +102,6 @@ ActiveRecord::Schema.define(version: 20140817171959) do
     t.string   "state",                             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "file"
   end
 
   add_index "documents", ["organization_id"], name: "index_documents_on_organization_id", using: :btree

@@ -1,21 +1,21 @@
-.row
-  .col-md-8
-    %h2
-      Your Collections
-      %small
-        = link_to 'New', new_collection_path, {:style => 'color: #b3b3b3; margin: 20px 0 0 0;'}
+-# .row
+-#   .col-md-8
+-#     %h2
+-#       Your Collections
+-#       %small
+-#         = link_to 'new', new_collection_path, class: 'btn btn-primary btn-xs', style: 'margin: 0 0 8px 8px;'
         
-    %table.table.table-hover
+-#     %table.table.table-hover
   
-      - if @resources.present?
-        - @resources.each do |result|
-          -# = render :partial => 'documents/document', :locals => {:resource => result}
-          = render :partial => 'collections/collection', :locals => {:resource => result}
-      - else
-        %tr
-          %td{ colspan: 2 }
-            No collections, yet. #{link_to 'Create one', new_collection_path}.
+-#       - if @resources.present?
+-#         - @resources.each do |result|
+-#           -# = render :partial => 'documents/document', :locals => {:resource => result}
+-#           = render :partial => 'collections/collection', :locals => {:resource => result}
+-#       - else
+-#         %tr
+-#           %td{ colspan: 2 }
+-#             No collections, yet. #{link_to 'Create one', new_collection_path}.
           
-    - if @resources
-      = will_paginate @resources, renderer: BootstrapPagination::Rails, :next_label => 'Next &raquo;', :previous_label => '&laquo;'
-      
+-#     - if @resources
+-#       = will_paginate @resources, renderer: BootstrapPagination::Rails, :next_label => 'Next &raquo;', :previous_label => '&laquo;'
+-#       

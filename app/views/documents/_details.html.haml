@@ -1,10 +1,12 @@
-- created_at = (document.created_at.class == String) ? Time.new(document.created_at) : document.created_at
-- user = (document.respond_to?(:user_id)) ? User.find( document.user_id ) : document.user
+-# - created_at = (document.created_at.class == String) ? Time.new(document.created_at) : document.created_at
+-# - user = (document.respond_to?(:user_id)) ? User.find( document.user_id ) : document.user
 
-.small.tucked
-  Indexed #{created_at.strftime("%B %-d, %Y")}
-  - if user == current_user
-    &nbsp;&nbsp;&#183;&nbsp;&nbsp;
-    = link_to 'edit', edit_document_path(document)
-    &nbsp;&nbsp;&#183;&nbsp;&nbsp;
-    = link_to 'delete', document_path(document), method: :delete, data: { confirm: "You're sure? Can't be undone."}
+-# .small
+-#   - if user == current_user
+-#     .pull-right
+-#       = link_to 'edit', edit_document_path(document)
+-#       &nbsp;&nbsp;&#183;&nbsp;&nbsp;
+-#       = link_to 'delete', document_path(document), method: :delete, data: { confirm: "You're sure? Can't be undone."}
+
+-#   #{created_at.strftime("%b %-d, %Y")}
+-#  

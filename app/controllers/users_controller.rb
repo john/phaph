@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   
   # before_filter :authenticate_user!, except: [:finish_signup]
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :finish_signup]
+  before_action :set_user, only: [:documents, :collections, :show, :edit, :update, :destroy, :finish_signup]
   
   
   def set_username
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
       # current_user.email = params[:user][:email]
       # current_user.username = params[:user][:username]
       logger.debug "-----------------> current_user: #{current_user.inspect}"
-logger.debug "--------"
+      logger.debug "--------"
       logger.debug "-----------------> @user: #{@user.inspect}"
 
       current_user.skip_reconfirmation!
@@ -68,6 +68,16 @@ logger.debug "--------"
   
   
   public
+
+  def collections
+    redirect_to root_path alert: 'Not for you.' and return unless @user == current_user
+    @collections = Collection.where( user: @user ).order('updated_at DESC').paginate(:page => params[:page], :per_page => 12 )
+  end
+
+  def documents
+    redirect_to root_path alert: 'Not for you.' and return unless @user== current_user
+    @documents = Document.where(user:  @user).order('updated_at DESC').paginate(:page => params[:page], :per_page => 12 )
+  end
   
   # GET /users
   def index

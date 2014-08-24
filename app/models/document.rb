@@ -23,14 +23,14 @@ class Document < ActiveRecord::Base
   belongs_to :organization
   belongs_to :user
   
-  has_many :collectible
-  has_many :collection, through: :collectible
+  has_many :collectibles
+  has_many :collections, through: :collectibles
   
   acts_as_commentable
   
   validates_presence_of :user, :name, :state
   
-  ROOT = "#{Rails.root}/public/documents"
+  ROOT = "#{Rails.root}/public"
   STATES = [:active, :inactive]
   state_machine :state, :initial => :active do
     event :deactivate do transition STATES => :inactive end
@@ -97,57 +97,77 @@ class Document < ActiveRecord::Base
     }
   end
 
+  def archive_path
+    # TODO: this incrementation crap looks fragile. How can we get the object id before the object is persisted?
+    the_id = (id.blank?) ? (Document.maximum(:id) + 1) : id
+    "documents/1/#{Time.now.strftime("%Y")}/#{the_id}"
+  end
+
   # Path convention for archives.
   # Local: /{Rails.root}/public/documents/:user_id/:year/:doc_id/:doc_name
   def archive_site
     # probably put this into "#{Rails.root}/tmp" for now, then send to S3 and record the S3 location
-
-    # archive path should be to redis/elasticache
-    archive_path = "#{self.user.id}/#{Time.now.strftime("%Y")}/#{id}/#{name.parameterize}"
-
-    `httrack #{url} --depth=1 --path=#{ROOT}/#{archive_path}`
+    `httrack #{url} --depth=1 --path=#{ROOT}/#{archive_path}/#{name.parameterize}`
     
     # put in memcache or whatever, then:
     # `rm -rf #{ROOT}/#{archive_path}`
 
-    `phantomjs #{Rails.root}/lib/js/rasterize.js #{url} #{ROOT}/#{archive_path}.png 950px*650px`
+    `tar cvf - #{ROOT}/#{archive_path} | gzip > #{ROOT}/#{archive_path}/#{name.parameterize}.tar.gz`
+    save_to_s3 "#{archive_path}/#{name.parameterize}.tar.gz"
 
-    generate_thumbnails( archive_path )
+    self.file_location = "https://phaph.s3.amazonaws.com/#{archive_path}/#{name.parameterize}.tar.gz"
+    self.save
 
-    `tar cvf - #{ROOT}/#{archive_path} | gzip > #{ROOT}/#{archive_path}.tar.gz`
-
-    save_to_s3( "#{archive_path}.tar.gz" )
-    
-    self.file_location = "https://phaph.s3.amazonaws.com/#{archive_path}"
+    `phantomjs #{Rails.root}/lib/js/rasterize.js #{url} #{ROOT}/#{archive_path}/#{name.parameterize}.png 950px*650px`
+    # screenshot has been generated, jack a message into the dom:
+    # IA does this: https://web.archive.org/web/20061231032842/http://wordie.org/?
+    generate_thumbnails( self, "#{archive_path}/#{name.parameterize}" )
     self.save
   end
 
-  def save_to_s3( path )
-    s3 = AWS::S3.new
-    bucket = s3.buckets['phaph'] # makes no request
-    bucket = s3.buckets.create('phaph') unless bucket.exists?
-    bucket.acl = :public_read
-    bucket.objects["#{path}"].write(:file => "#{ROOT}/#{path}", :acl => :public_read)
+  def archive_file
+    # move uploaded file to S3
+
+    logger.debug "----> IN archive_file, saving to s3: #{self.file.path}"
+
+
+    save_to_s3 "#{archive_path}/#{File.basename(self.file.path)}"
+
+    # records it's location on S3
+    self.file_location = "https://phaph.s3.amazonaws.com/#{archive_path}/#{File.basename(self.file.path)}"
+    self.save
+
+    # generate a full-sized png from the pdf
+    image = MiniMagick::Image.open("#{ROOT}/#{archive_path}/#{File.basename(self.file.path)}")
+    # image = Magick::ImageList.new("#{ROOT}/#{archive_path}/#{File.basename(self.file.path)}[0]").first
+    image.format("png", 0)
+    image.resize("950x")
+    image.write("#{ROOT}/#{archive_path}/#{name.parameterize}.png")
+
+    generate_thumbnails( self, "#{archive_path}/#{name.parameterize}" )
+    self.save
   end
 
-  def generate_thumbnails( path )
-    image = MiniMagick::Image.open( "#{ROOT}/#{path}.png" )
-    resize( path, 400  )
-    resize( path, 225  )
-    square( path, 75 )
+  def generate_thumbnails( doc, path )
+    resize( doc, path, 400, 'lg'  )
+    resize( doc, path, 225, 'md'  )
+    square( doc, path, 75, 'sm' )
   end
 
-  def resize( path, size )
-    image = MiniMagick::Image.open( "#{ROOT}/#{path}.png" )
-    image.format( "gif" )
+  def resize( doc, path, size, suffix )
+    format = 'png'
+    image = MiniMagick::Image.open( "#{ROOT}/#{path}.#{format}" )
+    image.format( format )
     image.resize( "#{size}x#{size}" )
-    image.write "#{ROOT}/#{path}_#{size}.gif"
-    save_to_s3( "#{path}_#{size}.gif" )
+    image.write "#{ROOT}/#{path}_#{suffix}.#{format}"
+    doc.send( "thumb_#{suffix}=", "#{path}_#{suffix}.#{format}" )
+    save_to_s3( "#{path}_#{suffix}.#{format}" )
     return image
   end
 
-  def square(path, size)
-    i = MiniMagick::Image.open( "#{ROOT}/#{path}.png" )
+  def square( doc, path, size, suffix )
+    format = 'png'
+    i = MiniMagick::Image.open( "#{ROOT}/#{path}.#{format}" )
     if i[:width] < i[:height]
       remove = ((i[:height] - i[:width])/2).round
       i.shave("0x#{remove}")
@@ -155,10 +175,24 @@ class Document < ActiveRecord::Base
       remove = ((i[:width] - i[:height])/2).round
       i.shave("#{remove}x0")
     end
-    i.resize("#{size}x#{size}")
-    i.write "#{ROOT}/#{path}_#{size}.gif"
-    save_to_s3( "#{path}_#{size}.gif" )
+    i.resize( "#{size}x#{size}" )
+    i.write "#{ROOT}/#{path}_#{suffix}.#{format}"
+    doc.send( "thumb_#{suffix}=", "#{path}_#{suffix}.#{format}" )
+    save_to_s3( "#{path}_#{suffix}.#{format}" )
     return i
+  end
+
+  def save_to_s3( path )
+    logger.debug "----> IN save_to_s3, ROOT: #{ROOT}"
+    logger.debug "----> IN save_to_s3, path: #{path}"
+    logger.debug "----> IN save_to_s3, full: #{ROOT}/#{path}"
+    s3 = AWS::S3.new
+    bucket = s3.buckets['phaph'] # makes no request
+    bucket = s3.buckets.create('phaph') unless bucket.exists?
+    bucket.acl = :public_read
+
+    path[0] = '' if path[0] == '/'
+    bucket.objects["#{path}"].write(:file => "#{ROOT}/#{path}", :acl => :public_read)
   end
   
 end

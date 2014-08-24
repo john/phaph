@@ -1,4 +1,0 @@
-# HTTrack Website Copier Cookie File
-# This file format is compatible with Netscape cookies
-.wikipedia.org	TRUE	/	FALSE	1999999999	GeoIP	US:San_Francisco:37.7463:-122.4438:v4
-

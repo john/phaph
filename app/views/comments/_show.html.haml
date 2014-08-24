@@ -1,34 +1,30 @@
--# - comments = nil if local_assigns[:comments].nil?
--# LOCALS: resource
+- comment = Comment.new( commentable_type: resource.class.to_s, commentable_id: resource.id )
+= form_for comment, remote: true, role: 'form', html: {class: 'form-horizontal'} do |f|
 
-.row
-  - comment = Comment.new( commentable_type: resource.class.to_s, commentable_id: resource.id )
-  = form_for comment, :remote => true, :role => 'form', :html => {:class => 'form-horizontal'} do |f|
+  - if comment.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@comment.errors.count, "error")} prohibited this comment from being saved:"
+      %ul
+        - comment.errors.full_messages.each do |msg|
+          %li= msg
 
-    - if comment.errors.any?
-      #error_explanation
-        %h2= "#{pluralize(@comment.errors.count, "error")} prohibited this comment from being saved:"
-        %ul
-          - comment.errors.full_messages.each do |msg|
-            %li= msg
+  = f.hidden_field :commentable_type
+  = f.hidden_field :commentable_id
 
-    = f.hidden_field :commentable_type
-    = f.hidden_field :commentable_id
+  .col-md-8{ style: 'margin-left: 0;'}
+    -# = f.label :body, :class => 'sr-only'
+    = f.text_area :body, class: 'form-control', style: 'height:60px;'
 
-    .col-md-8
-      -# = f.label :body, :class => 'sr-only'
-      = f.text_area :body, class: 'form-control', style: 'margin-left: 15px; height:60px;'
-  
-    .col-md-4.actions#comment_save
-      -# {style: 'margin: 10px, 0 0 10px;'}
-      = f.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Saving...'}
+  .col-md-4.actions#comment_save
+    -# {style: 'margin: 10px, 0 0 10px;'}
+    = f.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Saving...'}
 
-.row
-  .col-md-8
-    %ul.list-unstyled
-      - if resource.root_comments.present?
-        - resource.root_comments.order(created_at: :desc).each do |comment|
-          = render :partial => 'comments/comment', :locals => {:comment => comment}
-      - else
-        %li#no-comments
-          No comments, yet.
+  .clearfix
+
+  %ul.list-unstyled{ style: 'margin-left: 15px;'}
+    - if resource.root_comments.present?
+      - resource.root_comments.order(created_at: :desc).each do |comment|
+        = render :partial => 'comments/comment', :locals => {:comment => comment}
+    - else
+      %li#no-comments
+        No comments, yet.

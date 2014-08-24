@@ -36,8 +36,8 @@ class DocumentsController < ApplicationController
 
   # POST /documents
   def create
-    logger.debug "---------------------> document_params: #{document_params.inspect}"
     @document = Document.new(document_params)
+    @document.state = 'active'
     @document.user = current_user
     
     # should we be storing the full path to the doc in the db?
@@ -49,16 +49,18 @@ class DocumentsController < ApplicationController
     end
     
     if @document.save
-      
       if @document.url.present?
         # generate a pdf
         # pdf_out = `wkhtmltopdf #{@document.url}/#{@document.id}.pdf`
 
+        # This gets the site and assets with httrack, zips it,
+        # gener
+        # move to a job later
         @document.archive_site
-
-        # then thumbnail it
-        # http://pielmeier.blogspot.com/2011/02/headless-html-page-rendering-with.html
-        # http://www.cambus.net/creating-thumbnails-using-phantomjs-and-imagemagick/
+      else
+        # if a file upload, generate thumbs from pdf,
+        # and upload both the pdfs and thumbs to S3
+        @document.archive_file
       end
       
       # update document with location of file and thumb
@@ -77,7 +79,7 @@ class DocumentsController < ApplicationController
       if params[:redirect_to].present?
         redirect_to params[:redirect_to]
       else
-        redirect_to @document, notice: 'Document successfully created.'
+        redirect_to @document, notice: "Document successfully created. <a href='/documents/new' class='alert-link'>Add another?</a>".html_safe
       end
     else
       render :new

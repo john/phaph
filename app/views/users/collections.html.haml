@@ -1,0 +1,8 @@
+%h3{style: 'margin-bottom: 20px;'}
+  Your collections
+  %small
+    = link_to 'new', new_collection_path, class: 'btn btn-primary btn-xs', style: 'margin: 0 0 8px 8px;'
+
+= render partial: 'collections/tiles', locals: {collections: @collections}
+
+= will_paginate @collections, renderer: BootstrapPagination::Rails

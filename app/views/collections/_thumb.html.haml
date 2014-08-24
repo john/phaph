@@ -1,0 +1,11 @@
+<a href="#{slugged_collection_path(collection.id, collection.name.parameterize)}">
+%div{ style: 'width: 180px'}
+  - collection.documents[0..3].each_with_index do |document, i|
+    - klass = case i
+    - when 0 then 'tp-lt-corner'
+    - when 1 then 'tp-rt-corner'
+    - when 2 then 'bt-lt-corner'
+    - when 3 then 'bt-rt-corner'
+    <img src="/#{document.thumb_sm}" alt="thumbnail of #{document.name}" class="#{klass}" /> 
+    = "<br />".html_safe if (i+1) % 2 == 0
+</a>

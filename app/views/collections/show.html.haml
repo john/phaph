@@ -1,25 +1,50 @@
 .row
   .col-md-8
 
-    %h2
-      %b
-        = @collection.name
-    %p
+    .small
+      Collection:
+    %h2{ style: 'margin: 5px 0 2px 0;'}
+      = @collection.name
+      
+    .small
+      Created on #{@collection.created_at.strftime("%b %-d, %Y")}
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      - if @collection.user == current_user
+        = link_to 'edit', edit_collection_path(@collection)
+        &nbsp;&nbsp;&#183;&nbsp;&nbsp;
+        = link_to 'delete', collection_path(@collection), method: :delete, data: { confirm: "You're sure? Can't be undone."}
+        &nbsp;&nbsp;&#183;&nbsp;&nbsp;
+        = link_to 'add new document', new_document_path(collection_id: @collection.id)
+
+    %div{ style: 'margin: 10px 0 20px 0;'}
       = @collection.description
 
-.row
-  .col-md-8
-    %h5
-      Documents
-      %small
-        &nbsp;
-        = link_to 'New document', new_document_path(collection_id: @collection.id), {:style => 'color: #b3b3b3; margin: 10px 0 0 0;'}
-    %table.table.table-hover
-      - if @collection.documents.present?
-        - @collection.documents.each do |document|
-          = render :partial => 'documents/document', :locals => {:resource => document}
-      - else
-        %li
-          None, yet.
 
-= render partial: '/comments/show', locals: { :resource => @collection }
+
+= render partial: 'documents/tiles', locals: {documents: @collection.documents}
+
+-# = will_paginate @documents, renderer: BootstrapPagination::Rails
+
+-# .row
+-#   .col-md-8
+-#     %h5
+-#       Documents
+-#       %small
+-#         &nbsp;
+-#         = link_to 'New document', new_document_path(collection_id: @collection.id), {:style => 'color: #b3b3b3; margin: 10px 0 0 0;'}
+-#     %table.table.table-hover
+-#       - if @collection.documents.present?
+-#         - @collection.documents.each do |document|
+-#           = render :partial => 'documents/document', :locals => {:resource => document}
+-#       - else
+-#         %li
+-#           None, yet.
+
+
+
+.row
+  .col-md-12#comments
+    %h4{ style: 'margin: 10px;'}
+      %b
+        Comments
+    = render partial: '/comments/show', locals: { :resource => @collection }

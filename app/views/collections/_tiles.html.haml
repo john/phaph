@@ -1,0 +1,21 @@
+#collections
+  - collections.each do |collection|
+    .item
+      = render partial: 'collections/thumb', locals: {collection: collection}
+
+:javascript
+  var container = document.querySelector('#collections');
+  var msnry = new Masonry( container, {
+    itemSelector: '.item'
+  });
+  imagesLoaded( container, function() {
+    msnry.layout();
+  })
+
+  // initialize Masonry after all images have loaded  
+  //container.imagesLoaded( function() {
+  //  container.masonry({
+  //    columnWidth: 200,
+  //    itemSelector: '.item'
+  //  });
+  //});

@@ -3,25 +3,66 @@
 class FileUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
   
-  # from: https://github.com/carrierwaveuploader/carrierwave/wiki/Efficiently-converting-image-formats
+
+  # NONE of this should be done an upload time, so it can be done asynchronously.
+  # Use Minimagick, put in a method, and it'll be suitable for doing as a job later.
   
-  version :thumb do
-    process :efficient_conversion => [400,400]
-  end
+  # from: https://github.com/carrierwaveuploader/carrierwave/wiki/Efficiently-converting-image-formats
+  # version :thumb_sm do
+  #   # def full_filename(for_file)
 
-  private
+  #   #   logger = Logger.new("/Users/john/projects/apps/phaph/log/file_uploader.log")
+  #   #   logger.debug "------------------> small thumb: #{basename}_sm.png"
 
-  def efficient_conversion(width, height)
-    manipulate! do |img|
-      img.format("png") do |c|
-        # c.fuzz        "3%"
-        # c.trim
-        c.resize      "#{width}x#{height}>"
-        c.resize      "#{width}x#{height}<"
-      end
-      img
-    end
-  end
+  #   #   # model.thumb_sm = "#{model.archive_path}_sm.png"
+  #   #   model.thumb_sm = "#{basename}_sm.png"
+  #   # end
+
+  #   # def filename
+  #   #   "thumb_sm.png"
+  #   # end
+  #   process :efficient_conversion => [75,75]
+  # end
+
+  # version :thumb_md do
+  #   # def full_filename(for_file)
+  #   #   # model.thumb_md = "#{model.archive_path}_md.png"
+  #   #   model.thumb_sm = "#{basename}_md.png"
+  #   # end
+  #   def filename
+  #     "thumb_md.png"
+  #   end
+  #   process :efficient_conversion => [75,75]
+  # end
+
+  # version :thumb_lg do
+  #   # def full_filename(for_file)
+  #   #   # model.thumb_lg = "#{model.archive_path}_lg.png"
+  #   #   model.thumb_sm = "#{basename}_lg.png"
+  #   # end
+  #   def filename
+  #     "thumb_lg.png"
+  #   end
+  #   process :efficient_conversion => [75,75]
+  # end
+
+  # private
+
+  # def efficient_conversion(width, height)
+  #   manipulate! do |img|
+  #     img.format("png") do |c|
+  #       # c.fuzz        "3%"
+  #       # c.trim
+  #       c.resize      "#{width}x#{height}>"
+  #       c.resize      "#{width}x#{height}<"
+  #     end
+
+  #     # logger = Logger.new("/Users/john/projects/apps/phaph/log/file_uploader.log")
+  #     # logger.debug "------------------> img is: #{img.class}"
+
+  #     img
+  #   end
+  # end
   
   public
   
@@ -104,7 +145,8 @@ class FileUploader < CarrierWave::Uploader::Base
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
     # "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}"
+    # "uploads/#{model.class.to_s.underscore}/#{mounted_as}"
+    model.archive_path
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

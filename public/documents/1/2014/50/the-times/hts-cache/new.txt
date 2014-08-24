@@ -1,3 +1,0 @@
-date	size'/'remotesize	flags(request:Update,Range state:File response:Modified,Chunked,gZipped)	statuscode	status ('servermsg')	MIME	Etag|Date	URL	localfile	(from URL)
-01:45:15	367/367	---M-Z	200	added ('OK')	text/plain	date:Mon,%2023%20Jun%202014%2017:33:28%20GMT	http://www.nytimes.com/robots.txt		(from )
-01:45:16	273072/273072	---MCZ	200	added ('OK')	text/html	date:Thu,%2021%20Aug%202014%2008:45:15%20GMT	http://www.nytimes.com/	/Users/john/projects/apps/phaph/public/documents/1/2014/50/the-times/www.nytimes.com/index.html	(from )

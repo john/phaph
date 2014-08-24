@@ -2,17 +2,12 @@
   %h3
     Recent collections
     %small
-      = link_to 'new', new_collection_path
+      = link_to 'new', new_collection_path, class: 'btn btn-primary btn-xs', style: 'margin: 0 0 8px 8px;'
 
   .row
     .col-md-12
       - @collections.each do |collection|
-        <a href="#{url_for(collection)}">
-        %div{ style: 'background-color: white; width: 180px'}
-          - collection.documents[0..3].each_with_index do |document,i|
-            = image_tag "#{document.file_location}_75.gif", style: 'margin: 5px;'
-            = "<br />".html_safe if (i+1) % 2 == 0
-        </a>
+        = render partial: 'collections/thumb', locals: {collection: collection}
 
   %br
   %br
@@ -21,39 +16,9 @@
   %h3{style: 'margin-bottom: 20px;'}
     Recent documents
     %small
-      = link_to 'new', new_document_path, class: 'btn btn-default btn-sm'
+      = link_to 'new', new_document_path, class: 'btn btn-primary btn-xs', style: 'margin: 0 0 8px 8px;'
 
-  #docs
-    - @documents.each do |document|
-      .item
-        <a href="#{url_for(document)}">
-        - if document.url.present?
-          = image_tag "#{document.file_location}_225.gif"
-        .txt
-          .small
-            = document.name
-          - if document.description.present?
-            .small
-              %i
-                = truncate(document.description, length: 50)
-        </a>
-
-  :javascript
-    var container = document.querySelector('#docs');
-    var msnry = new Masonry( container, {
-      itemSelector: '.item'
-    });
-    imagesLoaded( container, function() {
-      msnry.layout();
-    })
-
-    // initialize Masonry after all images have loaded  
-    //container.imagesLoaded( function() {
-    //  container.masonry({
-    //    columnWidth: 200,
-    //    itemSelector: '.item'
-    //  });
-    //});
+  = render partial: 'documents/tiles', locals: {documents: @documents}
 
 - else
   .row

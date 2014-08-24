@@ -28,8 +28,6 @@
     .col-sm-7
       = f.submit "Sign up", class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
 
-
-
 %br
 %br
 &mdash; OR &mdash;
@@ -37,7 +35,8 @@
 %br
 %br
 
-= link_to 'Sign up with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
+= link_to "<img src='/sign-in-with-twitter-gray.png' style='width:158px; height: 28px' alt='Sign in with Twitter' />".html_safe, user_omniauth_authorize_url(:twitter)
+-# = link_to 'Sign up with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), class: 'btn btn-primary', data: { disable_with: 'Signing up...' }
 
 -# %br
 -# %br

@@ -46,11 +46,16 @@ Rails.application.routes.draw do
   
   match '/users/authorize' => 'users#authorize', :via => :get, :as => :user_authorize
   match '/users/dropbox_callback' => 'users#dropbox_callback', :via => :get, :as => :user_dropbox_callback
-  resources :users
-  
+
+  resources :users, path: 'people' do
+    get :documents, on: :member
+    get :collections, on: :member
+  end
+  match '/people/:id/:slug' => 'users#show', :via => :get, :as => :people
+
   match '/organizations/:id/:slug' => 'organizations#show', :via => :get, :as => :slugged_organization
   match '/collections/:id/:slug' => 'collections#show', :via => :get, :as => :slugged_collection
   match '/documents/:id/:slug' => 'documents#show', :via => :get, :as => :slugged_document
-  match '/people/:id/:slug' => 'users#show', :via => :get, :as => :people
+  
   
 end
