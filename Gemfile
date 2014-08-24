@@ -11,10 +11,6 @@ gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 gem 'carrierwave-dropbox', git: 'https://github.com/john/carrierwave-dropbox.git'
 # gem 'carrierwave-dropbox', path: '/Users/john/projects/apps/carrierwave-dropbox'
 
-
-gem 'devise', git: 'https://github.com/plataformatec/devise.git'
-# gem 'responders' # may not be necessary when devise is next released -jm, 8/21/14
-
 gem 'dropbox-sdk'
 
 gem 'will_paginate'
@@ -46,15 +42,18 @@ gem 'phantomjs'
 gem 'pundit'
 
 
-gem 'rails', '4.1.4'
-# gem 'rails', '4.2.0.beta1'
+# gem 'rails', '4.1.4'
+# gem 'devise', git: 'https://github.com/plataformatec/devise.git'
+# gem 'sass-rails', '~> 4.0.3'
+
+gem 'rails', '4.2.0.beta1'
+gem 'devise', git: 'https://github.com/plataformatec/devise.git', :branch => 'lm-rails-4-2'
+gem 'sass-rails', '~> 5.0.0.beta1'
+
+
 
 # Use Rails Html Sanitizer for HTML sanitization
 gem 'rails-html-sanitizer', '~> 1.0'
-
-
-gem 'sass-rails', '~> 4.0.3'
-# gem 'sass-rails', '~> 5.0.0.beta1'
 
 
 gem 'sidekiq'
