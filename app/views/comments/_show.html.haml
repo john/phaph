@@ -1,5 +1,5 @@
 - comment = Comment.new( commentable_type: resource.class.to_s, commentable_id: resource.id )
-= form_for comment, remote: true, role: 'form', html: {class: 'form-horizontal'} do |f|
+= form_for comment, remote: true, role: 'form', html: {class: 'form-horizontal', style: 'border: 1px solid blue; margin: 0; padding: 0;'} do |f|
 
   - if comment.errors.any?
     #error_explanation

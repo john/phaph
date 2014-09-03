@@ -238,7 +238,7 @@ Devise.setup do |config|
   # config.omniauth :facebook, "KEY", "SECRET"
   # config.omniauth :linked_in, "KEY", "SECRET"
   config.omniauth :twitter, API['twitter']['key'], API['twitter']['secret']
-  config.omniauth :dropbox_oauth2, API['dropbox']['key'], API['dropbox']['secret']
+  # config.omniauth :dropbox_oauth2, API['dropbox']['key'], API['dropbox']['secret']
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

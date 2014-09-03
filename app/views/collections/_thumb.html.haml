@@ -1,11 +1,22 @@
-<a href="#{slugged_collection_path(collection.id, collection.name.parameterize)}">
-%div{ style: 'width: 180px'}
-  - collection.documents[0..3].each_with_index do |document, i|
-    - klass = case i
-    - when 0 then 'tp-lt-corner'
-    - when 1 then 'tp-rt-corner'
-    - when 2 then 'bt-lt-corner'
-    - when 3 then 'bt-rt-corner'
-    <img src="/#{document.thumb_sm}" alt="thumbnail of #{document.name}" class="#{klass}" /> 
-    = "<br />".html_safe if (i+1) % 2 == 0
-</a>
+%a{ href: "#{slugged_collection_path(collection.id, collection.name.parameterize)}", style: "text-decoration: none;" }
+  .collection.pull-left
+
+    - docs = collection.documents[0..8]
+    - docs.size.upto(8) {|i| docs[i] = nil} if docs.size < 8
+    
+    - docs.each_with_index do |document, i|
+      - if document.present?
+        %img{ src: "/#{document.thumb_sm}", alt: "thumbnail of #{document.name}" }
+      - else
+        %img.generic{ src: "/file-icon.png", alt: "generic file icon" }
+      = "<br />".html_safe if (i+1) % 3 == 0
+
+    .txt
+
+      .small
+        = collection.name
+        %br
+        = collection.created_at.strftime("%b %-d, %Y")
+
+        .clearfix
+        -#= pluralize( collection.documents.size, 'document')

@@ -18,9 +18,34 @@ Social search
 
 * MiniMagick, which requires
   * Image/GraphicsMagick
+  * libmagic for file type detection
   * Ghostscript for PDF support
-  * libpng for... PNG support 
+  * libpng for... PNG support
 
+=== Other dependencies
+
+openoffice.org
+
+
+
+
+* [LibreOffice](http://www.libreoffice.org/) To create PDFs from any old file type
+    Local install:
+    brew tap phinze/homebrew-cask
+    brew install brew-cask
+    brew cask install libreoffice
+
+* [unoconv](https://github.com/dagwieers/unoconv/)
+    Local insdtall: brew updatae && brew install unoconv
+
+* [httrack](http://www.httrack.com/) to download websites and assets.
+    Local install: brew update && brew install httrack
+
+* [libmagic](http://linux.die.net/man/3/libmagic) to detect filetypes.
+    Local install: brew update && brew install libmagic
+    
+* [phantomjs](http://phantomjs.org/) to create screenshots of websites.
+    Local install: brew update && brew install phantomjs
 
 
 ==== Deployment

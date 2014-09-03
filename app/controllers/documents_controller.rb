@@ -19,6 +19,7 @@ class DocumentsController < ApplicationController
 
   # GET /documents/1
   def show
+    @collection = @document.collections.first
   end
 
   # GET /documents/new
@@ -43,12 +44,34 @@ class DocumentsController < ApplicationController
     # should we be storing the full path to the doc in the db?
     
     if @document.url.present?
+
+      # .force_encoding("UTF-8") 
+
+
       @document.file_data = open( @document.url ) { |file| file.read }
     else
-      @document.file_data = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
+
+      # UTF8 FAILS HERE!
+      
+      logger.debug "---------------------> ABOUT to open uploaded file"
+
+      fd = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
+      
+      logger.debug "---------------------> JUST opened uploaded file"
+
+      # fd = fd.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '') 
+      fd = fd.force_encoding("binary")
+      
+      logger.debug "---------------------> data is: #{fd.inspect}"
+
+      @document.file_data = fd #.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '') #.force_encoding("UTF-8")
+      logger.debug "---------------------> @document.file_data has been set"
     end
     
     if @document.save
+
+      logger.debug "---------------------> @document.save just called"
+
       if @document.url.present?
         # generate a pdf
         # pdf_out = `wkhtmltopdf #{@document.url}/#{@document.id}.pdf`
@@ -69,7 +92,7 @@ class DocumentsController < ApplicationController
         @collection = Collection.find( @document.collection_id )
       else
         if current_user.collections.size == 0
-          @collection = Collection.create!( user: current_user, name: "#{current_user.name}'s documents")
+          @collection = Collection.create!( user: current_user, name: "#{current_user.name}'s documents", state: 'active' )
         else
           redirect_to root_path, alert: 'Something wrong, could not find or create a collection' and return
         end
@@ -79,7 +102,7 @@ class DocumentsController < ApplicationController
       if params[:redirect_to].present?
         redirect_to params[:redirect_to]
       else
-        redirect_to @document, notice: "Document successfully created. <a href='/documents/new' class='alert-link'>Add another?</a>".html_safe
+        redirect_to slugged_document_path(@document, @document.name.parameterize), notice: "Document successfully created. <a href='/documents/new' class='alert-link'>Add another?</a>".html_safe
       end
     else
       render :new

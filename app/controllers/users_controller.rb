@@ -1,47 +1,35 @@
 class UsersController < ApplicationController
   
   # before_filter :authenticate_user!, except: [:finish_signup]
-  before_action :set_user, only: [:documents, :collections, :show, :edit, :update, :destroy, :finish_signup]
+  before_action :set_user, only: [:documents, :collections, :show, :edit, :update, :destroy]
   
   
   def set_username
-    logger.debug "-----------------> IN set_username"
     @user = current_user
   end
   
   # Should require a username, in case we ever need to part ways with Dropbox (or anyone else)
   def finish_signup
-    if request.patch? && params[:user] #&& params[:user][:email]
-      logger.debug "-----------------> patch"
-      
-      logger.debug "-----------------> params[:user]: #{user_params.inspect}"
-      logger.debug "-----------------> user_params: #{user_params.inspect}"
-      logger.debug "-----------------> email: #{params[:user][:email]}"
-      logger.debug "-----------------> username: #{params[:user][:username]}"
-      
-      # if current_user.update(user_params)
-      
-      # current_user.confirm!
-      # current_user.skip_confirmation!
-      # current_user.save
-      
-      # current_user.email = params[:user][:email]
-      # current_user.username = params[:user][:username]
-      logger.debug "-----------------> current_user: #{current_user.inspect}"
-      logger.debug "--------"
-      logger.debug "-----------------> @user: #{@user.inspect}"
 
-      current_user.skip_reconfirmation!
+    # post back. you've filled in the form and submitted it
+    if request.patch? && params[:user] #&& params[:user][:email]
+      @user = User.find( params[:id] )
       
       if @user.update(user_params) #if current_user.save
-        logger.debug "-----------------> updated user: #{@user.inspect}"
-        
-        
-        sign_in(@user, :bypass => true)
-        redirect_to @user, notice: 'Your profile was successfully updated.'
+        # sign_in(@user, :bypass => true)
+        # redirect_to @user, notice: 'Your profile was successfully updated.'
+        # sign_in_and_redirect @user, event: :authentication
+        redirect_to root_path, notice: "You've been sent a confirmation email, please click the link therein."
+
       else
         @show_errors = true
       end
+
+    # An unconfimred user has just come from omniauth_callbacks, with a base64-encoded auth token
+    else
+      token = Base64.decode64( params[:id] )
+      auth = Authentication.find_by_token( token )
+      @user = auth.user
     end
   end
   

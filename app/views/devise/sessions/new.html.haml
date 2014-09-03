@@ -1,7 +1,8 @@
-%h2{ :style => 'margin-bottom: 30px;'}
+%h1
   Sign in
   
-  
+%hr
+
 = link_to "<img src='/sign-in-with-twitter-gray.png' style='width:158px; height: 28px' alt='Sign in with Twitter' />".html_safe, user_omniauth_authorize_url(:twitter)
 
 
@@ -32,17 +33,11 @@
     .col-sm-7
       = f.submit "Sign in", class: 'btn btn-primary', data: { disable_with: 'Signing in...' }
 
--#
--#
--# &mdash; OR &mdash;
--#
--# .clearfix
--#
--# %br
--#
 -# = link_to 'Sign in with Dropbox', user_omniauth_authorize_url(:dropbox_oauth2), class: 'btn btn-primary', data: { disable_with: 'Signing in...' }
 
--# %br
--# %br
--# %br
--# = render "devise/shared/links"
+%br
+
+%div
+  = link_to "Forgot password?", new_password_path(resource_name)
+%div
+  = link_to "Didn't receive confirmation?", new_confirmation_path(resource_name)

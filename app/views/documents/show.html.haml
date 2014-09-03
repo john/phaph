@@ -12,7 +12,7 @@
         %img{ src: "/#{@document.thumb_lg}" }    
   .col-md-6
     .small
-      In #{@document.collections.first.name}:
+      In #{ link_to @collection.name, slugged_collection_path(@collection, @collection.name.parameterize) }:
     %h3{ style: 'margin: 5px 0 10px 0;'}
       = @document.name
       

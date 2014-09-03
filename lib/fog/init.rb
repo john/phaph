@@ -19,12 +19,6 @@ region = 'us-west-2'
 image_id = 'ami-676e2b57'
 flavor_id = 'm3.large'
 
-# # entelo account:
-# aws_access_key_id = 'AKIAIXNUOB552ORTAHPA'
-# aws_secret_access_key = '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'
-# private_key_path = "#{ENV['HOME']}/.ssh/entelo/id_rsa"
-# public_key_path = "#{ENV['HOME']}/.ssh/entelo/id_rsa.pub"
-
 # fnnny account:
 
 private_key_path = '/Users/john/.ssh/id_rsa'
@@ -52,9 +46,6 @@ server = connection.servers.bootstrap(  :private_key_path => private_key_path,
                                         :image_id => image_id,
                                         :flavor_id =>  flavor_id,
                                         :groups => ['default'] )
-                                        # :groups => ['linkedout-fetcher']
-                                        # :groups => 'default'
-
 
 ##############################################################
 #
@@ -68,7 +59,6 @@ server = connection.servers.bootstrap(  :private_key_path => private_key_path,
 # package { 'webhttrack':
 #   ensure      => installed,
 # }
-
 
 server.wait_for { ready? }
 puts '---'
@@ -88,10 +78,14 @@ puts 'apt-getting openssl and friends...'
 
 cmd(server, "sudo apt-get -y install webhttrack build-essential openssl libreadline-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison libcurl4-openssl-dev")
 
+
+
+cmd(server, "sudo apt-get -y install libre-office unoconv" )
+
 server.wait_for { ready? }
 puts '---'
 puts 'installing wkhtmltopdf...'
-cmd(server, "sudo apt-get -y install libfreetype6-dev fontconfig xorg libpng-dev libjpeg-dev ")
+cmd(server, "sudo apt-get -y install libfreetype6-dev fontconfig xorg libpng-dev libjpeg-dev libmagic")
 cmd(server, "sudo wget http://sourceforge.net/projects/wkhtmltopdf/files/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb/download -O /usr/bin/wkhtmltopdf")
 server.wait_for { ready? }
 cmd(server, "sudo dpkg -i /usr/bin/wkhtmltopdf")

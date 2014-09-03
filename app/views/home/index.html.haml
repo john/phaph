@@ -4,10 +4,9 @@
     %small
       = link_to 'new', new_collection_path, class: 'btn btn-primary btn-xs', style: 'margin: 0 0 8px 8px;'
 
-  .row
-    .col-md-12
-      - @collections.each do |collection|
-        = render partial: 'collections/thumb', locals: {collection: collection}
+  #collections
+    - @collections.each do |collection|
+      = render partial: 'collections/thumb', locals: {collection: collection}
 
   %br
   %br
@@ -18,7 +17,8 @@
     %small
       = link_to 'new', new_document_path, class: 'btn btn-primary btn-xs', style: 'margin: 0 0 8px 8px;'
 
-  = render partial: 'documents/tiles', locals: {documents: @documents}
+  - if @documents.present? && @documents.size > 0
+    = render partial: 'documents/tiles', locals: {documents: @documents}
 
 - else
   .row

@@ -95,12 +95,11 @@ class SearchesController < ApplicationController
     end
   end
 
-
   def keyword_query( q )
     return {
       multi_match: {
         query: "#{q}",
-        fields: ["attachment", "name", "description", "source"]
+        fields: ["name", "description", "source", "principle_authors", "other_authors", "rights", "attachment"]
       }
     }
   end

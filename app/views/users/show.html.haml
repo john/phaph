@@ -55,5 +55,5 @@
       %b
         Comments
 
-    #comments
+    #comments{ :style => 'border: 1px solid red;' }
       = render partial: '/comments/show', locals: { :resource => @user }

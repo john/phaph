@@ -28,7 +28,7 @@ class CollectionsController < ApplicationController
 
     if @collection.save
       # redirect_to @collection, notice: 'Collection was successfully created.'
-      redirect_to new_document_path(collection_id: @collection.id), notice: 'Collection was successfully created. Add a document?'
+      redirect_to new_document_path(collection_id: @collection.id), notice: "Collection successfully created. Now <b>add a document.</b>".html_safe
     else
       render :new
     end
