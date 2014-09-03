@@ -12,7 +12,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.integer :creator_id
       t.string :encrypted_password, null: false, default: ''
       t.integer :scope, null: false, default: Scope::PUBLIC
-      t.string :state, null: false
+      # t.string :state, null: false
+      t.column :state, :integer, default: 0
 
       # t.recoverable
       # t.rememberable

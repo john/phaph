@@ -16,11 +16,7 @@ class Organization < ActiveRecord::Base
   validates :name, presence: true
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, unless: Proc.new {|c| c.email.blank?}
   
-  STATES = [:active, :inactive]
-  state_machine :state, :initial => :active do
-    event :deactivate do transition STATES => :inactive end
-    event :activate do transition STATES => :active end
-  end
+  enum state: { active: 0, inactive: 1 }
   
   # replace with association: has_many :people, through: :memberships, classname: User
   def people

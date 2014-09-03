@@ -5,10 +5,6 @@ class Presence < ActiveRecord::Base
   
   # accepts_nested_attributes_for :locations
   
-  STATES = [:active, :inactive]
-  state_machine :state, :initial => :active do
-    event :deactivate do transition STATES => :inactive end
-    event :activate do transition STATES => :active end
-  end
+  enum state: { active: 0, inactive: 1 }
   
 end

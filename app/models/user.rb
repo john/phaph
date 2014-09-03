@@ -35,11 +35,7 @@ class User < ActiveRecord::Base
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validates_format_of :email, without: TEMP_EMAIL_REGEX, on: :update
   
-  STATES = [:active, :inactive]
-  state_machine :state, :initial => :active do
-    event :deactivate do transition STATES => :inactive end
-    event :activate do transition STATES => :active end
-  end
+  enum state: { active: 0, inactive: 1, archived: 2 }
   
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -89,6 +85,7 @@ class User < ActiveRecord::Base
 
       # Get the authentication and user if they exist
       authentication = Authentication.find_for_oauth(auth)
+      # authentication.state = :active
 
       # If a signed_in_resource is provided it always overrides the existing user
       # to prevent the authentication being locked with accidentally created accounts.
@@ -110,6 +107,7 @@ class User < ActiveRecord::Base
         if user.nil?
           user = User.new(
             name: auth.info.name,
+            # state: :active,
             #username: auth.info.nickname || auth.uid,
             email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
             password: Devise.friendly_token[0,20]

@@ -10,13 +10,7 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, :polymorphic => true
   belongs_to :user
   
-  STATES = [:good, :hidden, :deleted]
-  state_machine :state, :initial => :active do
-    event :gooden do transition STATES => :good end
-    event :hide do transition STATES => :hidden end
-    event :unhide do transition STATES => :good end
-    event :delete do transition STATES => :deleted end
-  end
+  enum state: { active: 0, inactive: 1 }
 
   # Helper class method that allows you to build a comment
   # by passing a commentable object, a user_id, and comment text

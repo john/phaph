@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20140817171959) do
     t.string   "account_email"
     t.datetime "token_expires_at"
     t.text     "serialized_session"
-    t.string   "state",              null: false
+    t.integer  "state",              default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -46,9 +46,9 @@ ActiveRecord::Schema.define(version: 20140817171959) do
   create_table "collections", force: true do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "user_id",         null: false
+    t.integer  "user_id",                     null: false
     t.integer  "organization_id"
-    t.string   "state"
+    t.integer  "state",           default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 20140817171959) do
     t.integer  "parent_id"
     t.integer  "lft"
     t.integer  "rgt"
-    t.string   "state",                        null: false
+    t.integer  "state",            default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -99,20 +99,21 @@ ActiveRecord::Schema.define(version: 20140817171959) do
     t.datetime "service_modified_at"
     t.integer  "service_size_in_bytes"
     t.string   "service_mime_type"
-    t.string   "state",                             null: false
+    t.integer  "state",                 default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "documents", ["name"], name: "index_documents_on_name", using: :btree
   add_index "documents", ["organization_id"], name: "index_documents_on_organization_id", using: :btree
   add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
 
   create_table "locations", force: true do |t|
-    t.string   "name",                                     null: false
+    t.string   "name",                                                 null: false
     t.decimal  "latitude",       precision: 15, scale: 10
     t.decimal  "longitude",      precision: 15, scale: 10
     t.string   "city"
-    t.string   "state"
+    t.integer  "state",                                    default: 0
     t.string   "country"
     t.integer  "locatable_id"
     t.integer  "locatable_type"
@@ -121,6 +122,7 @@ ActiveRecord::Schema.define(version: 20140817171959) do
   end
 
   add_index "locations", ["locatable_id", "locatable_type"], name: "index_locations_on_locatable_id_and_locatable_type", unique: true, using: :btree
+  add_index "locations", ["name"], name: "index_locations_on_name", using: :btree
 
   create_table "memberships", force: true do |t|
     t.integer  "user_id",                     null: false
@@ -129,7 +131,7 @@ ActiveRecord::Schema.define(version: 20140817171959) do
     t.integer  "creator_id",                  null: false
     t.text     "notes"
     t.integer  "scope",           default: 3, null: false
-    t.string   "state",                       null: false
+    t.integer  "state",           default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -144,30 +146,32 @@ ActiveRecord::Schema.define(version: 20140817171959) do
     t.string   "email"
     t.integer  "user_id",                 null: false
     t.integer  "scope",       default: 3, null: false
-    t.string   "state",                   null: false
+    t.integer  "state",       default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "organizations", ["name"], name: "index_organizations_on_name", using: :btree
   add_index "organizations", ["user_id"], name: "index_organizations_on_user_id", using: :btree
 
   create_table "presences", force: true do |t|
-    t.integer  "location_id",    null: false
-    t.integer  "locatable_id",   null: false
-    t.string   "locatable_type", null: false
-    t.string   "state",          null: false
+    t.integer  "location_id",                null: false
+    t.integer  "locatable_id",               null: false
+    t.string   "locatable_type",             null: false
+    t.integer  "state",          default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "presences", ["locatable_id", "locatable_type"], name: "index_presences_on_locatable_id_and_locatable_type", using: :btree
+  add_index "presences", ["location_id"], name: "index_presences_on_location_id", using: :btree
 
   create_table "searches", force: true do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "user_id",         null: false
+    t.integer  "user_id",                     null: false
     t.integer  "organization_id"
-    t.string   "state"
+    t.integer  "state",           default: 0
     t.string   "term"
     t.string   "scope"
     t.datetime "created_at"
@@ -185,7 +189,7 @@ ActiveRecord::Schema.define(version: 20140817171959) do
     t.string   "encrypted_password",     default: "", null: false
     t.integer  "creator_id"
     t.integer  "scope",                  default: 3,  null: false
-    t.string   "state",                               null: false
+    t.integer  "state",                  default: 0
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

@@ -7,6 +7,8 @@ class Location < ActiveRecord::Base
   
   # accepts_nested_attributes_for :locatable
   
+  enum state: { active: 0, inactive: 1 }
+  
   after_validation :geocode, if: ->(obj){ obj.name.present? and obj.name_changed? }
   
   geocoded_by :name do |obj, results|

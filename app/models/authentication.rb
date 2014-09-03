@@ -7,17 +7,7 @@ class Authentication < ActiveRecord::Base
   validates_presence_of :uid, :provider, :state
   validates_uniqueness_of :uid, :scope => :provider
   
-  STATES = [:active, :inactive]
-  state_machine :state, :initial => :active do
-    event :deactivate do transition STATES => :inactive end
-    event :activate do transition STATES => :active end
-  end
-  
-  
-  # logger.debug "-----------------> #{auth.credentials.token}"
-  # logger.debug "-----------------> #{auth.info.name}"
-  # logger.debug "-----------------> #{auth.info.email}"
-  # logger.debug "-----------------> #{auth.info.uid}"
+  enum state: { active: 0, inactive: 1 }
   
   def self.find_for_oauth(auth)
     authentication = find_by(provider: auth.provider, uid: auth.uid)

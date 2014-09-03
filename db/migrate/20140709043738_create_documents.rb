@@ -30,7 +30,8 @@ class CreateDocuments < ActiveRecord::Migration
       t.integer :service_size_in_bytes
       t.string :service_mime_type
       
-      t.string :state, null: false
+      # t.string :state, null: false
+      t.column :state, :integer, default: 0
 
       t.timestamps
     end
