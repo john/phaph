@@ -1,12 +1,29 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  # devise :database_authenticatable, :registerable,
-  #        :recoverable, :rememberable, :trackable, :validatable
 
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable,
     :confirmable, :lockable, :omniauthable, :omniauth_providers => [:dropbox_oauth2, :twitter]
+  
+  acts_as_commentable
+  acts_as_follower
+  acts_as_followable
+
+  has_many :presences, as: :locatable
+  has_many :locations, through: :presences
+  has_many :authentications
+  has_many :documents
+  has_many :collectibles
+  has_many :collections
+  
+  TEMP_EMAIL_PREFIX = 'change@me'
+  TEMP_EMAIL_REGEX = /\Achange@me/
+  
+  validates :name, :email, presence: true
+  validates :email, uniqueness: true
+  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  validates_format_of :email, without: TEMP_EMAIL_REGEX, on: :update
+  
+  enum state: { active: 0, inactive: 1, archived: 2 }
   
   # after_create :get_dropbox
   #
@@ -16,32 +33,7 @@ class User < ActiveRecord::Base
   #   GetDropboxFiles.perform_async( self.id )
   #   logger.info "----------> async should have happened."
   # end
-  
-  TEMP_EMAIL_PREFIX = 'change@me'
-  TEMP_EMAIL_REGEX = /\Achange@me/
-  
-  has_many :presences, as: :locatable
-  has_many :locations, through: :presences
-  has_many :authentications
-  
-  has_many :documents
-  has_many :collectibles
-  has_many :collections
-  
-  acts_as_commentable
-  
-  validates :name, :email, presence: true
-  validates :email, uniqueness: true
-  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  validates_format_of :email, without: TEMP_EMAIL_REGEX, on: :update
-  
-  enum state: { active: 0, inactive: 1, archived: 2 }
-  
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :omniauthable, :omniauth_providers => [:dropbox_oauth2, :twitter]
+
   
   def email_verified?
     self.email && self.email !~ TEMP_EMAIL_REGEX

@@ -8,8 +8,6 @@ class Organization < ActiveRecord::Base
   has_many :locations, through: :presences
   belongs_to :user
   
-  acts_as_commentable
-  
   # accepts_nested_attributes_for :locations
   # accepts_nested_attributes_for :presences
   

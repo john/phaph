@@ -23,20 +23,29 @@ Rails.application.routes.draw do
     
     resources :documents, only: [:index] do
       get 'index', on: :collection
+      get :follow,  on: :member
+      get :unfollow,  on: :member
     end
     
     resources :users, only: [:index] do
       get 'index', on: :collection
     end
   end
-  
+
   resources :authentications
-  resources :collections
+  
+  resources :collections do
+    get :follow,  on: :member
+    get :unfollow,  on: :member
+  end
+
   resources :comments
   
   match '/documents/search' => 'documents#search', :via => :get, :as => :search_documents
   resources :documents do
     get 'import', on: :collection
+    get :follow,  on: :member
+    get :unfollow,  on: :member
   end
   
   resources :locations
@@ -46,10 +55,12 @@ Rails.application.routes.draw do
   
   match '/users/authorize' => 'users#authorize', :via => :get, :as => :user_authorize
   match '/users/dropbox_callback' => 'users#dropbox_callback', :via => :get, :as => :user_dropbox_callback
-
+  
   resources :users, path: 'people' do
     get :documents, on: :member
     get :collections, on: :member
+    get :follow,  on: :member
+    get :unfollow,  on: :member
   end
   match '/people/:id/:slug' => 'users#show', :via => :get, :as => :people
 

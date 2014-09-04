@@ -1,6 +1,16 @@
 class CollectionsController < ApplicationController
-  before_action :set_collection, only: [:show, :edit, :update, :destroy]
 
+  before_filter :authenticate_user!, only: [:edit, :update, :destroy, :follow, :unfollow]
+  before_action :set_collection, only: [:show, :edit, :update, :destroy, :follow, :unfollow]
+
+  def follow
+    current_user.follow!(@collection)
+  end
+
+  def unfollow
+    current_user.unfollow!(@collection)
+  end
+  
   # GET /collections
   def index
     # @collections = Collection.all

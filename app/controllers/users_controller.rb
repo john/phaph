@@ -1,12 +1,16 @@
 class UsersController < ApplicationController
   
-  # before_filter :authenticate_user!, except: [:finish_signup]
-  before_action :set_user, only: [:documents, :collections, :show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, only: [:edit, :update, :destroy, :follow, :unfollow]
+  before_action :set_user, only: [:documents, :collections, :show, :edit, :update, :destroy, :follow, :unfollow]
   
-  
-  def set_username
-    @user = current_user
+  def follow
+    current_user.follow!(@user)
   end
+
+  def unfollow
+    current_user.unfollow!(@user)
+  end
+
   
   # Should require a username, in case we ever need to part ways with Dropbox (or anyone else)
   def finish_signup
@@ -36,6 +40,10 @@ class UsersController < ApplicationController
   
   private
   
+  def set_username
+    @user = current_user
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
@@ -58,12 +66,12 @@ class UsersController < ApplicationController
   public
 
   def collections
-    redirect_to root_path alert: 'Not for you.' and return unless @user == current_user
+    # redirect_to root_path alert: 'Not for you.' and return unless @user == current_user
     @collections = Collection.where( user: @user ).order('updated_at DESC').paginate(:page => params[:page], :per_page => 12 )
   end
 
   def documents
-    redirect_to root_path alert: 'Not for you.' and return unless @user== current_user
+    # redirect_to root_path alert: 'Not for you.' and return unless @user== current_user
     @documents = Document.where(user:  @user).order('updated_at DESC').paginate(:page => params[:page], :per_page => 12 )
   end
   

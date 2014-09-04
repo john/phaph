@@ -5,6 +5,15 @@
       Collection:
     %h2{ style: 'margin: 5px 0 2px 0;'}
       = @collection.name
+
+    - if @collection.user == current_user
+      = link_to 'edit', edit_collection_path(current_user), class: 'btn btn-sm btn-primary'
+    - else
+      - if current_user.follows?(@collection)
+        = link_to 'unfollow', unfollow_collection_path(@collection), class: 'btn btn-sm btn-primary btn-follow', remote: true
+
+      - else
+        = link_to 'follow', follow_collection_path(@collection), class: 'btn btn-sm btn-primary btn-follow', remote: true
       
     .small
       Created on #{@collection.created_at.strftime("%b %-d, %Y")}
@@ -19,28 +28,7 @@
     %div{ style: 'margin: 10px 0 20px 0;'}
       = @collection.description
 
-
-
 = render partial: 'documents/tiles', locals: {documents: @collection.documents}
-
--# = will_paginate @documents, renderer: BootstrapPagination::Rails
-
--# .row
--#   .col-md-8
--#     %h5
--#       Documents
--#       %small
--#         &nbsp;
--#         = link_to 'New document', new_document_path(collection_id: @collection.id), {:style => 'color: #b3b3b3; margin: 10px 0 0 0;'}
--#     %table.table.table-hover
--#       - if @collection.documents.present?
--#         - @collection.documents.each do |document|
--#           = render :partial => 'documents/document', :locals => {:resource => document}
--#       - else
--#         %li
--#           None, yet.
-
-
 
 .row
   .col-md-12#comments
@@ -48,3 +36,4 @@
       %b
         Comments
     = render partial: '/comments/show', locals: { :resource => @collection }
+    

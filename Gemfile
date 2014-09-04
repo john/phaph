@@ -35,23 +35,22 @@ gem 'patron' # http library that supports keep-alive connections, recommended fo
 gem 'phantomjs'
 gem 'pundit'
 
-gem 'rails', '4.1.4'
-gem 'devise', git: 'https://github.com/plataformatec/devise.git'
-gem 'sass-rails', '~> 4.0.3'
+# gem 'rails', '4.1.4'
+# gem 'devise', git: 'https://github.com/plataformatec/devise.git'
+# gem 'sass-rails', '~> 4.0.3'
 
-# gem 'rails', '4.2.0.beta1'
-# gem 'devise', git: 'https://github.com/plataformatec/devise.git', :branch => 'lm-rails-4-2'
-# gem 'sass-rails', '~> 5.0.0.beta1'
+gem 'rails', '4.2.0.beta1'
+gem 'devise', git: 'https://github.com/plataformatec/devise.git', :branch => 'lm-rails-4-2'
+gem 'sass-rails', '~> 5.0.0.beta1'
 
 # Use Rails Html Sanitizer for HTML sanitization
-# was maybe a 4.2 thing?
-# gem 'rails-html-sanitizer', '~> 1.0'
+# maybe a 4.2 thing?
+gem 'rails-html-sanitizer', '~> 1.0'
 
 gem 'ruby-filemagic'
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', :require => nil
-# gem 'socialization'
-# gem 'state_machine', git: 'https://github.com/seuros/state_machine.git'
+gem 'socialization'
 gem 'therubyracer'
 gem 'turbolinks' # Read more: https://github.com/rails/turbolinks
 gem 'uglifier', '>= 1.3.0'
@@ -76,7 +75,6 @@ group :development, :test do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
-
 
 group :development do
   # gem 'better_errors'

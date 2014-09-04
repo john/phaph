@@ -1,7 +1,15 @@
 class DocumentsController < ApplicationController
   
-  before_action :authenticate_user!, only: [:index, :new, :edit, :create, :destroy]
-  before_action :set_document, only: [:show, :view, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:index, :new, :edit, :create, :destroy, :follow, :unfollow]
+  before_action :set_document, only: [:show, :view, :edit, :update, :destroy, :follow, :unfollow]
+  
+  def follow
+    current_user.follow!(@document)
+  end
+
+  def unfollow
+    current_user.unfollow!(@document)
+  end
   
   # GET /documents
   def index

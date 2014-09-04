@@ -1,11 +1,11 @@
 class Location < ActiveRecord::Base
   
+  # accepts_nested_attributes_for :locatable
+  
   # belongs_to :locatable, polymorphic: true
   has_many :presences
   has_many :organizations, through: :presences #, source: :locatable, source_type: 'Organization'
   has_many :users, through: :presences #, source: :locatable, source_type: 'User'
-  
-  # accepts_nested_attributes_for :locatable
   
   enum state: { active: 0, inactive: 1 }
   

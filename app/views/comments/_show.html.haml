@@ -1,30 +1,37 @@
-- comment = Comment.new( commentable_type: resource.class.to_s, commentable_id: resource.id )
-= form_for comment, remote: true, role: 'form', html: {class: 'form-horizontal', style: 'border: 1px solid blue; margin: 0; padding: 0;'} do |f|
 
-  - if comment.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@comment.errors.count, "error")} prohibited this comment from being saved:"
-      %ul
-        - comment.errors.full_messages.each do |msg|
-          %li= msg
+- if user_signed_in?
 
-  = f.hidden_field :commentable_type
-  = f.hidden_field :commentable_id
+  - comment = Comment.new( commentable_type: resource.class.to_s, commentable_id: resource.id )
+  = form_for comment, remote: true, role: 'form', html: {class: 'form-horizontal', style: 'margin: 0; padding: 0;'} do |f|
 
-  .col-md-8{ style: 'margin-left: 0;'}
-    -# = f.label :body, :class => 'sr-only'
-    = f.text_area :body, class: 'form-control', style: 'height:60px;'
+    - if comment.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@comment.errors.count, "error")} prohibited this comment from being saved:"
+        %ul
+          - comment.errors.full_messages.each do |msg|
+            %li= msg
 
-  .col-md-4.actions#comment_save
-    -# {style: 'margin: 10px, 0 0 10px;'}
-    = f.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Saving...'}
+    = f.hidden_field :commentable_type
+    = f.hidden_field :commentable_id
 
-  .clearfix
+    .col-md-8{ style: 'margin: 0 0 10px 0;'}
+      = f.label :body, :class => 'sr-only'
+      = f.text_area :body, class: 'form-control', style: 'height:60px;'
 
-  %ul.list-unstyled{ style: 'margin-left: 15px;'}
-    - if resource.root_comments.present?
-      - resource.root_comments.order(created_at: :desc).each do |comment|
-        = render :partial => 'comments/comment', :locals => {:comment => comment}
-    - else
-      %li#no-comments
-        No comments, yet.
+    .col-md-4.actions#comment_save
+      -# {style: 'margin: 10px, 0 0 10px;'}
+      = f.submit 'Save', class: 'btn btn-primary', data: {disable_with: 'Saving...'}
+
+- else
+  .col-md-8{ style: 'margin: 0 0 10px 0;'}
+    #{link_to "Sign in", new_user_session_path} or #{link_to "Sign up", new_user_registration_path} to comment.
+    
+.clearfix
+
+%ul.list-unstyled{ style: 'margin-left: 15px;'}
+  - if resource.root_comments.present?
+    - resource.root_comments.order(created_at: :desc).each do |comment|
+      = render :partial => 'comments/comment', :locals => {:comment => comment}
+  - else
+    %li#no-comments
+      No comments, yet.

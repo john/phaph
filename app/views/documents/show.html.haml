@@ -1,29 +1,29 @@
 .row
   .col-md-6
-    %div{:style => 'padding: 10px;'}
-      - if @document.url.present?
-        -# = image_tag "/documents/#{current_user.id}/#{@document.created_at.strftime("%Y")}/#{@document.id}/#{@document.name.parameterize}_400.gif", style: 'border: 1px solid #ddd;'
+    %img{ src: "https://phaph.s3.amazonaws.com/#{@document.thumb_lg}", style: "border: 1px solid #ddd;", alt: "thumbnail of #{@document.name}"}
 
-        -# = image_tag "#{@document.thumb_lg}", style: 'border: 1px solid #ddd;'
-        <img src="https://phaph.s3.amazonaws.com/#{@document.thumb_lg}" style="border: 1px solid #ddd;" alt="thumbnail of #{@document.name}" /> 
-
-      - else
-        -# = image_tag @document.file.thumb.url, style: 'border: 1px solid #ddd'
-        %img{ src: "/#{@document.thumb_lg}" }    
   .col-md-6
     .small
       In #{ link_to @collection.name, slugged_collection_path(@collection, @collection.name.parameterize) }:
     %h3{ style: 'margin: 5px 0 10px 0;'}
       = @document.name
       
+      - if @collection.user == current_user
+        = link_to 'edit', edit_document_path(current_user), class: 'btn btn-sm btn-primary'
+      - else
+        - if current_user.follows?(@document)
+          = link_to 'unfollow', unfollow_document_path(@document), class: 'btn btn-sm btn-primary btn-follow', remote: true
+
+        - else
+          = link_to 'follow', follow_document_path(@document), class: 'btn btn-sm btn-primary btn-follow', remote: true
+
     .small
-      Added #{@document.created_at.strftime("%b %-d, %Y")}
+      Added #{@document.created_at.strftime("%b %-d, %Y")} by #{link_to @document.user.name, @document.user}
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       - if @document.user == current_user
         = link_to 'edit', edit_document_path(@document)
         &nbsp;&nbsp;&#183;&nbsp;&nbsp;
         = link_to 'delete', document_path(@document), method: :delete, data: { confirm: "You're sure? Can't be undone."}
-
 
     - if @document.principle_authors.present? || @document.other_authors.present?
       %div
@@ -38,7 +38,7 @@
         
 .row
   .col-md-12#comments
-    %h4{ style: 'margin: 10px;'}
+    %h4{ style: 'margin-left: 15px;'}
       %b
         Comments
   

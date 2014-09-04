@@ -10,6 +10,20 @@ class Document < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   
+  acts_as_commentable
+  acts_as_follower
+  acts_as_followable
+  mount_uploader :file, FileUploader
+  
+  belongs_to :organization
+  belongs_to :user  
+  has_many :collectibles
+  has_many :collections, through: :collectibles
+  
+  validates_presence_of :user, :name, :state
+  
+  enum state: { active: 0, inactive: 1 }
+  
   attr_accessor :collection_id
   attr_accessor :file_data
   
@@ -18,19 +32,6 @@ class Document < ActiveRecord::Base
   #   logger.debug "-------------------------------> CALLING update_document."
   #   update_document
   # end
-  
-  mount_uploader :file, FileUploader
-  
-  belongs_to :organization
-  belongs_to :user  
-  has_many :collectibles
-  has_many :collections, through: :collectibles
-  
-  acts_as_commentable
-  
-  validates_presence_of :user, :name, :state
-  
-  enum state: { active: 0, inactive: 1 }
   
   ROOT = "#{Rails.root}/public"
 

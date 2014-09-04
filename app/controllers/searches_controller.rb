@@ -1,5 +1,7 @@
 class SearchesController < ApplicationController
-  # before_action :set_search, only: [:show, :edit, :update, :destroy]
+  
+  before_filter :authenticate_user!, only: [:edit, :update, :destroy]
+  before_action :set_search, only: [:show, :edit, :update, :destroy]
 
   # # GET /searches
   # def index

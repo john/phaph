@@ -1,15 +1,13 @@
 class Comment < ActiveRecord::Base
+
+  acts_as_votable # if you want user to vote on the quality of comments.
   acts_as_nested_set :scope => [:commentable_id, :commentable_type]
-
-  validates_presence_of :body, :user, :state
-
-  # NOTE: install the acts_as_votable plugin if you
-  # want user to vote on the quality of comments.
-  acts_as_votable
 
   belongs_to :commentable, :polymorphic => true
   belongs_to :user
-  
+
+  validates_presence_of :body, :user, :state
+
   enum state: { active: 0, inactive: 1 }
 
   # Helper class method that allows you to build a comment
@@ -44,4 +42,5 @@ class Comment < ActiveRecord::Base
   def self.find_commentable(commentable_str, commentable_id)
     commentable_str.constantize.find(commentable_id)
   end
+  
 end
