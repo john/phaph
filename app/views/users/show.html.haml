@@ -11,7 +11,7 @@
         = link_to 'edit', edit_user_path(current_user), class: 'btn btn-sm btn-primary'
       - else
         - if current_user.follows?(@user)
-          = link_to 'unfollow', unfollow_user_path(@user), class: 'btn btn-sm btn-primary btn-follow', remote: true
+          = link_to 'following', unfollow_user_path(@user), class: 'btn btn-xs btn-default btn-follow', remote: true
 
         - else
           = link_to 'follow', follow_user_path(@user), class: 'btn btn-sm btn-primary btn-follow', remote: true

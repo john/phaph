@@ -15,8 +15,26 @@
 
       .small
         = collection.name
-        %br
-        = collection.created_at.strftime("%b %-d, %Y")
+        -# %br
+        -# = collection.created_at.strftime("%b %-d, %Y")
 
         .clearfix
-        -#= pluralize( collection.documents.size, 'document')
+        %span.tip{ :'data-toggle' =>  "tooltip", :'data-placement' => "top", :title => "#{pluralize( collection.documents.size, 'doc')}" }
+          %span.glyphicon.glyphicon-list-alt
+          %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
+            = collection.documents.size
+        
+
+        - if collection.comment_threads.size > 0
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          %span.tip{ :'data-toggle' =>  "tooltip", :'data-placement' => "top", :title => "#{pluralize( collection.comment_threads.size, 'comment')}" }
+            %span.glyphicon.glyphicon-comment
+            %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
+              = collection.comment_threads.size
+
+        - if collection.follower_count > 0
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          %span.tip{ :'data-toggle' =>  "tooltip", :'data-placement' => "top", :title => "#{pluralize( collection.follower_count, 'follower')}" }
+            %span.glyphicon.glyphicon-retweet
+            %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
+              = collection.follower_count

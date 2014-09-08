@@ -8,8 +8,8 @@
           .small
             = document.name
 
-            .pull-right
-              #{document.created_at.strftime("%b %-d, %Y")}
+            -# .pull-right
+            -#   #{document.created_at.strftime("%b %-d, %Y")}
 
             .clearfix
             - if col = document.collections.first
@@ -17,11 +17,11 @@
               %i
                 = link_to col.name, slugged_collection_path(col, col.name.parameterize)
 
-              - if document.root_comments.size > 0
+              - if document.comment_threads.size > 0
                 .notification-icon
                   %span.glyphicon.glyphicon-comment
                   %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
-                    = document.root_comments.size
+                    = document.comment_threads.size
 
 :javascript
   var container = document.querySelector('#docs');

@@ -27,13 +27,9 @@ class CommentsController < ApplicationController
       resource = Object.const_get( comment[:commentable_type] ).find( comment[:commentable_id] )
       @comment = Comment.build_from( resource, current_user.id, comment[:body] )
       
-      @comment.save
-      
-      # if @comment.save
-      #   redirect_to @comment, notice: 'Comment was successfully created.'
-      # else
-      #   render :new
-      # end
+      if @comment.save
+        @comment.create_activity :create, owner: current_user
+      end
     end
   end
 

@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :activities
   resources :authentications
   
   resources :collections do

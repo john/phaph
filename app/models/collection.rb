@@ -1,4 +1,7 @@
 class Collection < ActiveRecord::Base
+  include PublicActivity::Common
+  
+  # tracked owner: ->(controller, model) { controller.current_user }
   
   acts_as_commentable
   acts_as_follower
@@ -11,5 +14,10 @@ class Collection < ActiveRecord::Base
   validates_presence_of :user, :name, :state
   
   enum state: { active: 0, inactive: 1 }
+
+  def follower_count
+    # SELECT `follows`.`follower_id` FROM `follows` WHERE `follows`.`follower_type` = 'User' AND `follows`.`followable_type` = 'Collection' AND `follows`.`followable_id` = 2
+    Follow.where( follower_type: 'User', followable_type: 'Collection', followable_id: id).count
+  end
   
 end

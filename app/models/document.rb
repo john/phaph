@@ -9,6 +9,8 @@
 class Document < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+
+  include PublicActivity::Common
   
   acts_as_commentable
   acts_as_follower

@@ -1,5 +1,6 @@
 class Comment < ActiveRecord::Base
-
+  include PublicActivity::Common
+  
   acts_as_votable # if you want user to vote on the quality of comments.
   acts_as_nested_set :scope => [:commentable_id, :commentable_type]
 

@@ -1,0 +1,15 @@
+- if activity.trackable
+  - object = Object.const_get(activity.trackable_type).find( activity.trackable_id )
+  - target = Object.const_get(object.commentable_type).find( object.commentable_id )
+
+%div{ style: 'margin-top: 5px;' }
+  Added a comment 
+  - if activity.trackable
+    to
+    %b
+      = link_to target.name, target
+    \:
+    .txt
+      "#{truncate(object.body, length: 100)}"
+  - else
+    which has since been removed 

@@ -37,6 +37,7 @@ class CollectionsController < ApplicationController
     @collection.user = current_user
 
     if @collection.save
+      @collection.create_activity :create, owner: current_user
       # redirect_to @collection, notice: 'Collection was successfully created.'
       redirect_to new_document_path(collection_id: @collection.id), notice: "Collection successfully created. Now <b>add a document.</b>".html_safe
     else

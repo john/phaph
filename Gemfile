@@ -10,8 +10,6 @@ gem 'carrierwave' #, git: 'https://github.com/carrierwaveuploader/carrierwave.gi
 gem 'carrierwave-aws'
 gem 'carrierwave-dropbox' #, git: 'https://github.com/john/carrierwave-dropbox.git'
 
-# gem 'carrierwave-dropbox', path: '/Users/john/projects/apps/carrierwave-dropbox'
-
 # these need to be before elasticsearch
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
@@ -33,18 +31,12 @@ gem 'omniauth-twitter'
 
 gem 'patron' # http library that supports keep-alive connections, recommended for elasticsearch-ruby
 gem 'phantomjs'
+gem 'public_activity'
 gem 'pundit'
-
-# gem 'rails', '4.1.4'
-# gem 'devise', git: 'https://github.com/plataformatec/devise.git'
-# gem 'sass-rails', '~> 4.0.3'
 
 gem 'rails', '4.2.0.beta1'
 gem 'devise', git: 'https://github.com/plataformatec/devise.git', :branch => 'lm-rails-4-2'
 gem 'sass-rails', '~> 5.0.0.beta1'
-
-# Use Rails Html Sanitizer for HTML sanitization
-# maybe a 4.2 thing?
 gem 'rails-html-sanitizer', '~> 1.0'
 
 gem 'ruby-filemagic'

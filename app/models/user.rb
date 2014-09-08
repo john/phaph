@@ -34,7 +34,20 @@ class User < ActiveRecord::Base
   #   logger.info "----------> async should have happened."
   # end
 
-  
+  def followee_ids()
+    sql = "SELECT `users`.id
+            FROM `users`
+            WHERE `users`.`id`
+            IN
+              (SELECT `follows`.`followable_id`
+                FROM `follows`
+                WHERE `follows`.`followable_type` = 'User'
+                AND `follows`.`follower_type` = 'User'
+                AND `follows`.`follower_id` = #{id})"
+    res = User.connection.execute( sql )
+    (res.present?) ? res.first : []
+  end
+
   def email_verified?
     self.email && self.email !~ TEMP_EMAIL_REGEX
   end

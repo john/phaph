@@ -1,0 +1,10 @@
+%div{ style: 'margin-top: 5px;' }
+  Created
+  - if activity.trackable
+    - collection = Collection.find(activity.trackable_id)
+    the collection
+    %b
+      = link_to collection.name, collection
+
+  - else
+    a collection, which has since been removed 

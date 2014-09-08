@@ -1,0 +1,13 @@
+/ - if activity.trackable
+/   - object = Object.const_get(activity.trackable_type).find( activity.trackable_id )
+/   - target = Object.const_get(object.commentable_type).find( object.commentable_id )
+
+/ created a document 
+/ - if activity.trackable
+/   in
+/   %b
+/     = link_to target.name, target
+/   .txt
+/     = object.body    
+/ - else
+/   which has since been removed 

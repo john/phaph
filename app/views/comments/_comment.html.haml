@@ -2,9 +2,11 @@
 
 %li{id: "comment_#{comment.id}"}
   %div
-    .pull-right
-      %small
-        = link_to '<button type="button" class="close"><span aria-hidden="true">&times;</span>'.html_safe, comment_path(comment), remote: 'true', method: 'delete'
+
+    - if current_user == comment.user
+      .pull-right
+        %small
+          = link_to '<button type="button" class="close"><span aria-hidden="true">&times;</span>'.html_safe, comment_path(comment), remote: 'true', method: 'delete'
     
     %h5
       %b

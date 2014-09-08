@@ -1,0 +1,17 @@
+%h1
+  Friend's Activities
+
+- @activities.each do |activity|
+  - actor = activity.owner
+  .activity
+    - if actor.present?
+      %b
+        = link_to actor.name, actor, style: 'color: #333'
+        
+      %span
+        &nbsp;&#183;&nbsp;
+        = link_to actor.username, actor
+        &nbsp;&#183;&nbsp;
+        = link_to "#{distance_of_time_in_words( activity.created_at, Time.now)} ago", actor
+    
+    = render_activity activity

@@ -52,50 +52,18 @@ class DocumentsController < ApplicationController
     # should we be storing the full path to the doc in the db?
     
     if @document.url.present?
-
-      # .force_encoding("UTF-8") 
-
-
       @document.file_data = open( @document.url ) { |file| file.read }
     else
-
-      # UTF8 FAILS HERE!
-      
-      logger.debug "---------------------> ABOUT to open uploaded file"
-
       fd = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
-      
-      logger.debug "---------------------> JUST opened uploaded file"
-
       # fd = fd.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '') 
       fd = fd.force_encoding("binary")
       
-      logger.debug "---------------------> data is: #{fd.inspect}"
-
-      @document.file_data = fd #.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '') #.force_encoding("UTF-8")
-      logger.debug "---------------------> @document.file_data has been set"
+      @document.file_data = fd
     end
     
     if @document.save
+      CreateDocumentJob.enqueue( @document, current_user )
 
-      logger.debug "---------------------> @document.save just called"
-
-      if @document.url.present?
-        # generate a pdf
-        # pdf_out = `wkhtmltopdf #{@document.url}/#{@document.id}.pdf`
-
-        # This gets the site and assets with httrack, zips it,
-        # gener
-        # move to a job later
-        @document.archive_site
-      else
-        # if a file upload, generate thumbs from pdf,
-        # and upload both the pdfs and thumbs to S3
-        @document.archive_file
-      end
-      
-      # update document with location of file and thumb
-      
       if @document.collection_id.present?
         @collection = Collection.find( @document.collection_id )
       else
@@ -115,10 +83,6 @@ class DocumentsController < ApplicationController
     else
       render :new
     end
-  end
-
-  def view
-
   end
 
   # PATCH/PUT /documents/1
@@ -152,29 +116,6 @@ class DocumentsController < ApplicationController
     redirect_to documents_url, notice: 'Document was successfully deleted.'
   end
   
-  
-  # def search( everything: false )
-  #   @model = Document
-  #
-  #   # https://gist.github.com/jprante/5095527
-  #   query = {
-  #             query: {
-  #               filtered: {
-  #                 filter: user_query,
-  #                 query: keyword_query( params[:q] )
-  #               }
-  #             },
-  #             highlight: {
-  #               fields: {
-  #                 attachment: {}
-  #               }
-  #             }
-  #           }
-  #
-  #   @resources = Document.search( query ).page( params[:page] ||= 1 )
-  # end
-  
-  
   private
     # Use callbacks to share common setup or constraints between actions.
     
@@ -185,10 +126,7 @@ class DocumentsController < ApplicationController
       #   sign_out
       #   redirect_to root_path, alert: "You've been signed out."  and return
       # end
-      
     end
-
-    # Only allow a trusted parameter "white list" through.
 
     # :journal, 
     
