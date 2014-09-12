@@ -1,6 +1,6 @@
 .row
   .col-md-6
-    %img{ src: "https://phaph.s3.amazonaws.com/#{@document.thumb_lg}", style: "border: 1px solid #ddd;", alt: "thumbnail of #{@document.name}"}
+    %img{ src: "#{Document::FQDN}#{@document.thumb_lg}", style: "border: 1px solid #ddd;", alt: "thumbnail of #{@document.name}"}
 
   .col-md-6
     .small
@@ -17,10 +17,14 @@
     .small
       Added #{@document.created_at.strftime("%b %-d, %Y")} by #{link_to @document.user.name, @document.user}
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      = link_to 'download archive', "#{Document::FQDN}#{@document.file_location}", class: 'btn btn-xs btn-primary'
+      &nbsp;&nbsp;&#183;&nbsp;&nbsp;
+
       - if @document.user == current_user
         = link_to 'edit', edit_document_path(@document), class: 'btn btn-xs btn-primary'
         &nbsp;&nbsp;&#183;&nbsp;&nbsp;
-        = link_to 'delete', document_path(@document), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-primary'
+        = link_to 'delete', document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-primary'
 
     - if @document.principle_authors.present? || @document.other_authors.present?
       %div

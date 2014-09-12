@@ -2,7 +2,7 @@
   - documents.each do |document|
     .item
       %a{ href: "#{slugged_document_path(document.id, document.name.parameterize)}" }
-        %img{ src: "/#{document.thumb_md}", alt: "thumbnail of #{document.name}", class: 'top'}
+        %img{ src: "#{Document::FQDN}#{document.thumb_md}", alt: "thumbnail of #{document.name}", class: 'top'}
         .txt
           
           .small

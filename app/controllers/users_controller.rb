@@ -32,17 +32,14 @@ class UsersController < ApplicationController
     # An unconfimred user has just come from omniauth_callbacks, with a base64-encoded auth token
     else
       token = Base64.decode64( params[:id] )
-      auth = Authentication.find_by_token( token )
-      @user = auth.user
+      if auth = Authentication.find_by_token( token )
+        @user = auth.user
+      end
     end
   end
   
   
   private
-  
-  def set_username
-    @user = current_user
-  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user

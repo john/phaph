@@ -49,13 +49,10 @@ class DocumentsController < ApplicationController
     @document.state = 'active'
     @document.user = current_user
     
-    # should we be storing the full path to the doc in the db?
-    
     if @document.url.present?
       @document.file_data = open( @document.url ) { |file| file.read }
     else
       fd = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
-      # fd = fd.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '') 
       fd = fd.force_encoding("binary")
       
       @document.file_data = fd
@@ -78,7 +75,7 @@ class DocumentsController < ApplicationController
       if params[:redirect_to].present?
         redirect_to params[:redirect_to]
       else
-        redirect_to slugged_document_path(@document, @document.name.parameterize), notice: "Document successfully created. <a href='/documents/new' class='alert-link'>Add another?</a>".html_safe
+        redirect_to slugged_document_path(@document.id, @document.slug), notice: "Document successfully created. <a href='/documents/new' class='alert-link'>Add another?</a>".html_safe
       end
     else
       render :new
@@ -106,14 +103,15 @@ class DocumentsController < ApplicationController
     
     # add a conditional so that removal from dropbox is optional
     # also remove from dropbox?
-    if @document.service_path.present?
-      client = DropboxClient.new( current_user.authentications.first.token )
-      client.file_delete( @document.service_path )
-    end
+    # if @document.service_path.present?
+    #   client = DropboxClient.new( current_user.authentications.first.token )
+    #   client.file_delete( @document.service_path )
+    # end
     
     @document.destroy
     
-    redirect_to documents_url, notice: 'Document was successfully deleted.'
+    # documents_url
+    redirect_to user_path(current_user), notice: 'Document was successfully deleted.'
   end
   
   private

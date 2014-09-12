@@ -39,7 +39,6 @@
       %dt
         = link_to 'Add a collection', new_document_path, :style => 'font-style: italic; font-weight: normal; color: gray;'
 
-
     %br
     %h3
       Documents
@@ -54,6 +53,21 @@
       %dt
         = link_to 'Add a document', new_document_path, :style => 'font-style: italic; font-weight: normal; color: gray;'
         
+    %br
+    %h3
+      Following
+    %dl
+      - @user.followees(User).each do |followee|
+        %dt
+          = link_to followee.name, people_path(followee.id, followee.name.parameterize)
+
+    %br
+    %h3
+      Followers
+    %dl
+      - @user.followers(User).each do |follower|
+        %dt
+          = link_to follower.name, people_path(follower.id, follower.name.parameterize)
 .row
   .col-md-8#comments
     %h4{ style: 'margin: 10px;'}

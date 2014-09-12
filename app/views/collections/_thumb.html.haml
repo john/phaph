@@ -6,7 +6,7 @@
     
     - docs.each_with_index do |document, i|
       - if document.present?
-        %img{ src: "/#{document.thumb_sm}", alt: "thumbnail of #{document.name}" }
+        %img{ src: "#{Document::FQDN}#{document.thumb_sm}", alt: "thumbnail of #{document.name}" }
       - else
         %img.generic{ src: "/file-icon.png", alt: "generic file icon" }
       = "<br />".html_safe if (i+1) % 3 == 0
@@ -20,7 +20,7 @@
 
         .clearfix
         %span.tip{ :'data-toggle' =>  "tooltip", :'data-placement' => "top", :title => "#{pluralize( collection.documents.size, 'doc')}" }
-          %span.glyphicon.glyphicon-list-alt
+          %span.glyphpro.glyphpro-sort
           %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
             = collection.documents.size
         
@@ -35,6 +35,6 @@
         - if collection.follower_count > 0
           &nbsp;&nbsp;&nbsp;&nbsp;
           %span.tip{ :'data-toggle' =>  "tooltip", :'data-placement' => "top", :title => "#{pluralize( collection.follower_count, 'follower')}" }
-            %span.glyphicon.glyphicon-retweet
+            %span.glyphpro.glyphpro-user_parents
             %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
               = collection.follower_count
