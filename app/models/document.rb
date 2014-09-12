@@ -9,12 +9,15 @@
 class Document < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
-
   include PublicActivity::Common
-  
+  extend FriendlyId
+
+  friendly_id :name, use: :slugged
+
   acts_as_commentable
   acts_as_follower
   acts_as_followable
+  
   mount_uploader :file, FileUploader
   
   belongs_to :organization
@@ -35,7 +38,14 @@ class Document < ActiveRecord::Base
   #   update_document
   # end
   
+  before_destroy do |record|
+    # Person.destroy_all "firm_id = #{record.id}"
+    record.delete_files
+    record.remove_from_s3
+  end
+
   ROOT = "#{Rails.root}/public"
+  FQDN = 'https://phaph.s3.amazonaws.com'
 
   MIME_TYPES = ['application/pdf', 'application/rtf',
     'text/plain', 'text/html',
@@ -129,18 +139,18 @@ class Document < ActiveRecord::Base
 
     full_path = "#{ROOT}/#{archive_path}"
 
-    `httrack #{url} --depth=1 --path=#{full_path}/#{name.parameterize}`
+    `httrack #{url} --depth=1 --path=#{full_path}/#{slug}`
     
     # put in memcache or whatever, then:
     # `rm -rf #{ROOT}/#{archive_path}`
 
-    `tar cvf - #{full_path} | gzip > #{full_path}/#{name.parameterize}.tar.gz`
-    save_to_s3 "#{archive_path}/#{name.parameterize}.tar.gz"
+    `tar cvf - #{full_path} | gzip > #{full_path}/#{slug}.tar.gz`
+    save_to_s3 "#{archive_path}/#{slug}.tar.gz"
 
-    self.file_location = "https://phaph.s3.amazonaws.com/#{archive_path}/#{name.parameterize}.tar.gz"
+    self.file_location = "/#{archive_path}/#{slug}.tar.gz"
     self.save
 
-    `phantomjs #{Rails.root}/lib/js/rasterize.js #{url} #{full_path}/#{name.parameterize}.png 950px*650px`
+    `phantomjs #{Rails.root}/lib/js/rasterize.js #{url} #{full_path}/#{slug}.png 950px*650px`
 
     # screenshot has been generated, jack a message into the dom:
     # IA does this: https://web.archive.org/web/20061231032842/http://wordie.org/?
@@ -154,7 +164,7 @@ class Document < ActiveRecord::Base
     filename = File.basename(self.file.path)
     save_to_s3 "#{archive_path}/#{filename}"
 
-    self.file_location = "https://phaph.s3.amazonaws.com/#{archive_path}/#{filename}"
+    self.file_location = "#{Document::FQDN}/#{archive_path}/#{filename}"
     self.save
 
     unless self.pdf?
@@ -194,7 +204,7 @@ class Document < ActiveRecord::Base
     image.format( format )
     image.resize( "#{size}x#{size}" )
     image.write "#{ROOT}/#{path}_#{suffix}.#{format}"
-    doc.send( "thumb_#{suffix}=", "#{path}_#{suffix}.#{format}" )
+    doc.send( "thumb_#{suffix}=", "/#{path}_#{suffix}.#{format}" )
     save_to_s3( "#{path}_#{suffix}.#{format}" )
     return image
   end
@@ -211,7 +221,7 @@ class Document < ActiveRecord::Base
     end
     i.resize( "#{size}x#{size}" )
     i.write "#{ROOT}/#{path}_#{suffix}.#{format}"
-    doc.send( "thumb_#{suffix}=", "#{path}_#{suffix}.#{format}" )
+    doc.send( "thumb_#{suffix}=", "/#{path}_#{suffix}.#{format}" )
     save_to_s3( "#{path}_#{suffix}.#{format}" )
     return i
   end
@@ -224,6 +234,43 @@ class Document < ActiveRecord::Base
 
     path[0] = '' if path[0] == '/'
     bucket.objects["#{path}"].write(:file => "#{ROOT}/#{path}", :acl => :public_read)
+  end
+
+  def remove_from_s3
+    s3 = AWS::S3.new
+    bucket = s3.buckets['phaph']
+    sm = thumb_sm
+    sm[0] = ''
+    md = thumb_md
+    md[0] = ''
+    lg = thumb_lg
+    lg[0] = ''
+    fle = file_location
+    fle[0] = ''
+
+    logger.debug "------------------------> ABOUT to remove three thumbs"
+    bucket.objects.delete( sm, md, lg, fle )
+  end
+
+  def delete_files
+    directory = File.dirname( "#{Rails.root}/public#{file_location}" )
+    logger.debug "------------------------> dir to delete: #{directory}"
+
+    parent_directory = File.dirname( directory )
+
+    FileUtils.rm_rf( directory )
+
+    recursively_delete_empty_directories( parent_directory )
+  end
+
+  def recursively_delete_empty_directories(directory)
+    if (Dir.entries(directory) - %w{ . .. }).empty?
+      logger.debug "------------------------> dir to delete: #{directory}"
+
+      parent_directory = File.dirname( directory )
+      FileUtils.rm_rf( directory )
+      recursively_delete_empty_directories(parent_directory)
+    end
   end
   
 end

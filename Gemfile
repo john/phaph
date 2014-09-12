@@ -18,6 +18,7 @@ gem 'will_paginate-bootstrap'
 gem 'elasticsearch'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
+gem 'friendly_id', '~> 5.0.0'
 gem 'geocoder'
 gem 'haml-rails'
 # gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -29,6 +30,7 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 # gem 'omniauth-dropbox-oauth2'
 
+gem 'passenger'
 gem 'patron' # http library that supports keep-alive connections, recommended for elasticsearch-ruby
 gem 'phantomjs'
 gem 'public_activity'
@@ -72,7 +74,7 @@ group :development do
   # gem 'better_errors'
   gem 'fog'
   gem 'puppet'
-  gem 'unicorn-rails'
+  # gem 'unicorn-rails'
 end
 
 group :test do

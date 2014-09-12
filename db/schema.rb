@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140905062430) do
+ActiveRecord::Schema.define(version: 20140911074526) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -92,7 +92,8 @@ ActiveRecord::Schema.define(version: 20140905062430) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "documents", force: true do |t|
-    t.string   "name",                              null: false
+    t.string   "name",                          null: false
+    t.string   "slug"
     t.text     "description"
     t.text     "url"
     t.string   "file"
@@ -101,22 +102,14 @@ ActiveRecord::Schema.define(version: 20140905062430) do
     t.string   "thumb_md"
     t.string   "thumb_lg"
     t.string   "source"
-    t.datetime "published_at"
     t.string   "principle_authors"
     t.string   "other_authors"
     t.string   "rights"
-    t.integer  "user_id",                           null: false
+    t.integer  "user_id",                       null: false
     t.integer  "organization_id"
-    t.integer  "scope",                 default: 3, null: false
-    t.string   "service"
-    t.string   "service_id"
-    t.integer  "service_revision"
-    t.string   "service_root"
-    t.string   "service_path"
-    t.datetime "service_modified_at"
-    t.integer  "service_size_in_bytes"
-    t.string   "service_mime_type"
-    t.integer  "state",                 default: 0
+    t.integer  "scope",             default: 3, null: false
+    t.integer  "state",             default: 0
+    t.datetime "published_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -135,6 +128,19 @@ ActiveRecord::Schema.define(version: 20140905062430) do
 
   add_index "follows", ["followable_id", "followable_type"], name: "fk_followables", using: :btree
   add_index "follows", ["follower_id", "follower_type"], name: "fk_follows", using: :btree
+
+  create_table "friendly_id_slugs", force: true do |t|
+    t.string   "slug",                      null: false
+    t.integer  "sluggable_id",              null: false
+    t.string   "sluggable_type", limit: 50
+    t.string   "scope"
+    t.datetime "created_at"
+  end
+
+  add_index "friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "likes", force: true do |t|
     t.string   "liker_type"
