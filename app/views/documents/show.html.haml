@@ -18,13 +18,24 @@
       Added #{@document.created_at.strftime("%b %-d, %Y")} by #{link_to @document.user.name, @document.user}
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-      = link_to 'download archive', "#{Document::FQDN}#{@document.file_location}", class: 'btn btn-xs btn-primary'
-      &nbsp;&nbsp;&#183;&nbsp;&nbsp;
+      %div{ style: 'margin: 10px 0 20px 0'}
+        -# = link_to 'view', @document.url, class: 'btn btn-xs btn-primary'
+        = link_to '<span class="tip glyphpro glyphpro-eye_open" data-toggle="tooltip" data-placement="bottom" title="View live"></span>'.html_safe, @document.url, class: 'btn btn-xs btn-default', target: '_blank'
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
-      - if @document.user == current_user
-        = link_to 'edit', edit_document_path(@document), class: 'btn btn-xs btn-primary'
-        &nbsp;&nbsp;&#183;&nbsp;&nbsp;
-        = link_to 'delete', document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-primary'
+        -# = link_to 'view archive', "/#{@document.archive_path}/#{@document.slug}/index.html", class: 'btn btn-xs btn-primary', target: '_blank'
+        = link_to '<span class="tip glyphpro glyphpro-binoculars" data-toggle="tooltip" data-placement="bottom" title="View archive"></span>'.html_safe, "/#{@document.archive_path}/#{@document.slug}/index.html", class: 'btn btn-xs btn-default', target: '_blank'
+        &nbsp;&nbsp;&nbsp;&nbsp;
+
+        / = link_to 'download archive', "#{Document::FQDN}#{@document.file_location}", class: 'btn btn-xs btn-primary'
+        = link_to '<span class="tip glyphpro glyphpro-disk_save" data-toggle="tooltip" data-placement="bottom" title="Download archive"></span>'.html_safe, "#{@document.file_location}", class: 'btn btn-xs btn-default', target: '_blank'
+        &nbsp;&nbsp;&nbsp;&nbsp;
+
+        - if @document.user == current_user
+          = link_to '<span class="tip glyphpro glyphpro-pencil" data-toggle="tooltip" data-placement="bottom" title="Edit"></span>'.html_safe, edit_document_path(@document.id), class: 'btn btn-xs btn-default'
+          &nbsp;&nbsp;&nbsp;&nbsp;
+
+          = link_to '<span class="tip glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="bottom" title="Trash"></span>'.html_safe, document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-default'
 
     - if @document.principle_authors.present? || @document.other_authors.present?
       %div

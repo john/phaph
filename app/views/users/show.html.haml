@@ -8,7 +8,7 @@
       &nbsp;
 
       - if @user == current_user
-        = link_to 'edit', edit_user_path(current_user), class: 'btn btn-sm btn-primary'
+        = link_to 'edit', edit_user_path(current_user), class: 'btn btn-sm btn-default'
       - else
         - if current_user.follows?(@user)
           = link_to 'following', unfollow_user_path(@user), class: 'btn btn-xs btn-default btn-follow', remote: true
@@ -28,6 +28,9 @@
     %br
     %h3
       Collections
+      - if @user == current_user
+        &nbsp;
+        = link_to 'Add a collection', new_collection_path, class: 'btn btn-xs btn-default'
 
     %dl
       - @user.collections.each do |collection|
@@ -36,12 +39,12 @@
         %dd
           = truncate(collection.description, length: 50)
           
-      %dt
-        = link_to 'Add a collection', new_document_path, :style => 'font-style: italic; font-weight: normal; color: gray;'
-
     %br
     %h3
       Documents
+      - if @user == current_user
+        &nbsp;
+        = link_to 'Add a document', new_document_path, class: 'btn btn-xs btn-default'
 
     %dl
       - @user.documents.each do |document|
@@ -49,10 +52,7 @@
           = link_to document.name, document, :style => 'font-weight: normal;'
         %dd
           = truncate(document.description, length: 50)
-          
-      %dt
-        = link_to 'Add a document', new_document_path, :style => 'font-style: italic; font-weight: normal; color: gray;'
-        
+
     %br
     %h3
       Following

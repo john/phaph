@@ -16,7 +16,7 @@ class CreateDocumentJob < ActiveJob::Base
         document.archive_file
       end
       
-      document.create_activity :create, owner: user
+      # document.create_activity :create, owner: user
   end
 
 end

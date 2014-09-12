@@ -9,7 +9,7 @@
 class Document < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
-  include PublicActivity::Common
+  # include PublicActivity::Common
   extend FriendlyId
 
   friendly_id :name, use: :slugged
@@ -47,21 +47,21 @@ class Document < ActiveRecord::Base
   ROOT = "#{Rails.root}/public"
   FQDN = 'https://phaph.s3.amazonaws.com'
 
-  MIME_TYPES = ['application/pdf', 'application/rtf',
-    'text/plain', 'text/html',
-    'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-    'application/vnd.ms-word.document.macroEnabled.12',
-    'application/vnd.ms-word.template.macroEnabled.12',
-    'application/vnd.ms-powerpoint',
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-    'application/vnd.openxmlformats-officedocument.presentationml.template',
-    'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-    'application/vnd.ms-powerpoint.addin.macroEnabled.12',
-    'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
-    'application/vnd.ms-powerpoint.template.macroEnabled.12',
-    'application/vnd.ms-powerpoint.slideshow.macroEnabled.12'
-  ]
+  # MIME_TYPES = ['application/pdf', 'application/rtf',
+  #   'text/plain', 'text/html',
+  #   'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  #   'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+  #   'application/vnd.ms-word.document.macroEnabled.12',
+  #   'application/vnd.ms-word.template.macroEnabled.12',
+  #   'application/vnd.ms-powerpoint',
+  #   'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  #   'application/vnd.openxmlformats-officedocument.presentationml.template',
+  #   'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+  #   'application/vnd.ms-powerpoint.addin.macroEnabled.12',
+  #   'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
+  #   'application/vnd.ms-powerpoint.template.macroEnabled.12',
+  #   'application/vnd.ms-powerpoint.slideshow.macroEnabled.12'
+  # ]
   
   settings index: { number_of_shards: 5, number_of_replicas: 1 } do
     mappings do

@@ -7,7 +7,7 @@
   #collections
     - if @collections.present? && @collections.size > 0
       - @collections.each do |collection|
-        = render partial: 'collections/thumb', locals: {collection: collection}
+        = render partial: 'collections/thumb', locals: {collection: collection, creator: true}
 
   %br
   %br
