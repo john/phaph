@@ -26,10 +26,13 @@
     -# <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     
+    -# = stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/fonts/glyphicons-halflings-regular.svg'
+    -# = stylesheet_link_tag 'glyphicons-halflings.svg'
 
+    -# https://gist.github.com/Jelby-John/cf462ab5baa1bba6ea6f
+    = stylesheet_link_tag 'glyphicons.pro.css'
+    = stylesheet_link_tag 'glyphicons.pro.css'
 
-    = stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/fonts/glyphicons-halflings-regular.svg'
-    
     -# HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
     <!--[if lt IE 9]>
     = javascript_include_tag '//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js'
@@ -81,45 +84,22 @@
             
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
-
-
               %li
-                = link_to '<span class="glyphicon glyphicon-folder-open" data-toggle="tooltip" data-placement="bottom" title="Your collections"></span>'.html_safe, collections_user_path(current_user)
+                = link_to '<span class="tip glyphicon glyphicon-folder-open" data-toggle="tooltip" data-placement="bottom" title="Your collections"></span>'.html_safe, collections_user_path(current_user)
               %li
-                = link_to '<span class="glyphicon glyphicon-file" data-toggle="tooltip" data-placement="bottom" title="Your documents"></span>'.html_safe, documents_user_path(current_user)
+                = link_to '<span class="tip glyphpro glyphpro-sort" data-toggle="tooltip" data-placement="bottom" title="Your documents"></span>'.html_safe, documents_user_path(current_user)
               %li
-                = link_to '<span class="glyphicon glyphicon-plus" data-toggle="tooltip" data-placement="bottom" title="Upload document""></span>'.html_safe, new_document_path
+                = link_to '<span class="tip glyphicon glyphicon-plus" data-toggle="tooltip" data-placement="bottom" title="Upload document""></span>'.html_safe, new_document_path
               
               %li.dropdown
                 %a.dropdown-toggle{:'data-toggle' => 'dropdown'}
-                  -# = current_user.name
                   <span class="glyphicon glyphicon-user"></span>
                   %span.caret
                 %ul.dropdown-menu{:role => 'menu'}
                   %li
-                    -# = link_to '<span class="glyphicon glyphicon-user" style="font-size:1.2em data-toggle="tooltip" data-placement="bottom" title="Your profile""></span>'.html_safe, people_path(current_user.id, current_user.name.parameterize)
                     = link_to "Your profile", people_path(current_user.id, current_user.name.parameterize)
                     = link_to "Sign out", destroy_user_session_path, :method => :delete
               
-              -# %li.dropdown
-              -#   %a.dropdown-toggle{:'data-toggle' => 'dropdown'}
-              -#     -# = current_user.name
-              -#     <span class="glyphicon glyphicon-th-list"></span>
-              -#     %span.caret
-              -#   %ul.dropdown-menu{:role => 'menu'}
-              -#     %li
-              -#       = link_to '<span class="glyphicon glyphicon-folder-open""></span> &nbsp;&nbsp;Your collections'.html_safe, collections_path
-              -#     %li
-              -#       = link_to '<span class="glyphicon glyphicon-file"></span> &nbsp;&nbsp;Your documents'.html_safe, documents_path
-              -#     %li
-              -#       = link_to '<span class="glyphicon glyphicon-plus"></span> &nbsp;&nbsp;Add a document'.html_safe, new_document_path
-                  
-              -#     %li.divider
-                  
-              -#     %li
-              -#       = link_to "<span class='glyphicon glyphicon-user'></span> &nbsp;&nbsp;#{current_user.username}'s profile".html_safe, people_path(current_user.id, current_user.name.parameterize)
-              -#     %li
-              -#       = link_to '<span class="glyphicon glyphicon-log-out"></span> &nbsp;&nbsp;Sign out'.html_safe, destroy_user_session_path, :method => :delete
             - else
               %li
                 = link_to "Sign in", new_user_session_path
@@ -148,9 +128,8 @@
           <button type="button" class="close" data-dismiss='alert'><span aria-hidden="true">&times;</span>
           <span class="sr-only">Close</span>
           </button>
-      
+
       = yield
       
     :javascript
-      $('.glyphicon').tooltip();
       $('.tip').tooltip();
