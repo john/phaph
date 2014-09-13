@@ -1,11 +1,10 @@
 - if activity.trackable
   - collectible = Collectible.find( activity.trackable_id )
-  -# - document = Document.find( collectible.document_id )
+  - document = Document.find( collectible.document_id )
   - target = Collection.find( collectible.collection_id )
 
 %div{ style: 'margin-top: 5px;' }
-  Added the doc
-  - #{link_to document.name, document}
+  Added &ldquo;#{link_to document.name, document}&rdquo;
   - if activity.trackable
     to
     %b

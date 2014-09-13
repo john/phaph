@@ -35,7 +35,7 @@
           = link_to '<span class="tip glyphpro glyphpro-pencil" data-toggle="tooltip" data-placement="bottom" title="Edit"></span>'.html_safe, edit_document_path(@document.id), class: 'btn btn-xs btn-default'
           &nbsp;&nbsp;&nbsp;&nbsp;
 
-          = link_to '<span class="tip glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="bottom" title="Trash"></span>'.html_safe, document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-default'
+          = link_to '<span class="tip glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="bottom" title="Delete"></span>'.html_safe, document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-default'
 
     - if @document.principle_authors.present? || @document.other_authors.present?
       %div

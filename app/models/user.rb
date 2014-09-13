@@ -51,6 +51,10 @@ class User < ActiveRecord::Base
   def email_verified?
     self.email && self.email !~ TEMP_EMAIL_REGEX
   end
+
+  def is_admin?
+    name == 'John McGrath'
+  end
   
   
   # PUT mime type list someplace better

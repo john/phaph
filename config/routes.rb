@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   
   root 'home#index'
   
+  match '/new' => 'home#new', :via => :get, :as => :new
+  match '/popular' => 'home#popular', :via => :get, :as => :popular
+
   namespace :admin do
     match '/' => 'base#index', via: [:get], :as => :admin_index
     resources :collections, only: [:index] do
