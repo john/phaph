@@ -17,10 +17,18 @@
         = link_to 'add doc', new_document_path(collection_id: @collection.id), class: 'btn btn-xs btn-default'
 
       - else
-        - if current_user.follows?(@collection)
-          = link_to 'following', unfollow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
+        - if signed_in?
+          - if current_user.follows?(@collection)
+            = link_to 'following', unfollow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
+          - else
+            = link_to 'follow', follow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
+
         - else
-          = link_to 'follow', follow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
+          %button{:type => 'button', :class => 'tip btn btn-xs btn-default btn-follow', :'data-toggle' => 'tooltip', :'data-placement' => 'bottom', :title => "Sign in or sign up to follow this"}
+            follow
+
+          :javascript
+            $('.tip').tooltip();
 
     %div{ style: 'margin: 10px 0 20px 0;'}
       = @collection.description
@@ -44,4 +52,3 @@
       %b
         Comments
     = render partial: '/comments/show', locals: { :resource => @collection }
-    

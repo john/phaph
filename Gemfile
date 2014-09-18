@@ -30,7 +30,7 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 # gem 'omniauth-dropbox-oauth2'
 
-gem 'passenger'
+gem 'passenger' # be passenger start
 gem 'patron' # http library that supports keep-alive connections, recommended for elasticsearch-ruby
 gem 'phantomjs'
 gem 'public_activity'
