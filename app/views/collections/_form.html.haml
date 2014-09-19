@@ -16,11 +16,17 @@
       = f.label :description, :class => 'sr-only'
       = f.text_area :description, class: 'form-control', style: 'height:200px;'
       
-  -# .form-group
-  -#   .col-sm-7
-  -#     Visibility:
-  -#     = f.label :scope, :class => 'sr-only'
-  -#     = f.select :scope, options_for_select(Scope.options_hash, @collection.scope), :class => 'form-control'
+  .form-group
+    .col-sm-7
+      Visibility:
+      = f.label :view_scope, :class => 'sr-only'
+      = f.select :view_scope, options_for_select(Scope.options_hash, @collection.view_scope), :class => 'form-control'
+
+  .form-group
+    .col-sm-7
+      Contributability:
+      = f.label :contribute_scope, :class => 'sr-only'
+      = f.select :contribute_scope, options_for_select(Scope.options_hash, @collection.contribute_scope), :class => 'form-control'
       
   - if action_name == 'edit'
     .form-group

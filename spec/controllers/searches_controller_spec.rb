@@ -31,6 +31,11 @@ RSpec.describe SearchesController, :type => :controller do
     skip("Add a hash of attributes invalid for your model")
   }
 
+  before(:each) do
+    @user = FactoryGirl.create(:user)
+    sign_in @user
+  end
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # SearchesController. Be sure to keep this updated too.
@@ -54,6 +59,7 @@ RSpec.describe SearchesController, :type => :controller do
 
   describe "GET new" do
     it "assigns a new search as @search" do
+      search = Search.create! valid_attributes
       get :new, {}, valid_session
       expect(assigns(:search)).to be_a_new(Search)
     end

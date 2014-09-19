@@ -130,6 +130,12 @@
           <span class="sr-only">Close</span>
           </button>
 
+      %hr
+        signed in?
+        %b
+          = signed_in?
+        %hr
+
       = yield
       
     :javascript

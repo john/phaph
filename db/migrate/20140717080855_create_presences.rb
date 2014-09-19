@@ -3,7 +3,6 @@ class CreatePresences < ActiveRecord::Migration
     create_table :presences do |t|
       t.integer :location_id, index: true, null: false
       t.references :locatable, polymorphic: true, index: true, null: false
-      # t.string :state, null: false
       t.column :state, :integer, default: 0
 
       t.timestamps

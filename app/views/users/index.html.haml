@@ -1,5 +1,6 @@
 .col-sm-8
-  - if current_user.is_admin?
+
+  - if signed_in? && current_user.is_admin?
     .pull-right
       = link_to 'New User', new_user_path, :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
     
@@ -16,6 +17,6 @@
           %b
             = link_to user.name, people_path(user, user.name.parameterize)
 
-        - if current_user.is_admin?
+        - if signed_in? && current_user.is_admin?
           %td{:style => 'text-align: right;'}
             #{link_to 'Edit', edit_user_path(user)} &nbsp;&#183;&nbsp; #{link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }}

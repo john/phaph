@@ -9,10 +9,7 @@ RSpec.describe "searches/show", :type => :view do
     ))
   end
 
-  it "renders attributes in <p>" do
+  it "renders" do
     render
-    expect(rendered).to match(/1/)
-    expect(rendered).to match(/Term/)
-    expect(rendered).to match(/Scope/)
   end
 end

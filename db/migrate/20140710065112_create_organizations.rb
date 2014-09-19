@@ -6,7 +6,6 @@ class CreateOrganizations < ActiveRecord::Migration
       t.string :email
       t.references :user, index: true, null: false
       t.integer :scope, null: false, default: Scope::PUBLIC
-      # t.string :state, null: false
       t.column :state, :integer, default: 0
 
       t.timestamps

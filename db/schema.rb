@@ -63,9 +63,11 @@ ActiveRecord::Schema.define(version: 20140911074526) do
   create_table "collections", force: true do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "user_id",                     null: false
+    t.integer  "user_id",                      null: false
     t.integer  "organization_id"
-    t.integer  "state",           default: 0
+    t.integer  "view_scope",       default: 3, null: false
+    t.integer  "contribute_scope", default: 3, null: false
+    t.integer  "state",            default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -154,11 +156,11 @@ ActiveRecord::Schema.define(version: 20140911074526) do
   add_index "likes", ["liker_id", "liker_type"], name: "fk_likes", using: :btree
 
   create_table "locations", force: true do |t|
-    t.string   "name",                                                 null: false
+    t.string   "name",                                     null: false
     t.decimal  "latitude",       precision: 15, scale: 10
     t.decimal  "longitude",      precision: 15, scale: 10
     t.string   "city"
-    t.integer  "state",                                    default: 0
+    t.string   "state"
     t.string   "country"
     t.integer  "locatable_id"
     t.integer  "locatable_type"

@@ -47,7 +47,7 @@ RSpec.describe DocumentsController, :type => :controller do
         document.user_id = @user.id
         document.save # to defeat the before create filter in the factory
         
-        get :show, {:id => document.to_param}
+        get :show, {:id => document.id}
         
         expect(assigns(:document)).to eq(document)
         expect(response).to have_http_status(:ok)
@@ -71,7 +71,7 @@ RSpec.describe DocumentsController, :type => :controller do
     describe "GET edit" do
       it "assigns the requested document as @document" do
         document = FactoryGirl.create(:document, user_id: @user.id)
-        get :edit, {:id => document.to_param}
+        get :edit, {:id => document.id}
         expect(assigns(:document)).to eq(document)
       end
     end
@@ -117,14 +117,14 @@ RSpec.describe DocumentsController, :type => :controller do
 
         it "updates the requested document" do
           document = FactoryGirl.create(:document, user_id: @user.id)
-          put :update, {:id => document.to_param, :document => new_attributes}
+          put :update, {:id => document.id, :document => new_attributes}
           document.reload
           skip("Add assertions for updated state")
         end
 
         it "assigns the requested document as @document" do
           document = FactoryGirl.create(:document, user_id: @user.id)
-          put :update, {:id => document.to_param, :document => valid_attributes}
+          put :update, {:id => document.id, :document => valid_attributes}
           expect(assigns(:document)).to eq(document)
         end
 

@@ -22,11 +22,9 @@
             = link_to 'following', unfollow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
           - else
             = link_to 'follow', follow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
-
         - else
           %button{:type => 'button', :class => 'tip btn btn-xs btn-default btn-follow', :'data-toggle' => 'tooltip', :'data-placement' => 'bottom', :title => "Sign in or sign up to follow this"}
             follow
-
           :javascript
             $('.tip').tooltip();
 

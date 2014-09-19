@@ -7,7 +7,7 @@ class Location < ActiveRecord::Base
   has_many :organizations, through: :presences #, source: :locatable, source_type: 'Organization'
   has_many :users, through: :presences #, source: :locatable, source_type: 'User'
   
-  enum state: { active: 0, inactive: 1 }
+  # enum state: { active: 0, inactive: 1 }
   
   after_validation :geocode, if: ->(obj){ obj.name.present? and obj.name_changed? }
   

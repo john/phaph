@@ -8,7 +8,7 @@ RSpec.describe "authentications/new", :type => :view do
       :uid => "MyString",
       # :access_token => "MyString",
       # :access_token_secret => "MyString",
-      :state => "MyString"
+      :state => 1
     ))
   end
 

@@ -1,4 +1,5 @@
 - if @user
+
   %h3
     Please select a username and provide an email
 
@@ -27,6 +28,7 @@
         = f.submit 'Continue', :class => 'btn btn-primary', data: {disable_with: 'Continuing...'}
 
 - else
+
   %div
     Please click the link in the confirmation email you were sent, or
     %b

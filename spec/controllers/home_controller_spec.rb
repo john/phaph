@@ -2,33 +2,33 @@ require 'rails_helper'
 
 RSpec.describe HomeController, :type => :controller do
 
-  context "logged-out users" do
+  # context "logged-out users" do
     
-    # before(:each) do
-    #   sign_in nil
-    # end
+  #   # before(:each) do
+  #   #   sign_in nil
+  #   # end
     
-    describe "GET index" do
+  #   describe "GET index" do
       
-      it "doesn't assign documents" do
-        FactoryGirl.create(:document)
-        get :index
+  #     it "doesn't assign documents" do
+  #       FactoryGirl.create(:document)
+  #       get :index
         
-        expect(response).to have_http_status(:ok)
-        expect(assigns(:documents)).to be_nil
-      end
+  #       expect(response).to have_http_status(:ok)
+  #       expect(assigns(:documents)).to be_nil
+  #     end
       
-      it "doesn't assign collections" do
-        FactoryGirl.create(:collection)
-        get :index
+  #     it "doesn't assign collections" do
+  #       FactoryGirl.create(:collection)
+  #       get :index
         
-        expect(response).to have_http_status(:ok)
-        expect(assigns(:collections)).to be_nil
-      end
+  #       expect(response).to have_http_status(:ok)
+  #       expect(assigns(:collections)).to be_nil
+  #     end
       
-    end
+  #   end
     
-  end
+  # end
   
   context "logged-in users" do
     

@@ -5,8 +5,7 @@ class CreateLocations < ActiveRecord::Migration
       t.decimal :latitude, :precision => 15, :scale => 10
       t.decimal :longitude, :precision => 15, :scale => 10
       t.string :city
-      # t.string :state
-      t.column :state, :integer, default: 0
+      t.string :state
       t.string :country
       t.integer :locatable_id
       t.integer :locatable_type

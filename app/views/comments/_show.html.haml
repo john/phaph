@@ -1,5 +1,4 @@
-
-- if user_signed_in?
+- if signed_in?
 
   - comment = Comment.new( commentable_type: resource.class.to_s, commentable_id: resource.id )
   = form_for comment, remote: true, role: 'form', html: {class: 'form-horizontal', style: 'margin: 0; padding: 0;'} do |f|
@@ -35,3 +34,4 @@
   - else
     %li#no-comments
       No comments, yet.
+      

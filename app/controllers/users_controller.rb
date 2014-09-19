@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
-  before_filter :authenticate_user!, only: [:edit, :update, :destroy, :follow, :unfollow]
+  before_filter :authenticate_user!, only: [:index, :edit, :update, :destroy, :follow, :unfollow]
   before_action :set_user, only: [:documents, :collections, :show, :edit, :update, :destroy, :follow, :unfollow]
   
   def follow
