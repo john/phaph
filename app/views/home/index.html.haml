@@ -4,11 +4,11 @@
     - if signed_in?
       %h1
         Your feed
-      - if @activities.size > 0
+      - if @activities && @activities.size > 0
         - @activities.each do |activity|
-          - actor = activity.owner
           .activity
-            - if actor.present?
+            - if activity.owner.present?
+              - actor = activity.owner
               %b
                 = link_to actor.name, actor, style: 'color: #333'
                 
