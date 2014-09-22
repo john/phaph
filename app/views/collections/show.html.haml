@@ -2,18 +2,16 @@
   .col-md-8
 
     .small
-      Collection:
+      Created on #{@collection.created_at.strftime("%b %-d, %Y")}
     %h2{ style: 'margin: 5px 0 2px 0;'}
       = @collection.name
 
-    .small
-      Created on #{@collection.created_at.strftime("%b %-d, %Y")}
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      - if @collection.user == current_user
+      - if signed_in? && @collection.user == current_user
         = link_to 'edit', edit_collection_path(@collection), class: 'btn btn-xs btn-default'
-        &nbsp;&nbsp;&#183;&nbsp;&nbsp;
+        
         = link_to 'delete', collection_path(@collection), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-default'
-        &nbsp;&nbsp;&#183;&nbsp;&nbsp;
+        
         = link_to 'add doc', new_document_path(collection_id: @collection.id), class: 'btn btn-xs btn-default'
 
       - else
@@ -28,6 +26,18 @@
           :javascript
             $('.tip').tooltip();
 
+    .small
+      by #{link_to @collection.user.name, people_path(@collection.user.id, @collection.user.name.parameterize)}.
+
+      - if @collection.contribute_scope == Scope::PUBLIC
+        Anyone can contribute.
+      - elsif @collection.contribute_scope == Scope::PUBLIC
+        (list contributors) can contribute.
+
+      
+
+
+
     %div{ style: 'margin: 10px 0 20px 0;'}
       = @collection.description
 
@@ -37,7 +47,7 @@
 - else
   %div{ style: 'margin: 10px 0;'}
     = "This collection is empty"
-    - if @collection.user == current_user
+    - if signed_in? && @collection.user == current_user
       = ", you should"
       %b
         #{link_to 'add some documents', new_document_path(collection_id: @collection.id)}

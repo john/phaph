@@ -68,6 +68,6 @@ class CollectionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def collection_params
-      params.require(:collection).permit(:name, :description, :scope, :state)
+      params.require(:collection).permit(:name, :description, :view_scope, :contribute_scope, :state)
     end
 end

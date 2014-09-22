@@ -6,7 +6,9 @@ class Scope
   PUBLIC = 3
   
   def self.options_hash
-    { '--Select scope--' => '', 'Public' => PUBLIC, 'Entire organization' => ORGANIZATION, 'Shared' => SHARED, 'Private' => PRIVATE }
+    # { '--Select scope--' => '', 'Public' => PUBLIC, 'Entire organization' => ORGANIZATION, 'Shared' => SHARED, 'Private' => PRIVATE }
+    { '--Select scope--' => '', 'Anyone' => PUBLIC, 'Me and people I invite' => SHARED, 'Just me' => PRIVATE }
+  
   end
   
   def self.as_string(constant)
