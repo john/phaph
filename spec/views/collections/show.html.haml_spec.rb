@@ -12,16 +12,28 @@ RSpec.describe "collections/show", :type => :view do
       view.stub(:signed_in?).and_return(true)
     end
 
-    it "renders" do
-      render
-      expect(view).to render_template(:show)
-      # expect(rendered).to render_with_layout('application')
+    describe "for a doc you own" do
+      it "renders" do
+        render
+        expect(view).to render_template(:show)
+        # expect(view).to render_with_layout('application')
+      end
+
+      it "displays the 'add doc' button" do
+        render
+        expect(rendered).to match /Created on/
+        expect(rendered).to match /add doc/
+      end
     end
 
-    it "displays the 'add doc' button" do
-      render
-      expect(rendered).to match /Created on/
-      expect(rendered).to match /add doc/
+    describe "for a non-public collection you don't own" do
+      # you can see the 'follow' button
+      # you can't see the 'add doc' button
+    end
+
+    describe "for a public collection you don't own" do
+      # you can see the 'follow' button
+      # you can see the 'add doc' button
     end
   end
 

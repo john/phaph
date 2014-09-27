@@ -13,6 +13,8 @@ RSpec.describe "home/index", :type => :view do
       # ])
       assign(:activities, [
       ])
+      john = FactoryGirl.create(:user)
+      view.stub(:current_user).and_return(john)
       view.stub(:signed_in?).and_return(true)
     end
 
