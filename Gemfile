@@ -60,12 +60,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development, :test do
   # Call 'debugger' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-
-  gem 'rspec-rails'
-
-  # Access an IRB console on exceptions page and /console in development
-  gem 'web-console', '~> 2.0.0.beta2'
-
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
@@ -74,7 +68,10 @@ group :development do
   # gem 'better_errors'
   gem 'fog'
   gem 'puppet'
+  gem 'rspec-rails'
   # gem 'unicorn-rails'
+  # Access an IRB console on exceptions page and /console in development
+  gem 'web-console', '~> 2.0.0.beta2'
 end
 
 group :test do
