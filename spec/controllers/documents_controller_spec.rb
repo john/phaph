@@ -53,10 +53,6 @@ RSpec.describe DocumentsController, :type => :controller do
         expect(response).to have_http_status(:ok)
       end
       
-      it "only lets you see your own docs" do
-        
-      end
-      
     end
 
     describe "GET new" do
@@ -168,18 +164,22 @@ RSpec.describe DocumentsController, :type => :controller do
   end
   
   
-  
-  
   context "logged-out users" do
 
     describe "GET index" do
-
-      it "blocks unauthenticated access" do
+      it "displays" do
         get :index
         # response.should redirect_to(new_user_session_path)
         expect(response).to have_http_status(:found)
       end
+    end
 
+    describe "GET new" do
+      it "redirects" do
+        get :index
+        # response.should redirect_to(new_user_session_path)
+        expect(response).to have_http_status(:redirect)
+      end
     end
 
   end

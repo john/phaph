@@ -13,27 +13,37 @@ class DocumentsController < ApplicationController
   
   # GET /documents
   def index
+    @title = 'Documents'
     @model = Document
     @resources = Document.where(:user => current_user).paginate(:page => params[:page])
   end
   
-  # GET /imports
-  def import
-    if signed_in?
-      client = DropboxClient.new( current_user.authentications.first.token )
-      @dropbox = client.metadata('/')
-    end
-  end
+  # # GET /imports
+  # def import
+  #   if signed_in?
+  #     client = DropboxClient.new( current_user.authentications.first.token )
+  #     @dropbox = client.metadata('/')
+  #   end
+  # end
 
   # GET /documents/1
   def show
+    @title = @document.name
     @collection = @document.collections.first
   end
 
   # GET /documents/new
   def new
+    @title = "New document"
     if params[:collection_id].present?
+      @collection = Collection.find(params[:collection_id])
       @document = Document.new(organization: current_user.organizations.first, collection_id: params[:collection_id])
+
+      # Don't allow access to non-public docs the user doesn't own
+      if !@collection.public? && !@collection.owned_by?(current_user)
+        redirect_to root_path and return
+      end
+
     else
       @document = Document.new(organization: current_user.organizations.first)
     end
@@ -41,6 +51,7 @@ class DocumentsController < ApplicationController
 
   # GET /documents/1/edit
   def edit
+    @title = "Edit #{@document.name}"
   end
 
   # POST /documents
@@ -59,7 +70,39 @@ class DocumentsController < ApplicationController
     end
     
     if @document.save
-      CreateDocumentJob.enqueue( @document, current_user )
+
+
+
+
+
+
+
+
+      # CreateDocumentJob.enqueue( @document, current_user )
+      if @document.url.present?
+        # generate a pdf
+        # pdf_out = `wkhtmltopdf #{@document.url}/#{@document.id}.pdf`
+
+        @document.archive_site
+      else
+        # if a file upload, generate thumbs from pdf,
+        # and upload both the pdfs and thumbs to S3
+        @document.archive_file
+      end
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
 
       if @document.collection_id.present?
         @collection = Collection.find( @document.collection_id )

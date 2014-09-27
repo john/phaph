@@ -18,9 +18,14 @@ class ApplicationController < ActionController::Base
   
   # needed if we ever support dropbox sign up again, to insure those accounts have usernames
   # before_filter :check_username
-  
+
   protected
 
+  def app_name
+    Rails.configuration.x.app_name
+  end
+  helper_method :app_name
+  
   def configure_devise_permitted_parameters
     registration_params = [:name, :email, :password, :password_confirmation]
 

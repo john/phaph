@@ -12,8 +12,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user.persisted?
       if @user.username.present?
         logger.debug "------------------------> flash: #{flash.inspect}"
+        logger.debug "------------------------> flash.empty?: #{flash.empty?}"
         logger.debug "------------------------> sign in and redirect!"
-        
+        # flash[:notice] = "Welcome back!"
         sign_in_and_redirect @user, event: :authentication
 
       else

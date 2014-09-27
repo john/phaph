@@ -39,6 +39,7 @@ class SearchesController < ApplicationController
             
     @scope = (params[:search_scope].present? && params[:search_scope].downcase == 'yours') ? 'yours' : 'all'
     @resources = Document.search( query ).page( params[:page] ||= 1 )
+    @title = "'#{params[:q]}' search results"
   end
   
   

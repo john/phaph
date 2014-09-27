@@ -15,6 +15,10 @@ class UsersController < ApplicationController
   # Should require a username, in case we ever need to part ways with Dropbox (or anyone else)
   def finish_signup
 
+    logger.debug "------------------------> flash: #{flash.inspect}"
+    logger.debug "------------------------> flash.empty?: #{flash.empty?}"
+    logger.debug "------------------------> sign in and redirect!"
+
     # post back. you've filled in the form and submitted it
     if request.patch? && params[:user] #&& params[:user][:email]
       @user = User.find( params[:id] )
@@ -38,56 +42,40 @@ class UsersController < ApplicationController
     end
   end
   
-  
-  private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_user
-    @user = User.find(params[:id])
-  end
-
-  # # Only allow a trusted parameter "white list" through.
-  # def user_params
-  #   params[:user]
-  # end
-  
-  def user_params
-    accessible = [ :name, :username, :email, :description, :location, :latitude, :longitude, :state ] # extend with your own params
-    accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
-    # params.permit(accessible)
-    params.require(:user).permit(accessible)
-  end
-  
-  
-  
   public
 
   def collections
+    @title = "#{(@user == current_user) ? 'Your' : "#{@user.name}'s"} collections"
     # redirect_to root_path alert: 'Not for you.' and return unless @user == current_user
     @collections = Collection.where( user: @user ).order('updated_at DESC').paginate(:page => params[:page], :per_page => 12 )
   end
 
   def documents
+    @title = "#{(@user == current_user) ? 'Your' : "#{@user.name}'s"} documents"
     # redirect_to root_path alert: 'Not for you.' and return unless @user== current_user
     @documents = Document.where(user:  @user).order('updated_at DESC').paginate(:page => params[:page], :per_page => 12 )
   end
   
   # GET /users
   def index
+    @title = "#{app_name} users"
     @users = User.all
   end
 
   # GET /users/1
   def show
+    @title = @user.name
   end
 
   # GET /users/new
   def new
+    @title = "New person"
     @user = User.new
   end
 
   # GET /users/1/edit
   def edit
+    @title = "Edit #{@user.name}"
   end
 
   # POST /users
@@ -133,5 +121,25 @@ class UsersController < ApplicationController
     @user.destroy
     redirect_to users_url, notice: 'User was successfully deleted.'
   end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # # Only allow a trusted parameter "white list" through.
+  # def user_params
+  #   params[:user]
+  # end
+  
+  def user_params
+    accessible = [ :name, :username, :email, :description, :location, :latitude, :longitude, :state ] # extend with your own params
+    accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
+    # params.permit(accessible)
+    params.require(:user).permit(accessible)
+  end
+
 
 end

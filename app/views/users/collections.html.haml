@@ -1,5 +1,6 @@
 %h3{style: 'margin-bottom: 20px;'}
-  Your collections
+  = (@user == current_user) ? 'Your' : "#{@user.name}'s"
+  collections
   %small
     = link_to 'new', new_collection_path, class: 'btn btn-primary btn-xs', style: 'margin: 0 0 8px 8px;'
 

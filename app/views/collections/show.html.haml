@@ -7,24 +7,29 @@
       = @collection.name
 
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      - if signed_in? && @collection.user == current_user
-        = link_to 'edit', edit_collection_path(@collection), class: 'btn btn-xs btn-default'
-        
-        = link_to 'delete', collection_path(@collection), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-default'
-        
-        = link_to 'add doc', new_document_path(collection_id: @collection.id), class: 'btn btn-xs btn-default'
+      - if signed_in?
+        - if @collection.owned_by?(current_user)
+          = link_to 'edit', edit_collection_path(@collection), class: 'btn btn-xs btn-default'
+          = link_to 'delete', collection_path(@collection), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-default'
+          = link_to 'add doc', new_document_path(collection_id: @collection.id), class: 'btn btn-xs btn-default'
+            
+        - elsif @collection.public?
+          = link_to 'add doc', new_document_path(collection_id: @collection.id), class: 'btn btn-xs btn-default'  
 
-      - else
-        - if signed_in?
+
+        - unless @collection.owned_by?(current_user)
           - if current_user.follows?(@collection)
             = link_to 'following', unfollow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
           - else
             = link_to 'follow', follow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
-        - else
-          %button{:type => 'button', :class => 'tip btn btn-xs btn-default btn-follow', :'data-toggle' => 'tooltip', :'data-placement' => 'bottom', :title => "Sign in or sign up to follow this"}
-            follow
-          :javascript
-            $('.tip').tooltip();
+
+
+
+      - else
+        %button{:type => 'button', :class => 'tip btn btn-xs btn-default btn-follow', :'data-toggle' => 'tooltip', :'data-placement' => 'bottom', :title => "Sign in or sign up to follow this"}
+          follow
+        :javascript
+          $('.tip').tooltip();
 
     .small
       by #{link_to @collection.user.name, people_path(@collection.user.id, @collection.user.name.parameterize)}.

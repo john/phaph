@@ -13,22 +13,24 @@ class CollectionsController < ApplicationController
   
   # GET /collections
   def index
-    # @collections = Collection.all
     @model = Collection
     @resources = Collection.where(:user => current_user).paginate(:page => params[:page])
   end
 
   # GET /collections/1
   def show
+    @title = @collection.name
   end
 
   # GET /collections/new
   def new
+    @title = "New collection"
     @collection = Collection.new
   end
 
   # GET /collections/1/edit
   def edit
+    @title = "Edit #{@collection.name}"
   end
 
   # POST /collections
@@ -39,7 +41,7 @@ class CollectionsController < ApplicationController
     if @collection.save
       @collection.create_activity :create, owner: current_user
       # redirect_to @collection, notice: 'Collection was successfully created.'
-      redirect_to new_document_path(collection_id: @collection.id), notice: "Collection successfully created. Now <b>add a document.</b>".html_safe
+      redirect_to new_document_path(collection_id: @collection.id), notice: "Collection successfully created. Now <b>add a document:</b>".html_safe
     else
       render :new
     end

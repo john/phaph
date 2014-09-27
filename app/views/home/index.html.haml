@@ -1,7 +1,18 @@
+- if signed_in? && current_user.documents.size == 0
+  .row
+    .col-md-12
+      .alert.alert-info.alert-dismissible{role: 'alert'}
+        %button.close{ :'data-dismiss' => "alert" }
+          x
+        It doesn't look like you've added any documents.
+        %b
+          #{link_to "Why don't you do that now?", new_document_path}
+
 .row
   .col-md-6
 
     - if signed_in?
+
       %h1
         Your feed
       - if @activities && @activities.size > 0
@@ -46,9 +57,10 @@
         
     .clearfix
 
-
-  .col-md-6
-    %h3
+  .col-md-1
+    &nbsp;
+  .col-md-5
+    %h4{style: 'margin-top: 37px;'}
       Recent collections
       -# %small
       -#  = link_to 'Add collection', new_collection_path, class: 'btn btn-default btn-xs', style: 'margin: 0 0 8px 8px;'
@@ -63,7 +75,7 @@
     %br
     .clearfix
 
-    %h3{style: 'margin-bottom: 20px;'}
+    %h4{style: 'margin-bottom: 20px;'}
       Recent documents
       -# %small
       -#  = link_to 'Add doc', new_document_path, class: 'btn btn-default btn-xs', style: 'margin: 0 0 8px 8px;'
