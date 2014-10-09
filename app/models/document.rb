@@ -21,11 +21,14 @@ class Document < ActiveRecord::Base
   mount_uploader :file, FileUploader
   
   belongs_to :organization
-  belongs_to :user  
-  has_many :collectibles
-  has_many :collections, through: :collectibles
-  # has_one :collectible
-  # has_one :collection, through: :collectibles
+  belongs_to :user
+  
+  
+  # has_many :collectibles
+  # has_many :collections, through: :collectibles
+  
+  has_one :collectible
+  has_one :collection, through: :collectible
   
   validates_presence_of :user, :name, :state
   

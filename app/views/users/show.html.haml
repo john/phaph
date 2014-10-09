@@ -4,7 +4,7 @@
     -#   = link_to "Dropbox", '', :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
     
     %h1{:style => 'margin-bottom: 5px;'}
-      = @user.name
+      = sanitize(@user.name)
       &nbsp;
 
       - if signed_in?
@@ -45,10 +45,10 @@
     - if @user.locations.present?
       %div{:style => 'margin-top: 0;'}
         - @user.locations.each do |location|
-          = location.name
+          = sanitize(location.name)
           
     %div{:style => 'margin-top: 0;'}
-      = @user.description
+      = sanitize(@user.description)
   
 
     %br
@@ -61,9 +61,9 @@
     %dl
       - @user.collections.each do |collection|
         %dt
-          = link_to collection.name, collection, :style => 'font-weight: normal;'
-        %dd
-          = truncate(collection.description, length: 50)
+          = link_to sanitize(collection.name), collection, :style => 'font-weight: normal;'
+        %dd{ style: 'margin-bottom: 10px;' }
+          = sanitize(truncate(collection.description, length: 50))
           
     %br
     %h3
@@ -75,9 +75,9 @@
     %dl
       - @user.documents.each do |document|
         %dt
-          = link_to document.name, document, :style => 'font-weight: normal;'
-        %dd
-          = truncate(document.description, length: 50)
+          = link_to sanitize(document.name), document, :style => 'font-weight: normal;'
+        %dd{ style: 'padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #ccc;' }
+          = sanitize(truncate(document.description, length: 50))
 
     %br
     %h3

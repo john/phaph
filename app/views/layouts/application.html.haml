@@ -21,12 +21,7 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" media="screen" rel="stylesheet" />
     
     = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
-    -# = stylesheet_link_tag 'http://bootswatch.com/readable/bootstrap.min.css'
-    
-    -# <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-
-    
     = stylesheet_link_tag 'glyphicons.pro.css'
 
     -# HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -81,17 +76,13 @@
             .form-group
               = text_field_tag 'q', params[:q].present? ? params[:q] : '', :class => :'form-control', :placeholder => 'Search', :'x-webkit-speech' => :'x-webkit-speech'
               
-            <div class='form-group'>
-            <select class="form-control" id="search_scope" name="search_scope"><option value="all">all</option>
-            <option value="yours">yours</option></select>
-            </div>
+            .form-group
+              <select class="form-control" id="search_scope" name="search_scope"><option value="all">all</option>
+              <option value="yours">yours</option></select>
                     
             .input-group
               %button.btn.btn-md.btn-default{type: 'submit'}
                 %span.glyphicon.glyphicon-search
-          
-          %ul.nav.navbar-nav
-            %li
             
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
@@ -118,18 +109,27 @@
               %li
                 = link_to "Sign up", new_user_registration_path
                 
-    .container
+    
       
 
-      - flash.each do |type, message|
-        - unless message == 'You are already signed in.'
-          <div class = "#{flash_class(type)}">
-          <!-- TYPE: #{type} -->
-          <button class="close" data-dismiss="alert">×</button>
-          = message.html_safe
-          </div>
+    - flash.each do |type, message|
+      - unless message == 'You are already signed in.'
+        <div class="#{flash_class(type)}">
+        <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+        </button>
+        <div class="container">
+        = message.html_safe
+        </div>
+        </div>
 
+    - if @signed_out
       = yield
+      
+    - else
+      .container
+        = yield
       
     :javascript
       $('.tip').tooltip();

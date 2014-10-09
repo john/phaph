@@ -1,0 +1,64 @@
+- if current_user.documents.blank? || current_user.documents.size == 0
+  .row
+    .col-md-12
+      FOO
+      .alert.alert-info.alert-dismissible{role: 'alert'}
+        %button.close{ :'data-dismiss' => "alert" }
+          x
+        It doesn't look like you've added any documents.
+        %b
+          #{link_to "Why don't you do that now?", new_document_path}
+
+.row
+  .col-md-12
+
+    - if signed_in?
+
+      %h1
+        Your feed
+      - if @activities && @activities.size > 0
+        - @activities.each do |activity|
+          .activity
+            - if activity.owner.present?
+              - actor = activity.owner
+              %b
+                = link_to actor.name, actor, style: 'color: #333'
+                
+              %span
+                &nbsp;&#183;&nbsp;
+                = link_to actor.username, actor
+                &nbsp;&#183;&nbsp;
+                = link_to "#{distance_of_time_in_words( activity.created_at, Time.now)} ago", actor
+            
+            = render_activity activity
+
+      - else
+        %div
+          There's nothing here! Head to the #{link_to "user's page", users_path} and find some interesting people to follow.
+
+.row
+  %hr
+  
+  .col-md-12
+    %h4{style: 'margin-top: 37px;'}
+      Recent collections
+      -# %small
+      -#  = link_to 'Add collection', new_collection_path, class: 'btn btn-default btn-xs', style: 'margin: 0 0 8px 8px;'
+
+    #collections
+      - if @collections.present? && @collections.size > 0
+        - @collections.each do |collection|
+          = render partial: 'collections/thumb', locals: {collection: collection, creator: true}
+          .clearfix
+          
+    %br
+    %br
+    .clearfix
+
+    %h4{style: 'margin-bottom: 20px;'}
+      Recent documents
+      -# %small
+      -#  = link_to 'Add doc', new_document_path, class: 'btn btn-default btn-xs', style: 'margin: 0 0 8px 8px;'
+
+    - if @documents.present? && @documents.size > 0
+      = render partial: 'documents/tiles', locals: {documents: @documents}

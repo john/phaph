@@ -1,0 +1,36 @@
+.jumbotron
+  .container
+    .row
+      .col-sm-8
+
+        %h1
+          Share and<br />Search Anything
+        
+        %p
+          Collect anything on the web,<br />make it searchable and sharable.
+          -# %p
+          -#   Need private search? It's cheap!
+    
+      .col-sm-4
+        %div{:style => 'margin-top: 35px; vertical-align: bottom;'}
+      
+          <a class="btn btn-block btn-social btn-twitter" href="#{user_omniauth_authorize_url(:twitter)}">
+          <i class="fa fa-twitter"></i> Sign in with Twitter
+          </a>
+          <br />
+          
+          &nbsp;&nbsp;or #{link_to "signup with email", new_user_registration_path, :style => 'vertical-align: bottom;'}
+    
+
+.container
+  .row
+    .col-sm-12
+
+      %h4{style: 'margin-bottom: 20px;'}
+        Recent documents
+        -# %small
+        -#  = link_to 'Add doc', new_document_path, class: 'btn btn-default btn-xs', style: 'margin: 0 0 8px 8px;'
+
+      - if @documents.present? && @documents.size > 0
+        = render partial: 'documents/tiles', locals: {documents: @documents}
+

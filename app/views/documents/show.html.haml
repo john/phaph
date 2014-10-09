@@ -1,56 +1,50 @@
-.row
-  .col-md-6
-    %img{ src: "#{Document::FQDN}#{@document.thumb_lg}", style: "border: 1px solid #ddd;", alt: "thumbnail of #{@document.name}"}
+-# :javascript
+  -# http://www.html5rocks.com/en/tutorials/websockets/basics/
+  
+  var connection = new WebSocket('wss://echo.websocket.org', ['soap', 'xmpp']);
 
-  .col-md-6
+  // When the connection is open, send some data to the server
+  connection.onopen = function () {
+    connection.send('Ping'); // Send the message 'Ping' to the server
+  };
+
+  // Log errors
+  connection.onerror = function (error) {
+    console.log('WebSocket Error ' + error);
+  };
+
+  // Log messages from the server
+  connection.onmessage = function (e) {
+    console.log('Server: ' + e.data);
+  };
+
+
+.row.top
+  .col-sm-6.col-md-6
+    %img.doc-image{ src: "#{Document::FQDN}#{@document.thumb_lg}", alt: "thumbnail of #{@document.name}"}
+
+  .col-sm-6.col-md-6
 
     - if @collection
       .small
-        from the collection
+        From the collection
       .small
         #{ link_to @collection.name, slugged_collection_path(@collection, @collection.name.parameterize) }:
-      %h2{ style: 'margin: 5px 0 10px 0;'}
-        = @document.name
+      %h2
+        = sanitize(@document.name)
 
     .small
       Added #{@document.created_at.strftime("%b %-d, %Y")} by #{link_to @document.user.name, @document.user}
+
+      - if @document.user == current_user
+        &nbsp;&nbsp;&#183;
+
+        = link_to 'edit', edit_document_path(@document.id)
+        &nbsp;&#183;
+
+        = link_to 'delete', document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}
+
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-      %div{ style: 'margin: 10px 0 20px 0'}
-
-        - unless @collection && @collection.user == current_user
-          - if signed_in?
-            - if current_user.follows?(@document)
-              -# = link_to 'following', unfollow_document_path(@document), class: 'btn btn-sm btn-primary btn-follow', remote: true
-              = link_to '<span class="tip glyphpro glyphpro-shoe_steps" data-toggle="tooltip" data-placement="bottom" title="View live"></span>'.html_safe, @document.url, class: 'btn btn-xs btn-default', target: '_blank'
-
-            - else
-              = link_to '<span class="tip glyphpro glyphpro-shoe_steps" data-toggle="tooltip" data-placement="bottom" title="View live"></span>'.html_safe, follow_document_path(@document), class: 'btn btn-sm btn-primary btn-follow', remote: true
-          
-          - else
-            -# %button{:type => 'button', :class => 'tip btn btn-xs btn-default btn-follow', :'data-toggle' => 'tooltip', :'data-placement' => 'bottom', :title => "Sign in or sign up to follow this"}
-
-            = link_to '<span class="tip glyphpro glyphpro-shoe_steps" data-toggle="tooltip" data-placement="bottom" title="Follow"></span>'.html_safe, '#', class: 'btn btn-xs btn-default', target: '_blank'
-        &nbsp;&nbsp;&nbsp;&nbsp;
-
-
-        -# = link_to 'view', @document.url, class: 'btn btn-xs btn-primary'
-        = link_to '<span class="tip glyphpro glyphpro-eye_open" data-toggle="tooltip" data-placement="bottom" title="View live"></span>'.html_safe, slugged_document_path(@document.id, @document.name.parameterize), class: 'btn btn-xs btn-default', target: '_blank'
-        &nbsp;&nbsp;&nbsp;&nbsp;
-
-        -# = link_to 'view archive', "/#{@document.archive_path}/#{@document.slug}/index.html", class: 'btn btn-xs btn-primary', target: '_blank'
-        = link_to '<span class="tip glyphpro glyphpro-binoculars" data-toggle="tooltip" data-placement="bottom" title="View archive"></span>'.html_safe, "/#{@document.archive_path}/#{@document.slug}/index.html", class: 'btn btn-xs btn-default', target: '_blank'
-        &nbsp;&nbsp;&nbsp;&nbsp;
-
-        / = link_to 'download archive', "#{Document::FQDN}#{@document.file_location}", class: 'btn btn-xs btn-primary'
-        = link_to '<span class="tip glyphpro glyphpro-disk_save" data-toggle="tooltip" data-placement="bottom" title="Download archive"></span>'.html_safe, "#{@document.file_location}", class: 'btn btn-xs btn-default', target: '_blank'
-        &nbsp;&nbsp;&nbsp;&nbsp;
-
-        - if @document.user == current_user
-          = link_to '<span class="tip glyphpro glyphpro-pencil" data-toggle="tooltip" data-placement="bottom" title="Edit"></span>'.html_safe, edit_document_path(@document.id), class: 'btn btn-xs btn-default'
-          &nbsp;&nbsp;&nbsp;&nbsp;
-
-          = link_to '<span class="tip glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="bottom" title="Delete"></span>'.html_safe, document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-default'
 
     - if @document.principle_authors.present? || @document.other_authors.present?
       %div
@@ -59,10 +53,39 @@
           %b
             = [@document.principle_authors, @document.other_authors].compact.join( ', ')
 
+    %div{ style: 'margin: 10px 0 20px 0px; padding: 0;'}
+      - unless @collection && @collection.user == current_user
+        - if signed_in?
+          - if current_user.follows?(@document)
+            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;following'.html_safe, unfollow_document_path(@document.id), class: 'btn btn-xs btn-info btn-follow', remote: true
+
+          - else
+            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, follow_document_path(@document.id), class: 'btn btn-xs btn-default btn-follow', remote: true
+
+        - else
+          = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, new_user_registration_path, class: 'btn btn-xs btn-default', target: '_blank'
+      &nbsp;
+
+      = link_to '<span class="tip glyphpro glyphpro-eye_open"></span> &nbsp;view on web'.html_safe, slugged_document_path(@document.id, @document.name.parameterize), class: 'btn btn-xs btn-default', target: '_blank'
+      &nbsp;
+
+      = link_to '<span class="tip glyphpro glyphpro-binoculars"></span> &nbsp;view archive'.html_safe, "/#{@document.archive_path}/#{@document.slug}/index.html", class: 'btn btn-xs btn-default', target: '_blank'
+      &nbsp;
+
+      = link_to '<span class="tip glyphpro glyphpro-disk_save"></span> &nbsp;download'.html_safe, "#{@document.file_location}", class: 'btn btn-xs btn-default', target: '_blank'
+      &nbsp;
+
+      -# - if @document.user == current_user
+      -#   = link_to '<span class="tip glyphpro glyphpro-pencil"></span> &nbsp;edit'.html_safe, edit_document_path(@document.id), class: 'btn btn-xs btn-default'
+      -#   &nbsp;
+
+      -#   = link_to '<span class="tip glyphicon glyphicon-trash"></span> &nbsp;delete'.html_safe, document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-default'
+
+
     - if @document.description.present?
-      %div{:style => 'margin-top: 20px;'}
-        = @document.description   
-        
+      %div{:style => 'margin-top: 20px; border: 0px solid blue;'}
+        = sanitize(@document.description)
+
 .row
   .col-md-12#comments
     %h4{ style: 'margin-left: 15px;'}

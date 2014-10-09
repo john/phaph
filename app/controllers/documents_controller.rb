@@ -29,7 +29,7 @@ class DocumentsController < ApplicationController
   # GET /documents/1
   def show
     @title = @document.name
-    @collection = @document.collections.first
+    @collection = @document.collection
   end
 
   # GET /documents/new

@@ -6,13 +6,13 @@
         .txt
           
           .small
-            = document.name
+            = sanitize(document.name)
 
             -# .pull-right
             -#   #{document.created_at.strftime("%b %-d, %Y")}
 
             .clearfix
-            - if col = document.collections.first
+            - if col = document.collection
               In
               %i
                 = link_to col.name, slugged_collection_path(col, col.name.parameterize)
@@ -22,6 +22,9 @@
                   %span.glyphicon.glyphicon-comment
                   %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
                     = document.comment_threads.size
+                    
+              %div
+                badges for comments, follows, shares, likes
 
 :javascript
   var container = document.querySelector('#docs');
