@@ -5,66 +5,67 @@
       %ul
         - @document.errors.full_messages.each do |msg|
           %li= msg
+  
   %br
   
-  .form-group
+  .row
     .col-sm-7
-      Add to collection:
+      %div{:style => 'border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;'}
+        .form-group
+          .col-sm-11
+            Collection:
 
-      - if @collection.present?
+            
 
-        - if @collection.public?
+            # collection_id, user collections, match
+            
+            - if @document.collection.present?
 
-          -# collection, public, belongs to user = form, collection selected
-          - if @collection.owned_by?(current_user)
-            = f.label :collection_id, :class => 'sr-only'
-            = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name', @collection.id), :class => 'form-control'
+              - if @document.collection.public?
 
-          - else
-            -# collection, public, doesn't belong to user = no form
-            = f.hidden_field :collection_id
-            %h4{style: 'margin: 0;'}
-              = @collection.name
+                -# collection_id, public, doesn't belong to user = no form
+                - if !@document.collection.owned_by?(current_user)
+                  = f.hidden_field :collection_id
+                  = @document.collection.name
+
+            - else
+
+              -# no collection_id, user collections = form, nothing selected
+              - if current_user.collections.present?
+                = f.label :collection_id, :class => 'sr-only'
+                = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name'), :class => 'form-control'
+
+              -# no collection_id, no user collections, create default
+              - else
+                #{current_user.name}'s documents
+                &nbsp;
+                -# This should happen inline
+                (or #{link_to 'create a new collection', new_collection_path})
+
+              = f.label :collection_id, :class => 'sr-only'
+              = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name'), :class => 'form-control'
+
+
+            - if @document.collection_id.blank? || (@document.collection.user == current_user)
+              = f.label :collection_id, :class => 'sr-only'
+              = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name', @document.collection_id), :class => 'form-control'
+
+              
+        - unless action_name == 'edit'
+          .form-group
+            .col-sm-11
+              = f.label :file, :class => 'sr-only'
+              = f.file_field :file, class: 'form-control'
+              = f.hidden_field :file_cache
         
-        - elsif @collection.owned_by?(current_user)
-          %br
-          -# private collection, owned by user = form, collection selected
-          = f.label :collection_id, :class => 'sr-only'
-          = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name', @collection.id), :class => 'form-control'
-
-          -# controller has a check for private collections no owned by user, shouldn't get here
-      - else
-
-        - if current_user.collections.present?
-          -# no collection, user has collections = form, nothing selected
-          = f.label :collection_id, :class => 'sr-only'
-          = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name'), :class => 'form-control'
-
-        - else
-          -# no collection, no user collections, create default or let create new
-          %h4{style: 'margin: 0 0 5px 0;'}
-            #{current_user.name}'s documents
-          -# This should happen inline
-          (or #{link_to 'create a new collection', new_collection_path})
-
-  %br
-  - unless action_name == 'edit'
-    .form-group
-      .col-sm-7
-        = f.label :file, :class => 'sr-only'
-        = f.file_field :file, class: 'form-control'
-        = f.hidden_field :file_cache
-  
-        %br
-        &mdash; OR &mdash;
-
-  .form-group
-    .col-sm-7
-      = f.label :url, :class => 'sr-only'
-      = f.text_field :url, class: 'form-control', placeholder: 'URL'
-
-  %hr
-    
+              %br
+              &mdash; OR &mdash;
+      
+        .form-group
+          .col-sm-11
+            = f.label :url, :class => 'sr-only'
+            = f.text_field :url, class: 'form-control', placeholder: 'URL'
+      
   .form-group
     .col-sm-7
       = f.label :name, :class => 'sr-only'

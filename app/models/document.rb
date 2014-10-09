@@ -105,6 +105,8 @@ class Document < ActiveRecord::Base
 
       # Base64.encode64( 'entelo' )
       Base64.encode64( file_data )
+    else
+      Base64.encode64('')
     end
   end
   
@@ -255,24 +257,27 @@ class Document < ActiveRecord::Base
   end
 
   def delete_files
-    directory = File.dirname( "#{Rails.root}/public#{file_location}" )
-    logger.debug "------------------------> dir to delete: #{directory}"
+    # directory = File.dirname( "#{Rails.root}/public#{file_location}" )
+    # logger.debug "------------------------> dir to delete: #{directory}"
 
-    parent_directory = File.dirname( directory )
+    # parent_directory = File.dirname( directory )
 
-    FileUtils.rm_rf( directory )
+    # FileUtils.rm_rf( directory )
 
-    recursively_delete_empty_directories( parent_directory )
+    # recursively_delete_empty_directories( parent_directory )
   end
 
-  def recursively_delete_empty_directories(directory)
-    if (Dir.entries(directory) - %w{ . .. }).empty?
-      logger.debug "------------------------> dir to delete: #{directory}"
 
-      parent_directory = File.dirname( directory )
-      FileUtils.rm_rf( directory )
-      recursively_delete_empty_directories(parent_directory)
-    end
-  end
+
+
+  # def recursively_delete_empty_directories(directory)
+  #   if (Dir.entries(directory) - %w{ . .. }).empty?
+  #     logger.debug "------------------------> dir to delete: #{directory}"
+
+  #     parent_directory = File.dirname( directory )
+  #     FileUtils.rm_rf( directory )
+  #     recursively_delete_empty_directories(parent_directory)
+  #   end
+  # end
   
 end

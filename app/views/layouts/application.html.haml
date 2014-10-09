@@ -16,20 +16,17 @@
     
     %title= (Rails.env == 'development' ? '[DEV] ' : '') + (@title ? @title : Rails.configuration.x.app_name)
     
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+    <link href="//fonts.googleapis.com/css?family=Lato:400,700" media="screen" rel="stylesheet" />
+    <link href="//fonts.googleapis.com/css?family=Roboto:900,700" media="screen" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" media="screen" rel="stylesheet" />
     
     = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
     -# = stylesheet_link_tag 'http://bootswatch.com/readable/bootstrap.min.css'
     
     -# <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-    
-    -# = stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/fonts/glyphicons-halflings-regular.svg'
-    -# = stylesheet_link_tag 'glyphicons-halflings.svg'
 
-    -# https://gist.github.com/Jelby-John/cf462ab5baa1bba6ea6f
-    = stylesheet_link_tag 'glyphicons.pro.css'
+    
     = stylesheet_link_tag 'glyphicons.pro.css'
 
     -# HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -46,37 +43,52 @@
     = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/masonry/3.1.5/masonry.pkgd.min.js'
     
     = csrf_meta_tags
+
+    :css
+      .btn-social{position:relative;padding-left:44px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .btn-social>:first-child{position:absolute;left:0;top:0;bottom:0;width:32px;line-height:34px;font-size:1.6em;text-align:center;border-right:1px solid rgba(0,0,0,0.2)}
+      .btn-social.btn-lg{padding-left:61px}.btn-social.btn-lg :first-child{line-height:45px;width:45px;font-size:1.8em}
+      .btn-social.btn-sm{padding-left:38px}.btn-social.btn-sm :first-child{line-height:28px;width:28px;font-size:1.4em}
+      .btn-social.btn-xs{padding-left:30px}.btn-social.btn-xs :first-child{line-height:20px;width:20px;font-size:1.2em}
+      .btn-social-icon{position:relative;padding-left:44px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:34px;width:34px;padding:0}.btn-social-icon>:first-child{position:absolute;left:0;top:0;bottom:0;width:32px;line-height:34px;font-size:1.6em;text-align:center;border-right:1px solid rgba(0,0,0,0.2)}
+      .btn-social-icon.btn-lg{padding-left:61px}.btn-social-icon.btn-lg :first-child{line-height:45px;width:45px;font-size:1.8em}
+      .btn-social-icon.btn-sm{padding-left:38px}.btn-social-icon.btn-sm :first-child{line-height:28px;width:28px;font-size:1.4em}
+      .btn-social-icon.btn-xs{padding-left:30px}.btn-social-icon.btn-xs :first-child{line-height:20px;width:20px;font-size:1.2em}
+      .btn-social-icon :first-child{border:none;text-align:center;width:100% !important}
+      .btn-social-icon.btn-lg{height:45px;width:45px;padding-left:0;padding-right:0}
+      .btn-social-icon.btn-sm{height:30px;width:30px;padding-left:0;padding-right:0}
+      .btn-social-icon.btn-xs{height:22px;width:22px;padding-left:0;padding-right:0}
+      .btn-twitter{color:#fff;background-color:#55acee;border-color:rgba(0,0,0,0.2)}.btn-twitter:hover,.btn-twitter:focus,.btn-twitter:active,.btn-twitter.active,.open>.dropdown-toggle.btn-twitter{color:#fff;background-color:#2795e9;border-color:rgba(0,0,0,0.2)}
+      .btn-twitter:active,.btn-twitter.active,.open>.dropdown-toggle.btn-twitter{background-image:none}
+      .btn-twitter.disabled,.btn-twitter[disabled],fieldset[disabled] .btn-twitter,.btn-twitter.disabled:hover,.btn-twitter[disabled]:hover,fieldset[disabled] .btn-twitter:hover,.btn-twitter.disabled:focus,.btn-twitter[disabled]:focus,fieldset[disabled] .btn-twitter:focus,.btn-twitter.disabled:active,.btn-twitter[disabled]:active,fieldset[disabled] .btn-twitter:active,.btn-twitter.disabled.active,.btn-twitter[disabled].active,fieldset[disabled] .btn-twitter.active{background-color:#55acee;border-color:rgba(0,0,0,0.2)}
+      .btn-twitter .badge{color:#55acee;background-color:#fff}
     
   %body{:role => 'document'}
     
-    .navbar.navbar-inverse.navbar-static-top{:role => 'navigation'}
+    .navbar.navbar-inverse.navbar-fixed-top{:role => 'navigation'}
       .container
         .navbar-header
-          %button.navbar-toggle{:type => 'button', :'data-toggle' => 'collapse', :'data-target' => '.navbar-collapse'}
+          %button.navbar-toggle{:type => 'button', :'data-toggle' => 'collapse', :'data-target' => '.navbar-collapse', :style => 'border: 1px solid lightgrey;'}
             %span.sr-only Toggle navigation
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          = link_to 'phaph', root_path, class: 'navbar-brand', style: 'color: black;'
+          = link_to 'phaph', root_path, class: 'navbar-brand', style: 'color: #DA552F;'
           
         .navbar-collapse.collapse
           
-          = form_tag( search_path('run'), :method => :get, :class => 'navbar-form navbar-left navbar-input-group form-inline search-form', :role => 'search') do
-            .input-group
+          = form_tag( search_path('run'), :method => :get, :class => 'navbar-form navbar-left form-inline search-form', :role => 'search') do
+            .form-group
               = text_field_tag 'q', params[:q].present? ? params[:q] : '', :class => :'form-control', :placeholder => 'Search', :'x-webkit-speech' => :'x-webkit-speech'
               
-              .input-group-btn
-                %button.btn.btn-default.dropdown-toggle.all-or-yours{:'data-toggle' => 'dropdown'}
-                  = (@scope == 'yours') ? 'Yours' : 'All'
-                  <span class="caret"></span>
-                %ul.dropdown-menu
-                  %li.all-or-yours-not-selected{ style: 'padding: 6px 12px'}
-                    = (@scope == 'yours') ? 'All' : 'Yours'
-                <input type="hidden" name="search_scope" class="search_scope" value="#{@scope}">
+            <div class='form-group'>
+            <select class="form-control" id="search_scope" name="search_scope"><option value="all">all</option>
+            <option value="yours">yours</option></select>
+            </div>
                     
-              %span.input-group-btn
-                %button.btn.btn-default{type: 'submit'}
-                  %span.glyphicon.glyphicon-search
+            .input-group
+              %button.btn.btn-md.btn-default{type: 'submit'}
+                %span.glyphicon.glyphicon-search
           
           %ul.nav.navbar-nav
             %li

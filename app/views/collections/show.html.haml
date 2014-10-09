@@ -2,62 +2,30 @@
   .col-md-8
 
     .small
-      Created on #{@collection.created_at.strftime("%b %-d, %Y")}
+      Collection:
     %h2{ style: 'margin: 5px 0 2px 0;'}
       = @collection.name
 
+    .small
+      Created on #{@collection.created_at.strftime("%b %-d, %Y")}
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      - if signed_in?
-        - if @collection.owned_by?(current_user)
-          = link_to 'edit', edit_collection_path(@collection), class: 'btn btn-xs btn-default'
-          = link_to 'delete', collection_path(@collection), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-default'
-          = link_to 'add doc', new_document_path(collection_id: @collection.id), class: 'btn btn-xs btn-default'
-            
-        - elsif @collection.public?
-          = link_to 'add doc', new_document_path(collection_id: @collection.id), class: 'btn btn-xs btn-default'  
-
-
-        - unless @collection.owned_by?(current_user)
-          - if current_user.follows?(@collection)
-            = link_to 'following', unfollow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
-          - else
-            = link_to 'follow', follow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
-
-
+      - if @collection.user == current_user
+        = link_to 'edit', edit_collection_path(@collection), class: 'btn btn-xs btn-primary'
+        &nbsp;&nbsp;&#183;&nbsp;&nbsp;
+        = link_to 'delete', collection_path(@collection), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-primary'
+        &nbsp;&nbsp;&#183;&nbsp;&nbsp;
+        = link_to 'add doc', new_document_path(collection_id: @collection.id), class: 'btn btn-xs btn-primary'
 
       - else
-        %button{:type => 'button', :class => 'tip btn btn-xs btn-default btn-follow', :'data-toggle' => 'tooltip', :'data-placement' => 'bottom', :title => "Sign in or sign up to follow this"}
-          follow
-        :javascript
-          $('.tip').tooltip();
-
-    .small
-      by #{link_to @collection.user.name, people_path(@collection.user.id, @collection.user.name.parameterize)}.
-
-      - if @collection.contribute_scope == Scope::PUBLIC
-        Anyone can contribute.
-      - elsif @collection.contribute_scope == Scope::PUBLIC
-        (list contributors) can contribute.
-
-      
-
-
+        - if current_user.follows?(@collection)
+          = link_to 'following', unfollow_collection_path(@collection), class: 'btn btn-xs btn-primary btn-follow', remote: true
+        - else
+          = link_to 'follow', follow_collection_path(@collection), class: 'btn btn-xs btn-primary btn-follow', remote: true
 
     %div{ style: 'margin: 10px 0 20px 0;'}
       = @collection.description
 
-- if @collection.documents.size > 0
-  = render partial: 'documents/tiles', locals: {documents: @collection.documents}
-
-- else
-  %div{ style: 'margin: 10px 0;'}
-    = "This collection is empty"
-    - if signed_in? && @collection.user == current_user
-      = ", you should"
-      %b
-        #{link_to 'add some documents', new_document_path(collection_id: @collection.id)}
-    = "."
-
+= render partial: 'documents/tiles', locals: {documents: @collection.documents}
 
 .row
   .col-md-12#comments

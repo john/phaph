@@ -71,13 +71,6 @@ class DocumentsController < ApplicationController
     
     if @document.save
 
-
-
-
-
-
-
-
       # CreateDocumentJob.enqueue( @document, current_user )
       if @document.url.present?
         # generate a pdf
@@ -89,20 +82,6 @@ class DocumentsController < ApplicationController
         # and upload both the pdfs and thumbs to S3
         @document.archive_file
       end
-
-
-
-
-
-
-
-
-
-
-
-
-      
-
 
       if @document.collection_id.present?
         @collection = Collection.find( @document.collection_id )
