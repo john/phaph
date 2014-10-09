@@ -3,10 +3,12 @@
   
 %hr
 
-= link_to "<img src='/sign-in-with-twitter-gray.png' style='width:158px; height: 28px' alt='Sign in with Twitter' />".html_safe, user_omniauth_authorize_url(:twitter)
+.row
+  .col-sm-4
+    <a class="btn btn-block btn-social btn-twitter" href="#{user_omniauth_authorize_url(:twitter)}">
+    <i class="fa fa-twitter"></i> Sign in with Twitter
+    </a>
 
-
-%br
 %br
 &mdash; OR &mdash;
 %br

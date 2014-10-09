@@ -16,7 +16,6 @@
           - if @document.collection.present?
 
             - if @document.collection.public?
-
               -# collection_id, public, doesn't belong to user = no form
               - if !@document.collection.owned_by?(current_user)
                 = f.hidden_field :collection_id
@@ -70,17 +69,15 @@
       = f.label :description, :class => 'sr-only'
       = f.text_area :description, class: 'form-control', placeholder: 'Description'
   
-  .form-group
+  .more{style: 'margin-bottom: 20px;'}
+    = link_to 'show more fields', '#', onclick: "$('.more').fadeToggle();"
+    
+  .form-group.more{style: 'display: none;'}
     .col-sm-7
       = f.label :source, :class => 'sr-only'
       = f.text_field :source, class: 'form-control', placeholder: 'Source'
       
-  -# .form-group
-  -#   .col-sm-7
-  -#     = f.label :journal, :class => 'sr-only'
-  -#     = f.text_field :journal, class: 'form-control', placeholder: 'Journal'
-  -#
-  .form-group
+  .form-group.more{style: 'display: none;'}
     .col-sm-7
       = f.label :principle_authors, :class => 'sr-only'
       = f.text_area :principle_authors, class: 'form-control', placeholder: 'Author(s)'

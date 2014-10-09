@@ -22,7 +22,7 @@
       = f.label :view_scope, :class => 'sr-only'
       = f.select :view_scope, options_for_select(Scope.options_hash, @collection.view_scope), :class => 'form-control'
 
-  .form-group
+  -# .form-group
     .col-sm-7
       Who can contribute?
       = f.label :contribute_scope, :class => 'sr-only'

@@ -1,14 +1,3 @@
-- if current_user.documents.blank? || current_user.documents.size == 0
-  .row
-    .col-md-12
-      FOO
-      .alert.alert-info.alert-dismissible{role: 'alert'}
-        %button.close{ :'data-dismiss' => "alert" }
-          x
-        It doesn't look like you've added any documents.
-        %b
-          #{link_to "Why don't you do that now?", new_document_path}
-
 .row
   .col-md-12
 
@@ -56,7 +45,7 @@
     .clearfix
 
     %h4{style: 'margin-bottom: 20px;'}
-      Recent documents
+      Recent sites
       -# %small
       -#  = link_to 'Add doc', new_document_path, class: 'btn btn-default btn-xs', style: 'margin: 0 0 8px 8px;'
 
