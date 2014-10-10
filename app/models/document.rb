@@ -44,9 +44,9 @@ class Document < ActiveRecord::Base
   # end
   
   before_destroy do |record|
-    # Person.destroy_all "firm_id = #{record.id}"
-    record.delete_files
-    record.remove_from_s3
+    # # Person.destroy_all "firm_id = #{record.id}"
+    # record.delete_files
+    # record.remove_from_s3
   end
 
   ROOT = "#{Rails.root}/public"

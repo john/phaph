@@ -97,7 +97,7 @@ class DocumentsController < ApplicationController
       if params[:redirect_to].present?
         redirect_to params[:redirect_to]
       else
-        redirect_to slugged_document_path(@document.id, @document.slug), notice: "Document successfully created. <a href='/documents/new' class='alert-link'>Add another?</a>".html_safe
+        redirect_to slugged_document_path(@document.id, @document.slug), notice: "Site successfully created. <a href='/documents/new' class='alert-link'>Add another?</a>".html_safe
       end
     else
       render :new
@@ -114,7 +114,7 @@ class DocumentsController < ApplicationController
       # @document.__elasticsearch__.update_document
       # @document.__elasticsearch__.index_document
       
-      redirect_to @document, notice: 'Document successfully updated.'
+      redirect_to @document, notice: 'Site successfully updated.'
     else
       render :edit
     end
@@ -133,7 +133,7 @@ class DocumentsController < ApplicationController
     @document.destroy
     
     # documents_url
-    redirect_to user_path(current_user), notice: 'Document was successfully deleted.'
+    redirect_to user_path(current_user), notice: 'Site was successfully deleted.'
   end
   
   private
