@@ -23,10 +23,8 @@ class Document < ActiveRecord::Base
   belongs_to :organization
   belongs_to :user
   
-  
   # has_many :collectibles
   # has_many :collections, through: :collectibles
-  
   has_one :collectible
   has_one :collection, through: :collectible
   

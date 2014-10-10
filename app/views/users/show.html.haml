@@ -75,7 +75,7 @@
     %dl
       - @user.documents.each do |document|
         %dt
-          = link_to sanitize(document.name), document, :style => 'font-weight: normal;'
+          = link_to sanitize(document.name), slugged_document_path(document.id, document.name.parameterize), :style => 'font-weight: normal;'
         %dd{ style: 'padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #ccc;' }
           = sanitize(truncate(document.description, length: 50))
 

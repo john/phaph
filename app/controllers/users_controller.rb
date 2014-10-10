@@ -27,7 +27,7 @@ class UsersController < ApplicationController
         # sign_in(@user, :bypass => true)
         # redirect_to @user, notice: 'Your profile was successfully updated.'
         # sign_in_and_redirect @user, event: :authentication
-        redirect_to root_path, notice: "You've been sent a confirmation email, please click the link therein."
+        redirect_to root_path, notice: "You've been sent a confirmation email, please <b class='alert-link'>click the link therein</b>."
 
       else
         @show_errors = true

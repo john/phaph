@@ -37,10 +37,10 @@
       Added #{@document.created_at.strftime("%b %-d, %Y")} by #{link_to @document.user.name, @document.user}
 
       - if @document.user == current_user
-        &nbsp;&nbsp;&#183;
+        &nbsp;&nbsp;&#183;&nbsp;&nbsp;
 
         = link_to 'edit', edit_document_path(@document.id)
-        &nbsp;&#183;
+        &nbsp;&nbsp;&#183;&nbsp;&nbsp;
 
         = link_to 'delete', document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}
 
@@ -57,16 +57,18 @@
       - unless @collection && @collection.user == current_user
         - if signed_in?
           - if current_user.follows?(@document)
-            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;following'.html_safe, unfollow_document_path(@document.id), class: 'btn btn-xs btn-info btn-follow', remote: true
-
+            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;following'.html_safe, unfollow_document_path(@document.id), class: 'btn btn-xs btn-default btn-follow', remote: true
+            &nbsp;
+            
           - else
             = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, follow_document_path(@document.id), class: 'btn btn-xs btn-default btn-follow', remote: true
-
+            &nbsp;
+            
         - else
-          = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, new_user_registration_path, class: 'btn btn-xs btn-default', target: '_blank'
-      &nbsp;
+          = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, new_user_registration_path, class: 'btn btn-xs btn-default btn-follow', target: '_blank'
+          &nbsp;
 
-      = link_to '<span class="tip glyphpro glyphpro-eye_open"></span> &nbsp;view on web'.html_safe, slugged_document_path(@document.id, @document.name.parameterize), class: 'btn btn-xs btn-default', target: '_blank'
+      = link_to '<span class="tip glyphpro glyphpro-eye_open"></span> &nbsp;view on web'.html_safe, @document.url, class: 'btn btn-xs btn-default', target: '_blank'
       &nbsp;
 
       = link_to '<span class="tip glyphpro glyphpro-binoculars"></span> &nbsp;view archive'.html_safe, "/#{@document.archive_path}/#{@document.slug}/index.html", class: 'btn btn-xs btn-default', target: '_blank'

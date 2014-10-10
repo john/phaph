@@ -56,10 +56,11 @@
             .form-group
               = text_field_tag 'q', params[:q].present? ? params[:q] : '', :class => :'form-control', :placeholder => 'Search', :'x-webkit-speech' => :'x-webkit-speech'
               
-            .form-group
-              <select class="form-control" id="search_scope" name="search_scope"><option value="all">all</option>
-              <option value="yours">yours</option></select>
-                    
+            - if signed_in?
+              .form-group
+                <select class="form-control" id="search_scope" name="search_scope"><option value="all">all</option>
+                <option value="yours">yours</option></select>
+                
             .input-group
               %button.btn.btn-md.btn-default{type: 'submit'}
                 %span.glyphicon.glyphicon-search
@@ -69,7 +70,7 @@
               %li
                 = link_to '<span class="tip glyphicon glyphicon-folder-open" data-toggle="tooltip" data-placement="bottom" title="Your collections"></span>'.html_safe, collections_user_path(current_user)
               %li
-                = link_to '<span class="tip glyphpro glyphpro-sort" data-toggle="tooltip" data-placement="bottom" title="Your documents"></span>'.html_safe, documents_user_path(current_user)
+                = link_to '<span class="tip glyphpro glyphpro-sort" data-toggle="tooltip" data-placement="bottom" title="Your links"></span>'.html_safe, documents_user_path(current_user)
               %li
                 = link_to '<span class="tip glyphicon glyphicon-plus" data-toggle="tooltip" data-placement="bottom" title="Upload document""></span>'.html_safe, new_document_path
               

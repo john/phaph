@@ -2,7 +2,7 @@
 - user = (document.respond_to?(:user_id)) ? User.find( document.user_id ) : document.user
 
 .small
-  - if user == current_user
+  -# - if user == current_user
     .pull-right
       = link_to 'edit', edit_document_path(document)
       &nbsp;&nbsp;&#183;&nbsp;&nbsp;

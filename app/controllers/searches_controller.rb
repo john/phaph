@@ -21,12 +21,13 @@ class SearchesController < ApplicationController
   
   def show
     @model = Document
-
+    @scope = (params[:search_scope].present? && params[:search_scope].downcase == 'yours') ? 'yours' : 'all'
+    
     # https://gist.github.com/jprante/5095527
     query = {
               query: {
                 filtered: {
-                  filter: user_query( (params[:search_scope] && params[:search_scope].downcase == 'yours') ? current_user.id : nil ),
+                  filter: user_query( (@scope == 'yours') ? current_user.id : nil ),
                   query: keyword_query( params[:q] )
                 }
               },
@@ -37,7 +38,7 @@ class SearchesController < ApplicationController
               }
             }
             
-    @scope = (params[:search_scope].present? && params[:search_scope].downcase == 'yours') ? 'yours' : 'all'
+    
     @resources = Document.search( query ).page( params[:page] ||= 1 )
     @title = "'#{params[:q]}' search results"
   end
