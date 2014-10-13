@@ -29,23 +29,23 @@
   %hr
   
   .col-md-12
-    %h4{style: 'margin-top: 37px;'}
-      Recent collections
-      -# %small
-      -#  = link_to 'Add collection', new_collection_path, class: 'btn btn-default btn-xs', style: 'margin: 0 0 8px 8px;'
+    -# %h4{style: 'margin-top: 37px;'}
+    -#   Recent collections
+    -#   -# %small
+    -#   -#  = link_to 'Add collection', new_collection_path, class: 'btn btn-default btn-xs', style: 'margin: 0 0 8px 8px;'
 
-    #collections
-      - if @collections.present? && @collections.size > 0
-        - @collections.each do |collection|
-          = render partial: 'collections/thumb', locals: {collection: collection, creator: true}
-          .clearfix
+    -# #collections
+    -#   - if @collections.present? && @collections.size > 0
+    -#     - @collections.each do |collection|
+    -#       = render partial: 'collections/thumb', locals: {collection: collection, creator: true}
+    -#       .clearfix
           
-    %br
-    %br
-    .clearfix
+    -# %br
+    -# %br
+    -# .clearfix
 
     %h4{style: 'margin-bottom: 20px;'}
-      Recent links
+      Recently added
       -# %small
       -#  = link_to 'Add doc', new_document_path, class: 'btn btn-default btn-xs', style: 'margin: 0 0 8px 8px;'
 

@@ -11,19 +11,21 @@
         - if @user == current_user
           = link_to 'edit', edit_user_path(current_user), class: 'btn btn-sm btn-default'
       
-      - else
-
-
-        - if signed_in?
-          - if current_user.follows?(@collection)
-            = link_to 'following', unfollow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
-          - else
-            = link_to 'follow', follow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
         - else
-          %button{:type => 'button', :class => 'tip btn btn-xs btn-default btn-follow', :'data-toggle' => 'tooltip', :'data-placement' => 'bottom', :title => "Sign in or sign up to follow this"}
-            follow
-          :javascript
-            $('.tip').tooltip();
+          - if current_user.follows?(@user)
+            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;following'.html_safe, unfollow_user_path(@user.id), class: 'btn btn-xs btn-default btn-follow', remote: true
+            &nbsp;
+            
+          - else
+            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, follow_user_path(@user.id), class: 'btn btn-xs btn-default btn-follow', remote: true
+            &nbsp;
+
+
+      - else
+        %button{:type => 'button', :class => 'tip btn btn-xs btn-default btn-follow', :'data-toggle' => 'tooltip', :'data-placement' => 'bottom', :title => "Sign in or sign up to follow this"}
+          follow
+        :javascript
+          $('.tip').tooltip();
 
 
 

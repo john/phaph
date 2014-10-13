@@ -1,1 +1,1 @@
-$('.btn-follow').replaceWith('<%= j link_to 'unfollow', unfollow_collection_path(@collection), class: 'btn btn-sm btn-primary btn-follow', remote: true %>');
+$('.btn-follow').replaceWith('<%= j link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;following'.html_safe, unfollow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true %>');

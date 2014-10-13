@@ -3,32 +3,37 @@
 
     .small
       Collection:
-    %h2{ style: 'margin: 5px 0 2px 0;'}
+    %h2{style: 'margin-top: 5px;'}
       = sanitize(@collection.name)
+
+      - if signed_in?        
+        - if @collection.user == current_user
+          = link_to '<span class="tip glyphicon glyphicon-plus"></span> &nbsp;add site'.html_safe, new_document_path(collection_id: @collection.id), class: 'btn btn-xs btn-default btn-follow', style: 'font-weight: 400;'
+
+        - else
+          - if current_user.follows?(@collection)
+            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;following'.html_safe, unfollow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
+          - else
+            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, follow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
+
+      - else
+        = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, new_user_registration_path, class: 'btn btn-xs btn-default', target: '_blank'
+
 
     .small
       Created on #{@collection.created_at.strftime("%b %-d, %Y")}
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      
+      by
+      = link_to @collection.user.name, people_path(@collection.user.id, @collection.user.name.parameterize)
+
       - if signed_in?
         
         - if @collection.user == current_user
-          = link_to '<span class="tip glyphicon glyphicon-plus"></span> &nbsp;add site'.html_safe, new_document_path(collection_id: @collection.id), class: 'btn btn-xs btn-default btn-follow'
           &nbsp;&nbsp;&#183;&nbsp;&nbsp;
-          
+
           = link_to 'edit', edit_collection_path(@collection)
           &nbsp;&nbsp;&#183;&nbsp;&nbsp;
           
           = link_to 'delete', collection_path(@collection), method: :delete, data: { confirm: "You're sure? Can't be undone."}
-          
-        - else
-          - if current_user.follows?(@collection)
-            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;following'.html_safe, unfollow_collection_path(@collection), class: 'btn btn-xs btn-info btn-follow', remote: true
-          - else
-            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, follow_collection_path(@collection), class: 'btn btn-xs btn-default btn-follow', remote: true
-      
-      - else
-        = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, new_user_registration_path, class: 'btn btn-xs btn-default', target: '_blank'
 
     %div{ style: 'margin: 10px 0 20px 0;'}
       = sanitize(@collection.description)
