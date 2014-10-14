@@ -9,6 +9,7 @@ class CollectionsController < ApplicationController
 
   def unfollow
     current_user.unfollow!(@collection)
+    render template: 'collections/follow'
   end
   
   # GET /collections

@@ -1,1 +1,1 @@
-$('.btn-follow').replaceWith('<%= j link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;following'.html_safe, unfollow_document_path(@document.id), class: 'btn btn-xs btn-default btn-follow', remote: true %>');
+$('.btn-follow').replaceWith('<%= j = follow_link( model: @document ) %>');

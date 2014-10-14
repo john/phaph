@@ -55,18 +55,8 @@
 
     %div{ style: 'margin: 10px 0 20px 0px; padding: 0;'}
       - unless @collection && @collection.user == current_user
-        - if signed_in?
-          - if current_user.follows?(@document)
-            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;following'.html_safe, unfollow_document_path(@document.id), class: 'btn btn-xs btn-default btn-follow', remote: true
-            &nbsp;
-            
-          - else
-            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, follow_document_path(@document.id), class: 'btn btn-xs btn-default btn-follow', remote: true
-            &nbsp;
-            
-        - else
-          = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, new_user_registration_path, class: 'btn btn-xs btn-default btn-follow', target: '_blank'
-          &nbsp;
+        = follow_link( model: @document )
+        &nbsp;
 
       = link_to '<span class="tip glyphpro glyphpro-eye_open"></span> &nbsp;view on web'.html_safe, @document.url, class: 'btn btn-xs btn-default', target: '_blank'
       &nbsp;
