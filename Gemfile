@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 
-gem 'acts_as_commentable_with_threading', git: 'https://github.com/elight/acts_as_commentable_with_threading'
+gem 'acts_as_commentable_with_threading', '~> 2.0' #, git: 'https://github.com/elight/acts_as_commentable_with_threading'
 # gem 'acts-as-taggable-on'
 gem 'acts_as_votable'
-gem 'awesome_nested_set', git: 'https://github.com/collectiveidea/awesome_nested_set.git'
+gem 'awesome_nested_set', '~> 3.0' #, git: 'https://github.com/collectiveidea/awesome_nested_set.git'
 gem 'aws-sdk'
 gem 'carrierwave' #, git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 
 gem 'carrierwave-aws'
-gem 'carrierwave-dropbox' #, git: 'https://github.com/john/carrierwave-dropbox.git'
+# gem 'carrierwave-dropbox' #, git: 'https://github.com/john/carrierwave-dropbox.git'
 
 # these need to be before elasticsearch
 gem 'will_paginate'
@@ -37,7 +37,7 @@ gem 'public_activity'
 gem 'pundit'
 
 gem 'rails', '4.2.0.beta2'
-gem 'devise', git: 'https://github.com/plataformatec/devise.git', :branch => 'lm-rails-4-2'
+gem 'devise', '~> 3.4'
 gem 'sass-rails', '~> 5.0.0.beta1'
 gem 'rails-html-sanitizer', '~> 1.0'
 
