@@ -61,18 +61,21 @@ ActiveRecord::Schema.define(version: 20140911074526) do
   add_index "collectibles", ["user_id"], name: "index_collectibles_on_user_id", using: :btree
 
   create_table "collections", force: true do |t|
-    t.string   "name",             limit: 255
+    t.string   "name",             limit: 255,               null: false
+    t.string   "slug",             limit: 255,               null: false
     t.text     "description",      limit: 65535
     t.integer  "user_id",          limit: 4,                 null: false
     t.integer  "organization_id",  limit: 4
     t.integer  "view_scope",       limit: 4,     default: 3, null: false
     t.integer  "contribute_scope", limit: 4,     default: 3, null: false
-    t.integer  "state",            limit: 4,     default: 0
+    t.integer  "state",            limit: 4,     default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "collections", ["name"], name: "index_collections_on_name", using: :btree
   add_index "collections", ["organization_id"], name: "index_collections_on_organization_id", using: :btree
+  add_index "collections", ["slug"], name: "index_collections_on_slug", using: :btree
   add_index "collections", ["user_id"], name: "index_collections_on_user_id", using: :btree
 
   create_table "comments", force: true do |t|
@@ -95,7 +98,7 @@ ActiveRecord::Schema.define(version: 20140911074526) do
 
   create_table "documents", force: true do |t|
     t.string   "name",              limit: 255,               null: false
-    t.string   "slug",              limit: 255
+    t.string   "slug",              limit: 255,               null: false
     t.text     "description",       limit: 65535
     t.text     "url",               limit: 65535
     t.string   "file",              limit: 255
@@ -110,7 +113,7 @@ ActiveRecord::Schema.define(version: 20140911074526) do
     t.integer  "user_id",           limit: 4,                 null: false
     t.integer  "organization_id",   limit: 4
     t.integer  "scope",             limit: 4,     default: 3, null: false
-    t.integer  "state",             limit: 4,     default: 0
+    t.integer  "state",             limit: 4,     default: 0, null: false
     t.datetime "published_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -118,6 +121,7 @@ ActiveRecord::Schema.define(version: 20140911074526) do
 
   add_index "documents", ["name"], name: "index_documents_on_name", using: :btree
   add_index "documents", ["organization_id"], name: "index_documents_on_organization_id", using: :btree
+  add_index "documents", ["slug"], name: "index_documents_on_slug", using: :btree
   add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
 
   create_table "follows", force: true do |t|

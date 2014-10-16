@@ -12,20 +12,13 @@
           = link_to 'edit', edit_user_path(current_user), class: 'btn btn-sm btn-default'
       
         - else
-          - if current_user.follows?(@user)
-            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;following'.html_safe, unfollow_user_path(@user.id), class: 'btn btn-xs btn-default btn-follow', remote: true
-            &nbsp;
-            
-          - else
-            = link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, follow_user_path(@user.id), class: 'btn btn-xs btn-default btn-follow', remote: true
-            &nbsp;
+          = follow_link( model: @user )
+        
+        &nbsp;
 
 
       - else
-        %button{:type => 'button', :class => 'tip btn btn-xs btn-default btn-follow', :'data-toggle' => 'tooltip', :'data-placement' => 'bottom', :title => "Sign in or sign up to follow this"}
-          follow
-        :javascript
-          $('.tip').tooltip();
+        = follow_link( model: @user )
 
 
 
@@ -77,7 +70,7 @@
     %dl
       - @user.documents.each do |document|
         %dt
-          = link_to sanitize(document.name), slugged_document_path(document.id, document.name.parameterize), :style => 'font-weight: normal;'
+          = link_to sanitize(document.name), document, :style => 'font-weight: normal;'
         %dd{ style: 'padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #ccc;' }
           = sanitize(truncate(document.description, length: 50))
 

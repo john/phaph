@@ -1,5 +1,8 @@
 class Collection < ActiveRecord::Base
   include PublicActivity::Common
+
+  extend FriendlyId
+  friendly_id :name, use: :slugged
   
   # tracked owner: ->(controller, model) { controller.current_user }
   

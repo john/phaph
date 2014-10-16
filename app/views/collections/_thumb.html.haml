@@ -1,4 +1,5 @@
-%a{ href: "#{slugged_collection_path(collection.id, collection.name.parameterize)}", style: "text-decoration: none;" }
+-# %a{ href: "#{slugged_collection_path(collection.id, collection.name.parameterize)}", style: "text-decoration: none;" }
+%a{ href: "#{collection_path(collection)}", style: "text-decoration: none;" }
   .collection.pull-left
 
     - docs = collection.documents[0..8]

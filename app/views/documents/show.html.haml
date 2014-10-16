@@ -29,7 +29,8 @@
       .small
         From the collection
       .small
-        #{ link_to @collection.name, slugged_collection_path(@collection, @collection.name.parameterize) }:
+        -# #{ link_to @collection.name, slugged_collection_path(@collection, @collection.name.parameterize) }:
+        #{ link_to @collection.name, collection_path(@collection) }
       %h2
         = sanitize(@document.name)
 

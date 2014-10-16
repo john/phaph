@@ -5,7 +5,7 @@
       %ul
         - @document.errors.full_messages.each do |msg|
           %li= msg
-          
+
   .row
     .form-group
       .col-sm-7
@@ -13,21 +13,15 @@
           - unless action_name == 'edit'
             Collection:
         
-          -# collection_id, user collections, match
-          - if @document.collection.present?
-
-            - if @document.collection.public?
-              -# collection_id, public, doesn't belong to user = no form
-              - if !@document.collection.owned_by?(current_user)
-                = f.hidden_field :collection_id
-                = @document.collection.name
+          - if @document.collection.present? && @document.collection.public? && !@document.collection.owned_by?(current_user)
+            = f.hidden_field :collection_id
+            = @document.collection.name
 
           - else
 
-            -# no collection_id, user collections = form, nothing selected
             - if current_user.collections.present?
               = f.label :collection_id, :class => 'sr-only'
-              = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name'), :class => 'form-control'
+              = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name', selected: @document.collection.id), class: 'form-control'
 
               -# no collection_id, no user collections, create default
             - else
@@ -40,9 +34,9 @@
             -#= f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name'), :class => 'form-control'
 
 
-          -# - if @document.collection_id.blank? || (@document.collection.user == current_user)
-            = f.label :collection_id, :class => 'sr-only'
-            = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name', @document.collection_id), :class => 'form-control'
+          -# -# - if @document.collection_id.blank? || (@document.collection.user == current_user)
+          -#   = f.label :collection_id, :class => 'sr-only'
+          -#   = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name', @document.collection_id), :class => 'form-control'
 
           
   - unless action_name == 'edit'
@@ -58,7 +52,7 @@
     .form-group
       .col-sm-7
         = f.label :url, :class => 'sr-only'
-        = f.text_field :url, class: 'form-control', placeholder: 'URL', required: true
+        = f.text_field :url, class: 'form-control', placeholder: 'URL', required: true, autofocus: true
 
   .form-group
     .col-sm-7

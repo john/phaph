@@ -1,8 +1,9 @@
 #docs
   - documents.each do |document|
     .item
-      %a{ href: "#{slugged_document_path(document.id, document.name.parameterize)}" }
-        %img{ src: "#{Document::FQDN}#{document.thumb_md}", alt: "thumbnail of #{document.name}", class: 'top'}
+      -# %a{ href: "#{slugged_document_path(document.id, document.name.parameterize)}" }
+      %a{ href: "#{document_path(document)}" }
+        %img.pic.top{ src: "#{Document::FQDN}#{document.thumb_md}", alt: "thumbnail of #{document.name}"}
         .txt
           
           .small
@@ -12,25 +13,25 @@
             -#   #{document.created_at.strftime("%b %-d, %Y")}
 
             .clearfix
-            - if col = document.collection
+            - if controller_name != 'collections' && col = document.collection 
               In
               %i
                 = link_to col.name, slugged_collection_path(col, col.name.parameterize)
 
-              .notification-icons
-                - if document.comment_threads.size > 0
-                  %span.glyphicon.glyphicon-comment
-                  %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
-                    = document.comment_threads.size
+            .notification-icons
+              - if document.comment_threads.size > 0
+                %span.glyphicon.glyphicon-comment
+                %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
+                  = document.comment_threads.size
 
-                - if document.followers(User).size > 0
-                  &nbsp;
-                  %span.glyphpro.glyphpro-shoe_steps
-                  %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
-                    = document.followers(User).size
-                    
-              %div
-                badges for shares, likes
+              - if document.followers(User).size > 0
+                &nbsp;
+                %span.glyphpro.glyphpro-shoe_steps
+                %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
+                  = document.followers(User).size
+                  
+            -# %div
+            -#   badges for shares, likes
 
 :javascript
   var container = document.querySelector('#docs');

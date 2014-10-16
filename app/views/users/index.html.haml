@@ -5,7 +5,7 @@
       = link_to 'New User', new_user_path, :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
     
   %h1
-    Users
+    People
 
 .clearfix
 
@@ -16,6 +16,8 @@
         %td
           %b
             = link_to user.name, people_path(user, user.name.parameterize)
+            = follow_link( model: user )
+
 
         - if signed_in? && current_user.is_admin?
           %td{:style => 'text-align: right;'}

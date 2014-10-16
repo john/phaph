@@ -10,8 +10,8 @@ class Document < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   # include PublicActivity::Common
-  extend FriendlyId
 
+  extend FriendlyId
   friendly_id :name, use: :slugged
 
   acts_as_commentable
