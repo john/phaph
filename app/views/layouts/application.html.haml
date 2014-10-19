@@ -70,9 +70,9 @@
               %li
                 = link_to '<span class="tip glyphicon glyphicon-folder-open" data-toggle="tooltip" data-placement="bottom" title="Your collections"></span>'.html_safe, collections_user_path(current_user)
               %li
-                = link_to '<span class="tip glyphpro glyphpro-sort" data-toggle="tooltip" data-placement="bottom" title="Your links"></span>'.html_safe, documents_user_path(current_user)
+                = link_to "<span class='tip glyphpro glyphpro-sort' data-toggle='tooltip' data-placement='bottom' title='Your #{atomic_unit}s'></span>".html_safe, documents_user_path(current_user)
               %li
-                = link_to '<span class="tip glyphicon glyphicon-plus" data-toggle="tooltip" data-placement="bottom" title="Upload document""></span>'.html_safe, new_document_path
+                = link_to "<span class='tip glyphicon glyphicon-plus' data-toggle='tooltip' data-placement='bottom' title='Add #{atomic_unit}'></span>".html_safe, new_document_path
               
               %li.dropdown
                 %a.dropdown-toggle{:'data-toggle' => 'dropdown'}

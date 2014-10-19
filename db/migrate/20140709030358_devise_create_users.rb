@@ -4,7 +4,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
       ## Database authenticatable
       t.string :name, default: ''
       t.string :username
-      t.text :description
+      t.string :description, limit: 19000
+      t.string :image_url
 
       t.string :email, null: false, default: ''
       t.string :encrypted_password, null: false, default: ""

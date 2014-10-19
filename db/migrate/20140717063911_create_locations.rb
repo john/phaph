@@ -7,13 +7,9 @@ class CreateLocations < ActiveRecord::Migration
       t.string :city
       t.string :state
       t.string :country
-      t.integer :locatable_id
-      t.integer :locatable_type
       
       t.timestamps
     end
-    
-    add_index :locations, [:locatable_id, :locatable_type], :unique => true
-    
+
   end
 end

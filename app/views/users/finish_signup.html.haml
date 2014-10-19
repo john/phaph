@@ -1,7 +1,7 @@
 - if @user
 
-  %h3
-    Please select a username and provide an email
+  %h3{ style: 'margin-bottom: 30px;' }
+    What's your email address?
 
   = form_for(@user, as: 'user', role: 'form', url: finish_signup_path(@user), html: { class: 'form-horizontal' }) do |f|
     
@@ -11,17 +11,16 @@
           = msg
           %br
 
-    %hr
     
-    .form-group
-      .col-sm-7
-        = f.label :username, :class => 'sr-only'
-        = f.text_field :username, :autofocus => true, required: true, :value => '', class: 'form-control', placeholder: "Select a username"
+    -# .form-group
+    -#   .col-sm-7
+    -#     = f.label :username, :class => 'sr-only'
+    -#     = f.text_field :username, :autofocus => true, required: true, :value => '', class: 'form-control', placeholder: "Select a username"
 
     .form-group
       .col-sm-7
         = f.label :email, :class => 'sr-only'
-        = f.text_field :email, required: true, :value => '', class: 'form-control', placeholder: "Your email"
+        = f.text_field :email, required: true, :value => '', class: 'form-control', placeholder: "Your email", autofocus: true
     
     .form-group
       .col-sm-7

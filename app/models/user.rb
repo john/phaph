@@ -11,8 +11,10 @@ class User < ActiveRecord::Base
   has_many :presences, as: :locatable
   has_many :locations, through: :presences
   has_many :authentications
-  has_many :documents
+  
   has_many :collectibles
+  has_many :documents, through: :collectibles
+  
   has_many :collections
   
   TEMP_EMAIL_PREFIX = 'change@me'
@@ -34,6 +36,10 @@ class User < ActiveRecord::Base
   #   logger.info "----------> async should have happened."
   # end
 
+  def location
+    locations.first
+  end
+
   def followee_ids()
     sql = "SELECT `users`.id
             FROM `users`
@@ -54,6 +60,10 @@ class User < ActiveRecord::Base
 
   def is_admin?
     name == 'John McGrath'
+  end
+
+  def has_collections?
+    collections.size > 0
   end
   
   
@@ -118,12 +128,21 @@ class User < ActiveRecord::Base
             name: auth.info.name,
             # state: :active,
             #username: auth.info.nickname || auth.uid,
+            username: auth.info.nickname,
+            description: auth.info.description,
             email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
+            image_url: auth.info.image,
             password: Devise.friendly_token[0,20]
           )
-          
+
           user.skip_confirmation!
           user.save!
+
+          if auth.info.location.present?
+            location = Location.find_or_create_by!( name: auth.info.location )
+            Presence.find_or_create_by!( location: location, locatable_id: user.id, locatable_type: user.class.to_s )
+          end
+
         end
       end
 

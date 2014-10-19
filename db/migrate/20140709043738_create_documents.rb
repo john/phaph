@@ -4,7 +4,7 @@ class CreateDocuments < ActiveRecord::Migration
       t.string :name, index: true, null: false
       t.string :slug, index: true, unique: true, null: false
       t.text :description
-      t.text :url
+      t.string :url, :limit => 10000 # http://stackoverflow.com/questions/219569/best-database-field-type-for-a-url
       t.string :file
       t.string :file_location
       t.string :thumb_sm
@@ -16,9 +16,8 @@ class CreateDocuments < ActiveRecord::Migration
       t.string :other_authors
       t.string :rights
       t.references :user, index: true, null: false
-      t.references :organization, index: true
       t.integer :scope, null: false, default: Scope::PUBLIC
-      t.column :state, :integer, default: 0, null: false
+      t.integer :state, default: 0, null: false
 
       # t.string :service
       # t.string :service_id

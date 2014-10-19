@@ -24,20 +24,28 @@ class UsersController < ApplicationController
       @user = User.find( params[:id] )
       
       if @user.update(user_params) #if current_user.save
+        logger.debug "-----------------------> UPDATED user"
         # sign_in(@user, :bypass => true)
         # redirect_to @user, notice: 'Your profile was successfully updated.'
         # sign_in_and_redirect @user, event: :authentication
         redirect_to root_path, notice: "You've been sent a confirmation email, please <b class='alert-link'>click the link therein</b>."
 
       else
+        logger.debug "-----------------------> FAILED to update user"
         @show_errors = true
       end
 
     # An unconfimred user has just come from omniauth_callbacks, with a base64-encoded auth token
     else
+      logger.debug "-----------------------> UNCOnfirmed (#{params[:id]})"
       token = Base64.decode64( params[:id] )
+      logger.debug "--------------> token: #{token.inspect}"
+
       if auth = Authentication.find_by_token( token )
+        logger.debug "--------------> getting user"
         @user = auth.user
+      else
+        logger.debug "--------------> NO find_by_token"
       end
     end
   end
@@ -65,6 +73,10 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     @title = @user.name
+
+    @followed_users = @user.followees(User)
+    @followed_documents = @user.followees(Document)
+    @followed_collections = @user.followees(Collection)
   end
 
   # GET /users/new

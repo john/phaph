@@ -7,10 +7,19 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def twitter
     auth = env["omniauth.auth"]
 
+    logger.debug "--------------------------> AUTH: "
+    logger.debug "--------------------------> #{auth.inspect} "
+    logger.debug "--------------------------"
+
     @user = User.find_for_oauth(auth, current_user)
     
     if @user.persisted?
-      if @user.username.present?
+
+
+      # if @user.username.present?
+
+      logger.debug "-------------------> @user.email[0..8]: #{@user.email[0..8]}"
+      unless @user.email[0..8] == 'change@me'
         logger.debug "------------------------> flash: #{flash.inspect}"
         logger.debug "------------------------> flash.empty?: #{flash.empty?}"
         logger.debug "------------------------> sign in and redirect!"
@@ -20,6 +29,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       else
         redirect_to finish_signup_path( Base64.encode64(auth.credentials.token) )
       end
+
+
       # set_flash_message(:notice, :success, kind: 'Twitter') if is_navigational_format?
     else
       session["devise.#{provider}_data"] = env["omniauth.auth"]

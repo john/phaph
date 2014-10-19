@@ -5,21 +5,26 @@
 
       %h1
         Your feed
-      - if @activities && @activities.size > 0
-        - @activities.each do |activity|
-          .activity
+      - if @activities.present?
+        %table.table
+          - @activities.each do |activity|
             - if activity.owner.present?
               - actor = activity.owner
-              %b
-                = link_to actor.name, actor, style: 'color: #333'
-                
-              %span
-                &nbsp;&#183;&nbsp;
-                = link_to actor.username, actor
-                &nbsp;&#183;&nbsp;
-                = link_to "#{distance_of_time_in_words( activity.created_at, Time.now)} ago", actor
-            
-            = render_activity activity
+            %tr
+              %td
+                actor photo here
+              %td              
+                %b
+                  = link_to actor.name, actor, style: 'color: #333'
+                  
+                %span
+                  &nbsp;&#183;&nbsp;
+                  = link_to actor.username, actor
+
+                  &nbsp;&#183;&nbsp;
+                  = link_to "#{distance_of_time_in_words( activity.created_at, Time.now)} ago", actor
+              
+                = render_activity activity
 
       - else
         %div

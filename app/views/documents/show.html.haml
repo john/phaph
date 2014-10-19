@@ -35,7 +35,7 @@
         = sanitize(@document.name)
 
     .small
-      Added #{@document.created_at.strftime("%b %-d, %Y")} by #{link_to @document.user.name, @document.user}
+      Added #{@document.created_at.strftime("%b %-d, %Y")} by #{link_to @document.user.name, people_path(@document.user, @document.user.name.parameterize)}
 
       - if @document.user == current_user
         &nbsp;&nbsp;&#183;&nbsp;&nbsp;

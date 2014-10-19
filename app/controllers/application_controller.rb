@@ -25,6 +25,11 @@ class ApplicationController < ActionController::Base
     Rails.configuration.x.app_name
   end
   helper_method :app_name
+
+  def atomic_unit
+    Rails.configuration.x.atomic_unit
+  end
+  helper_method :atomic_unit
   
   def configure_devise_permitted_parameters
     registration_params = [:name, :email, :password, :password_confirmation]

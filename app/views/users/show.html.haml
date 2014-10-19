@@ -9,43 +9,27 @@
 
       - if signed_in?
         - if @user == current_user
-          = link_to 'edit', edit_user_path(current_user), class: 'btn btn-sm btn-default'
-      
+          = link_to 'edit', edit_user_path(current_user), class: 'btn btn-sm btn-default'  
         - else
           = follow_link( model: @user )
         
         &nbsp;
 
-
       - else
         = follow_link( model: @user )
-
-
 
         %button{:type => 'button', :class => 'tip btn btn-xs btn-default btn-follow', :'data-toggle' => 'tooltip', :'data-placement' => 'bottom', :title => "Sign in or sign up to follow this"}
           follow
         :javascript
           $('.tip').tooltip();
 
-
-      / - if @user == current_user
-      /   = link_to 'edit', edit_user_path(current_user), class: 'btn btn-sm btn-default'
-      / - else
-      /   - if current_user.follows?(@user)
-      /     = link_to 'following', unfollow_user_path(@user), class: 'btn btn-xs btn-default btn-follow', remote: true
-
-      /   - else
-      /     = link_to 'follow', follow_user_path(@user), class: 'btn btn-sm btn-primary btn-follow', remote: true
-
-    - if @user.locations.present?
+    - if @user.location.present?
       %div{:style => 'margin-top: 0;'}
-        - @user.locations.each do |location|
-          = sanitize(location.name)
+        = sanitize(@user.location.name)
           
     %div{:style => 'margin-top: 0;'}
       = sanitize(@user.description)
   
-
     %br
     %h3
       Collections
@@ -77,10 +61,39 @@
     %br
     %h3
       Following
+
+    %h5 Users
     %dl
-      - @user.followees(User).each do |followee|
+      - if @followed_users.present?
+        - @followed_users.each do |followee|
+          %dt
+            = link_to followee.name, people_path(followee.id, followee.name.parameterize)
+      - else
         %dt
-          = link_to followee.name, people_path(followee.id, followee.name.parameterize)
+          %i
+            None. Follow some people, you loser.
+
+    %h5 Documents
+    %dl
+      - if @followed_documents.present?
+        - @followed_documents.each do |document|
+          %dt
+            = link_to document.name, document
+      - else
+        %dt
+          %i
+            None. Follow some documents, you loser.
+
+    %h5 Collections
+    %dl
+      - if @followed_collections.present?
+        - @followed_collections.each do |collection|
+          %dt
+            = link_to collection.name, collection
+      - else
+        %dt
+          %i
+            None. Follow some collections, you loser.
 
     %br
     %h3

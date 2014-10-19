@@ -7,7 +7,7 @@ class HomeController < ApplicationController
       @activities = PublicActivity::Activity.order('created_at desc').where(owner_id: current_user.followee_ids, owner_type: 'User')
       
       if current_user.documents.blank?
-        flash[:notice] = "It doesn't look like you've added any sites. <a href='/collections/new' class='alert-link'>You should it's fun.</a>"
+        flash[:notice] = "Add a collection, then add stuff to it. <a href='/collections/new' class='alert-link'>Start now it's fun.</a>"
       end
        
     else

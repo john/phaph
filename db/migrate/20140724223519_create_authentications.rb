@@ -14,7 +14,7 @@ class CreateAuthentications < ActiveRecord::Migration
       t.string :account_email
       t.datetime :token_expires_at
       t.text :serialized_session
-      t.column :state, :integer, default: 0
+      t.integer :state, default: 0, null: false
 
       t.timestamps
     end

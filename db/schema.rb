@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140911074526) do
+ActiveRecord::Schema.define(version: 20141019062559) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id",   limit: 4
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20140911074526) do
     t.string   "account_email",      limit: 255
     t.datetime "token_expires_at"
     t.text     "serialized_session", limit: 65535
-    t.integer  "state",              limit: 4,     default: 0
+    t.integer  "state",              limit: 4,     default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -96,11 +96,22 @@ ActiveRecord::Schema.define(version: 20140911074526) do
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
+  create_table "connections", force: true do |t|
+    t.integer  "user_id",    limit: 4,     null: false
+    t.string   "service",    limit: 255,   null: false
+    t.text     "followers",  limit: 65535
+    t.text     "following",  limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "connections", ["user_id"], name: "index_connections_on_user_id", using: :btree
+
   create_table "documents", force: true do |t|
     t.string   "name",              limit: 255,               null: false
     t.string   "slug",              limit: 255,               null: false
     t.text     "description",       limit: 65535
-    t.text     "url",               limit: 65535
+    t.string   "url",               limit: 10000
     t.string   "file",              limit: 255
     t.string   "file_location",     limit: 255
     t.string   "thumb_sm",          limit: 255
@@ -160,19 +171,16 @@ ActiveRecord::Schema.define(version: 20140911074526) do
   add_index "likes", ["liker_id", "liker_type"], name: "fk_likes", using: :btree
 
   create_table "locations", force: true do |t|
-    t.string   "name",           limit: 255,                           null: false
-    t.decimal  "latitude",                   precision: 15, scale: 10
-    t.decimal  "longitude",                  precision: 15, scale: 10
-    t.string   "city",           limit: 255
-    t.string   "state",          limit: 255
-    t.string   "country",        limit: 255
-    t.integer  "locatable_id",   limit: 4
-    t.integer  "locatable_type", limit: 4
+    t.string   "name",       limit: 255,                           null: false
+    t.decimal  "latitude",               precision: 15, scale: 10
+    t.decimal  "longitude",              precision: 15, scale: 10
+    t.string   "city",       limit: 255
+    t.string   "state",      limit: 255
+    t.string   "country",    limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "locations", ["locatable_id", "locatable_type"], name: "index_locations_on_locatable_id_and_locatable_type", unique: true, using: :btree
   add_index "locations", ["name"], name: "index_locations_on_name", using: :btree
 
   create_table "memberships", force: true do |t|
@@ -182,7 +190,7 @@ ActiveRecord::Schema.define(version: 20140911074526) do
     t.integer  "creator_id",      limit: 4,                 null: false
     t.text     "notes",           limit: 65535
     t.integer  "scope",           limit: 4,     default: 3, null: false
-    t.integer  "state",           limit: 4,     default: 0
+    t.integer  "state",           limit: 4,     default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -208,7 +216,7 @@ ActiveRecord::Schema.define(version: 20140911074526) do
     t.string   "email",       limit: 255
     t.integer  "user_id",     limit: 4,                 null: false
     t.integer  "scope",       limit: 4,     default: 3, null: false
-    t.integer  "state",       limit: 4,     default: 0
+    t.integer  "state",       limit: 4,     default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -246,7 +254,8 @@ ActiveRecord::Schema.define(version: 20140911074526) do
   create_table "users", force: true do |t|
     t.string   "name",                   limit: 255,   default: ""
     t.string   "username",               limit: 255
-    t.text     "description",            limit: 65535
+    t.string   "description",            limit: 19000
+    t.string   "image_url",              limit: 255
     t.string   "email",                  limit: 255,   default: "", null: false
     t.string   "encrypted_password",     limit: 255,   default: "", null: false
     t.integer  "creator_id",             limit: 4

@@ -6,7 +6,7 @@ class CreateMemberships < ActiveRecord::Migration
       t.references :creator, index: true, null: false
       t.text :notes
       t.integer :scope, null: false, default: Scope::PUBLIC
-      t.column :state, :integer, default: 0
+      t.integer :state, default: 0, null: false
 
       t.timestamps
     end
