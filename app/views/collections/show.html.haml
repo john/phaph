@@ -37,7 +37,8 @@
         %div{ style: 'margin: 10px 0 20px 0;'}
       = sanitize(@collection.description)
 
-= render partial: 'documents/tiles', locals: {documents: @collection.documents}
+-# = render partial: 'documents/tiles', locals: {documents: @collection.documents}
+= render partial: 'documents/tiles', locals: {collectibles: @collection.collectibles}
 
 .row
   .col-md-12#comments

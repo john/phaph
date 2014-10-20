@@ -13,10 +13,6 @@ class Document < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :name, use: :slugged
-
-  acts_as_commentable
-  acts_as_follower
-  acts_as_followable
   
   mount_uploader :file, FileUploader
   

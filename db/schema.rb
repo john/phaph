@@ -206,20 +206,6 @@ ActiveRecord::Schema.define(version: 20141019062559) do
   add_index "mentions", ["mentionable_id", "mentionable_type"], name: "fk_mentionables", using: :btree
   add_index "mentions", ["mentioner_id", "mentioner_type"], name: "fk_mentions", using: :btree
 
-  create_table "organizations", force: true do |t|
-    t.string   "name",        limit: 255,               null: false
-    t.text     "description", limit: 65535
-    t.string   "email",       limit: 255
-    t.integer  "user_id",     limit: 4,                 null: false
-    t.integer  "scope",       limit: 4,     default: 3, null: false
-    t.integer  "state",       limit: 4,     default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "organizations", ["name"], name: "index_organizations_on_name", using: :btree
-  add_index "organizations", ["user_id"], name: "index_organizations_on_user_id", using: :btree
-
   create_table "presences", force: true do |t|
     t.integer  "location_id",    limit: 4,               null: false
     t.integer  "locatable_id",   limit: 4,               null: false

@@ -37,7 +37,7 @@ Rails.application.routes.draw do
 
   resources :activities
   resources :authentications
-  
+  resources :collectibles
   resources :collections do
     get :follow,  on: :member
     get :unfollow,  on: :member

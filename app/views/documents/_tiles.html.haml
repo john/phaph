@@ -1,16 +1,14 @@
 #docs
-  - documents.each do |document|
+  - collectibles.each do |collectible|
+    - document = collectible.document
     .item
-      -# %a{ href: "#{slugged_document_path(document.id, document.name.parameterize)}" }
-      %a{ href: "#{document_path(document)}" }
+      -# %a{ href: "#{document_path(document)}" }
+      %a{ href: "#{collectible_path(collectible)}" }
         %img.pic.top{ src: "#{Document::FQDN}#{document.thumb_md}", alt: "thumbnail of #{document.name}"}
         .txt
           
           .small
             = sanitize(document.name)
-
-            -# .pull-right
-            -#   #{document.created_at.strftime("%b %-d, %Y")}
 
             .clearfix
             - if controller_name != 'collections' && col = document.collection 
