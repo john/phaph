@@ -65,7 +65,6 @@ ActiveRecord::Schema.define(version: 20141019062559) do
     t.string   "slug",             limit: 255,               null: false
     t.text     "description",      limit: 65535
     t.integer  "user_id",          limit: 4,                 null: false
-    t.integer  "organization_id",  limit: 4
     t.integer  "view_scope",       limit: 4,     default: 3, null: false
     t.integer  "contribute_scope", limit: 4,     default: 3, null: false
     t.integer  "state",            limit: 4,     default: 0, null: false
@@ -74,7 +73,6 @@ ActiveRecord::Schema.define(version: 20141019062559) do
   end
 
   add_index "collections", ["name"], name: "index_collections_on_name", using: :btree
-  add_index "collections", ["organization_id"], name: "index_collections_on_organization_id", using: :btree
   add_index "collections", ["slug"], name: "index_collections_on_slug", using: :btree
   add_index "collections", ["user_id"], name: "index_collections_on_user_id", using: :btree
 
@@ -122,7 +120,6 @@ ActiveRecord::Schema.define(version: 20141019062559) do
     t.string   "other_authors",     limit: 255
     t.string   "rights",            limit: 255
     t.integer  "user_id",           limit: 4,                 null: false
-    t.integer  "organization_id",   limit: 4
     t.integer  "scope",             limit: 4,     default: 3, null: false
     t.integer  "state",             limit: 4,     default: 0, null: false
     t.datetime "published_at"
@@ -131,7 +128,6 @@ ActiveRecord::Schema.define(version: 20141019062559) do
   end
 
   add_index "documents", ["name"], name: "index_documents_on_name", using: :btree
-  add_index "documents", ["organization_id"], name: "index_documents_on_organization_id", using: :btree
   add_index "documents", ["slug"], name: "index_documents_on_slug", using: :btree
   add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
 
@@ -237,18 +233,16 @@ ActiveRecord::Schema.define(version: 20141019062559) do
   add_index "presences", ["location_id"], name: "index_presences_on_location_id", using: :btree
 
   create_table "searches", force: true do |t|
-    t.string   "name",            limit: 255
-    t.text     "description",     limit: 65535
-    t.integer  "user_id",         limit: 4,                 null: false
-    t.integer  "organization_id", limit: 4
-    t.integer  "state",           limit: 4,     default: 0
-    t.string   "term",            limit: 255
-    t.string   "scope",           limit: 255
+    t.string   "name",        limit: 255
+    t.text     "description", limit: 65535
+    t.integer  "user_id",     limit: 4,                 null: false
+    t.integer  "state",       limit: 4,     default: 0
+    t.string   "term",        limit: 255
+    t.string   "scope",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "searches", ["organization_id"], name: "index_searches_on_organization_id", using: :btree
   add_index "searches", ["user_id"], name: "index_searches_on_user_id", using: :btree
 
   create_table "users", force: true do |t|

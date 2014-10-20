@@ -10,8 +10,6 @@ FactoryGirl.define do
         document.user_id = user.id
       # end
       
-      org = FactoryGirl.create(:organization)
-      document.organization_id = org.id
     end
     
   end

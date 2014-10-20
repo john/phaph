@@ -69,11 +69,9 @@ class Document < ActiveRecord::Base
   settings index: { number_of_shards: 5, number_of_replicas: 1 } do
     mappings do
       indexes :user_id, type: 'integer', index: :not_analyzed
-      indexes :organization_id, type: 'integer', index: :not_analyzed
       indexes :name, type: 'string'
       indexes :description, type: 'string'
       indexes :source, type: 'string'
-      # indexes :journal, type: 'string'
       indexes :principle_authors, type: 'string'
       indexes :other_authors, type: 'string'
       indexes :rights, type: 'string'
@@ -89,22 +87,7 @@ class Document < ActiveRecord::Base
   end
 
   def attachment
-    # attachment_output = nil
-    # if file_data.present?
-    #   attachment_output = Base64.encode64( file_data )
-    #   logger.debug "-------------------------------> attachment_output: #{attachment_output.inspect}"
-    # else
-    #   logger.debug "-------------------------------> NO FILE DATA!"
-    # end
-
-    # attachment_output
     if file_data.present?
-      # Base64.encode64( file_data.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '') )
-      # Base64.encode64( file_data.force_encoding("UTF-8") )
-
-      # logger.debug "---------------> file data: #{file_data.inspect}"
-
-      # Base64.encode64( 'entelo' )
       Base64.encode64( file_data )
     else
       Base64.encode64('')
@@ -122,7 +105,6 @@ class Document < ActiveRecord::Base
       other_authors: other_authors,
       rights: rights,
       user_id: user_id,
-      organization_id: organization_id,
       created_at: created_at,
       updated_at: updated_at,
       attachment: attachment

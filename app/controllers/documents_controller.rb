@@ -49,10 +49,10 @@ class DocumentsController < ApplicationController
       end
 
       @selected_collection_id = @collection.id
-      @document = Document.new(organization: current_user.organizations.first, collection: @collection)
+      @document = Document.new(collection: @collection)
 
     else
-      @document = Document.new(organization: current_user.organizations.first)
+      @document = Document.new
     end
   end
 
@@ -140,7 +140,7 @@ class DocumentsController < ApplicationController
     @document.destroy
     
     # documents_url
-    redirect_to user_path(current_user), notice: 'Site was successfully deleted.'
+    redirect_to user_path(current_user), notice: "#{atomic_unit} was successfully deleted."
   end
   
   private
@@ -160,7 +160,7 @@ class DocumentsController < ApplicationController
     def document_params
       params.require(:document).permit(
       :name, :file, :file_cache, :url, :description, :source, :published_at,
-      :principle_authors, :other_authors, :rights, :user_id, :organization_id, :collection_id, :scope,
+      :principle_authors, :other_authors, :rights, :user_id, :collection_id, :scope,
       :service, :service_id, :service_revision, :service_root, :service_path, :service_modified_at,
       :service_size_in_bytes, :service_mime_type, :state)
     end

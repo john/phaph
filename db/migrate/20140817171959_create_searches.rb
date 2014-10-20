@@ -5,7 +5,6 @@ class CreateSearches < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.references :user, index: true, null: false
-      t.references :organization, index: true
       t.column :state, :integer, default: 0
       
       t.string :term
