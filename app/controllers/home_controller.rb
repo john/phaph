@@ -14,7 +14,8 @@ class HomeController < ApplicationController
       @signed_out = true
     end
     # @collections = Collection.order(updated_at: :desc).limit(2)
-    @documents = Document.order(updated_at: :desc).limit(12)
+    # @documents = Document.order(updated_at: :desc).limit(12)
+    @collectibles = Collectible.order(updated_at: :desc).limit(12)
   end
 
   def new

@@ -37,13 +37,13 @@
     .small
       Added #{@document.created_at.strftime("%b %-d, %Y")} by #{link_to @document.user.name, people_path(@document.user, @document.user.name.parameterize)}
 
-      - if @document.user == current_user
+      - if signed_in? && @collectible.user == current_user
         &nbsp;&nbsp;&#183;&nbsp;&nbsp;
 
-        = link_to 'edit', edit_document_path(@document.id)
+        = link_to 'edit (FIX FOR COLLECTIBLE)', edit_document_path(@document.id)
         &nbsp;&nbsp;&#183;&nbsp;&nbsp;
 
-        = link_to 'delete', document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}
+        = link_to 'delete (FIX FOR COLLECTIBLE)', document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}
 
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -56,8 +56,12 @@
 
     %div{ style: 'margin: 10px 0 20px 0px; padding: 0;'}
       - unless @collection && @collection.user == current_user
-        = follow_link( model: @document )
+        = follow_link( model: @collectible )
         &nbsp;
+
+      = link_to '<span class="tip glyphpro glyphpro-git_branch"></span> &nbsp;clone'.html_safe, '#', class: 'btn btn-xs btn-default', data: { toggle: "modal", target: "#clone-modal" }
+      &nbsp;
+
 
       = link_to '<span class="tip glyphpro glyphpro-eye_open"></span> &nbsp;view on web'.html_safe, @document.url, class: 'btn btn-xs btn-default', target: '_blank'
       &nbsp;
@@ -86,3 +90,19 @@
         Comments
   
     = render partial: '/comments/show', locals: { :resource => @collectible }
+
+
+- if signed_in? && @collectible.user != current_user
+  #clone-modal.modal.fade{ tabindex: "-1", role: "dialog"}
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
+          %h3.modal-title Pick a collection
+
+        .modal-body
+          .ajax-loader
+            loading....
+    
+        .modal-footer
+          %button.btn{"data-dismiss" => "modal", :type => "button"} Close

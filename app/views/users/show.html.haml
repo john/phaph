@@ -52,11 +52,11 @@
         = link_to 'Add a document', new_document_path, class: 'btn btn-xs btn-default'
 
     %dl
-      - @user.documents.each do |document|
+      - @user.collectibles.each do |collectible|
         %dt
-          = link_to sanitize(document.name), document, :style => 'font-weight: normal;'
+          = link_to sanitize(collectible.document.name), collectible, :style => 'font-weight: normal;'
         %dd{ style: 'padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #ccc;' }
-          = sanitize(truncate(document.description, length: 50))
+          = sanitize(truncate(collectible.document.description, length: 50))
 
     %br
     %h3

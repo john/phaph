@@ -17,16 +17,16 @@
                 = link_to col.name, slugged_collection_path(col, col.name.parameterize)
 
             .notification-icons
-              - if document.comment_threads.size > 0
+              - if collectible.comment_threads.size > 0
                 %span.glyphicon.glyphicon-comment
                 %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
-                  = document.comment_threads.size
+                  = collectible.comment_threads.size
 
-              - if document.followers(User).size > 0
+              - if collectible.followers(User).size > 0
                 &nbsp;
                 %span.glyphpro.glyphpro-shoe_steps
                 %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
-                  = document.followers(User).size
+                  = collectible.followers(User).size
                   
             -# %div
             -#   badges for shares, likes

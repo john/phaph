@@ -54,5 +54,8 @@
       -# %small
       -#  = link_to 'Add doc', new_document_path, class: 'btn btn-default btn-xs', style: 'margin: 0 0 8px 8px;'
 
-    - if @documents.present? && @documents.size > 0
-      = render partial: 'documents/tiles', locals: {documents: @documents}
+    - if @collectibles.present? && @collectibles.size > 0
+      -# = render partial: 'documents/tiles', locals: {documents: @documents}
+      - logger.debug "@collectibles.size: #{@collectibles.size}"
+
+      = render partial: 'documents/tiles', locals: {collectibles: @collectibles}

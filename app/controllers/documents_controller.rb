@@ -36,7 +36,7 @@ class DocumentsController < ApplicationController
   # GET /documents/new
   def new
     unless current_user.has_collections?
-      redirect_to new_collection_path, notice: "#{atomic_unit}s go in collections. <b class='alert-link'>Creat a collection below.</b>"
+      redirect_to new_collection_path, notice: "#{atomic_unit.titleize}s go in collections. <b class='alert-link'>Creat a collection below.</b>"
     end
 
     @title = "New document"
@@ -104,7 +104,8 @@ class DocumentsController < ApplicationController
       if params[:redirect_to].present?
         redirect_to params[:redirect_to]
       else
-        redirect_to slugged_document_path(@document.id, @document.slug), notice: "#{atomic_unit} successfully created. <a href='/documents/new?collection_id=#{@collection.id}' class='alert-link'>Add another?</a>".html_safe
+        # redirect_to slugged_document_path(@document.id, @document.slug), notice: "#{atomic_unit} successfully created. <a href='/documents/new?collection_id=#{@collection.id}' class='alert-link'>Add another?</a>".html_safe
+        redirect_to collectible, notice: "#{atomic_unit.titleize} successfully created. <a href='/documents/new?collection_id=#{@collection.id}' class='alert-link'>Add another?</a>".html_safe
       end
     else
       render :new

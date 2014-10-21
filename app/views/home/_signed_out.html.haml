@@ -25,6 +25,6 @@
   .row
     .col-sm-12
 
-      - if @documents.present? && @documents.size > 0
-        = render partial: 'documents/tiles', locals: {documents: @documents}
+      - if @collectibles.present? && @collectibles.size > 0
+        = render partial: 'documents/tiles', locals: {collectibles: @collectibles}
 

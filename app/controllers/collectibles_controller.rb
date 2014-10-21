@@ -14,4 +14,13 @@ class CollectiblesController < ApplicationController
     render template: 'documents/show'
   end
 
+  def follow
+    current_user.follow!(@document)
+  end
+
+  def unfollow
+    current_user.unfollow!(@document)
+    render template: 'documents/follow'
+  end
+
 end

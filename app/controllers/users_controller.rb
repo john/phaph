@@ -61,7 +61,8 @@ class UsersController < ApplicationController
   def documents
     @title = "#{(@user == current_user) ? 'Your' : "#{@user.name}'s"} documents"
     # redirect_to root_path alert: 'Not for you.' and return unless @user== current_user
-    @documents = Document.where(user:  @user).order('updated_at DESC').paginate(:page => params[:page], :per_page => 12 )
+    # @documents = Document.where(user:  @user).order('updated_at DESC').paginate(:page => params[:page], :per_page => 12 )
+    @collectibles = Collectible.where(user:  @user).order('updated_at DESC').paginate(:page => params[:page], :per_page => 12 )
   end
   
   # GET /users

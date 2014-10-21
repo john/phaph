@@ -26,8 +26,6 @@ Rails.application.routes.draw do
     
     resources :documents, only: [:index] do
       get 'index', on: :collection
-      get :follow,  on: :member
-      get :unfollow,  on: :member
     end
     
     resources :users, only: [:index] do
@@ -37,7 +35,10 @@ Rails.application.routes.draw do
 
   resources :activities
   resources :authentications
-  resources :collectibles
+  resources :collectibles do
+    get :follow,  on: :member
+    get :unfollow,  on: :member
+  end
   resources :collections do
     get :follow,  on: :member
     get :unfollow,  on: :member
