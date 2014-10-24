@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "collections/show", :type => :view do
   before(:each) do
+    view.stub(:atomic_unit).and_return('blarg')
     @collection = FactoryGirl.create(:collection)
   end
 
@@ -22,7 +23,7 @@ RSpec.describe "collections/show", :type => :view do
       it "displays the 'add doc' button" do
         render
         expect(rendered).to match /Created on/
-        expect(rendered).to match /add doc/
+        expect(rendered).to match /add/
       end
     end
 

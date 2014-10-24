@@ -2,6 +2,7 @@ FactoryGirl.define do
   
   factory :document do
     name 'A method of blah'
+    url 'http://foo.com'
     
     before(:create) do |document|
       

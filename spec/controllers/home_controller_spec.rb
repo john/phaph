@@ -39,21 +39,21 @@ RSpec.describe HomeController, :type => :controller do
     
     describe "GET index" do
       
-      it "assigns @documents" do
-        document = FactoryGirl.create(:document)
+      it "assigns @collectibles" do
+        collectible = FactoryGirl.create(:collectible)
         get :index
         
         expect(response).to have_http_status(:ok)
-        expect(assigns(:documents)).to match_array([document])
+        expect(assigns(:collectibles)).to match_array([collectible])
       end
       
-      it "assigns @collections" do
-        collection = FactoryGirl.create(:collection)
-        get :index
+      # it "assigns @collections" do
+      #   collection = FactoryGirl.create(:collection)
+      #   get :index
         
-        expect(response).to have_http_status(:ok)
-        expect(assigns(:collections)).to match_array([collection])
-      end
+      #   expect(response).to have_http_status(:ok)
+      #   expect(assigns(:collections)).to match_array([collection])
+      # end
     
     end
     
