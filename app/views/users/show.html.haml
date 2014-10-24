@@ -46,10 +46,10 @@
           
     %br
     %h3
-      Documents
+      #{atomic_unit.camelize}s
       - if @user == current_user
         &nbsp;
-        = link_to 'Add a document', new_document_path, class: 'btn btn-xs btn-default'
+        = link_to "Add a #{atomic_unit}s", new_document_path, class: 'btn btn-xs btn-default'
 
     %dl
       - @user.collectibles.each do |collectible|
@@ -73,16 +73,16 @@
           %i
             None. Follow some people, you loser.
 
-    %h5 Documents
+    %h5 #{atomic_unit.camelize}s
     %dl
-      - if @followed_documents.present?
-        - @followed_documents.each do |document|
+      - if @followed_collectibles.present?
+        - @followed_collectibles.each do |collectible|
           %dt
-            = link_to document.name, document
+            = link_to collectible.name, collectible
       - else
         %dt
           %i
-            None. Follow some documents, you loser.
+            None. Follow some #{atomic_unit}s, you loser.
 
     %h5 Collections
     %dl

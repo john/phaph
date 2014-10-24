@@ -11,7 +11,7 @@ module Phaph
   class Application < Rails::Application
 
     config.x.app_name = 'Phaph'
-    config.x.atomic_unit = 'site'
+    config.x.atomic_unit = 'zite'
     
     api = YAML::load_file("#{Rails.root}/config/api_keys.yml")[Rails.env]
     # AWS::S3::Base.establish_connection!(

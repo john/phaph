@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   resources :collectibles do
     get :follow,  on: :member
     get :unfollow,  on: :member
+    patch :clone, on: :member
   end
   resources :collections do
     get :follow,  on: :member
@@ -71,7 +72,7 @@ Rails.application.routes.draw do
 
   match '/organizations/:id/:slug' => 'organizations#show', :via => :get, :as => :slugged_organization
   match '/collections/:id/:slug' => 'collections#show', :via => :get, :as => :slugged_collection
-  match '/documents/:id/:slug' => 'documents#show', :via => :get, :as => :slugged_document
+  # match '/documents/:id/:slug' => 'documents#show', :via => :get, :as => :slugged_document
   
   
 end

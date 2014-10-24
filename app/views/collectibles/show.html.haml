@@ -25,25 +25,25 @@
 
   .col-sm-6.col-md-6
 
-    - if @collection
+    - if @collectible.collection
       .small
         From the collection
       .small
         -# #{ link_to @collection.name, slugged_collection_path(@collection, @collection.name.parameterize) }:
-        #{ link_to @collection.name, collection_path(@collection) }
+        #{ link_to @collectible.collection.name, collection_path(@collectible.collection) }
       %h2
-        = sanitize(@document.name)
+        = sanitize(@collectible.name)
 
     .small
-      Added #{@document.created_at.strftime("%b %-d, %Y")} by #{link_to @document.user.name, people_path(@document.user, @document.user.name.parameterize)}
+      Added #{@collectible.created_at.strftime("%b %-d, %Y")} by #{link_to @collectible.user.name, people_path(@document.user, @collectible.user.name.parameterize)}
 
       - if signed_in? && @collectible.user == current_user
         &nbsp;&nbsp;&#183;&nbsp;&nbsp;
 
-        = link_to 'edit (FIX FOR COLLECTIBLE)', edit_document_path(@document.id)
+        = link_to 'edit', edit_collectible_path(@collectible.id)
         &nbsp;&nbsp;&#183;&nbsp;&nbsp;
 
-        = link_to 'delete (FIX FOR COLLECTIBLE)', document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}
+        = link_to 'delete', collectible_path(@collectible.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}
 
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -58,10 +58,10 @@
       - unless @collection && @collection.user == current_user
         = follow_link( model: @collectible )
         &nbsp;
-
-      = link_to '<span class="tip glyphpro glyphpro-git_branch"></span> &nbsp;clone'.html_safe, '#', class: 'btn btn-xs btn-default', data: { toggle: "modal", target: "#clone-modal" }
-      &nbsp;
-
+      
+      - unless signed_in? && current_user == @collectible.user
+        = link_to '<span class="tip glyphpro glyphpro-git_branch"></span> &nbsp;copy'.html_safe, '#', class: 'btn btn-xs btn-default', data: { toggle: "modal", target: "#clone-modal" }
+        &nbsp;
 
       = link_to '<span class="tip glyphpro glyphpro-eye_open"></span> &nbsp;view on web'.html_safe, @document.url, class: 'btn btn-xs btn-default', target: '_blank'
       &nbsp;
@@ -79,9 +79,9 @@
       -#   = link_to '<span class="tip glyphicon glyphicon-trash"></span> &nbsp;delete'.html_safe, document_path(@document.id), method: :delete, data: { confirm: "You're sure? Can't be undone."}, class: 'btn btn-xs btn-default'
 
 
-    - if @document.description.present?
+    - if @collectible.description.present?
       %div{:style => 'margin-top: 20px; border: 0px solid blue;'}
-        = sanitize(@document.description)
+        = sanitize(@collectible.description)
 
 .row
   .col-md-12#comments
@@ -98,11 +98,16 @@
       .modal-content
         .modal-header
           %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
-          %h3.modal-title Pick a collection
+          %h3.modal-title
+            Pick a collection
 
         .modal-body
           .ajax-loader
-            loading....
+            /   loading....
+            = render partial: 'clone', locals: {collectible: @collectible}
+          
+            
+            
     
         .modal-footer
           %button.btn{"data-dismiss" => "modal", :type => "button"} Close

@@ -65,6 +65,13 @@ class User < ActiveRecord::Base
   def has_collections?
     collections.size > 0
   end
+
+  def has_this_document?(document)
+    Collectible.where(user: self).pluck(:document_id).each do |document_id|
+      return true if document_id == document.id
+    end
+    false
+  end
   
   
   # PUT mime type list someplace better

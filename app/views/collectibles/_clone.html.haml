@@ -1,0 +1,27 @@
+= form_for collectible, url: {action: "clone"}, role: 'form', html: {:multipart => true, :class => 'form-horizontal'} do |f|
+
+  %table
+    - if current_user.has_this_document?(collectible.document)
+      %tr
+        %td{colspan: '2', style: 'padding-left: 100px;'}
+          %h3
+            Hey, you already have this in one of your collections!
+    %tr
+      %td{style: 'width: 125px; text-align: right; padding: 20px;'}
+        - if current_user.collections.present?
+          Collection
+        - else
+          Collection name
+      %td
+        - if current_user.collections.present?
+          = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name'), class: 'form-control'
+        - else
+          = text_field_tag :collection_name, '', class: 'form-control', style: 'width: 400px;'
+        
+    %tr
+      %td{style: 'width: 125px; text-align: right; padding: 20px; vertical-align: top;'}
+        Description
+      %td
+        = f.text_area :description, class: 'form-control', style: 'width: 400px;'
+        %br
+        = f.submit 'Clone', class: 'btn btn-primary', data: { disable_with: 'Cloning...' }

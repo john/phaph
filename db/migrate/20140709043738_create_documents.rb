@@ -3,7 +3,7 @@ class CreateDocuments < ActiveRecord::Migration
     create_table :documents do |t|
       t.string :name, index: true, null: false
       t.string :slug, index: true, unique: true, null: false
-      t.text :description
+      # t.text :description
       t.string :url, :limit => 10000 # http://stackoverflow.com/questions/219569/best-database-field-type-for-a-url
       t.string :file
       t.string :file_location

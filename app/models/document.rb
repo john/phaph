@@ -28,6 +28,8 @@ class Document < ActiveRecord::Base
   
   enum state: { active: 0, inactive: 1 }
   
+  attr_accessor :description
+  attr_accessor :description
   attr_accessor :collection_id
   attr_accessor :file_data
   
@@ -66,7 +68,6 @@ class Document < ActiveRecord::Base
     mappings do
       indexes :user_id, type: 'integer', index: :not_analyzed
       indexes :name, type: 'string'
-      indexes :description, type: 'string'
       indexes :source, type: 'string'
       indexes :principle_authors, type: 'string'
       indexes :other_authors, type: 'string'
@@ -94,7 +95,6 @@ class Document < ActiveRecord::Base
     # to_json(:methods => [:attachment])
     {
       name: name,
-      description: description,
       source: source,
       # journal: journal,
       principle_authors: principle_authors,
@@ -138,7 +138,7 @@ class Document < ActiveRecord::Base
     # screenshot has been generated, jack a message into the dom:
     # IA does this: https://web.archive.org/web/20061231032842/http://wordie.org/?
     
-    generate_thumbnails( self, "#{archive_path}/#{name.parameterize}" )
+    generate_thumbnails( self, "#{archive_path}/#{slug}" )
     self.save
   end
 
@@ -163,9 +163,9 @@ class Document < ActiveRecord::Base
     image = MiniMagick::Image.open( pdf_path )
     image.format("png", 0)
     image.resize("950x")
-    image.write("#{full_path}/#{name.parameterize}.png")
+    image.write("#{full_path}/#{slug}.png")
 
-    generate_thumbnails( self, "#{archive_path}/#{name.parameterize}" )
+    generate_thumbnails( self, "#{archive_path}/#{slug}" )
     self.save
   end
 
@@ -245,9 +245,6 @@ class Document < ActiveRecord::Base
 
     # recursively_delete_empty_directories( parent_directory )
   end
-
-
-
 
   # def recursively_delete_empty_directories(directory)
   #   if (Dir.entries(directory) - %w{ . .. }).empty?

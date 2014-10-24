@@ -76,7 +76,8 @@ class UsersController < ApplicationController
     @title = @user.name
 
     @followed_users = @user.followees(User)
-    @followed_documents = @user.followees(Document)
+    # @followed_documents = @user.followees(Document)
+    @followed_collectibles = @user.followees(Collectible)
     @followed_collections = @user.followees(Collection)
   end
 

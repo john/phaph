@@ -100,6 +100,9 @@ class DocumentsController < ApplicationController
         end
       end
       collectible = Collectible.where(user: current_user, document: @document, collection: @collection ).first_or_create
+      collectible.name = @document.name
+      collectible.description = @document.description
+      collectible.save
       
       if params[:redirect_to].present?
         redirect_to params[:redirect_to]
