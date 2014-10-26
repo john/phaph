@@ -42,7 +42,7 @@ class CollectionsController < ApplicationController
     if @collection.save
       @collection.create_activity :create, owner: current_user
       # redirect_to @collection, notice: 'Collection was successfully created.'
-      redirect_to new_document_path(collection_id: @collection.id), notice: "Collection successfully created. Now <b class='alert-link'>add a site:</b>".html_safe
+      redirect_to new_document_path(collection_id: @collection.id), notice: "Collection successfully created. Now <b class='alert-link'>add a #{atomic_unit}:</b>".html_safe
     else
       render :new
     end
@@ -60,7 +60,7 @@ class CollectionsController < ApplicationController
   # DELETE /collections/1
   def destroy
     @collection.destroy
-    redirect_to collections_url, notice: 'Collection was successfully deleted.'
+    redirect_to collections_user_path(current_user), notice: 'Collection was successfully deleted.'
   end
 
   private

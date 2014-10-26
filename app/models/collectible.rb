@@ -11,4 +11,12 @@ class Collectible < ActiveRecord::Base
   belongs_to :document
   belongs_to :collection
   
+  def get_parent
+    if collected_from_id.present?
+      Collectible.find(collected_from_id)
+    else
+      nil
+    end
+  end
+  
 end

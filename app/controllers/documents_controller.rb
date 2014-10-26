@@ -1,6 +1,6 @@
 class DocumentsController < ApplicationController
   
-  before_action :authenticate_user!, only: [:index, :new, :edit, :create, :destroy, :follow, :unfollow]
+  before_action :authenticate_user!, only: [:index, :new, :edit, :create, :update, :destroy, :follow, :unfollow]
   before_action :set_document, only: [:show, :view, :edit, :update, :destroy, :follow, :unfollow]
   
   def follow

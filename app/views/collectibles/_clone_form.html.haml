@@ -1,4 +1,4 @@
-= form_for collectible, url: {action: "clone"}, role: 'form', html: {:multipart => true, :class => 'form-horizontal'} do |f|
+= form_for collectible, url: {action: "clone"}, remote: true, html: {role: 'form', :class => 'form-horizontal'} do |f|
 
   %table
     - if current_user.has_this_document?(collectible.document)

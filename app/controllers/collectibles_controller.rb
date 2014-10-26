@@ -1,14 +1,14 @@
 class CollectiblesController < ApplicationController
-  
-  before_action :authenticate_user!
+
+  before_action :authenticate_user!, only: [:clone, :new, :edit, :update, :create, :destroy, :follow, :unfollow]
   before_action :set_collectible, only: [:show, :edit, :update, :destroy, :follow, :unfollow, :clone]
   
   def show
-
   	# Add collected_from_id and origin_id  to collectibles table
     @document = @collectible.document
     @title = @collectible.name
     @collection = @document.collection
+    @parent = @collectible.get_parent
 
   	# Get doc (and parent and originator) ids via collectible (pluck w/straight sql)
   end
@@ -49,28 +49,18 @@ class CollectiblesController < ApplicationController
   
   def clone
     source = Collectible.find(params[:id])
-    copied_collectible = Collectible.new(collectible_params)
-    
-    logger.debug "---------------------------------------> collectible_params: #{collectible_params}"
-    
-    
-    
-    copied_collectible.user = current_user
-    copied_collectible.document = @collectible.document
-    copied_collectible.name = @collectible.name
+    @copied_collectible = Collectible.new(collectible_params)
+    @copied_collectible.user = current_user
+    @copied_collectible.document = @collectible.document
+    @copied_collectible.name = @collectible.name
+    @copied_collectible.collected_from_id = @collectible.id
     
     if params[:collection_name].present?
       collection = Collection.create!(name: params[:collection_name], user: current_user)
-      logger.debug "----------------------------> collection: #{collection.inspect}" 
-      
-      copied_collectible.collection = collection
+      @copied_collectible.collection = collection
     end
     
-    logger.debug "----------------------------> #{copied_collectible.inspect}" 
-    
-    copied_collectible.save
-    
-    render text: "GAME ON MOTHERFUCKER"
+    @copied_collectible.save
   end
   
   private

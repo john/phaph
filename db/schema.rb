@@ -49,17 +49,19 @@ ActiveRecord::Schema.define(version: 20141019062559) do
   add_index "authentications", ["authorized"], name: "index_authentications_on_authorized", using: :btree
 
   create_table "collectibles", force: true do |t|
-    t.string   "name",          limit: 255,   default: "collectible", null: false
-    t.text     "description",   limit: 65535
-    t.integer  "scope",         limit: 4,     default: 3,             null: false
-    t.integer  "state",         limit: 4,     default: 0,             null: false
-    t.integer  "user_id",       limit: 4,                             null: false
-    t.integer  "document_id",   limit: 4,                             null: false
-    t.integer  "collection_id", limit: 4,                             null: false
+    t.string   "name",              limit: 255,   default: "collectible", null: false
+    t.text     "description",       limit: 65535
+    t.integer  "scope",             limit: 4,     default: 3,             null: false
+    t.integer  "state",             limit: 4,     default: 0,             null: false
+    t.integer  "collected_from_id", limit: 4
+    t.integer  "user_id",           limit: 4,                             null: false
+    t.integer  "document_id",       limit: 4,                             null: false
+    t.integer  "collection_id",     limit: 4,                             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "collectibles", ["collected_from_id"], name: "index_collectibles_on_collected_from_id", using: :btree
   add_index "collectibles", ["collection_id"], name: "index_collectibles_on_collection_id", using: :btree
   add_index "collectibles", ["document_id"], name: "index_collectibles_on_document_id", using: :btree
   add_index "collectibles", ["name"], name: "index_collectibles_on_name", using: :btree

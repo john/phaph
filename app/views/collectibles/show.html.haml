@@ -34,6 +34,10 @@
       %h2
         = sanitize(@collectible.name)
 
+    - if @parent
+      .small
+        Copied from the collection #{link_to @parent.collection.name, @parent.collection}
+        
     .small
       Added #{@collectible.created_at.strftime("%b %-d, %Y")} by #{link_to @collectible.user.name, people_path(@document.user, @collectible.user.name.parameterize)}
 
@@ -59,9 +63,14 @@
         = follow_link( model: @collectible )
         &nbsp;
       
-      - unless signed_in? && current_user == @collectible.user
-        = link_to '<span class="tip glyphpro glyphpro-git_branch"></span> &nbsp;copy'.html_safe, '#', class: 'btn btn-xs btn-default', data: { toggle: "modal", target: "#clone-modal" }
-        &nbsp;
+      - if signed_in?
+        - if current_user != @collectible.user
+          = link_to '<span class="tip glyphpro glyphpro-git_branch"></span> &nbsp;copy'.html_safe, '#', class: 'btn btn-xs btn-default', data: { toggle: "modal", target: "#clone-modal" }
+          &nbsp;
+
+      - else
+        = link_to '<span class="tip glyphpro glyphpro-git_branch"></span> &nbsp;copy'.html_safe, new_user_registration_path, class: 'btn btn-xs btn-default btn-follow', target: '_blank'
+    
 
       = link_to '<span class="tip glyphpro glyphpro-eye_open"></span> &nbsp;view on web'.html_safe, @document.url, class: 'btn btn-xs btn-default', target: '_blank'
       &nbsp;
@@ -102,12 +111,9 @@
             Pick a collection
 
         .modal-body
-          .ajax-loader
+          .clone_form
             /   loading....
-            = render partial: 'clone', locals: {collectible: @collectible}
+            = render partial: 'clone_form', locals: {collectible: @collectible}
           
-            
-            
-    
         .modal-footer
           %button.btn{"data-dismiss" => "modal", :type => "button"} Close
