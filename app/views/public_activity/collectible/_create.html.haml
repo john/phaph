@@ -3,11 +3,12 @@
   - document = Document.find( collectible.document_id )
   - target = Collection.find( collectible.collection_id )
 
-%div{ style: 'margin-top: 5px;' }
-  Added &ldquo;#{link_to document.name, document}&rdquo;
-  - if activity.trackable
-    to
-    %b
-      = link_to target.name, target
-  - else
-    which has since been removed 
+
+added &ldquo;#{link_to collectible.name, collectible}&rdquo;
+- if activity.trackable
+  to
+  %b
+    = link_to target.name, target
+- else
+  which has since been removed
+  

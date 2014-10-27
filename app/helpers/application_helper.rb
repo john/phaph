@@ -29,4 +29,21 @@ module ApplicationHelper
     end
   end
   
+  
+  
+  def like_link(model:nil)
+    raise if model == nil
+
+    if signed_in?
+      if current_user.likes?(model)
+        link_to '<span class="tip glyphicon glyphicon-hand-up"></span> &nbsp;liked'.html_safe, send("unlike_#{model.class.to_s.downcase}_path", model.id), class: 'btn btn-xs btn-default btn-follow', remote: true
+      else
+        link_to '<span class="tip glyphicon glyphicon-thumbs-up"></span> &nbsp;like'.html_safe, send("like_#{model.class.to_s.downcase}_path", model.id), class: 'btn btn-xs btn-default btn-follow', remote: true
+      end
+    else
+      link_to '<span class="tip glyphicon glyphicon-thumbs-up"></span> &nbsp;like'.html_safe, new_user_registration_path, class: 'btn btn-xs btn-default btn-follow', target: '_blank'
+    end
+  end
+  
+  
 end

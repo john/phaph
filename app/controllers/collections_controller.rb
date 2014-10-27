@@ -5,6 +5,7 @@ class CollectionsController < ApplicationController
 
   def follow
     current_user.follow!(@collection)
+    @collection.create_activity :follow, owner: current_user
   end
 
   def unfollow

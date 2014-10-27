@@ -1,0 +1,9 @@
+copied
+- if activity.trackable
+  - collectible = Collectible.find(activity.trackable_id)
+  the #{atomic_unit}
+  %b
+    = link_to collectible.name, collectible
+
+- else
+  a #{atomic_unit}, which has since been removed 

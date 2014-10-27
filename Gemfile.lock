@@ -41,7 +41,6 @@ GEM
       activerecord (>= 4.0)
       activesupport (>= 4.0)
       awesome_nested_set (>= 3.0)
-    acts_as_votable (0.10.0)
     arel (6.0.0.beta1)
     awesome_nested_set (3.0.1)
       activerecord (>= 4.0.0, < 5)
@@ -359,7 +358,6 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_commentable_with_threading (~> 2.0)
-  acts_as_votable
   awesome_nested_set (~> 3.0)
   aws-sdk
   byebug

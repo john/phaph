@@ -1,6 +1,7 @@
 :css
   em { text-style: normal; font-weight: bold; }
   td { margin-left}
+  .img { margin: 0 30px 20px 0;}
 
 .row.top
   .col-md-12
@@ -18,6 +19,9 @@
     - if @resources.present?
       - @resources.each do |result|
         %div{:style => 'margin-bottom: 30px'}
+          .pull-left.img
+            -# shitty temp solutions (url should be in es):
+            = image_tag Document.find(result.id).thumb_sm
           %h3
             = link_to result.name, "#{document_path(result.id)}/#{result.name.parameterize}"
           = render partial: 'documents/details', locals:{document: result} 

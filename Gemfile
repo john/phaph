@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'acts_as_commentable_with_threading', '~> 2.0' #, git: 'https://github.com/elight/acts_as_commentable_with_threading'
 # gem 'acts-as-taggable-on'
-gem 'acts_as_votable'
+# gem 'acts_as_votable'
 gem 'awesome_nested_set', '~> 3.0' #, git: 'https://github.com/collectiveidea/awesome_nested_set.git'
 gem 'aws-sdk'
 gem 'carrierwave' #, git: 'https://github.com/carrierwaveuploader/carrierwave.git'

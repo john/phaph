@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   acts_as_commentable
   acts_as_follower
   acts_as_followable
+  acts_as_liker
 
   has_many :presences, as: :locatable
   has_many :locations, through: :presences

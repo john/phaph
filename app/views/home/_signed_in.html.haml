@@ -12,19 +12,14 @@
               - actor = activity.owner
             %tr
               %td
-                actor photo here
+                = image_tag( actor.image_url )
               %td              
                 %b
                   = link_to actor.name, actor, style: 'color: #333'
-                  
-                %span
-                  &nbsp;&#183;&nbsp;
-                  = link_to actor.username, actor
-
-                  &nbsp;&#183;&nbsp;
-                  = link_to "#{distance_of_time_in_words( activity.created_at, Time.now)} ago", actor
-              
                 = render_activity activity
+
+                .small
+                  #{distance_of_time_in_words( activity.created_at, Time.now)} ago
 
       - else
         %div

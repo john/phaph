@@ -9,6 +9,7 @@ class Collection < ActiveRecord::Base
   acts_as_commentable
   acts_as_follower
   acts_as_followable
+  acts_as_likeable
   
   has_many :collectibles
   has_many :documents, through: :collectibles

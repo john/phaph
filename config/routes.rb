@@ -38,14 +38,21 @@ Rails.application.routes.draw do
   resources :collectibles do
     get :follow,  on: :member
     get :unfollow,  on: :member
+    get :like,  on: :member
+    get :unlike,  on: :member
     patch :clone, on: :member
   end
   resources :collections do
     get :follow,  on: :member
     get :unfollow,  on: :member
+    get :like,  on: :member
+    get :unlike,  on: :member
   end
 
-  resources :comments
+  resources :comments do
+    get :like,  on: :member
+    get :unlike,  on: :member
+  end
   
   match '/documents/search' => 'documents#search', :via => :get, :as => :search_documents
   resources :documents do

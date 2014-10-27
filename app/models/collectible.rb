@@ -6,6 +6,7 @@ class Collectible < ActiveRecord::Base
   acts_as_commentable
   acts_as_follower
   acts_as_followable
+  acts_as_likeable
   
   belongs_to :user
   belongs_to :document

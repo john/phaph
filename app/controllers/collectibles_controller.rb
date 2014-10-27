@@ -40,11 +40,22 @@ class CollectiblesController < ApplicationController
   
   def follow
     current_user.follow!(@collectible)
+    @collectible.create_activity :follow, owner: current_user
   end
 
   def unfollow
     current_user.unfollow!(@collectible)
     render template: 'collectibles/follow'
+  end
+  
+  def like
+    current_user.like!(@collectible)
+    @collectible.create_activity :like, owner: current_user
+  end
+
+  def unlike
+    current_user.unlike!(@collectible)
+    render template: 'collectibles/like'
   end
   
   def clone
@@ -61,6 +72,7 @@ class CollectiblesController < ApplicationController
     end
     
     @copied_collectible.save
+    @collectible.create_activity :copy, owner: current_user
   end
   
   private
