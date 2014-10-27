@@ -59,7 +59,7 @@
             = [@document.principle_authors, @document.other_authors].compact.join( ', ')
 
     %div{ style: 'margin: 10px 0 20px 0px; padding: 0;'}
-      - unless @collection && @collection.user == current_user
+      - unless @collectible && @collectible.user == current_user
         = like_link( model: @collectible )
         &nbsp;
         

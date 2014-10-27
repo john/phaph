@@ -1,18 +1,21 @@
--# - klass = '' if local_assigns[:klass].nil?
-
 %li{id: "comment_#{comment.id}"}
   %div
-
     - if current_user == comment.user
       .pull-right
         %small
           = link_to '<button type="button" class="close"><span aria-hidden="true">&times;</span>'.html_safe, comment_path(comment), remote: 'true', method: 'delete'
-    
     %h5
       %b
         = link_to comment.user.name, people_path(comment.user.id, comment.user.name.parameterize)
-      %small
+      
+      %small{style: 'font-weight: 400;'}
         = comment.created_at.strftime("%b %-d, %Y %l:%M %P")
-        
+        - unless !signed_in? || (comment.user == current_user)
+          &nbsp;&#183;&nbsp;
+          - model = comment
+          - if signed_in?
+            = like_link( model: comment, show_icon: false )
+          &nbsp;
   %div
     = simple_format comment.body
+    

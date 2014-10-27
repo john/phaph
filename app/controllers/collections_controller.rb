@@ -1,7 +1,7 @@
 class CollectionsController < ApplicationController
 
   before_filter :authenticate_user!, only: [:edit, :update, :destroy, :follow, :unfollow]
-  before_action :set_collection, only: [:show, :edit, :update, :destroy, :follow, :unfollow]
+  before_action :set_collection, only: [:show, :edit, :update, :destroy, :follow, :unfollow, :like, :unlike]
 
   def follow
     current_user.follow!(@collection)
@@ -11,6 +11,16 @@ class CollectionsController < ApplicationController
   def unfollow
     current_user.unfollow!(@collection)
     render template: 'collections/follow'
+  end
+  
+  def like
+    current_user.like!(@collection)
+    @collection.create_activity :like, owner: current_user
+  end
+
+  def unlike
+    current_user.unlike!(@collection)
+    render template: 'collections/like'
   end
   
   # GET /collections
@@ -52,6 +62,7 @@ class CollectionsController < ApplicationController
   # PATCH/PUT /collections/1
   def update
     if @collection.update(collection_params)
+      @collection.create_activity :create, owner: current_user
       redirect_to @collection, notice: 'Collection was successfully updated.'
     else
       render :edit

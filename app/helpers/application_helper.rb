@@ -31,17 +31,29 @@ module ApplicationHelper
   
   
   
-  def like_link(model:nil)
+  def like_link(model:nil, show_icon:true)
     raise if model == nil
 
     if signed_in?
       if current_user.likes?(model)
-        link_to '<span class="tip glyphicon glyphicon-hand-up"></span> &nbsp;liked'.html_safe, send("unlike_#{model.class.to_s.downcase}_path", model.id), class: 'btn btn-xs btn-default btn-follow', remote: true
+        if show_icon
+          link_to '<span class="tip glyphicon glyphicon-hand-up"></span> &nbsp;liked'.html_safe, send("unlike_#{model.class.to_s.downcase}_path", model.id), class: 'btn btn-xs btn-default btn-like', remote: true
+        else
+          link_to 'liked', send("unlike_#{model.class.to_s.downcase}_path", model.id), class: 'btn-like', style: 'color: #999;', remote: true
+        end
       else
-        link_to '<span class="tip glyphicon glyphicon-thumbs-up"></span> &nbsp;like'.html_safe, send("like_#{model.class.to_s.downcase}_path", model.id), class: 'btn btn-xs btn-default btn-follow', remote: true
+        if show_icon
+          link_to '<span class="tip glyphicon glyphicon-thumbs-up"></span> &nbsp;like'.html_safe, send("like_#{model.class.to_s.downcase}_path", model.id), class: 'btn btn-xs btn-default btn-like', remote: true
+        else
+          link_to 'like', send("like_#{model.class.to_s.downcase}_path", model.id), class: 'btn-like', remote: true
+        end
       end
     else
-      link_to '<span class="tip glyphicon glyphicon-thumbs-up"></span> &nbsp;like'.html_safe, new_user_registration_path, class: 'btn btn-xs btn-default btn-follow', target: '_blank'
+      if show_icon
+        link_to '<span class="tip glyphicon glyphicon-thumbs-up"></span> &nbsp;like'.html_safe, new_user_registration_path, class: 'btn btn-xs btn-default btn-follow', target: '_blank'
+      else
+        link_to 'like', new_user_registration_path, target: '_blank'
+      end
     end
   end
   

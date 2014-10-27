@@ -26,12 +26,14 @@
 
           - if @collection.user == current_user
             = link_to "<span class='tip glyphicon glyphicon-plus'></span> &nbsp;add #{atomic_unit}".html_safe, new_document_path(collection_id: @collection.id), class: 'btn btn-xs btn-default btn-follow', style: 'font-weight: 400;'
-
-          - else
-            = follow_link( model: @collection )
-
-        - else
+        
+        
+        - unless @collection && @collection.user == current_user
+          = like_link( model: @collection )
+          &nbsp;
+        
           = follow_link( model: @collection )
+          &nbsp;
 
 
         %div{ style: 'margin: 10px 0 20px 0;'}

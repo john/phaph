@@ -1,21 +1,20 @@
 class User < ActiveRecord::Base
+  include PublicActivity::Common
 
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable,
     :confirmable, :lockable, :omniauthable, :omniauth_providers => [:dropbox_oauth2, :twitter]
   
-  acts_as_commentable
-  acts_as_follower
-  acts_as_followable
   acts_as_liker
+  acts_as_follower
+  acts_as_commentable
+  acts_as_followable
 
   has_many :presences, as: :locatable
   has_many :locations, through: :presences
   has_many :authentications
-  
   has_many :collectibles
   has_many :documents, through: :collectibles
-  
   has_many :collections
   
   TEMP_EMAIL_PREFIX = 'change@me'

@@ -1,7 +1,7 @@
 class CollectiblesController < ApplicationController
 
   before_action :authenticate_user!, only: [:clone, :new, :edit, :update, :create, :destroy, :follow, :unfollow]
-  before_action :set_collectible, only: [:show, :edit, :update, :destroy, :follow, :unfollow, :clone]
+  before_action :set_collectible, only: [:show, :edit, :update, :destroy, :follow, :unfollow, :like, :unlike, :clone]
   
   def show
   	# Add collected_from_id and origin_id  to collectibles table

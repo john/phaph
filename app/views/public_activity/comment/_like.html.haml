@@ -1,1 +1,9 @@
-i like you, comment!
+liked
+- if activity.trackable
+  - comment = Comment.find(activity.trackable_id)
+  a comment on
+  %b
+    = link_to comment.commentable.name, comment.commentable
+
+- else
+  a commentable thing, which has since been removed 

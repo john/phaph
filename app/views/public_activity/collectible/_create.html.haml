@@ -4,11 +4,12 @@
   - target = Collection.find( collectible.collection_id )
 
 
-added &ldquo;#{link_to collectible.name, collectible}&rdquo;
+added
 - if activity.trackable
+  &ldquo;#{link_to collectible.name, collectible}&rdquo;
   to
   %b
     = link_to target.name, target
 - else
-  which has since been removed
+  a thing, which has since been removed
   

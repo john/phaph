@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   
   def follow
     current_user.follow!(@user)
+    @user.create_activity :follow, owner: current_user
   end
 
   def unfollow
