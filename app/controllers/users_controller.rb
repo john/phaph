@@ -5,6 +5,12 @@ class UsersController < ApplicationController
   
   def follow
     if request.xhr?
+      @replace = params[:replace].present? ? params[:replace] : '.btn-follow'
+      
+      logger.debug "--"
+      logger.debug " in controller follow, @replace: #{@replace}"
+      logger.debug "--"
+      
       current_user.follow!(@user)
       @user.create_activity :follow, owner: current_user
     end
@@ -12,6 +18,7 @@ class UsersController < ApplicationController
 
   def unfollow
     if request.xhr?
+      @replace = params[:replace].present? ? params[:replace] : '.btn-follow'
       current_user.unfollow!(@user)
     end    
   end

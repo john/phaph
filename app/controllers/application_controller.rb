@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
   
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
   before_filter :ensure_signup_complete, except: [:destroy_user_session] #, only: [:new, :create, :update] # , :destroy
-
   before_filter :authenticate_user!, :except => [:finish_signup, :user_session]
   
   # needed if we ever support dropbox sign up again, to insure those accounts have usernames

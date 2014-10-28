@@ -15,17 +15,17 @@ module ApplicationHelper
   #   "https://www.dropbox.com/home#{ File.dirname( service_path ) }"
   # end
 
-  def follow_link(model:nil)
+  def follow_link(model:nil, show_icon:true, replace:'btn-follow')
     raise if model == nil
 
     if signed_in?
       if current_user.follows?(model)
-        link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;following'.html_safe, send("unfollow_#{model.class.to_s.downcase}_path", model.id), class: 'btn btn-xs btn-default btn-follow', remote: true
+        link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;following'.html_safe, send("unfollow_#{model.class.to_s.downcase}_path", model.id, replace: replace), class: "btn btn-xs btn-default #{replace}", remote: true
       else
-        link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, send("follow_#{model.class.to_s.downcase}_path", model.id), class: 'btn btn-xs btn-default btn-follow', remote: true
+        link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, send("follow_#{model.class.to_s.downcase}_path", model.id, replace: replace), class: "btn btn-xs btn-default #{replace}", remote: true
       end
     else
-      link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, new_user_registration_path, class: 'btn btn-xs btn-default btn-follow', target: '_blank'
+      link_to '<span class="tip glyphpro glyphpro-shoe_steps"></span> &nbsp;follow'.html_safe, new_user_registration_path, class: "btn btn-xs btn-default #{replace}", target: '_blank'
     end
   end
   

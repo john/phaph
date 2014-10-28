@@ -16,7 +16,7 @@
         %td
           %b
             = link_to user.name, people_path(user, user.name.parameterize)
-            = follow_link( model: user )
+            = follow_link( model: user, replace: "btn-follow-#{user.id}" )
 
 
         - if signed_in? && current_user.is_admin?
