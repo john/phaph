@@ -39,13 +39,17 @@ class CollectiblesController < ApplicationController
   end
   
   def follow
-    current_user.follow!(@collectible)
-    @collectible.create_activity :follow, owner: current_user
+    if request.xhr?
+      current_user.follow!(@collectible)
+      @collectible.create_activity :follow, owner: current_user
+    end
   end
 
   def unfollow
-    current_user.unfollow!(@collectible)
-    render template: 'collectibles/follow'
+    if request.xhr?
+      current_user.unfollow!(@collectible)
+      render template: 'collectibles/follow'
+    end
   end
   
   def like

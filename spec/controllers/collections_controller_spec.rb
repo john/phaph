@@ -19,7 +19,50 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe CollectionsController, :type => :controller do
-
+    
+	context "logged-in users" do
+    before(:each) do
+      @user = FactoryGirl.create(:user)
+      sign_in @user
+      @collection = FactoryGirl.create(:collection)
+    end
+    
+    describe "xhr GET" do
+      it "follows @collection" do
+        xhr :get, :follow, {:id => @collection.id, :format => :js}
+        expect(assigns(:collection)).to eq(@collection)
+        expect(@user.follows?(@collection)).to be true
+        expect(response).to have_http_status(:ok)
+      end
+      
+      it "unfollows @collection" do
+        xhr :get, :follow, {:id => @collection.id, :format => :js}
+        expect(@user.follows?(@collection)).to be true
+        
+        xhr :get, :unfollow, {:id => @collection.id, :format => :js}
+        expect(assigns(:collection)).to eq(@collection)
+        expect(@user.follows?(@collection)).to be false
+        expect(response).to have_http_status(:ok)
+      end
+      
+      it "likes @collection" do
+        xhr :get, :like, {:id => @collection.id, :format => :js}
+        expect(assigns(:collection)).to eq(@collection)
+        expect(@user.likes?(@collection)).to be true
+        expect(response).to have_http_status(:ok)
+      end
+      
+      it "unlikes @collection" do
+        xhr :get, :like, {:id => @collection.id, :format => :js}
+        expect(@user.likes?(@collection)).to be true
+        
+        xhr :get, :unlike, {:id => @collection.id, :format => :js}
+        expect(@user.likes?(@collection)).to be false
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+  
   # This should return the minimal set of attributes required to create a valid
   # Collection. As you add validations to Collection, be sure to
   # adjust the attributes here as well.

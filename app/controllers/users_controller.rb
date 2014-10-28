@@ -4,18 +4,20 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:documents, :collections, :show, :edit, :update, :destroy, :follow, :unfollow]
   
   def follow
-    current_user.follow!(@user)
-    @user.create_activity :follow, owner: current_user
+    if request.xhr?
+      current_user.follow!(@user)
+      @user.create_activity :follow, owner: current_user
+    end
   end
 
   def unfollow
-    current_user.unfollow!(@user)
+    if request.xhr?
+      current_user.unfollow!(@user)
+    end    
   end
 
-  
   # Should require a username, in case we ever need to part ways with Dropbox (or anyone else)
   def finish_signup
-
     logger.debug "------------------------> flash: #{flash.inspect}"
     logger.debug "------------------------> flash.empty?: #{flash.empty?}"
     logger.debug "------------------------> sign in and redirect!"
@@ -50,8 +52,6 @@ class UsersController < ApplicationController
       end
     end
   end
-  
-  public
 
   def collections
     @title = "#{(@user == current_user) ? 'Your' : "#{@user.name}'s"} collections"
@@ -155,6 +155,5 @@ class UsersController < ApplicationController
     # params.permit(accessible)
     params.require(:user).permit(accessible)
   end
-
 
 end

@@ -4,23 +4,31 @@ class CollectionsController < ApplicationController
   before_action :set_collection, only: [:show, :edit, :update, :destroy, :follow, :unfollow, :like, :unlike]
 
   def follow
-    current_user.follow!(@collection)
-    @collection.create_activity :follow, owner: current_user
+    if request.xhr?
+      current_user.follow!(@collection)
+      @collection.create_activity :follow, owner: current_user
+    end
   end
 
   def unfollow
-    current_user.unfollow!(@collection)
-    render template: 'collections/follow'
+    if request.xhr?
+      current_user.unfollow!(@collection)
+      render template: 'collections/follow'
+    end
   end
   
   def like
-    current_user.like!(@collection)
-    @collection.create_activity :like, owner: current_user
+    if request.xhr?
+      current_user.like!(@collection)
+      @collection.create_activity :like, owner: current_user
+    end
   end
 
   def unlike
-    current_user.unlike!(@collection)
-    render template: 'collections/like'
+    if request.xhr?
+      current_user.unlike!(@collection)
+      render template: 'collections/like'
+    end
   end
   
   # GET /collections

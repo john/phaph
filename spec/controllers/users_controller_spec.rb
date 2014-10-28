@@ -21,9 +21,35 @@ require 'rails_helper'
 RSpec.describe UsersController, :type => :controller do
   
   before(:each) do
-    john = FactoryGirl.create(:user)
-    @controller.stub(:current_user).and_return(john)
+    @user = FactoryGirl.create(:user)
+    sign_in @user
   end
+  
+	context "logged-in users" do
+    before(:each) do
+      @other_user = FactoryGirl.create(:user, email: "follows_user2_#{Time.now.to_i + rand(10000)}@foo.com")
+    end
+    
+    describe "xhr GET" do
+      it "follows @user" do
+        xhr :get, :follow, {:id => @other_user.id, :format => :js}
+        expect(assigns(:user)).to eq(@other_user)
+        expect(@user.follows?(@other_user)).to be true
+        expect(response).to have_http_status(:ok)
+      end
+      
+      it "unfollows @user" do
+        xhr :get, :follow, {:id => @other_user.id, :format => :js}
+        expect(@user.follows?(@other_user)).to be true
+
+        xhr :get, :unfollow, {:id => @other_user.id, :format => :js}
+        expect(assigns(:user)).to eq(@other_user)
+        expect(@user.follows?(@other_user)).to be false
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+  
   
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
