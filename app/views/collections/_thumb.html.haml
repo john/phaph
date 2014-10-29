@@ -1,41 +1,54 @@
--# %a{ href: "#{slugged_collection_path(collection.id, collection.name.parameterize)}", style: "text-decoration: none;" }
-%a{ href: "#{collection_path(collection)}", style: "text-decoration: none;" }
-  .collection.pull-left
+- if !collection.present? || !collection.documents.present?
+  %i
+    not available
+  
+- else
 
-    - docs = collection.documents[0..8]
-    - docs.size.upto(8) {|i| docs[i] = nil} if docs.size < 8
+  - klass = "collection" if local_assigns[:klass].nil?
+  - cols = 3 if local_assigns[:cols].nil?
+  - number_shown = 9 if local_assigns[:number_shown].nil?
+
+  -# %a{ href: "#{slugged_collection_path(collection.id, collection.name.parameterize)}", style: "text-decoration: none;" }
+  -# %a{ href: "#{collection_path(collection)}", style: "text-decoration: none;" }
+  %a{ href: "#", style: "text-decoration: none;" }
+
+
+    %div{class: "#{klass} pull-left"}
+
+      - docs = collection.documents[0..(number_shown-1)]
+      - docs.size.upto((number_shown-1)) {|i| docs[i] = nil} if docs.size < (number_shown-1)
     
-    - docs.each_with_index do |document, i|
-      - if document.present?
-        %img{ src: "#{Document::FQDN}#{document.thumb_sm}", alt: "thumbnail of #{document.name}" }
-      - else
-        %img.generic{ src: "/file-icon.png", alt: "generic file icon" }
-      = "<br />".html_safe if (i+1) % 3 == 0
+      - docs.each_with_index do |document, i|
+        - if document.present?
+          %img{ src: "#{Document::FQDN}#{document.thumb_sm}", alt: "thumbnail of #{document.name}" }
+        - else
+          %img.generic{ src: "/file-icon.png", alt: "generic file icon" }
+        = "<br />".html_safe if (i+1) % cols == 0
 
-    .txt
+      .txt
 
-      .small
-        = collection.name
-        -# %br
-        -# = collection.created_at.strftime("%b %-d, %Y")
+        .small
+          = collection.name
+          -# %br
+          -# = collection.created_at.strftime("%b %-d, %Y")
 
-        .clearfix
-        %span.tip{ :'data-toggle' =>  "tooltip", :'data-placement' => "top", :title => "#{pluralize( collection.documents.size, 'doc')}" }
-          %span.glyphpro.glyphpro-sort
-          %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
-            = collection.documents.size
+          .clearfix
+          %span.tip{ :'data-toggle' =>  "tooltip", :'data-placement' => "top", :title => "#{pluralize( collection.documents.size, 'doc')}" }
+            %span.glyphpro.glyphpro-sort
+            %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
+              = collection.documents.size
         
 
-        - if collection.comment_threads.size > 0
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          %span.tip{ :'data-toggle' =>  "tooltip", :'data-placement' => "top", :title => "#{pluralize( collection.comment_threads.size, 'comment')}" }
-            %span.glyphicon.glyphicon-comment
-            %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
-              = collection.comment_threads.size
+          - if collection.comment_threads.size > 0
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            %span.tip{ :'data-toggle' =>  "tooltip", :'data-placement' => "top", :title => "#{pluralize( collection.comment_threads.size, 'comment')}" }
+              %span.glyphicon.glyphicon-comment
+              %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
+                = collection.comment_threads.size
 
-        - if collection.follower_count > 0
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          %span.tip{ :'data-toggle' =>  "tooltip", :'data-placement' => "top", :title => "#{pluralize( collection.follower_count, 'follower')}" }
-            %span.glyphpro.glyphpro-user_parents
-            %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
-              = collection.follower_count
+          - if collection.follower_count > 0
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            %span.tip{ :'data-toggle' =>  "tooltip", :'data-placement' => "top", :title => "#{pluralize( collection.follower_count, 'follower')}" }
+              %span.glyphpro.glyphpro-user_parents
+              %span.badge{ style: 'font-size: 9px; opacity: 0.5;'}
+                = collection.follower_count

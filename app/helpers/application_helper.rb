@@ -29,8 +29,6 @@ module ApplicationHelper
     end
   end
   
-  
-  
   def like_link(model:nil, show_icon:true)
     raise if model == nil
 
@@ -57,5 +55,12 @@ module ApplicationHelper
     end
   end
   
+  def activity_image_tag(activity)
+    if activity.trackable_type == 'Collection'
+      render partial: 'collections/thumb', locals: {collection: activity.trackable, klass: 'collection-sm', cols: 2, number_shown: 4}
+    elsif activity.trackable_type == 'Collectible' && activity.trackable.present? && activity.trackable.document.present?
+      image_tag activity.trackable.document.thumb_md, style: 'width: 110px'
+    end
+  end
   
 end

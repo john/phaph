@@ -13,6 +13,8 @@ class CollectionsController < ApplicationController
   def unfollow
     if request.xhr?
       current_user.unfollow!(@collection)
+      @activity = PublicActivity::Activity.where(trackable_id: @collection, trackable_type: @collection.class.to_s, key: 'collection.follow')
+      @activity.destroy_all
       render template: 'collections/follow'
     end
   end
@@ -27,6 +29,8 @@ class CollectionsController < ApplicationController
   def unlike
     if request.xhr?
       current_user.unlike!(@collection)
+      @activity = PublicActivity::Activity.where(trackable_id: @collection, trackable_type: @collection.class.to_s, key: 'collection.like')
+      @activity.destroy_all
       render template: 'collections/like'
     end
   end

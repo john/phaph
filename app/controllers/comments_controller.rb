@@ -10,6 +10,10 @@ class CommentsController < ApplicationController
 
   def unlike
     current_user.unlike!(@comment)
+    
+    @activity = PublicActivity::Activity.where(trackable_id: @comment, trackable_type: @comment.class.to_s, key: 'comment.like')
+    @activity.destroy_all 
+    
     render template: 'comments/like'
   end
   

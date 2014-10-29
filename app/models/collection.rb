@@ -4,8 +4,6 @@ class Collection < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
   
-  # tracked owner: ->(controller, model) { controller.current_user }
-  
   acts_as_commentable
   acts_as_follower
   acts_as_followable

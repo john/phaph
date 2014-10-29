@@ -2,7 +2,6 @@
   .col-md-12
 
     - if signed_in?
-
       %h1
         Your feed
       - if @activities.present?
@@ -12,14 +11,14 @@
               - actor = activity.owner
             %tr
               %td
-                = image_tag( actor.image_url )
-              %td              
+                = activity_image_tag(activity)
+              %td
+                .small
+                  #{distance_of_time_in_words( activity.created_at, Time.now)} ago
+                = image_tag( actor.image_url, style: 'width: 20px; height: 20px;' )
                 %b
                   = link_to actor.name, actor, style: 'color: #333'
                 = render_activity activity
-
-                .small
-                  #{distance_of_time_in_words( activity.created_at, Time.now)} ago
 
       - else
         %div

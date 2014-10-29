@@ -87,7 +87,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    domain_name (0.5.21)
+    domain_name (0.5.22)
       unf (>= 0.0.5, < 1.0.0)
     elasticsearch (1.0.6)
       elasticsearch-api (= 1.0.6)
@@ -143,7 +143,7 @@ GEM
     fog-sakuracloud (0.1.1)
       fog-core
       fog-json
-    fog-softlayer (0.3.22)
+    fog-softlayer (0.3.23)
       fog-core
       fog-json
     fog-xml (0.1.0)
@@ -331,7 +331,7 @@ GEM
     thread_safe (0.3.4)
     tilt (1.4.1)
     timers (1.1.0)
-    turbolinks (2.4.0)
+    turbolinks (2.5.1)
       coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)

@@ -6,11 +6,6 @@ class UsersController < ApplicationController
   def follow
     if request.xhr?
       @replace = params[:replace].present? ? params[:replace] : '.btn-follow'
-      
-      logger.debug "--"
-      logger.debug " in controller follow, @replace: #{@replace}"
-      logger.debug "--"
-      
       current_user.follow!(@user)
       @user.create_activity :follow, owner: current_user
     end
@@ -20,7 +15,9 @@ class UsersController < ApplicationController
     if request.xhr?
       @replace = params[:replace].present? ? params[:replace] : '.btn-follow'
       current_user.unfollow!(@user)
-    end    
+      @activity = PublicActivity::Activity.where(trackable_id: @user, trackable_type: @user.class.to_s, key: 'user.follow')
+      @activity.destroy_all 
+    end
   end
 
   # Should require a username, in case we ever need to part ways with Dropbox (or anyone else)
