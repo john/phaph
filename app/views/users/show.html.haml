@@ -1,34 +1,23 @@
 .row
   .col-md-8
-    -# .pull-right
-    -#   = link_to "Dropbox", '', :class => 'btn btn-primary btn-sm', :role => 'button', :style => 'margin-top: 25px;'
-    
-    %h1{:style => 'margin-bottom: 5px;'}
-      = sanitize(@user.name)
-      &nbsp;
+    %table
+      %tr
+        %td.image-cell
+          = image_tag @user.image_url
+        %td
+          %h1{:style => 'margin-bottom: 5px;'}
+            = sanitize(@user.name)
+            &nbsp;
+            - if signed_in? && @user != current_user
+              = follow_link( model: @user )
 
-      - if signed_in?
-        - if @user == current_user
-          = link_to 'edit', edit_user_path(current_user), class: 'btn btn-sm btn-default'  
-        - else
-          = follow_link( model: @user )
-        
-        &nbsp;
-
-      - else
-        = follow_link( model: @user )
-
-        %button{:type => 'button', :class => 'tip btn btn-xs btn-default btn-follow', :'data-toggle' => 'tooltip', :'data-placement' => 'bottom', :title => "Sign in or sign up to follow this"}
-          follow
-        :javascript
-          $('.tip').tooltip();
-
-    - if @user.location.present?
-      %div{:style => 'margin-top: 0;'}
-        = sanitize(@user.location.name)
+          - if @user.location.present?
+            %div{:style => 'margin-top: 0;'}
+            = sanitize(@user.location.name)
           
-    %div{:style => 'margin-top: 0;'}
-      = sanitize(@user.description)
+          - if @user.description.present?
+            %div{:style => 'margin-top: 0;'}
+            = sanitize(@user.description)
   
     %br
     %h3

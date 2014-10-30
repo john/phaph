@@ -1,5 +1,8 @@
 # From: https://github.com/elasticsearch/elasticsearch-rails/tree/master/elasticsearch-model
 
+# reset db then start console:
+# be rake db:drop; rake db:create; rake db:migrate; rails c
+
 # drop index:
 # Document.__elasticsearch__.client.indices.delete index: '_all'
 

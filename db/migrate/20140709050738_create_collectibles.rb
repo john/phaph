@@ -5,6 +5,7 @@ class CreateCollectibles < ActiveRecord::Migration
       t.text :description
       t.integer :scope, null: false, default: Scope::PUBLIC
       t.integer :state, default: 0, null: false
+      t.integer :original_collectible_id, index: true
       t.integer :collected_from_id, index: true
       t.references :user, index: true, null: false
       t.references :document, index: true, null: false

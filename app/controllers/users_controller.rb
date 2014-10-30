@@ -7,6 +7,7 @@ class UsersController < ApplicationController
     if request.xhr?
       @replace = params[:replace].present? ? params[:replace] : '.btn-follow'
       current_user.follow!(@user)
+      UserMailer.follow_email(current_user, @user).deliver_later
       @user.create_activity :follow, owner: current_user
     end
   end
@@ -59,14 +60,11 @@ class UsersController < ApplicationController
 
   def collections
     @title = "#{(@user == current_user) ? 'Your' : "#{@user.name}'s"} collections"
-    # redirect_to root_path alert: 'Not for you.' and return unless @user == current_user
     @collections = Collection.where( user: @user ).order('updated_at DESC').paginate(:page => params[:page], :per_page => 12 )
   end
 
   def documents
     @title = "#{(@user == current_user) ? 'Your' : "#{@user.name}'s"} documents"
-    # redirect_to root_path alert: 'Not for you.' and return unless @user== current_user
-    # @documents = Document.where(user:  @user).order('updated_at DESC').paginate(:page => params[:page], :per_page => 12 )
     @collectibles = Collectible.where(user:  @user).order('updated_at DESC').paginate(:page => params[:page], :per_page => 12 )
   end
   
@@ -81,7 +79,6 @@ class UsersController < ApplicationController
     @title = @user.name
 
     @followed_users = @user.followees(User)
-    # @followed_documents = @user.followees(Document)
     @followed_collectibles = @user.followees(Collectible)
     @followed_collections = @user.followees(Collection)
   end
