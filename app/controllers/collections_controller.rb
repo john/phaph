@@ -6,7 +6,13 @@ class CollectionsController < ApplicationController
   def follow
     if request.xhr?
       current_user.follow!(@collection)
+      
       @collection.create_activity :follow, owner: current_user
+      
+      if @collection.user.settings(:notify).on_follow == 'yes'
+        UserMailer.follow_collection_email(current_user, @collection).deliver_later
+      end
+      
     end
   end
 
@@ -23,6 +29,8 @@ class CollectionsController < ApplicationController
     if request.xhr?
       current_user.like!(@collection)
       @collection.create_activity :like, owner: current_user
+      
+      # TODO: send email
     end
   end
 

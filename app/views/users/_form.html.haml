@@ -49,13 +49,14 @@
       %h5
         Send email
       .notify
-        #{f.check_box :on_follow, {}, 'yes', 'no'} When someone follows me
+        #{f.check_box :on_follow, {}, 'yes', 'no'} When someone follows me or my stuff
       .notify
-        #{f.check_box :on_add, {}, 'yes', 'no'} When someone comments on my stuff
+        #{f.check_box :on_add, {}, 'yes', 'no'} When someone I'm following adds stuff
       .notify
-        #{f.check_box :on_comment, {}, 'yes', 'no'} When someone contributes to a thread I'm part of
+        #{f.check_box :on_copy, {}, 'yes', 'no'} When someone copies my stuff
       .notify
-        #{f.check_box :on_copy, {}, 'yes', 'no'} When someone copies one of my Phaphs
+        #{f.check_box :on_comment, {}, 'yes', 'no'} When someone comments on me or my stuff
+      
       
   .actions{style: 'margin-top: 20px;'}
     = f.submit 'Save', class: 'btn btn-primary', disable_with: 'Saving...'

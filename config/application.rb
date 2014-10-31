@@ -11,6 +11,8 @@ module Phaph
   class Application < Rails::Application
 
     config.x.app_name = 'Phaph'
+    config.x.app_url = 'www.phaph.com'
+    config.x.app_slogan = 'Share and Search Anything'
     config.x.atomic_unit = 'zite'
     
     api = YAML::load_file("#{Rails.root}/config/api_keys.yml")[Rails.env]

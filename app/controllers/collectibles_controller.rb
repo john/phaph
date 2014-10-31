@@ -42,6 +42,8 @@ class CollectiblesController < ApplicationController
     if request.xhr?
       current_user.follow!(@collectible)
       @collectible.create_activity :follow, owner: current_user
+      
+      # TODO: send email
     end
   end
 
@@ -55,8 +57,13 @@ class CollectiblesController < ApplicationController
   end
   
   def like
+    
+    # TODO: only xhr?
+    
     current_user.like!(@collectible)
     @collectible.create_activity :like, owner: current_user
+    
+    # TODO: send email
   end
 
   def unlike
@@ -67,6 +74,7 @@ class CollectiblesController < ApplicationController
   end
   
   def clone
+    # TODO: only xhr?
     source = Collectible.find(params[:id])
     @copied_collectible = Collectible.new(collectible_params)
     @copied_collectible.user = current_user
@@ -81,6 +89,10 @@ class CollectiblesController < ApplicationController
     
     @copied_collectible.save
     @collectible.create_activity :copy, owner: current_user
+    
+    if @collectible.user.settings(:notify).on_copy == 'yes'
+      UserMailer.copy_email(@copied_collectible, @copied_collectible.user, @collectible.user).deliver_later
+    end
   end
   
   private

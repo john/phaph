@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
   has_many :documents, through: :collectibles
   has_many :collections
   
+  has_settings do |s|
+    s.key :notify, :defaults => { :on_follow => 'yes', :on_add => 'yes', :on_comment => 'yes', :on_copy => 'yes' }
+  end
+  
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
   
@@ -27,32 +31,10 @@ class User < ActiveRecord::Base
   
   enum state: { active: 0, inactive: 1, archived: 2 }
   
-  has_settings do |s|
-    s.key :notify, :defaults => { :on_follow => 'yes', :on_add => 'yes', :on_comment => 'yes', :on_copy => 'yes' }
-  end
-  
   attr_accessor :on_follow
   attr_accessor :on_add
   attr_accessor :on_comment
-  attr_accessor :on_copy
-  
-  # use variable for 'Phaph' and my email
-  # preferences for different notifications:
-  # - when someone follows you
-  # - when someone you follow adds new stuff
-  
-  # - when someone comments on you or your stuff
-  # - when someone copies your stuff
-  
-  # - never
-  
-  # Add link to 'manage email preferences' in footer of all emails
-  # New comment on one of your collections or collectibles
-  # New follower of one of your collections or collectibles
-  
-  
-  
-  
+  attr_accessor :on_copy  
   
   # after_create :get_dropbox
   #

@@ -1,0 +1,8 @@
+Hi <%= @user.name %>,
+
+<%= @copier.name %> copied "<%= @copyable.name %>" from you. Learn more about them here:
+
+http://<%= app_url %>/people/<%= @copier.id %>/<%= @copier.name.parameterize %>
+
+Sincerely,
+<%= app_name %>

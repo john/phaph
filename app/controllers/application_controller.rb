@@ -24,6 +24,16 @@ class ApplicationController < ActionController::Base
     Rails.configuration.x.app_name
   end
   helper_method :app_name
+  
+  def app_url
+    Rails.configuration.x.app_url
+  end
+  helper_method :app_url
+  
+  def app_slogan
+    Rails.configuration.x.app_slogan
+  end
+  helper_method :app_slogan
 
   def atomic_unit
     Rails.configuration.x.atomic_unit

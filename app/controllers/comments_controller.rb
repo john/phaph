@@ -4,8 +4,12 @@ class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :destroy, :like, :unlike]
   
   def like
+    
+    # TODO: only xhr?
     current_user.like!(@comment)
     @comment.create_activity :like, owner: current_user
+    
+    # TODO: send email
   end
 
   def unlike

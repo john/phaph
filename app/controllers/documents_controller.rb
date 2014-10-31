@@ -104,6 +104,8 @@ class DocumentsController < ApplicationController
       collectible.description = @document.description
       collectible.save
       
+      # TODO: send email, to creator's followers.
+      
       if params[:redirect_to].present?
         redirect_to params[:redirect_to]
       else

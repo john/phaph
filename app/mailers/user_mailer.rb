@@ -1,45 +1,59 @@
 class UserMailer < ActionMailer::Base
   default from: "john@phaph.com"
   
-  # use variable for 'Phaph' and my email
-  # preferences for different notifications:
-  # - when someone follows you
-  # - when someone you follow adds new stuff
+  def app_name
+    Rails.configuration.x.app_name
+  end
+  helper_method :app_name
   
-  # - when someone comments on you or your stuff
-  # - when someone copies your stuff
+  def app_url
+    Rails.configuration.x.app_url
+  end
+  helper_method :app_url
   
-  # - never
-  
-  # Add link to 'manage email preferences' in footer of all emails
-  # New comment on one of your collections or collectibles
-  # New follower of one of your collections or collectibles
-  
-  def follow_email(follower, user)
+  # Called in CollectiblesController#clone
+  def copy_email(copyable, copier, user)
     @user = user
-    @follower = follower
-    mail(to: @user.email, subject: "You have a new Phaph follower!")
+    @copier = copier
+    @copyable = copyable
+    mail(to: @user.email, subject: "#{@copier.name} copied your #{app_name} #{@copyable.class} \"#{@copyable.name}\"!")
   end
   
-  def new_collectible_email(collectible, follower, user)
+  def follow_user_email(follower, user)
+    @user = user
+    @follower = follower
+    mail(to: @user.email, subject: "You have a new #{app_name} follower!")
+  end
+  
+  def follow_collection_email(follower, collection)
+    @collection = collection
+    @follower = follower
+    mail(to: @collection.user.email, subject: "Your collection '#{@collection.name}' has a new follower!")
+  end
+  
+  
+  
+  
+  
+  
+  def follow_collectible_email(follower, collectible)
+    @collectible = collectible
+    @follower = follower
+    mail(to: @collectible.user.email, subject: "'#{@collectible.name}' has a new follower!")
+  end
+  
+  def collectible_email(collectible, follower, user)
     @user = user
     @follower = follower
     @collectible = collectible
-    mail(to: @user.email, subject: "tk added a new item to Phaph!")
+    mail(to: @user.email, subject: "tk added a new item to #{app_name}!")
   end
   
-  def new_collection_email(collection, follower, user)
+  def collection_email(collection, follower, user)
     @user = user
     @follower = follower
     @collection = collection
-    mail(to: @user.email, subject: "tk added a new collection to Phaph!")
-  end
-  
-  def new_copy_email(collectible, follower, user)
-    @user = user
-    @follower = follower
-    @collectible = collectible
-    mail(to: @user.email, subject: "tk copied you item from Phaph!")
+    mail(to: @user.email, subject: "tk added a new collection to #{app_name}!")
   end
   
 end

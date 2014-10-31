@@ -7,13 +7,12 @@ class UsersController < ApplicationController
     if request.xhr?
       @replace = params[:replace].present? ? params[:replace] : '.btn-follow'
       current_user.follow!(@user)
-      logger.debug "-----------------> @user.settings(:notify).on_follow: #{@user.settings(:notify).on_follow}"
+      
+      @user.create_activity :follow, owner: current_user
       
       if @user.settings(:notify).on_follow == 'yes'
-        logger.debug "-----------------> EMAIL!"
         UserMailer.follow_email(current_user, @user).deliver_later
       end
-      @user.create_activity :follow, owner: current_user
     end
   end
 
