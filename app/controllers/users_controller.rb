@@ -7,7 +7,12 @@ class UsersController < ApplicationController
     if request.xhr?
       @replace = params[:replace].present? ? params[:replace] : '.btn-follow'
       current_user.follow!(@user)
-      UserMailer.follow_email(current_user, @user).deliver_later
+      logger.debug "-----------------> @user.settings(:notify).on_follow: #{@user.settings(:notify).on_follow}"
+      
+      if @user.settings(:notify).on_follow == 'yes'
+        logger.debug "-----------------> EMAIL!"
+        UserMailer.follow_email(current_user, @user).deliver_later
+      end
       @user.create_activity :follow, owner: current_user
     end
   end
@@ -92,6 +97,10 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @title = "Edit #{@user.name}"
+    @user.on_follow = @user.settings(:notify).on_follow
+    @user.on_add = @user.settings(:notify).on_add
+    @user.on_comment = @user.settings(:notify).on_comment
+    @user.on_copy = @user.settings(:notify).on_copy
   end
 
   # POST /users
@@ -115,12 +124,16 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       
-      logger.debug "@user: #{@user.inspect}"
-      
       if params[:location].present?
         location = Location.find_or_create_by!( name: params[:location] )
         Presence.find_or_create_by!( location: location, locatable_id: @user.id, locatable_type: @user.class.to_s )
       end
+      
+      @user.settings(:notify).on_follow = @user.on_follow
+      @user.settings(:notify).on_add = @user.on_add
+      @user.settings(:notify).on_comment = @user.on_comment
+      @user.settings(:notify).on_copy = @user.on_copy
+      @user.save!
       
       if user_params[:username].present?
         redirect_to root_path, notice: 'User was successfully updated.'
@@ -131,6 +144,18 @@ class UsersController < ApplicationController
       render :edit
     end
   end
+  
+  # def update_settings
+  #   #s.key :notify, :defaults => { :on_follow => true, :on_add => true, :on_comment => true, :on_copy => true }
+  #   if @user = User.find(params[:id])
+  #     u.settings(:notify).on_follow = params[:on_follow]
+  #     u.settings(:notify).on_add = params[:on_add]
+  #     u.settings(:notify).on_comment = params[:on_comment]
+  #     u.settings(:notify).on_copy = params[:on_copy]
+  #     u.save!
+  #     redirect_to
+  #   end
+  # end
 
   # DELETE /users/1
   def destroy
@@ -153,6 +178,7 @@ class UsersController < ApplicationController
   def user_params
     accessible = [ :name, :username, :email, :description, :location, :latitude, :longitude, :state ] # extend with your own params
     accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
+    accessible << [ :on_follow, :on_add, :on_comment, :on_copy]
     # params.permit(accessible)
     params.require(:user).permit(accessible)
   end

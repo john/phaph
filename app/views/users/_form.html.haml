@@ -1,3 +1,6 @@
+:css
+  .notify { margin-bottom: 4px; }
+  
 = form_for @user, :role => 'form', :html => {:class => 'form-horizontal'}  do |f|
   - if @user.errors.any?
     #error_explanation
@@ -26,18 +29,33 @@
       - location = (@user.locations.present?) ? @user.locations.first.name : ''
       = text_field_tag :location, location, class: 'form-control', placeholder: 'Location'
       
+  -# .form-group
+  -#   .col-sm-7
+  -#     Visibility:
+  -#     = f.label :scope, :class => 'sr-only'
+  -#     = f.select :scope, options_for_select(Scope.options_hash, @user.scope), :class => 'form-control'
+      
+  -# - if action_name == 'edit'
+  -#   .form-group
+  -#     .col-sm-7
+  -#       State:
+  -#       = f.label :state, :class => 'sr-only'
+  -#       = f.select :state, options_for_select([['active', 'active'], ['inactive', 'inactive']], @user.state), :class => 'form-control'
+  
+  
+  -# s.key :notify, :defaults => { :on_follow => true, :on_add => true, :on_comment => true, :on_copy => true }
   .form-group
     .col-sm-7
-      Visibility:
-      = f.label :scope, :class => 'sr-only'
-      = f.select :scope, options_for_select(Scope.options_hash, @user.scope), :class => 'form-control'
+      %h5
+        Send email
+      .notify
+        #{f.check_box :on_follow, {}, 'yes', 'no'} When someone follows me
+      .notify
+        #{f.check_box :on_add, {}, 'yes', 'no'} When someone comments on my stuff
+      .notify
+        #{f.check_box :on_comment, {}, 'yes', 'no'} When someone contributes to a thread I'm part of
+      .notify
+        #{f.check_box :on_copy, {}, 'yes', 'no'} When someone copies one of my Phaphs
       
-  - if action_name == 'edit'
-    .form-group
-      .col-sm-7
-        State:
-        = f.label :state, :class => 'sr-only'
-        = f.select :state, options_for_select([['active', 'active'], ['inactive', 'inactive']], @user.state), :class => 'form-control'
-      
-  .actions
+  .actions{style: 'margin-top: 20px;'}
     = f.submit 'Save', class: 'btn btn-primary', disable_with: 'Saving...'

@@ -23,6 +23,7 @@ gem 'geocoder'
 gem 'haml-rails'
 # gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jquery-rails'
+gem 'ledermann-rails-settings'
 gem 'mechanize', require: false
 gem 'mini_magick'
 gem 'mysql2'
@@ -36,7 +37,7 @@ gem 'phantomjs'
 gem 'public_activity'
 gem 'pundit'
 
-gem 'rails', '4.2.0.beta2'
+gem 'rails', '4.2.0.beta3'
 gem 'devise', '~> 3.4'
 gem 'sass-rails', '~> 5.0.0.beta1'
 gem 'rails-html-sanitizer', '~> 1.0'
