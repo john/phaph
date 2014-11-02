@@ -1,0 +1,8 @@
+Hi <%= @collectible.user.name %>,
+
+<%= @follower.name %> is now following "<%= @collectible.name %>". You can view their profile and follow them back here:
+
+http://<%= app_url %>/people/<%= @follower.id %>/<%= @follower.name.parameterize %>
+
+Sincerely,
+<%= app_name %>

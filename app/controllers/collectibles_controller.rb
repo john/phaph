@@ -43,7 +43,9 @@ class CollectiblesController < ApplicationController
       current_user.follow!(@collectible)
       @collectible.create_activity :follow, owner: current_user
       
-      # TODO: send email
+      if @collectible.user.settings(:notify).on_follow == 'yes'
+        UserMailer.follow_collectible_email(current_user, @collectible).deliver_later
+      end
     end
   end
 
@@ -57,13 +59,12 @@ class CollectiblesController < ApplicationController
   end
   
   def like
+    if request.xhr?
+      current_user.like!(@collectible)
+      @collectible.create_activity :like, owner: current_user
     
-    # TODO: only xhr?
-    
-    current_user.like!(@collectible)
-    @collectible.create_activity :like, owner: current_user
-    
-    # TODO: send email
+      # TODO: send email
+    end
   end
 
   def unlike
@@ -74,7 +75,6 @@ class CollectiblesController < ApplicationController
   end
   
   def clone
-    # TODO: only xhr?
     source = Collectible.find(params[:id])
     @copied_collectible = Collectible.new(collectible_params)
     @copied_collectible.user = current_user
@@ -95,15 +95,14 @@ class CollectiblesController < ApplicationController
     end
   end
   
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_collectible
-      @collectible = Collectible.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  private def set_collectible
+    @collectible = Collectible.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def collectible_params
-      params.require(:collectible).permit(:name, :description, :user_id, :document_id, :collection_id )
-    end
+  # Only allow a trusted parameter "white list" through.
+  private def collectible_params
+    params.require(:collectible).permit(:name, :description, :user_id, :document_id, :collection_id )
+  end
 
 end

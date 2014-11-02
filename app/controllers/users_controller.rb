@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   
-  before_filter :authenticate_user!, only: [:index, :edit, :update, :destroy, :follow, :unfollow]
-  before_action :set_user, only: [:documents, :collections, :show, :edit, :update, :destroy, :follow, :unfollow]
+  before_filter :authenticate_user!, only: [:index, :edit, :update, :destroy, :followers, :follow, :unfollow]
+  before_action :set_user, only: [:documents, :collections, :show, :edit, :update, :destroy, :followers, :follow, :unfollow]
   
   def follow
     if request.xhr?
@@ -83,6 +83,14 @@ class UsersController < ApplicationController
     @title = @user.name
 
     @followed_users = @user.followees(User)
+    @followed_collectibles = @user.followees(Collectible)
+    @followed_collections = @user.followees(Collection)
+  end
+  
+  def followers
+    @title = "#{@user.name} | followers}"
+
+    @followers = @user.followers(User)
     @followed_collectibles = @user.followees(Collectible)
     @followed_collections = @user.followees(Collection)
   end

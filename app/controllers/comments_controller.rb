@@ -4,12 +4,14 @@ class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :destroy, :like, :unlike]
   
   def like
+    if request.xhr?
+      current_user.like!(@comment)
+      @comment.create_activity :like, owner: current_user
     
-    # TODO: only xhr?
-    current_user.like!(@comment)
-    @comment.create_activity :like, owner: current_user
-    
-    # TODO: send email
+      if @user.settings(:notify).on_comment == 'yes'
+        UserMailer.follow_email(current_user, @user).deliver_later
+      end
+    end
   end
 
   def unlike
@@ -47,6 +49,11 @@ class CommentsController < ApplicationController
       
       if @comment.save
         @comment.create_activity :create, owner: current_user
+        
+        if resource.user.settings(:notify).on_comment == 'yes'
+          UserMailer.comment_email(@comment, resource.user).deliver_later
+        end
+        
       end
     end
   end

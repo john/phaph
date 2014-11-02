@@ -12,7 +12,6 @@ class CollectionsController < ApplicationController
       if @collection.user.settings(:notify).on_follow == 'yes'
         UserMailer.follow_collection_email(current_user, @collection).deliver_later
       end
-      
     end
   end
 

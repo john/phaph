@@ -1,0 +1,8 @@
+Hi <%= @comment.user.name %>,
+
+<%= @commenter.name %> left a new comment on "<%= @comment.commentable.name %>". Check it:
+
+http://<%= app_url %>/<%= @resource.class.to_s.downcase %>/@resource.id
+
+Sincerely,
+<%= app_name %>
