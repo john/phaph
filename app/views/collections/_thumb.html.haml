@@ -10,7 +10,7 @@
 
   -# %a{ href: "#{slugged_collection_path(collection.id, collection.name.parameterize)}", style: "text-decoration: none;" }
   -# %a{ href: "#{collection_path(collection)}", style: "text-decoration: none;" }
-  %a{ href: "#", style: "text-decoration: none;" }
+  %a{ href: collection_path(collection.id), style: "text-decoration: none;" }
 
 
     %div{class: "#{klass} pull-left"}

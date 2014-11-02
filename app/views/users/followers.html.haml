@@ -1,0 +1,9 @@
+%h3{style: 'margin-bottom: 20px;'}
+  Your followers
+  
+%ul
+  - @followers.each do |follower|
+    %li
+      = link_to follower.name, people_path(follower.id, follower.name.parameterize)
+
+-# = will_paginate @followers, renderer: BootstrapPagination::Rails

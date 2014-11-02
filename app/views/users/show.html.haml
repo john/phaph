@@ -18,6 +18,13 @@
           - if @user.description.present?
             %div{:style => 'margin-top: 0;'}
             = sanitize(@user.description)
+          
+          %div
+            #{link_to pluralize(@user.followers(User).count, 'follower'), followers_user_path(@user)}
+            &#183;
+            #{link_to pluralize(@user.collections.count, 'collection'), collections_user_path(@user)}
+            &#183;
+            #{link_to pluralize(@user.collectibles.count, atomic_unit), documents_user_path(@user)}
   
     %br
     %h3

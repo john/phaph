@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   has_many :collections
   
   has_settings do |s|
-    s.key :notify, :defaults => { :on_follow => 'yes', :on_add => 'yes', :on_comment => 'yes', :on_copy => 'yes' }
+    s.key :notify, defaults: { on_follow: 'yes', on_add: 'yes', on_comment: 'yes', on_copy: 'yes', daily_digest: 'yes', weekly_digest: 'no'  }
   end
   
   TEMP_EMAIL_PREFIX = 'change@me'

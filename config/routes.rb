@@ -72,6 +72,7 @@ Rails.application.routes.draw do
   resources :users, path: 'people' do
     get :documents, on: :member
     get :collections, on: :member
+    get :followers, on: :member
     get :follow,  on: :member
     get :unfollow,  on: :member
   end
