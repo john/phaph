@@ -37,7 +37,7 @@ gem 'phantomjs'
 gem 'public_activity'
 gem 'pundit'
 
-gem 'rails', '4.2.0.beta3'
+gem 'rails', '4.2.0.beta4'
 gem 'devise', '~> 3.4'
 gem 'sass-rails', '~> 5.0.0.beta1'
 gem 'rails-html-sanitizer', '~> 1.0'
