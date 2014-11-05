@@ -26,6 +26,7 @@ RSpec.describe "home/index", :type => :view do
   describe "For logged-out users" do
     before(:each) do
       view.stub(:signed_in?).and_return(false)
+      view.stub(:app_slogan).and_return('Donkey Balls!')
     end
 
     it "renders" do

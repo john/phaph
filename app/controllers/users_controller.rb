@@ -11,7 +11,7 @@ class UsersController < ApplicationController
       @user.create_activity :follow, owner: current_user
       
       if @user.settings(:notify).on_follow == 'yes'
-        UserMailer.follow_email(current_user, @user).deliver_later
+        UserMailer.follow_user_email(current_user, @user).deliver_later
       end
     end
   end

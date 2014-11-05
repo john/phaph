@@ -49,6 +49,12 @@ class UserMailer < ActionMailer::Base
   
   
   
+  
+  
+  def like_comment_email(liker, comment)
+    
+  end
+  
   def new_collectible_email(collectible, follower, user)
     @user = user
     @follower = follower

@@ -67,6 +67,9 @@ end
 
 group :development do
   # gem 'better_errors'
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
   gem 'fog'
   gem 'puppet'
   gem 'rspec-rails'
@@ -79,9 +82,6 @@ group :test do
   gem 'factory_girl_rails', require: false
   gem 'shoulda-matchers'
 end
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]

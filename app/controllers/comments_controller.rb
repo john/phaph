@@ -8,9 +8,11 @@ class CommentsController < ApplicationController
       current_user.like!(@comment)
       @comment.create_activity :like, owner: current_user
     
-      if @user.settings(:notify).on_comment == 'yes'
-        UserMailer.follow_email(current_user, @user).deliver_later
-      end
+      # if @comment.user.settings(:notify).on_comment == 'yes'
+      #   # like_comment_email(liker, comment)
+      #   UserMailer.like_comment_email(current_user, @comment).deliver_later
+      # end
+      
     end
   end
 
