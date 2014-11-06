@@ -4,15 +4,15 @@ Social search
 
 ==== Ruby version
 
-* 2.1.2p95
+* 2.1.4p265
 
 ==== Elasticsearch
 
 * Elasticsearch
-  * http://www.elasticsearch.org/downloads (currently 1.4beta1)
-* Elasticsearch Mapper Attachment plugin (currently 2.4)
+  * http://www.elasticsearch.org/downloads (currently 1.4.0)
+* Elasticsearch Mapper Attachment plugin (currently 2.4.1)
   * https://github.com/elasticsearch/elasticsearch-mapper-attachments/tree/master
-  * from elastisearch root: `bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.4.0`
+  * from elastisearch root: `bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.4.1`
   
 ==== Images
 
@@ -45,7 +45,11 @@ Social search
 
 ==== Deployment
 
-* [Fog](http://fog.io/) + [Capistrano](http://capistranorb.com/)
+* Instantiate AWS instance with [Fog](http://fog.io/):
+    `ruby lib/fog/init.rb`
+    
+* Deploy with [Capistrano](http://capistranorb.com/)
+    `cap production deploy`
 
 ==== Specs
 
