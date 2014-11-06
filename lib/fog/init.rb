@@ -78,23 +78,21 @@ cmd(server, "sudo apt-get -y upgrade")
 server.wait_for { ready? }
 puts '---'
 puts 'apt-getting openssl and friends...'
+cmd(server, "sudo apt-get -y -f install webhttrack build-essential openssl libreadline-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt1-dev autoconf libc6-dev libncurses5-dev automake libtool bison libcurl4-openssl-dev libmysqlclient-dev git unzip libreoffice unoconv libfreetype6-dev fontconfig libfontconfig1 libjpeg-turbo8 libxrender1 xorg libpng12-dev libjpeg-dev libmagic-dev" )
 
-cmd(server, "sudo apt-get -y install webhttrack build-essential openssl libreadline-dev curl zlib1g zlib1g-dev libssl-dev" )
-
-puts '2nd batch...'
-cmd(server, "sudo apt-get -y libyaml-dev libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison libcurl4-openssl-dev")
-
-puts '3rd batch...'
-cmd(server, "sudo apt-get -y install libmysqlclient-dev git" )
-
-puts '4th batch...'
-cmd(server, "sudo apt-get -y install libre-office unoconv" )
+# puts '2nd batch...'
+# cmd(server, "sudo apt-get -y libyaml-dev libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison libcurl-dev libcurl3-dev libcurl3-gnutls libcurl4-openssl-dev")
+#
+# puts '3rd batch...'
+# cmd(server, "sudo apt-get -y install libmysqlclient-dev git unzip" )
+#
+# puts '4th batch...'
+# cmd(server, "sudo apt-get -y install libreoffice unoconv" )
 
 server.wait_for { ready? }
 puts '---'
 puts 'installing wkhtmltopdf...'
-cmd(server, "sudo apt-get -y install libfreetype6-dev fontconfig libfontconfig1 libjpeg-turbo8 libxrender1 xorg libpng12-dev libjpeg-dev libmagic-dev")
-
+# cmd(server, "sudo apt-get -y install libfreetype6-dev fontconfig libfontconfig1 libjpeg-turbo8 libxrender1 xorg libpng12-dev libjpeg-dev libmagic-dev")
 cmd(server, "sudo wget http://sourceforge.net/projects/wkhtmltopdf/files/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb/download -O /usr/bin/wkhtmltopdf")
 server.wait_for { ready? }
 cmd(server, "sudo dpkg -i /usr/bin/wkhtmltopdf")
@@ -157,6 +155,25 @@ server.wait_for { ready? }
 puts '---'
 puts 'installing passenger...'
 cmd(server, "sudo apt-get -y install passenger")
+
+server.wait_for { ready? }
+puts '---'
+puts 'wgetting elasticsearch...'
+cmd(server, "wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.0.zip")
+
+server.wait_for { ready? }
+puts '---'
+puts 'unzipping elasticsearch...'
+cmd(server, "unzip elasticsearch-1.4.0.zip")
+
+server.wait_for { ready? }
+puts '---'
+puts 'install es mappers...'
+cmd(server, "cd elasticsearch-1.4.0; bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.4.1")
+
+# install es-mappers
+
+# start es
 
 # server.wait_for { ready? }
 # puts '---'

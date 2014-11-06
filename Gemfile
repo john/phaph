@@ -68,8 +68,10 @@ end
 group :development do
   # gem 'better_errors'
   gem 'capistrano'
-  gem 'capistrano-rails'
   gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'rvm1-capistrano3', require: false
+  # gem 'capistrano-rvm'
   gem 'fog'
   gem 'puppet'
   gem 'rspec-rails'

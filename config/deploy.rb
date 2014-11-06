@@ -1,9 +1,14 @@
+# do this for reals eventually (with deploy user):
+# http://capistranorb.com/documentation/getting-started/installation/
+
 # info about config files, symlinks, etc
 # http://www.talkingquickly.co.uk/2014/01/deploying-rails-apps-to-a-vps-with-capistrano-v3/
 
 # read this too:
 # http://www.capistranorb.com/documentation/getting-started/flow/
 
+# to use it:
+# cap production deploy
 
 # config valid only for Capistrano 3.1
 lock '3.2.1'
