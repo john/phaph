@@ -1,5 +1,17 @@
-# to run:
+# To instantiate a new server:
 # ruby lib/fog/init.rb
+
+# Then deploy:
+# cap production deploy
+
+# Then, currently, you need to ssh into the instance, and start passenger:
+# rvmsudo passenger start --daemonize --port 80 --user ubuntu --user=ubuntu
+
+# TODO:
+# - Script creation/attachment of an EBS volume
+# - Script for setting up sidekiq
+# - Move Elasticsearch stuff in to script for its own instance
+#    - or not? Maybe that should start off on web instance, though it should then have it's own ebs i think
 
 require 'rubygems'
 require 'fog'
@@ -182,6 +194,13 @@ cmd(server, "cd elasticsearch-1.4.0; bin/plugin -install elasticsearch/elasticse
 
 # # then, from the rails root...
 # # sudo passenger start -e production -p 80
+
+# https://www.phusionpassenger.com/documentation/Users%20guide%20Standalone.html#starting_at_system_boot
+# passenger start --daemonize --port 80 --user ubuntu
+# which then says to run:
+# rvmsudo passenger start --daemonize --port 80 --user ubuntu --user=ubuntu
+
+
 # server.wait_for { ready? }
 # puts '---'
 # puts 'starting passenger...'

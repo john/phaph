@@ -23,4 +23,8 @@ test:
 
 production:
   <<: *default
+  host: prod.cmjzuhmazvmn.us-west-2.rds.amazonaws.com
   database: phaph_production
+  username: awsmaster
+  password: D0nkeyK0ng
+  
