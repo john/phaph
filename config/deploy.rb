@@ -9,6 +9,11 @@
 
 # to use it:
 # cap production deploy
+# cap production deploy:restart
+
+# https://github.com/capistrano/capistrano/wiki/Capistrano-Tasks
+
+# mysql -h prod.cmjzuhmazvmn.us-west-2.rds.amazonaws.com -u root -pD0nkeyK0ng prod
 
 # config valid only for Capistrano 3.1
 lock '3.2.1'

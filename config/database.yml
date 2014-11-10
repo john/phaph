@@ -3,6 +3,7 @@ default: &default
   pool: 5
   timeout: 5000
   encoding: utf8
+  collation: utf8_unicode_ci
   reconnect: true
   username: root
   password:
@@ -23,8 +24,9 @@ test:
 
 production:
   <<: *default
-  host: prod.cmjzuhmazvmn.us-west-2.rds.amazonaws.com
+  host: phaphpro.cmjzuhmazvmn.us-west-2.rds.amazonaws.com
+  socket: 
   database: phaph_production
-  username: awsmaster
+  username: root
   password: D0nkeyK0ng
   

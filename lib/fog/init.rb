@@ -1,11 +1,22 @@
 # To instantiate a new server:
 # ruby lib/fog/init.rb
 
+# some vpc info about creating a public ip address:
+# http://serverfault.com/questions/623487/ssh-timeout-issue-connecting-to-an-ec2-instance-on-os-x
+
 # Then deploy:
 # cap production deploy
 
+# bundle exec rake db:create RAILS_ENV=production
+# bundle exec rake db:migrate RAILS_ENV=production
+
+# http://stackoverflow.com/questions/23726110/missing-production-secret-key-base-in-rails
+
 # Then, currently, you need to ssh into the instance, and start passenger:
-# rvmsudo passenger start --daemonize --port 80 --user ubuntu --user=ubuntu
+# rvmsudo passenger start --daemonize --port 80 --user ubuntu --user=ubuntu --environment production
+
+# To stop passenger:
+# rvmsudo passenger stop --port 80
 
 # TODO:
 # - Script creation/attachment of an EBS volume
@@ -25,7 +36,8 @@ def cmd(server, command)
   result = server.ssh(command)[0]
 
   if result.status != 0
-    puts result.display_stderr
+    # puts result.display_stderr
+    puts result.display_stdout
   end
 end
 
@@ -54,13 +66,33 @@ connection = Fog::Compute.new(
 
 puts '---'
 
+
+# https://github.com/fog/fog/issues/713
+# connection.servers.create(
+#       :vpc_id             => config[:vpc_id],
+#       :subnet_id          => config[:subnet_id],
+#       :availability_zone  => config[:availability_zone],
+#       :security_group_ids => config[:security_group_ids],
+#       :tags               => config[:tags],
+#       :flavor_id          => config[:flavor_id],
+#       :ebs_optimized      => config[:ebs_optimized],
+#       :image_id           => config[:image_id],
+#       :key_name           => config[:aws_ssh_key_id],
+#     )
+    
+# some parameer examples:
+# https://github.com/fog/fog/issues/713
 puts "bootstrappng server..."
 server = connection.servers.bootstrap(  :private_key_path => private_key_path,
                                         :public_key_path => public_key_path,
+                                        :availability_zone => 'us-west-2a',
                                         :username => 'ubuntu',
                                         :image_id => image_id,
                                         :flavor_id =>  flavor_id,
-                                        :groups => ['default'] )
+                                        :subnet_id => 'subnet-165e9361',
+                                        # :subnet_ids => ['subnet-165e9361','subnet-e8ec01b1','subnet-af03acca'], # <-- for vpc. make sure it allows ssh from your ip
+                                        :groups => ['web'] # <-- for vpc
+                                      )
 
 ##############################################################
 #
@@ -90,7 +122,7 @@ cmd(server, "sudo apt-get -y upgrade")
 server.wait_for { ready? }
 puts '---'
 puts 'apt-getting openssl and friends...'
-cmd(server, "sudo apt-get -y -f install webhttrack build-essential openssl libreadline-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt1-dev autoconf libc6-dev libncurses5-dev automake libtool bison libcurl4-openssl-dev libmysqlclient-dev git unzip libreoffice unoconv libfreetype6-dev fontconfig libfontconfig1 libjpeg-turbo8 libxrender1 xorg libpng12-dev libjpeg-dev libmagic-dev" )
+cmd(server, "sudo apt-get -y -f install mysql-client-core-5.6 webhttrack build-essential openssl libreadline-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt1-dev autoconf libc6-dev libncurses5-dev automake libtool bison libcurl4-openssl-dev libmysqlclient-dev git unzip libreoffice unoconv libfreetype6-dev fontconfig libfontconfig1 libjpeg-turbo8 libxrender1 xorg libpng12-dev libjpeg-dev libmagic-dev" )
 
 # puts '2nd batch...'
 # cmd(server, "sudo apt-get -y libyaml-dev libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison libcurl-dev libcurl3-dev libcurl3-gnutls libcurl4-openssl-dev")
