@@ -77,3 +77,13 @@ namespace :deploy do
   end
 
 end
+
+# https://coderwall.com/p/-qmwew/run-rake-tasks-with-capistrano
+namespace :db do  
+  desc "Rake db:create"
+  task :create do
+    rake "db:migrate"
+    # run "cd #{deploy_to}/current"
+    # run "bundle exec rake db:create RAILS_ENV=#{rails_env}"
+  end 
+end

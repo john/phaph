@@ -1,8 +1,8 @@
 set :stage, :production
 set :branch, "master"
 
-set :server_name, "ec2-54-69-156-177.us-west-2.compute.amazonaws.com"
-server 'ec2-54-69-156-177.us-west-2.compute.amazonaws.com', user: 'ubuntu', roles: %w{web app}, primary: true
+set :server_name, "ec2-54-148-74-82.us-west-2.compute.amazonaws.com"
+server 'ec2-54-148-74-82.us-west-2.compute.amazonaws.com', user: 'ubuntu', roles: %w{web app}, primary: true
 
 set :rails_env, :production
 

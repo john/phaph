@@ -1,18 +1,24 @@
-# To instantiate a new server:
+# Create RDS instance:
+# MySQL -> SingleAZ (in QA) -> 5.6.21, t2.small, root/DK ->
+# Publicly Accessible: yes -> VPC Security Group: default
+# Database name: phaph_production
+
+# Instantiate a new server:
 # ruby lib/fog/init.rb
 
-# some vpc info about creating a public ip address:
-# http://serverfault.com/questions/623487/ssh-timeout-issue-connecting-to-an-ec2-instance-on-os-x
+# Take the public DNS of the new instance and add it to /config/deploy/production.rb
 
-# Then deploy:
+# Deploy:
 # cap production deploy
 
+# ssh into box and fix this:
+# http://stackoverflow.com/questions/23726110/missing-production-secret-key-base-in-rails
+
+# Create db and migrate. See if there's a cap task for this later, but for now, on the instance?
 # bundle exec rake db:create RAILS_ENV=production
 # bundle exec rake db:migrate RAILS_ENV=production
 
-# http://stackoverflow.com/questions/23726110/missing-production-secret-key-base-in-rails
-
-# Then, currently, you need to ssh into the instance, and start passenger:
+# Scripted later, but now ssh into the instance and start passenger:
 # rvmsudo passenger start --daemonize --port 80 --user ubuntu --user=ubuntu --environment production
 
 # To stop passenger:
@@ -21,8 +27,13 @@
 # TODO:
 # - Script creation/attachment of an EBS volume
 # - Script for setting up sidekiq
+#   - Use elasticache, see if sidekiq can run on same instance as passenger
 # - Move Elasticsearch stuff in to script for its own instance
 #    - or not? Maybe that should start off on web instance, though it should then have it's own ebs i think
+
+# some vpc info about creating a public ip address:
+# http://serverfault.com/questions/623487/ssh-timeout-issue-connecting-to-an-ec2-instance-on-os-x
+
 
 require 'rubygems'
 require 'fog'
