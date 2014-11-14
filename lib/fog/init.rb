@@ -1,10 +1,12 @@
 # Create RDS instance:
 # MySQL -> SingleAZ (in QA) -> 5.6.21, t2.small, root/DK ->
-# Publicly Accessible: yes -> VPC Security Group: default
+# Publicly Accessible: yes -> AZ: us-west-2a, VPC Security Group: default
 # Database name: phaph_production
 
 # Instantiate a new server:
 # ruby lib/fog/init.rb
+
+# Change inbound permissions
 
 # Take the public DNS of the new instance and add it to /config/deploy/production.rb
 
@@ -15,14 +17,27 @@
 # http://stackoverflow.com/questions/23726110/missing-production-secret-key-base-in-rails
 
 # Create db and migrate. See if there's a cap task for this later, but for now, on the instance?
-# bundle exec rake db:create RAILS_ENV=production
-# bundle exec rake db:migrate RAILS_ENV=production
+# cd /home/ubuntu/phaph/current; bundle exec rake db:create RAILS_ENV=production (unecessary if you created the db when setting up RDS)
+# cd /home/ubuntu/phaph/current; bundle exec rake db:migrate RAILS_ENV=production
 
-# Scripted later, but now ssh into the instance and start passenger:
+
+
+# Script all this later, but now ssh into the instance and start passenger:
 # rvmsudo passenger start --daemonize --port 80 --user ubuntu --user=ubuntu --environment production
-
+#
 # To stop passenger:
 # rvmsudo passenger stop --port 80
+
+# Elasticsearch (though maybe this doesn't daemonize?)
+# /home/ubuntu/elasticsearch-1.4.0/bin/elasticsearch
+
+# Start Rails console: 
+# cd ~/phaph/current; bundle exec rails c
+
+# create index:
+# Document.__elasticsearch__.create_index! force: true
+
+
 
 # TODO:
 # - Script creation/attachment of an EBS volume
