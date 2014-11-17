@@ -45,7 +45,8 @@ gem 'rails-html-sanitizer', '~> 1.0'
 
 gem 'ruby-filemagic'
 gem 'sidekiq'
-gem 'sinatra', '>= 1.3.0', :require => nil
+# gem 'sinatra' #, '>= 1.3.0', :require => nil
+gem 'sinatra', git: 'https://github.com/sinatra/sinatra.git'
 gem 'socialization'
 gem 'therubyracer'
 gem 'turbolinks' # Read more: https://github.com/rails/turbolinks

@@ -67,18 +67,6 @@ namespace :deploy do
       # Your restart mechanism here, for example:
       # execute :touch, release_path.join('tmp/restart.txt')
       within release_path do
-        # execute :rvm, "use default" # rather, add this to .bashrc when provisioning server
-        # set :default_env, { 'GEM_HOME' => "/home/ubuntu/.rvm/gems/ruby-2.1.4" }
-        
-        # execute :set, "GEM_HOME=/home/ubuntu/.rvm/gems/ruby-2.1.4"
-        
-        # execute :rvm, "gemset use global"
-        
-        set :bundle_dir, ''
-        set :bundle_flags, '--system --quiet'
-        
-        execute :echo, "$GEM_HOME"
-        
         execute :sudo, :passenger, "start --daemonize --port 80 --user ubuntu --user=ubuntu --environment production"
       end
     end
