@@ -9,14 +9,18 @@
 
 # to use it:
 # cap production deploy
-# cap production deploy:restart
+# cap production deploy:stop
 
 # https://github.com/capistrano/capistrano/wiki/Capistrano-Tasks
 
 # mysql -h prod.cmjzuhmazvmn.us-west-2.rds.amazonaws.com -u root -pD0nkeyK0ng prod
 
 # config valid only for Capistrano 3.1
+
 lock '3.2.1'
+
+before 'deploy', 'rvm1:install:ruby'  # install/update Ruby
+before 'deploy', 'rvm1:install:gems'
 
 set :application, 'phaph'
 set :deploy_user, 'ubuntu'
@@ -57,33 +61,88 @@ set :keep_releases, 5
 
 namespace :deploy do
 
-  desc 'Restart application'
-  task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
+  desc 'start application'
+  task :start do
+    on roles(:all), in: :sequence, wait: 1 do
       # Your restart mechanism here, for example:
-      execute :touch, release_path.join('tmp/restart.txt')
+      # execute :touch, release_path.join('tmp/restart.txt')
+      within release_path do
+        # execute :rvm, "use default" # rather, add this to .bashrc when provisioning server
+        # set :default_env, { 'GEM_HOME' => "/home/ubuntu/.rvm/gems/ruby-2.1.4" }
+        
+        # execute :set, "GEM_HOME=/home/ubuntu/.rvm/gems/ruby-2.1.4"
+        
+        # execute :rvm, "gemset use global"
+        
+        set :bundle_dir, ''
+        set :bundle_flags, '--system --quiet'
+        
+        execute :echo, "$GEM_HOME"
+        
+        execute :sudo, :passenger, "start --daemonize --port 80 --user ubuntu --user=ubuntu --environment production"
+      end
+    end
+  end
+  
+  desc 'stop application'
+  task :stop do
+    on roles(:all), in: :sequence, wait: 1 do
+      # Your restart mechanism here, for example:
+      # execute :touch, release_path.join('tmp/restart.txt')
+      within release_path do
+        # execute :rvm, "use default" # rather, add this to .bashrc when provisioning server
+        execute :sudo, :passenger, "stop --port 80"
+      end
     end
   end
 
-  after :publishing, :restart
-
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-    end
-  end
+  # after :publishing, :restart
+  #
+  # after :restart, :clear_cache do
+  #   on roles(:web), in: :groups, limit: 3, wait: 10 do
+  #     # Here we can do anything such as:
+  #     # within release_path do
+  #     #   execute :rake, 'cache:clear'
+  #     # end
+  #
+  #     # anther example:
+  #     # execute :chown, "-R :#{fetch(:group)} #{deploy_to} && chmod -R g+s #{deploy_to}"
+  #   end
+  # end
 
 end
 
-# https://coderwall.com/p/-qmwew/run-rake-tasks-with-capistrano
-namespace :db do  
-  desc "Rake db:create"
-  task :create do
-    rake "db:migrate"
-    # run "cd #{deploy_to}/current"
-    # run "bundle exec rake db:create RAILS_ENV=#{rails_env}"
-  end 
-end
+# 2.x syntax, but keep executable
+# namespace :deploy do
+#   task :start do
+#     puts 'PHU'
+#     run "cd #{current_path} && bundle exec passenger start --socket /tmp/passenger.socket --daemonize --environment production"
+#   end
+#
+#   task :stop do
+#     # run "cd #{current_path} && bundle exec passenger stop --pid-file tmp/pids/passenger.pid"
+#     # run "cd #{current_path}; rvmsudo passenger stop --port 80"
+#     execute "cd #{current_path}; rvmsudo passenger stop --port 80"
+#   end
+#
+#   # 3.x
+#   # namespace :deploy do
+#   #   on roles :all do
+#   #     execute :chown, "-R :#{fetch(:group)} #{deploy_to} && chmod -R g+s #{deploy_to}"
+#   #   end
+#   # end
+#
+#   # task :restart, :roles => :app, :except => { :no_release => true } do
+#   #   run "#{try_sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
+#   # end
+# end
+
+# # https://coderwall.com/p/-qmwew/run-rake-tasks-with-capistrano
+# namespace :db do
+#   desc "Rake db:create"
+#   task :create do
+#     rake "db:migrate"
+#     # run "cd #{deploy_to}/current"
+#     # run "bundle exec rake db:create RAILS_ENV=#{rails_env}"
+#   end
+# end

@@ -11,7 +11,10 @@
 # Take the public DNS of the new instance and add it to /config/deploy/production.rb
 
 # Deploy:
+# edit hostname in /config/deploy/production.rb
+# you may have to clear out junk in ~/.ssh/known_hosts
 # cap production deploy
+# cap production deploy:restart
 
 # ssh into box and fix this:
 # http://stackoverflow.com/questions/23726110/missing-production-secret-key-base-in-rails
@@ -19,7 +22,6 @@
 # Create db and migrate. See if there's a cap task for this later, but for now, on the instance?
 # cd /home/ubuntu/phaph/current; bundle exec rake db:create RAILS_ENV=production (unecessary if you created the db when setting up RDS)
 # cd /home/ubuntu/phaph/current; bundle exec rake db:migrate RAILS_ENV=production
-
 
 
 # Script all this later, but now ssh into the instance and start passenger:
@@ -30,6 +32,12 @@
 
 # Elasticsearch (though maybe this doesn't daemonize?)
 # /home/ubuntu/elasticsearch-1.4.0/bin/elasticsearch
+
+
+
+# this: https://gist.github.com/pvdb/868002
+# says this: bundle exec passenger start --socket /tmp/passenger.socket --daemonize --port 80 --environment production
+
 
 # Start Rails console: 
 # cd ~/phaph/current; bundle exec rails c

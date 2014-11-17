@@ -68,7 +68,7 @@ end
 group :development do
   # gem 'better_errors'
   gem 'capistrano'
-  gem 'capistrano-bundler'
+  # gem 'capistrano-bundler' # replaced by rvm1-capistrano3?
   gem 'capistrano-rails'
   gem 'rvm1-capistrano3', require: false
   # gem 'capistrano-rvm'
@@ -77,7 +77,7 @@ group :development do
   gem 'rspec-rails'
   # gem 'unicorn-rails'
   # Access an IRB console on exceptions page and /console in development
-  gem 'web-console', '~> 2.0.0.beta2'
+  # gem 'web-console', '~> 2.0.0.beta2'
 end
 
 group :test do

@@ -16,7 +16,7 @@ fi;
 # rvm --version
 
 echo "Installing Ruby..."
-rvm install ruby-2.1.4
+rvm install ruby-2.1.5
 
 echo "Making installed Ruby the default one..."
 rvm use ruby --default
