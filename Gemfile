@@ -37,16 +37,14 @@ gem 'phantomjs'
 gem 'public_activity'
 gem 'pundit'
 
-# gem 'sass-rails', '~> 5.0.0.beta1'
 gem 'rails', '4.2.0.beta4'
 gem 'devise', '~> 3.4'
-
+gem 'sass-rails', '~> 5.0.0.beta1'
 gem 'rails-html-sanitizer', '~> 1.0'
 
 gem 'ruby-filemagic'
 gem 'sidekiq'
-# gem 'sinatra' #, '>= 1.3.0', :require => nil
-gem 'sinatra', git: 'https://github.com/sinatra/sinatra.git'
+gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'socialization'
 gem 'therubyracer'
 gem 'turbolinks' # Read more: https://github.com/rails/turbolinks
@@ -67,19 +65,18 @@ group :development, :test do
   gem 'spring'
 end
 
+gem 'capistrano'
+gem 'capistrano-rvm'
+
 group :development do
   # gem 'better_errors'
-  gem 'capistrano'
-  # gem 'capistrano-bundler' # replaced by rvm1-capistrano3?
   gem 'capistrano-rails'
-  gem 'rvm1-capistrano3', require: false
-  # gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
   gem 'fog'
   gem 'puppet'
   gem 'rspec-rails'
-  # gem 'unicorn-rails'
   # Access an IRB console on exceptions page and /console in development
-  # gem 'web-console', '~> 2.0.0.beta2'
+  gem 'web-console', '~> 2.0.0.beta2'
 end
 
 group :test do
