@@ -4,7 +4,7 @@ Social search
 
 ==== Ruby version
 
-* 2.1.4p265
+* 2.1.5p273
 
 ==== Elasticsearch
 
@@ -50,6 +50,8 @@ Social search
     
 * Deploy with [Capistrano](http://capistranorb.com/)
     `cap production deploy`
+    
+* At the moment you still then need to ssh into the instance an manually start both passenger and elasticsearch.
 
 ==== Specs
 
