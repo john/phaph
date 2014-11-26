@@ -42,30 +42,14 @@ class Document < ActiveRecord::Base
   #   update_document
   # end
   
-  before_destroy do |record|
-    # # Person.destroy_all "firm_id = #{record.id}"
-    # record.delete_files
-    # record.remove_from_s3
-  end
+  # before_destroy do |record|
+  #   # # Person.destroy_all "firm_id = #{record.id}"
+  #   # record.delete_files
+  #   # record.remove_from_s3
+  # end
 
   ROOT = "#{Rails.root}/public"
   FQDN = 'https://phaph.s3.amazonaws.com'
-
-  # MIME_TYPES = ['application/pdf', 'application/rtf',
-  #   'text/plain', 'text/html',
-  #   'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  #   'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-  #   'application/vnd.ms-word.document.macroEnabled.12',
-  #   'application/vnd.ms-word.template.macroEnabled.12',
-  #   'application/vnd.ms-powerpoint',
-  #   'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-  #   'application/vnd.openxmlformats-officedocument.presentationml.template',
-  #   'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-  #   'application/vnd.ms-powerpoint.addin.macroEnabled.12',
-  #   'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
-  #   'application/vnd.ms-powerpoint.template.macroEnabled.12',
-  #   'application/vnd.ms-powerpoint.slideshow.macroEnabled.12'
-  # ]
   
   settings index: { number_of_shards: 5, number_of_replicas: 1 } do
     mappings do
@@ -124,20 +108,30 @@ class Document < ActiveRecord::Base
     # probably put this into "#{Rails.root}/tmp" for now, then send to S3 and record the S3 location
 
     full_path = "#{ROOT}/#{archive_path}"
+    logger.info "-----------> full_path: #{full_path}"
 
-    `httrack #{url} --depth=1 --path=#{full_path}/#{slug}`
+    httrack_call = "httrack #{url} --depth=1 --path=#{full_path}/#{slug}"
+    logger.info "-----------> httrack call: #{httrack_call}"
+    
+    out = `#{httrack_call}`
+    logger.info "-----------> httrack out: #{out}"
     
     # put in memcache or whatever, then:
     # `rm -rf #{ROOT}/#{archive_path}`
 
-    `tar cvf - #{full_path} | gzip > #{full_path}/#{slug}.tar.gz`
+    out = `tar cvf - #{full_path} | gzip > #{full_path}/#{slug}.tar.gz`
+    logger.info "-----------> tar out: #{out}"
+    
     save_to_s3 "#{archive_path}/#{slug}.tar.gz"
 
     self.file_location = "/#{archive_path}/#{slug}.tar.gz"
     self.save
 
-    `phantomjs #{Rails.root}/lib/js/rasterize.js #{url} #{full_path}/#{slug}.png 950px*650px`
-
+    phantom_call = "phantomjs #{Rails.root}/lib/js/rasterize.js #{url} #{full_path}/#{slug}.png 950px*650px"
+    logger.info "-----------> phantom_call: #{phantom_call}"
+    out = `#{phantom_call}`
+    logger.info "-----------> phantom out: #{out}"
+    
     # screenshot has been generated, jack a message into the dom:
     # IA does this: https://web.archive.org/web/20061231032842/http://wordie.org/?
     
@@ -156,7 +150,13 @@ class Document < ActiveRecord::Base
     unless self.pdf?
 
       # Might want to install the latest unoconv from git, the one installed by brew was out of date and broken
-      `unoconv -f pdf -o /tmp '#{full_path}/#{filename}'`
+      
+      
+      unoconv_call = "unoconv -f pdf -o /tmp '#{full_path}/#{filename}'"
+      logger.info "-----------> unoconv_call: #{unoconv_call}"
+      out = `#{unoconv_call}`
+      logger.info "-----------> unoconv out: #{out}"
+      
       pdf_path = "/tmp/#{filename.split('.')[-2]}.pdf"
     else
       pdf_path = "#{full_path}/#{filename}"

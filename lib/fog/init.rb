@@ -1,28 +1,41 @@
 # Create RDS instance:
 # MySQL -> SingleAZ (in QA) -> 5.6.21, t2.small, root/DK ->
-# Publicly Accessible: yes -> AZ: us-west-2a, VPC Security Group: default
-# Database name: phaph_production
+# Publicly Accessible: yes -> AZ: us-west-2a
+# VPC Security Group: default, subnet default
+# Database & instance name: phaph_production
 
 # Instantiate a new server:
 # ruby lib/fog/init.rb
 
-# Change inbound permissions
+# Change inbound permissions (?)
 
+# Take RDS instance name and add to database.yml
 # Take the public DNS of the new instance and add it to /config/deploy/production.rb
 
 # Deploy:
-# edit hostname in /config/deploy/production.rb
 # you may have to clear out junk in ~/.ssh/known_hosts
 # cap production deploy
-# cap production deploy:restart
+# cap production deploy:restart (fails now actually, because when it runs in a 
+# non-login shell it can't find the correct gem bundles)
 
 # ssh into box and fix this:
 # http://stackoverflow.com/questions/23726110/missing-production-secret-key-base-in-rails
+# - bundle exec rake secret
+# edit secrets.yml, though real fix is in link above
+# maybe not necessary?
 
-# Create db and migrate. See if there's a cap task for this later, but for now, on the instance?
-# cd /home/ubuntu/phaph/current; bundle exec rake db:create RAILS_ENV=production (unecessary if you created the db when setting up RDS)
+
+# Create db and migrate. See if there's a cap task for this later, but for now, on the instance
+# You need to first drop the db, because the one created when you spun up the RDS instance has the wrong collation.
+# cd /home/ubuntu/phaph/current; bundle exec rake db:create RAILS_ENV=production
+# cd /home/ubuntu/phaph/current; bundle exec rake db:create RAILS_ENV=production
 # cd /home/ubuntu/phaph/current; bundle exec rake db:migrate RAILS_ENV=production
 
+# script this too, easily, from fog init.rb, but for now you need to create the documents directory:
+# mkdir /home/ubuntu/phaph/current/public/documents
+
+# or maybe not--looks like it can't create directories?
+# actually see document.rb 222: more like it can't wite to S3. open a port?
 
 # Script all this later, but now ssh into the instance and start passenger:
 # rvmsudo passenger start --daemonize --port 80 --user ubuntu --user=ubuntu --environment production
@@ -33,7 +46,9 @@
 # Elasticsearch (though maybe this doesn't daemonize?)
 # /home/ubuntu/elasticsearch-1.4.0/bin/elasticsearch
 
-
+# Start Elasticsearch daemon
+# cd ~/elasticsearch-1.4.0/bin; sudo ./elasticsearch -d
+# (you can also pass through java params: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup.html)
 
 # this: https://gist.github.com/pvdb/868002
 # says this: bundle exec passenger start --socket /tmp/passenger.socket --daemonize --port 80 --environment production
@@ -45,6 +60,11 @@
 # create index:
 # Document.__elasticsearch__.create_index! force: true
 
+# https://gist.github.com/rodleviton/74e22e952bd6e7e5bee1
+# wget http://mirrors-usa.go-parts.com/mirrors/ImageMagick/ImageMagick-6.9.0-0.tar.gz
+# tar xzvf ImageMagick-6.9.0-0.tar.gz
+# cd ImageMagick-6.9.0-0/
+# ./configure --prefix=/opt/imagemagick-6.9 && make
 
 
 # TODO:
@@ -156,7 +176,7 @@ cmd(server, "sudo apt-get -y upgrade")
 server.wait_for { ready? }
 puts '---'
 puts 'apt-getting openssl and friends...'
-cmd(server, "sudo apt-get -y -f install mysql-client-core-5.6 webhttrack build-essential openssl libreadline-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt1-dev autoconf libc6-dev libncurses5-dev automake libtool bison libcurl4-openssl-dev libmysqlclient-dev git unzip libreoffice unoconv libfreetype6-dev fontconfig libfontconfig1 libjpeg-turbo8 libxrender1 xorg libpng12-dev libjpeg-dev libmagic-dev" )
+cmd(server, "sudo apt-get -y -f install mysql-client-core-5.6 webhttrack httrack phantomjs imagemagick build-essential openssl libreadline-dev curl zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt1-dev autoconf libc6-dev libncurses5-dev automake libtool bison libcurl4-openssl-dev libmysqlclient-dev git unzip libreoffice unoconv libfreetype6-dev fontconfig libfontconfig1 libjpeg-turbo8 libxrender1 xorg libpng12-dev libjpeg-dev libmagic-dev" )
 
 # puts '2nd batch...'
 # cmd(server, "sudo apt-get -y libyaml-dev libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison libcurl-dev libcurl3-dev libcurl3-gnutls libcurl4-openssl-dev")

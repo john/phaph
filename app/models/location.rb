@@ -21,7 +21,8 @@ class Location < ActiveRecord::Base
     else
       # Error - we should throw as geocoding wasn't successful
       # This is not yet done to make sure we don't break legacy code
-      Rails.logger.error( "Warning: geocoding for '#{obj.location}' failed" )
+      # Rails.logger.error( "Warning: geocoding for '#{obj.location}' failed" )
+      Rails.logger.error "Geocoding failed."
       return nil
     end
   end

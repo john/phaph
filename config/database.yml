@@ -24,7 +24,7 @@ test:
 
 production:
   <<: *default
-  host: phaph-prod.cmjzuhmazvmn.us-west-2.rds.amazonaws.com
+  host: phaphpro.cmjzuhmazvmn.us-west-2.rds.amazonaws.com
   socket: 
   database: phaph_production
   username: root

@@ -13,7 +13,8 @@ RSpec.describe DocumentsController, :type => :controller do
   context "logged-in users" do
     
     before(:each) do
-      @user = FactoryGirl.create(:user)
+      # @user = FactoryGirl.create(:user)
+      @user = create(:user)
       sign_in @user
     end
     

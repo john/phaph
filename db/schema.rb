@@ -199,7 +199,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
     t.datetime "updated_at"
   end
 
-  add_index "memberships", ["belongable_id", "belongable_type"], name: "index_memberships_on_belongable_id_and_belongable_type", using: :btree
+  add_index "memberships", ["belongable_type", "belongable_id"], name: "index_memberships_on_belongable_type_and_belongable_id", using: :btree
   add_index "memberships", ["creator_id"], name: "index_memberships_on_creator_id", using: :btree
   add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
 
@@ -223,7 +223,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
     t.datetime "updated_at"
   end
 
-  add_index "presences", ["locatable_id", "locatable_type"], name: "index_presences_on_locatable_id_and_locatable_type", using: :btree
+  add_index "presences", ["locatable_type", "locatable_id"], name: "index_presences_on_locatable_type_and_locatable_id", using: :btree
   add_index "presences", ["location_id"], name: "index_presences_on_location_id", using: :btree
 
   create_table "searches", force: true do |t|

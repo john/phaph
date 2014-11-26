@@ -38,6 +38,11 @@ gem 'public_activity'
 gem 'pundit'
 
 gem 'rails', '4.2.0.beta4'
+
+# http://stackoverflow.com/questions/27139007/cant-migrate-database-after-scaffold-section-2-2-ruby-on-rails-tutorial-michae
+gem 'arel', '6.0.0.beta2'
+# remove this probably as soon as rails beta 5 is out, which should include it.
+
 gem 'devise', '~> 3.4'
 gem 'sass-rails', '~> 5.0.0.beta1'
 gem 'rails-html-sanitizer', '~> 1.0'
@@ -63,6 +68,9 @@ group :development, :test do
   gem 'byebug'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  
+  gem 'factory_girl_rails', git: 'git@github.com:thoughtbot/factory_girl_rails.git', require: false
+  gem 'shoulda-matchers'
 end
 
 gem 'capistrano'
@@ -76,13 +84,13 @@ group :development do
   gem 'puppet'
   gem 'rspec-rails'
   # Access an IRB console on exceptions page and /console in development
-  gem 'web-console', '~> 2.0.0.beta2'
+  gem 'web-console', '~> 2.0.0'
 end
 
-group :test do
-  gem 'factory_girl_rails', require: false
-  gem 'shoulda-matchers'
-end
+# group :test do
+#   gem 'factory_girl_rails', '4.4.1', require: false
+#   gem 'shoulda-matchers'
+# end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]

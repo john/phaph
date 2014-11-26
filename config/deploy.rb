@@ -65,6 +65,10 @@ set :tests, []
 # Default value for keep_releases is 5
 set :keep_releases, 5
 
+# set :default_env, {
+#   'rvmsudo_secure_path' => 1
+# }
+
 namespace :deploy do
 
   desc 'start application'
@@ -73,7 +77,11 @@ namespace :deploy do
       # Your restart mechanism here, for example:
       # execute :touch, release_path.join('tmp/restart.txt')
       within release_path do
-        execute :sudo, :passenger, "start --daemonize --port 80 --user ubuntu --user=ubuntu --environment production"
+        
+        # works from the command line:
+        # rvmsudo passenger start --daemonize --port 80 --user ubuntu --user=ubuntu --environment production
+        
+        # execute '/home/ubuntu/.rvm/bin/rvmsudo', :bundle, :exec, :passenger, "start --daemonize --port 80 --user ubuntu --user=ubuntu --environment production"
       end
     end
   end
@@ -85,6 +93,7 @@ namespace :deploy do
       # execute :touch, release_path.join('tmp/restart.txt')
       within release_path do
         # execute :rvm, "use default" # rather, add this to .bashrc when provisioning server
+        # execute :rvm, "use default"
         execute :sudo, :passenger, "stop --port 80"
       end
     end
