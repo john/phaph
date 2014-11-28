@@ -69,10 +69,10 @@ class DocumentsController < ApplicationController
     
     if @document.url.present?
       @document.file_data = open( @document.url ) { |file| file.read }
-    else
-      fd = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
-      fd = fd.force_encoding("binary")
-      @document.file_data = fd
+    # else
+    #   fd = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
+    #   fd = fd.force_encoding("binary")
+    #   @document.file_data = fd
     end
     
     if @document.save
@@ -82,11 +82,11 @@ class DocumentsController < ApplicationController
         # generate a pdf
         # pdf_out = `wkhtmltopdf #{@document.url}/#{@document.id}.pdf`
 
-        @document.archive_site
-      else
-        # if a file upload, generate thumbs from pdf,
-        # and upload both the pdfs and thumbs to S3
-        @document.archive_file
+        @document.archive_site(current_user)
+      # else
+      #   # if a file upload, generate thumbs from pdf,
+      #   # and upload both the pdfs and thumbs to S3
+      #   @document.archive_file
       end
 
       if @document.collection_id.present?

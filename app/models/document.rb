@@ -41,15 +41,10 @@ class Document < ActiveRecord::Base
   #   logger.debug "-------------------------------> CALLING update_document."
   #   update_document
   # end
-  
-  # before_destroy do |record|
-  #   # # Person.destroy_all "firm_id = #{record.id}"
-  #   # record.delete_files
-  #   # record.remove_from_s3
-  # end
 
   ROOT = "#{Rails.root}/public"
-  FQDN = 'https://phaph.s3.amazonaws.com'
+  # FQDN = 'https://phaph.s3.amazonaws.com'
+  FQDN = 'http://localhost:3000'
   
   settings index: { number_of_shards: 5, number_of_replicas: 1 } do
     mappings do
@@ -104,30 +99,88 @@ class Document < ActiveRecord::Base
   # end
 
   # for archiving a website. use archive_file to do the same for an uploaded file
-  def archive_site
+  def archive_site(user)
+    # create everything locally in /tmp
+    # move everything to s3
+    # delete shit in /tmp
+    
     doc_id = (id.blank?) ? (Document.maximum(:id) + 1) : id
+    id_slug = "#{user.id}-#{slug}"
+    path = "#{Rails.root}/public"
     
-    httrack_call = "httrack #{url} --depth=1 --path=/tmp/#{doc_id}/#{slug}"
-    out = `#{httrack_call}`
-
-    out = `tar -cvzf /tmp/#{doc_id}/#{slug}.tar.gz /tmp/#{doc_id}/#{slug}`
-    save_to_s3( "/tmp/#{doc_id}/#{slug}.tar.gz", "#{doc_id}/#{slug}.tar.gz" )
+    `httrack #{url} --depth=1 --path=#{path}/#{doc_id}/#{id_slug}`
+    `tar -cvzf #{path}/#{doc_id}/#{id_slug}.tar.gz #{path}/#{doc_id}/#{id_slug}`
+    # save_to_s3( "/tmp/#{doc_id}/#{slug}.tar.gz", "#{doc_id}/#{slug}.tar.gz" )
     
-    self.file_location = "/#{doc_id}/#{slug}.tar.gz"
+    self.file_location = "/#{doc_id}/#{id_slug}"
     self.save
 
-    phantom_call = "phantomjs #{Rails.root}/lib/js/rasterize.js #{url} /tmp/#{doc_id}/#{slug}.png 950px*650px"
-    logger.info "-----------> phantom_call: #{phantom_call}"
-    out = `#{phantom_call}`
-    logger.info "-----------> phantom out: #{out}"
+    `phantomjs #{Rails.root}/lib/js/rasterize.js #{url} #{path}/#{doc_id}/#{id_slug}.png 950px*650px`
     
     # screenshot has been generated, jack a message into the dom:
     # IA does this: https://web.archive.org/web/20061231032842/http://wordie.org/?
     
-    generate_thumbnails( self, "/tmp/#{doc_id}/#{slug}" )
+    generate_thumbnails( self, "#{path}/#{doc_id}/#{id_slug}" )
     self.save
   end
 
+  # generate_thumbnails( self, "/tmp/#{doc_id}/#{id_slug}" )
+  def generate_thumbnails( doc, path )
+    resize( doc, path, 400, 'lg'  )
+    resize( doc, path, 225, 'md'  )
+    square( doc, path, 75, 'sm' )
+  end
+
+  # resize( self, "/tmp/#{doc_id}/#{id_slug}", 400, 'lg' )
+  def resize( doc, path, size, suffix )
+    format = 'png'
+    image = MiniMagick::Image.open( "#{path}.#{format}" )
+    image.format( format )
+    image.resize( "#{size}x#{size}" )
+    image.write "#{path}_#{suffix}.#{format}"
+    doc.send( "thumb_#{suffix}=", "#{self.file_location}_#{suffix}.#{format}" )
+    # save_to_s3( "#{path}_#{suffix}.#{format}" )
+    return image
+  end
+
+  def square( doc, path, size, suffix )
+    format = 'png'
+    i = MiniMagick::Image.open( "#{path}.#{format}" )
+    
+    if i[:width] < i[:height]
+      remove = ((i[:height] - i[:width])/2).round
+      i.shave("0x#{remove}")
+    elsif i[:width] > i[:height]
+      remove = ((i[:width] - i[:height])/2).round
+      i.shave("#{remove}x0")
+    end
+    
+    i.resize( "#{size}x#{size}" )
+    i.write "#{path}_#{suffix}.#{format}"
+    doc.send( "thumb_#{suffix}=", "#{self.file_location}_#{suffix}.#{format}" )
+    # save_to_s3( "#{path}_#{suffix}.#{format}" )
+    return i
+  end
+  
+  def save_to_s3( local_path, remote_path )
+    s3 = AWS::S3.new
+    bucket = s3.buckets['phaph'] # makes no request
+    bucket = s3.buckets.create('phaph') unless bucket.exists?
+    bucket.acl = :public_read
+    
+    # filename = File.basename(path)
+    
+    # path[0] = '' if path[0] == '/'
+    # bucket.objects["#{path}"].write(:file => "#{ROOT}/#{path}", :acl => :public_read)
+    bucket.objects[remote_path].write(:file => local_path, :acl => :public_read)
+  end
+  
+  def pdf?
+    fm = FileMagic.new
+    file_info = fm.file("#{ROOT}/#{archive_path}/#{File.basename(self.file.path)}")
+    file_info.include?( "PDF document")
+  end
+  
   # def archive_file
   #   # full_path = "#{ROOT}/#{archive_path}"
   #   filename = File.basename(self.file.path)
@@ -139,7 +192,6 @@ class Document < ActiveRecord::Base
   #   unless self.pdf?
   #
   #     # Might want to install the latest unoconv from git, the one installed by brew was out of date and broken
-  #
   #
   #     unoconv_call = "unoconv -f pdf -o /tmp '#{full_path}/#{filename}'"
   #     logger.info "-----------> unoconv_call: #{unoconv_call}"
@@ -160,60 +212,7 @@ class Document < ActiveRecord::Base
   #   generate_thumbnails( self, "#{archive_path}/#{slug}" )
   #   self.save
   # end
-
-  def pdf?
-    fm = FileMagic.new
-    file_info = fm.file("#{ROOT}/#{archive_path}/#{File.basename(self.file.path)}")
-    file_info.include?( "PDF document")
-  end
-
-  def generate_thumbnails( doc, path )
-    resize( doc, path, 400, 'lg'  )
-    resize( doc, path, 225, 'md'  )
-    square( doc, path, 75, 'sm' )
-  end
-
-  def resize( doc, path, size, suffix )
-    format = 'png'
-    image = MiniMagick::Image.open( "#{path}.#{format}" )
-    image.format( format )
-    image.resize( "#{size}x#{size}" )
-    image.write "#{path}_#{suffix}.#{format}"
-    doc.send( "thumb_#{suffix}=", "/#{path}_#{suffix}.#{format}" )
-    save_to_s3( "#{path}_#{suffix}.#{format}" )
-    return image
-  end
-
-  def square( doc, path, size, suffix )
-    format = 'png'
-    i = MiniMagick::Image.open( "#{ROOT}/#{path}.#{format}" )
-    if i[:width] < i[:height]
-      remove = ((i[:height] - i[:width])/2).round
-      i.shave("0x#{remove}")
-    elsif i[:width] > i[:height]
-      remove = ((i[:width] - i[:height])/2).round
-      i.shave("#{remove}x0")
-    end
-    i.resize( "#{size}x#{size}" )
-    i.write "#{ROOT}/#{path}_#{suffix}.#{format}"
-    doc.send( "thumb_#{suffix}=", "/#{path}_#{suffix}.#{format}" )
-    save_to_s3( "#{path}_#{suffix}.#{format}" )
-    return i
-  end
-
-  def save_to_s3( local_path, remote_path )
-    s3 = AWS::S3.new
-    bucket = s3.buckets['phaph'] # makes no request
-    bucket = s3.buckets.create('phaph') unless bucket.exists?
-    bucket.acl = :public_read
-    
-    # filename = File.basename(path)
-    
-    # path[0] = '' if path[0] == '/'
-    # bucket.objects["#{path}"].write(:file => "#{ROOT}/#{path}", :acl => :public_read)
-    bucket.objects[remote_path].write(:file => local_path, :acl => :public_read)
-  end
-
+  
   # def remove_from_s3
   #   s3 = AWS::S3.new
   #   bucket = s3.buckets['phaph']
@@ -244,7 +243,6 @@ class Document < ActiveRecord::Base
   # def recursively_delete_empty_directories(directory)
   #   if (Dir.entries(directory) - %w{ . .. }).empty?
   #     logger.debug "------------------------> dir to delete: #{directory}"
-
   #     parent_directory = File.dirname( directory )
   #     FileUtils.rm_rf( directory )
   #     recursively_delete_empty_directories(parent_directory)
