@@ -72,7 +72,6 @@ class DocumentsController < ApplicationController
     else
       fd = open( "#{Rails.root}/public#{ @document.file_url }" ) { |file| file.read }
       fd = fd.force_encoding("binary")
-      
       @document.file_data = fd
     end
     

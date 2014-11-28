@@ -18,12 +18,12 @@ class Location < ActiveRecord::Base
       obj.country = geo.country_code
       obj.city = geo.city
       obj.state = geo.state
-    else
-      # Error - we should throw as geocoding wasn't successful
-      # This is not yet done to make sure we don't break legacy code
-      # Rails.logger.error( "Warning: geocoding for '#{obj.location}' failed" )
-      Rails.logger.error "Geocoding failed."
-      return nil
+    # else
+    #   # Error - we should throw as geocoding wasn't successful
+    #   # This is not yet done to make sure we don't break legacy code
+    #   # Rails.logger.error( "Warning: geocoding for '#{obj.location}' failed" )
+    #   Rails.logger.error "Geocoding failed."
+    #   return nil
     end
   end
   

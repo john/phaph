@@ -94,40 +94,29 @@ class Document < ActiveRecord::Base
     }
   end
 
-  def archive_path
-    # TODO: this incrementation crap is fragile. How can we get the object id before the object is persisted?
-    # Rails 4.2 GUID stuff?
-    the_id = (id.blank?) ? (Document.maximum(:id) + 1) : id
+  # def archive_path
+  #   # TODO: this incrementation crap is jank. How can we get the object id before the object is persisted?
+  #   # Rails 4.2 GUID?
+  #   the_id = (id.blank?) ? (Document.maximum(:id) + 1) : id
+  #
+  #   # "documents/1/#{Time.now.strftime("%Y")}/#{the_id}"
+  #   "#{current_user.id}/#{the_id}"
+  # end
 
-    "documents/1/#{Time.now.strftime("%Y")}/#{the_id}"
-  end
-
-  # Path convention for archives.
-  # Local: /{Rails.root}/public/documents/:user_id/:year/:doc_id/:doc_name
+  # for archiving a website. use archive_file to do the same for an uploaded file
   def archive_site
-    # probably put this into "#{Rails.root}/tmp" for now, then send to S3 and record the S3 location
-
-    full_path = "#{ROOT}/#{archive_path}"
-    logger.info "-----------> full_path: #{full_path}"
-
-    httrack_call = "httrack #{url} --depth=1 --path=#{full_path}/#{slug}"
-    logger.info "-----------> httrack call: #{httrack_call}"
+    doc_id = (id.blank?) ? (Document.maximum(:id) + 1) : id
     
+    httrack_call = "httrack #{url} --depth=1 --path=/tmp/#{doc_id}/#{slug}"
     out = `#{httrack_call}`
-    logger.info "-----------> httrack out: #{out}"
-    
-    # put in memcache or whatever, then:
-    # `rm -rf #{ROOT}/#{archive_path}`
 
-    out = `tar cvf - #{full_path} | gzip > #{full_path}/#{slug}.tar.gz`
-    logger.info "-----------> tar out: #{out}"
+    out = `tar -cvzf /tmp/#{doc_id}/#{slug}.tar.gz /tmp/#{doc_id}/#{slug}`
+    save_to_s3( "/tmp/#{doc_id}/#{slug}.tar.gz", "#{doc_id}/#{slug}.tar.gz" )
     
-    save_to_s3 "#{archive_path}/#{slug}.tar.gz"
-
-    self.file_location = "/#{archive_path}/#{slug}.tar.gz"
+    self.file_location = "/#{doc_id}/#{slug}.tar.gz"
     self.save
 
-    phantom_call = "phantomjs #{Rails.root}/lib/js/rasterize.js #{url} #{full_path}/#{slug}.png 950px*650px"
+    phantom_call = "phantomjs #{Rails.root}/lib/js/rasterize.js #{url} /tmp/#{doc_id}/#{slug}.png 950px*650px"
     logger.info "-----------> phantom_call: #{phantom_call}"
     out = `#{phantom_call}`
     logger.info "-----------> phantom out: #{out}"
@@ -135,42 +124,42 @@ class Document < ActiveRecord::Base
     # screenshot has been generated, jack a message into the dom:
     # IA does this: https://web.archive.org/web/20061231032842/http://wordie.org/?
     
-    generate_thumbnails( self, "#{archive_path}/#{slug}" )
+    generate_thumbnails( self, "/tmp/#{doc_id}/#{slug}" )
     self.save
   end
 
-  def archive_file
-    full_path = "#{ROOT}/#{archive_path}"
-    filename = File.basename(self.file.path)
-    save_to_s3 "#{archive_path}/#{filename}"
-
-    self.file_location = "#{Document::FQDN}/#{archive_path}/#{filename}"
-    self.save
-
-    unless self.pdf?
-
-      # Might want to install the latest unoconv from git, the one installed by brew was out of date and broken
-      
-      
-      unoconv_call = "unoconv -f pdf -o /tmp '#{full_path}/#{filename}'"
-      logger.info "-----------> unoconv_call: #{unoconv_call}"
-      out = `#{unoconv_call}`
-      logger.info "-----------> unoconv out: #{out}"
-      
-      pdf_path = "/tmp/#{filename.split('.')[-2]}.pdf"
-    else
-      pdf_path = "#{full_path}/#{filename}"
-    end
-
-    # generate a full-sized png from the pdf
-    image = MiniMagick::Image.open( pdf_path )
-    image.format("png", 0)
-    image.resize("950x")
-    image.write("#{full_path}/#{slug}.png")
-
-    generate_thumbnails( self, "#{archive_path}/#{slug}" )
-    self.save
-  end
+  # def archive_file
+  #   # full_path = "#{ROOT}/#{archive_path}"
+  #   filename = File.basename(self.file.path)
+  #   save_to_s3 "#{archive_path}/#{filename}"
+  #
+  #   self.file_location = "#{Document::FQDN}/#{archive_path}/#{filename}"
+  #   self.save
+  #
+  #   unless self.pdf?
+  #
+  #     # Might want to install the latest unoconv from git, the one installed by brew was out of date and broken
+  #
+  #
+  #     unoconv_call = "unoconv -f pdf -o /tmp '#{full_path}/#{filename}'"
+  #     logger.info "-----------> unoconv_call: #{unoconv_call}"
+  #     out = `#{unoconv_call}`
+  #     logger.info "-----------> unoconv out: #{out}"
+  #
+  #     pdf_path = "/tmp/#{filename.split('.')[-2]}.pdf"
+  #   else
+  #     pdf_path = "#{full_path}/#{filename}"
+  #   end
+  #
+  #   # generate a full-sized png from the pdf
+  #   image = MiniMagick::Image.open( pdf_path )
+  #   image.format("png", 0)
+  #   image.resize("950x")
+  #   image.write("#{full_path}/#{slug}.png")
+  #
+  #   generate_thumbnails( self, "#{archive_path}/#{slug}" )
+  #   self.save
+  # end
 
   def pdf?
     fm = FileMagic.new
@@ -186,10 +175,10 @@ class Document < ActiveRecord::Base
 
   def resize( doc, path, size, suffix )
     format = 'png'
-    image = MiniMagick::Image.open( "#{ROOT}/#{path}.#{format}" )
+    image = MiniMagick::Image.open( "#{path}.#{format}" )
     image.format( format )
     image.resize( "#{size}x#{size}" )
-    image.write "#{ROOT}/#{path}_#{suffix}.#{format}"
+    image.write "#{path}_#{suffix}.#{format}"
     doc.send( "thumb_#{suffix}=", "/#{path}_#{suffix}.#{format}" )
     save_to_s3( "#{path}_#{suffix}.#{format}" )
     return image
@@ -212,42 +201,45 @@ class Document < ActiveRecord::Base
     return i
   end
 
-  def save_to_s3( path )
+  def save_to_s3( local_path, remote_path )
     s3 = AWS::S3.new
     bucket = s3.buckets['phaph'] # makes no request
     bucket = s3.buckets.create('phaph') unless bucket.exists?
     bucket.acl = :public_read
-
-    path[0] = '' if path[0] == '/'
-    bucket.objects["#{path}"].write(:file => "#{ROOT}/#{path}", :acl => :public_read)
+    
+    # filename = File.basename(path)
+    
+    # path[0] = '' if path[0] == '/'
+    # bucket.objects["#{path}"].write(:file => "#{ROOT}/#{path}", :acl => :public_read)
+    bucket.objects[remote_path].write(:file => local_path, :acl => :public_read)
   end
 
-  def remove_from_s3
-    s3 = AWS::S3.new
-    bucket = s3.buckets['phaph']
-    sm = thumb_sm
-    sm[0] = ''
-    md = thumb_md
-    md[0] = ''
-    lg = thumb_lg
-    lg[0] = ''
-    fle = file_location
-    fle[0] = ''
+  # def remove_from_s3
+  #   s3 = AWS::S3.new
+  #   bucket = s3.buckets['phaph']
+  #   sm = thumb_sm
+  #   sm[0] = ''
+  #   md = thumb_md
+  #   md[0] = ''
+  #   lg = thumb_lg
+  #   lg[0] = ''
+  #   fle = file_location
+  #   fle[0] = ''
+  #
+  #   logger.debug "------------------------> ABOUT to remove three thumbs"
+  #   bucket.objects.delete( sm, md, lg, fle )
+  # end
 
-    logger.debug "------------------------> ABOUT to remove three thumbs"
-    bucket.objects.delete( sm, md, lg, fle )
-  end
-
-  def delete_files
-    # directory = File.dirname( "#{Rails.root}/public#{file_location}" )
-    # logger.debug "------------------------> dir to delete: #{directory}"
-
-    # parent_directory = File.dirname( directory )
-
-    # FileUtils.rm_rf( directory )
-
-    # recursively_delete_empty_directories( parent_directory )
-  end
+  # def delete_files
+  #   directory = File.dirname( "#{Rails.root}/public#{file_location}" )
+  #   logger.debug "------------------------> dir to delete: #{directory}"
+  #
+  #   parent_directory = File.dirname( directory )
+  #
+  #   FileUtils.rm_rf( directory )
+  #
+  #   recursively_delete_empty_directories( parent_directory )
+  # end
 
   # def recursively_delete_empty_directories(directory)
   #   if (Dir.entries(directory) - %w{ . .. }).empty?
