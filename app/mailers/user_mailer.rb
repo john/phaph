@@ -1,4 +1,5 @@
 class UserMailer < ActionMailer::Base
+  include ActionView::Helpers::TextHelper
   default from: "john@phaph.com"
   
   def app_name
@@ -35,8 +36,9 @@ class UserMailer < ActionMailer::Base
   # When someone comments on you, or one of your collections or collectibles.
   def comment_email(comment, commenter)
     @comment = comment
+    @resource = comment.commentable
     @commenter = commenter
-    mail(to: @comment.user.email, subject: "#{commenter.name} commented on '#{@comment.commentable.name}'")
+    mail(to: @comment.user.email, subject: "#{commenter.name} commented on '#{view_context.strip_tags(@comment.commentable.name)}'")
   end
   
   # When someone copies one of your collectibles. Called in CollectiblesController#clone

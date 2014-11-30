@@ -1,0 +1,8 @@
+Hi <%= @comment.user.name %>,
+
+<%= @commenter.name %> left a new comment on "<%= strip_tags(@comment.commentable.name) %>". Check it:
+
+http://<%= app_url %>/<%= @resource.class.to_s.downcase %>s/<%= @resource.id %>
+
+Sincerely,
+<%= app_name %>
