@@ -126,8 +126,19 @@ class Document < ActiveRecord::Base
     self.save
 
     # http://phantomjs.org/
-    # https://github.com/ariya/phantomjs/blob/master/examples/rasterize.js
-    `phantomjs --ignore-ssl-errors=yes #{Rails.root}/lib/js/rasterize.js #{url} #{path}/#{doc_id}/#{id_slug}.png 950px*650px`
+    # https://github.com#{path}/#{doc_id}/ariya/phantomjs/blob/master/examples/rasterize.js
+    # `phantomjs --ignore-ssl-errors=yes #{Rails.root}/lib/js/rasterize.js #{url} #{path}/#{doc_id}/#{id_slug}.png 950px*650px`
+    
+    # pdf_out = `wkhtmltopdf #{@document.url}/#{@document.id}.pdf`
+    
+    # // The full command is: "/usr/bin/wkhtmltoimage-i386 --load-error-handling ignore http://www.google.com/ /var/www/images/example.jpg"
+#     // If we were to run this command via SSH, it would take a picture of google.com, and save it to /vaw/www/images/example.jpg
+    FileUtils::mkdir_p "#{path}/#{doc_id}"
+    wkh = "wkhtmltoimage --load-error-handling ignore --format png --width 950 --disable-smart-width --crop-h 650 #{url} #{path}/#{doc_id}/#{id_slug}.png"
+    logger.debug "--------------------------> wkh:"
+    logger.debug wkh
+    `#{wkh}`
+    
     
     # screenshot has been generated, jack a message into the dom:
     # IA does this: https://web.archive.org/web/20061231032842/http://wordie.org/?
