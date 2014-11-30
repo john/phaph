@@ -109,7 +109,16 @@ class Document < ActiveRecord::Base
     doc_id = (id.blank?) ? (Document.maximum(:id) + 1) : id
     id_slug = "#{user.id}-#{slug}"
     
-    `httrack #{url} --depth=1 --path=#{path}/#{doc_id}/#{id_slug}`
+    
+    # Great guide: https://www.httrack.com/html/fcguide.html
+    # Userful: http://superuser.com/questions/532036/trouble-using-wget-or-httrack-to-mirror-archived-website
+    # --depth=1 = don't spider, just get requested URL
+    # --path=... = local location to store collected material
+    #  --priority=3 = save all files
+    # --robots0 = ignore robots.txt & meta tags
+    # --near = "get non-html files 'near' an html file (ex: an image located outside)"
+    `httrack #{url} --depth=1 --path=#{path}/#{doc_id}/#{id_slug} --priority=3 --robots=0 --near`
+    
     `tar -cvzf #{path}/#{doc_id}/#{id_slug}.tar.gz #{path}/#{doc_id}/#{id_slug}`
     # save_to_s3( "/tmp/#{doc_id}/#{slug}.tar.gz", "#{doc_id}/#{slug}.tar.gz" )
     

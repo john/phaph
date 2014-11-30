@@ -13,7 +13,7 @@
     
     %link{ :rel => "shortcut icon", :href => "/favicon.ico", :type => "image/x-icon"}
     
-    %title= (Rails.env == 'development' ? '[DEV] ' : '') + (@title ? @title : app_name)
+    %title= (Rails.env == 'development' ? '[DEV] ' : '') + (@title ? strip_tags(@title) : app_name)
     
     <link href="//fonts.googleapis.com/css?family=Lato:400" media="screen" rel="stylesheet" />
     <link href="//fonts.googleapis.com/css?family=Roboto:700" media="screen" rel="stylesheet" />
