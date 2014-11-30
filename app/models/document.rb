@@ -43,8 +43,8 @@ class Document < ActiveRecord::Base
   # end
 
   ROOT = "#{Rails.root}/public"
-  # FQDN = 'https://phaph.s3.amazonaws.com'
-  FQDN = 'http://localhost:3000'
+  FQDN = 'https://phaph.s3.amazonaws.com'
+  # FQDN = 'http://localhost:3000'
   
   settings index: { number_of_shards: 5, number_of_replicas: 1 } do
     mappings do
@@ -104,9 +104,10 @@ class Document < ActiveRecord::Base
     # move everything to s3
     # delete shit in /tmp
     
+    path = "#{Rails.root}/public"
+    # um... can we get this just by saving the doc here instead of at the end?
     doc_id = (id.blank?) ? (Document.maximum(:id) + 1) : id
     id_slug = "#{user.id}-#{slug}"
-    path = "#{Rails.root}/public"
     
     `httrack #{url} --depth=1 --path=#{path}/#{doc_id}/#{id_slug}`
     `tar -cvzf #{path}/#{doc_id}/#{id_slug}.tar.gz #{path}/#{doc_id}/#{id_slug}`
@@ -115,12 +116,19 @@ class Document < ActiveRecord::Base
     self.file_location = "/#{doc_id}/#{id_slug}"
     self.save
 
-    `phantomjs #{Rails.root}/lib/js/rasterize.js #{url} #{path}/#{doc_id}/#{id_slug}.png 950px*650px`
+    # http://phantomjs.org/
+    # https://github.com/ariya/phantomjs/blob/master/examples/rasterize.js
+    `phantomjs --ignore-ssl-errors=yes #{Rails.root}/lib/js/rasterize.js #{url} #{path}/#{doc_id}/#{id_slug}.png 950px*650px`
     
     # screenshot has been generated, jack a message into the dom:
     # IA does this: https://web.archive.org/web/20061231032842/http://wordie.org/?
     
     generate_thumbnails( self, "#{path}/#{doc_id}/#{id_slug}" )
+    
+    # aws = YAML::load_file("#{Rails.root}/config/api_keys.yml")[Rails.env]['aws']
+    # uploader = S3FolderUpload.new("#{path}/#{doc_id}", 'phaph', aws['key'], aws['secret'])
+    # uploader.upload!
+    
     self.save
   end
 
@@ -162,18 +170,18 @@ class Document < ActiveRecord::Base
     return i
   end
   
-  def save_to_s3( local_path, remote_path )
-    s3 = AWS::S3.new
-    bucket = s3.buckets['phaph'] # makes no request
-    bucket = s3.buckets.create('phaph') unless bucket.exists?
-    bucket.acl = :public_read
-    
-    # filename = File.basename(path)
-    
-    # path[0] = '' if path[0] == '/'
-    # bucket.objects["#{path}"].write(:file => "#{ROOT}/#{path}", :acl => :public_read)
-    bucket.objects[remote_path].write(:file => local_path, :acl => :public_read)
-  end
+  # def save_to_s3( local_path, remote_path )
+  #   s3 = AWS::S3.new
+  #   bucket = s3.buckets['phaph'] # makes no request
+  #   bucket = s3.buckets.create('phaph') unless bucket.exists?
+  #   bucket.acl = :public_read
+  #
+  #   # filename = File.basename(path)
+  #
+  #   # path[0] = '' if path[0] == '/'
+  #   # bucket.objects["#{path}"].write(:file => "#{ROOT}/#{path}", :acl => :public_read)
+  #   bucket.objects[remote_path].write(:file => local_path, :acl => :public_read)
+  # end
   
   def pdf?
     fm = FileMagic.new

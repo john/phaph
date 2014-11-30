@@ -1,3 +1,5 @@
+require 's3_folder_upload'  
+
 class DocumentsController < ApplicationController
   
   before_action :authenticate_user!, only: [:index, :new, :edit, :create, :update, :destroy, :follow, :unfollow]
@@ -83,6 +85,11 @@ class DocumentsController < ApplicationController
         # pdf_out = `wkhtmltopdf #{@document.url}/#{@document.id}.pdf`
 
         @document.archive_site(current_user)
+        
+        aws = YAML::load_file("#{Rails.root}/config/api_keys.yml")[Rails.env]['aws']
+        uploader = S3FolderUpload.new("public/#{@document.id}", 'phaph', aws['key'], aws['secret'])
+        uploader.upload!
+        
       # else
       #   # if a file upload, generate thumbs from pdf,
       #   # and upload both the pdfs and thumbs to S3

@@ -82,7 +82,7 @@
       &nbsp;
 
       -# /#{@document.archive_path}/#{@document.slug}/index.html
-      = link_to '<span class="tip glyphpro glyphpro-binoculars"></span> &nbsp;view archive'.html_safe, "#", class: 'btn btn-xs btn-default', target: '_blank'
+      = link_to '<span class="tip glyphpro glyphpro-binoculars"></span> &nbsp;view archive'.html_safe, "#{Document::FQDN}#{@document.file_location}", class: 'btn btn-xs btn-default', target: '_blank'
       &nbsp;
 
       = link_to '<span class="tip glyphpro glyphpro-disk_save"></span> &nbsp;download'.html_safe, "#{@document.file_location}", class: 'btn btn-xs btn-default', target: '_blank'
