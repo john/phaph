@@ -52,7 +52,7 @@ class CommentsController < ApplicationController
       if @comment.save
         @comment.create_activity :create, owner: current_user
         
-        if resource.user.settings(:notify).on_comment == 'yes'
+        if resource.user.settings(:notify).on_comment == 'yes' && resource.user != current_user
           UserMailer.comment_email(@comment, resource.user).deliver_later
         end
         
