@@ -37,10 +37,10 @@ gem 'phantomjs'
 gem 'public_activity'
 gem 'pundit'
 
-gem 'rails', '4.2.0.beta4'
+gem 'rails', '4.2.0.rc1'
 
 # http://stackoverflow.com/questions/27139007/cant-migrate-database-after-scaffold-section-2-2-ruby-on-rails-tutorial-michae
-gem 'arel', '6.0.0.beta2'
+# gem 'arel', '6.0.0.beta2'
 # remove this probably as soon as rails beta 5 is out, which should include it.
 
 gem 'devise', '~> 3.4'
