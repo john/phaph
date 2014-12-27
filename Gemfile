@@ -18,7 +18,7 @@ gem 'will_paginate-bootstrap'
 gem 'elasticsearch'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
-gem 'friendly_id', '~> 5.0.0'
+gem 'friendly_id', '~> 5.0'
 gem 'geocoder'
 gem 'haml-rails'
 # gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -37,14 +37,10 @@ gem 'phantomjs'
 gem 'public_activity'
 gem 'pundit'
 
-gem 'rails', '4.2.0.rc1'
-
-# http://stackoverflow.com/questions/27139007/cant-migrate-database-after-scaffold-section-2-2-ruby-on-rails-tutorial-michae
-# gem 'arel', '6.0.0.beta2'
-# remove this probably as soon as rails beta 5 is out, which should include it.
+gem 'rails', '4.2.0'
 
 gem 'devise', '~> 3.4'
-gem 'sass-rails', '~> 5.0.0.beta1'
+gem 'sass-rails', '~> 5.0'
 gem 'rails-html-sanitizer', '~> 1.0'
 
 gem 'ruby-filemagic'
@@ -56,7 +52,7 @@ gem 'turbolinks' # Read more: https://github.com/rails/turbolinks
 gem 'uglifier', '>= 1.3.0'
 
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'sdoc', '~> 0.4', group: :doc
 
 # gem 'rspec-rails', group: [:development, :test]
 
@@ -81,7 +77,7 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'fog'
-  gem 'puppet'
+  # gem 'puppet'
   gem 'rspec-rails'
   # Access an IRB console on exceptions page and /console in development
   gem 'web-console', '~> 2.0.0'
