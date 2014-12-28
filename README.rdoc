@@ -4,12 +4,12 @@ Social search
 
 ==== Ruby version
 
-* 2.1.5p273
+* 2.2.0
 
 ==== Elasticsearch
 
 * Elasticsearch
-  * http://www.elasticsearch.org/downloads (currently 1.4.0)
+  * http://www.elasticsearch.org/downloads (currently 1.4.2)
 * Elasticsearch Mapper Attachment plugin (currently 2.4.1)
   * https://github.com/elasticsearch/elasticsearch-mapper-attachments/tree/master
   * from elastisearch root: `bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.4.1`
