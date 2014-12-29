@@ -43,16 +43,15 @@
 # To stop passenger:
 # rvmsudo passenger stop --port 80
 
-# Elasticsearch (though maybe this doesn't daemonize?)
-# /home/ubuntu/elasticsearch-1.4.0/bin/elasticsearch
-
 # Start Elasticsearch daemon
-# cd ~/elasticsearch-1.4.0/bin; sudo ./elasticsearch -d
+# cd ~/elasticsearch-1.4.1/bin; sudo ./elasticsearch -d
 # (you can also pass through java params: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup.html)
 
 # this: https://gist.github.com/pvdb/868002
 # says this: bundle exec passenger start --socket /tmp/passenger.socket --daemonize --port 80 --environment production
 
+# Start Sidekiq:
+# cd ~/phaph/current; bundle exec sidekiq -d -e production -L log/sidekiq.log
 
 # Start Rails console: 
 # cd ~/phaph/current; bundle exec rails c
@@ -257,17 +256,17 @@ cmd(server, "sudo apt-get -y install passenger")
 server.wait_for { ready? }
 puts '---'
 puts 'wgetting elasticsearch...'
-cmd(server, "wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.0.zip")
+cmd(server, "wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.1.zip")
 
 server.wait_for { ready? }
 puts '---'
 puts 'unzipping elasticsearch...'
-cmd(server, "unzip elasticsearch-1.4.0.zip")
+cmd(server, "unzip elasticsearch-1.4.1.zip")
 
 server.wait_for { ready? }
 puts '---'
 puts 'install es mappers...'
-cmd(server, "cd elasticsearch-1.4.0; bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.4.1")
+cmd(server, "cd elasticsearch-1.4.1; bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.4.1")
 
 # install es-mappers
 

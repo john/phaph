@@ -22,10 +22,11 @@ class Document < ActiveRecord::Base
   belongs_to :organization
   belongs_to :user
   
-  # has_many :collectibles
-  # has_many :collections, through: :collectibles
-  has_one :collectible
-  has_one :collection, through: :collectible
+  has_many :collectibles
+  has_many :collections, through: :collectibles
+  
+  # has_one :collectible
+  # has_one :collection, through: :collectible
   
   validates_presence_of :user, :name, :state
   
@@ -98,8 +99,19 @@ class Document < ActiveRecord::Base
   #   "#{current_user.id}/#{the_id}"
   # end
 
+  
+  def self.foo
+    sleep 10
+    boom
+  end
+  
+  def self.archive_site(document_id: nil, user_id: nil)
+    document = Document.find(document_id)
+    document.archive_site(user_id)
+  end
+  
   # for archiving a website. use archive_file to do the same for an uploaded file
-  def archive_site(user)
+  def archive_site(user_id)
     # create everything locally in /tmp
     # move everything to s3
     # delete shit in /tmp
@@ -107,7 +119,7 @@ class Document < ActiveRecord::Base
     path = "#{Rails.root}/public"
     # um... can we get this just by saving the doc here instead of at the end?
     doc_id = (id.blank?) ? (Document.maximum(:id) + 1) : id
-    id_slug = "#{user.id}-#{slug}"
+    id_slug = "#{user_id}-#{slug}"
     
     
     # Great guide: https://www.httrack.com/html/fcguide.html
@@ -150,6 +162,11 @@ class Document < ActiveRecord::Base
     # uploader.upload!
     
     self.save
+    
+    aws = YAML::load_file("#{Rails.root}/config/api_keys.yml")[Rails.env]['aws']
+    uploader = S3FolderUpload.new("public/#{doc_id}", 'phaph', aws['key'], aws['secret'])
+    uploader.upload!
+    
   end
 
   # generate_thumbnails( self, "/tmp/#{doc_id}/#{id_slug}" )

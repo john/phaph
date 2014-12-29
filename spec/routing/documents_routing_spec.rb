@@ -15,7 +15,7 @@ RSpec.describe DocumentsController, :type => :routing do
       expect(:get => "/documents/new").to route_to("documents#new")
     end
 
-    it "routes to #show" do
+    it "routes to #show with just an id" do
       expect(:get => "/documents/1").to route_to("documents#show", :id => "1")
     end
 

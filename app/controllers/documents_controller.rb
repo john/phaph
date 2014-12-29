@@ -51,8 +51,9 @@ class DocumentsController < ApplicationController
       end
 
       @selected_collection_id = @collection.id
-      @document = Document.new(collection: @collection)
-
+      # @document = Document.new(collection: @collection)
+      @document = Document.new
+      
     else
       @document = Document.new
     end
@@ -84,11 +85,12 @@ class DocumentsController < ApplicationController
         # generate a pdf
         # pdf_out = `wkhtmltopdf #{@document.url}/#{@document.id}.pdf`
 
-        @document.archive_site(current_user)
+        # @document.archive_site(current_user)
+        Document.archive_site(document_id: @document.id, user_id: current_user.id)
         
-        aws = YAML::load_file("#{Rails.root}/config/api_keys.yml")[Rails.env]['aws']
-        uploader = S3FolderUpload.new("public/#{@document.id}", 'phaph', aws['key'], aws['secret'])
-        uploader.upload!
+        # aws = YAML::load_file("#{Rails.root}/config/api_keys.yml")[Rails.env]['aws']
+        # uploader = S3FolderUpload.new("public/#{@document.id}", 'phaph', aws['key'], aws['secret'])
+        # uploader.upload!
         
       # else
       #   # if a file upload, generate thumbs from pdf,

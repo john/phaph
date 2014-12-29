@@ -54,16 +54,16 @@ Rails.application.routes.draw do
     get :unlike,  on: :member
   end
   
-  match '/documents/search' => 'documents#search', :via => :get, :as => :search_documents
+  # match '/documents/search' => 'documents#search', :via => :get, :as => :search_documents
   resources :documents do
     get 'import', on: :collection
     get :follow,  on: :member
     get :unfollow,  on: :member
   end
   
-  resources :locations
+  # resources :locations
   resources :organizations
-  resources :memberships
+  # resources :memberships
   resources :searches
   
   match '/users/authorize' => 'users#authorize', :via => :get, :as => :user_authorize
@@ -76,11 +76,11 @@ Rails.application.routes.draw do
     get :follow,  on: :member
     get :unfollow,  on: :member
   end
+  
   match '/people/:id/:slug' => 'users#show', :via => :get, :as => :people
-
   match '/organizations/:id/:slug' => 'organizations#show', :via => :get, :as => :slugged_organization
+  match '/collectible/:id/:slug' => 'collectibles#show', :via => :get, :as => :slugged_collectible
   match '/collections/:id/:slug' => 'collections#show', :via => :get, :as => :slugged_collection
   # match '/documents/:id/:slug' => 'documents#show', :via => :get, :as => :slugged_document
-  
-  
+    
 end

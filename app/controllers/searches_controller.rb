@@ -23,7 +23,7 @@ class SearchesController < ApplicationController
             }
             
     
-    @resources = Document.search( query ).page( params[:page] ||= 1 )
+    @resources = Document.search( query ).records.page( params[:page] ||= 1 )
     @title = "'#{params[:q]}' search results"
   end
   

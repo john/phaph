@@ -3,7 +3,7 @@
     - document = collectible.document
     .item
       -# %a{ href: "#{document_path(document)}" }
-      %a{ href: "#{collectible_path(collectible)}" }
+      %a{ href: "#{slugged_collectible_path(collectible.id, collectible.name.parameterize)}" }
         %img.pic.top{ src: "#{Document::FQDN}#{document.thumb_md}", alt: "thumbnail of #{document.name}"}
         .txt
           
@@ -11,7 +11,7 @@
             = sanitize(document.name)
 
             .clearfix
-            - if controller_name != 'collections' && col = document.collection 
+            - if controller_name != 'collections' && col = collectible.collection 
               In
               %i
                 = link_to col.name, slugged_collection_path(col, col.name.parameterize)

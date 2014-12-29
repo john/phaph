@@ -1,6 +1,6 @@
 :css
   em { text-style: normal; font-weight: bold; }
-  td { margin-left}
+  td { }
   .img { margin: 0 30px 20px 0;}
 
 .row.top
@@ -11,29 +11,39 @@
       results for
       %h2{:style => 'margin-top: 0;'}
         = sanitize(params[:q])
-      
-  .clearfix
-
+  
+.row
   .col-md-12
+    %table.table
+      - if @resources.present?
+        - @resources.each do |result|
+          -# %div{:style => 'margin-bottom: 30px'}
+          %tr
+            -# .pull-left.img
+            %td{style: 'width: 100px;'}
+              = image_tag result.thumb_sm
+            %td
+              %h3{style: 'margin-top: 0;'}
+                -# = link_to result.name, "#{document_path(result.id)}/#{result.name.parameterize}"
+                = result.name
+              = render partial: 'documents/details', locals:{document: result} 
 
-    - if @resources.present?
-      - @resources.each do |result|
-        %div{:style => 'margin-bottom: 30px'}
-          .pull-left.img
-            -# shitty temp solutions (url should be in es):
-            = image_tag Document.find(result.id).thumb_sm
-          %h3
-            = link_to result.name, "#{document_path(result.id)}/#{result.name.parameterize}"
-          = render partial: 'documents/details', locals:{document: result} 
-
-          - if result.respond_to?( :highlight )
-            %div{ :style => 'margin-top: 5px'}
-              #{result.highlight.attachment.first.html_safe}&hellip;
-            
-    - else
-      %tr
-        %td{ colspan: 2 }
-          No results :-(
+              - if result.respond_to?( :highlight )
+                %div{ :style => 'margin-top: 5px'}
+                  #{result.highlight.attachment.first.html_safe}&hellip;
+              
+              %div
+                Collected by:
+                - result.collectibles.each do |c|
+                  %div
+                    = link_to c.user.name, people_path(c.user, c.user.name.parameterize)
+                    in
+                    = link_to c.collection.name, slugged_collection_path(c.collection, c.collection.name.parameterize)
+              
+      - else
+        %tr
+          %td{ colspan: 2 }
+            No results :-(
         
   - if @resources
     = will_paginate @resources, renderer: BootstrapPagination::Rails, :next_label => 'Next &raquo;', :previous_label => '&laquo;'

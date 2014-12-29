@@ -7,7 +7,10 @@ class CollectiblesController < ApplicationController
   	# Add collected_from_id and origin_id  to collectibles table
     @document = @collectible.document
     @title = @collectible.name
-    @collection = @document.collection
+    
+    # @collection = @document.collection
+    @collection = @collectible.collection
+    
     @parent = @collectible.get_parent
 
   	# Get doc (and parent and originator) ids via collectible (pluck w/straight sql)

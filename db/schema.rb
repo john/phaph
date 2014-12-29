@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20141030201409) do
 
-  create_table "activities", force: true do |t|
+  create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
     t.string   "trackable_type", limit: 255
     t.integer  "owner_id",       limit: 4
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
 
-  create_table "authentications", force: true do |t|
+  create_table "authentications", force: :cascade do |t|
     t.integer  "user_id",            limit: 4
     t.string   "provider",           limit: 255
     t.string   "uid",                limit: 255
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "authentications", ["account_email"], name: "index_authentications_on_account_email", using: :btree
   add_index "authentications", ["authorized"], name: "index_authentications_on_authorized", using: :btree
 
-  create_table "collectibles", force: true do |t|
+  create_table "collectibles", force: :cascade do |t|
     t.string   "name",                    limit: 255,   default: "collectible", null: false
     t.text     "description",             limit: 65535
     t.integer  "scope",                   limit: 4,     default: 3,             null: false
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "collectibles", ["original_collectible_id"], name: "index_collectibles_on_original_collectible_id", using: :btree
   add_index "collectibles", ["user_id"], name: "index_collectibles_on_user_id", using: :btree
 
-  create_table "collections", force: true do |t|
+  create_table "collections", force: :cascade do |t|
     t.string   "name",             limit: 255,               null: false
     t.string   "slug",             limit: 255,               null: false
     t.text     "description",      limit: 65535
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "collections", ["slug"], name: "index_collections_on_slug", using: :btree
   add_index "collections", ["user_id"], name: "index_collections_on_user_id", using: :btree
 
-  create_table "comments", force: true do |t|
+  create_table "comments", force: :cascade do |t|
     t.integer  "commentable_id",   limit: 4,     default: 0
     t.string   "commentable_type", limit: 255
     t.string   "title",            limit: 255
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
-  create_table "connections", force: true do |t|
+  create_table "connections", force: :cascade do |t|
     t.integer  "user_id",    limit: 4,     null: false
     t.string   "service",    limit: 255,   null: false
     t.text     "followers",  limit: 65535
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
 
   add_index "connections", ["user_id"], name: "index_connections_on_user_id", using: :btree
 
-  create_table "documents", force: true do |t|
+  create_table "documents", force: :cascade do |t|
     t.string   "name",              limit: 255,               null: false
     t.string   "slug",              limit: 255,               null: false
     t.string   "url",               limit: 10000
@@ -139,7 +139,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "documents", ["slug"], name: "index_documents_on_slug", using: :btree
   add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
 
-  create_table "follows", force: true do |t|
+  create_table "follows", force: :cascade do |t|
     t.string   "follower_type",   limit: 255
     t.integer  "follower_id",     limit: 4
     t.string   "followable_type", limit: 255
@@ -150,7 +150,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "follows", ["followable_id", "followable_type"], name: "fk_followables", using: :btree
   add_index "follows", ["follower_id", "follower_type"], name: "fk_follows", using: :btree
 
-  create_table "friendly_id_slugs", force: true do |t|
+  create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           limit: 255, null: false
     t.integer  "sluggable_id",   limit: 4,   null: false
     t.string   "sluggable_type", limit: 50
@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
-  create_table "likes", force: true do |t|
+  create_table "likes", force: :cascade do |t|
     t.string   "liker_type",    limit: 255
     t.integer  "liker_id",      limit: 4
     t.string   "likeable_type", limit: 255
@@ -174,7 +174,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "likes", ["likeable_id", "likeable_type"], name: "fk_likeables", using: :btree
   add_index "likes", ["liker_id", "liker_type"], name: "fk_likes", using: :btree
 
-  create_table "locations", force: true do |t|
+  create_table "locations", force: :cascade do |t|
     t.string   "name",       limit: 255,                           null: false
     t.decimal  "latitude",               precision: 15, scale: 10
     t.decimal  "longitude",              precision: 15, scale: 10
@@ -187,7 +187,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
 
   add_index "locations", ["name"], name: "index_locations_on_name", using: :btree
 
-  create_table "memberships", force: true do |t|
+  create_table "memberships", force: :cascade do |t|
     t.integer  "user_id",         limit: 4,                 null: false
     t.integer  "belongable_id",   limit: 4,                 null: false
     t.string   "belongable_type", limit: 255,               null: false
@@ -203,7 +203,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "memberships", ["creator_id"], name: "index_memberships_on_creator_id", using: :btree
   add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
 
-  create_table "mentions", force: true do |t|
+  create_table "mentions", force: :cascade do |t|
     t.string   "mentioner_type",   limit: 255
     t.integer  "mentioner_id",     limit: 4
     t.string   "mentionable_type", limit: 255
@@ -214,7 +214,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "mentions", ["mentionable_id", "mentionable_type"], name: "fk_mentionables", using: :btree
   add_index "mentions", ["mentioner_id", "mentioner_type"], name: "fk_mentions", using: :btree
 
-  create_table "presences", force: true do |t|
+  create_table "presences", force: :cascade do |t|
     t.integer  "location_id",    limit: 4,               null: false
     t.integer  "locatable_id",   limit: 4,               null: false
     t.string   "locatable_type", limit: 255,             null: false
@@ -226,7 +226,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "presences", ["locatable_type", "locatable_id"], name: "index_presences_on_locatable_type_and_locatable_id", using: :btree
   add_index "presences", ["location_id"], name: "index_presences_on_location_id", using: :btree
 
-  create_table "searches", force: true do |t|
+  create_table "searches", force: :cascade do |t|
     t.string   "name",        limit: 255
     t.text     "description", limit: 65535
     t.integer  "user_id",     limit: 4,                 null: false
@@ -239,7 +239,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
 
   add_index "searches", ["user_id"], name: "index_searches_on_user_id", using: :btree
 
-  create_table "settings", force: true do |t|
+  create_table "settings", force: :cascade do |t|
     t.string   "var",         limit: 255,   null: false
     t.text     "value",       limit: 65535
     t.integer  "target_id",   limit: 4,     null: false
@@ -250,7 +250,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
 
   add_index "settings", ["target_type", "target_id", "var"], name: "index_settings_on_target_type_and_target_id_and_var", unique: true, using: :btree
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "name",                   limit: 255,   default: ""
     t.string   "username",               limit: 255
     t.string   "description",            limit: 19000
@@ -282,7 +282,7 @@ ActiveRecord::Schema.define(version: 20141030201409) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["name"], name: "index_users_on_name", using: :btree
 
-  create_table "votes", force: true do |t|
+  create_table "votes", force: :cascade do |t|
     t.integer  "votable_id",   limit: 4
     t.string   "votable_type", limit: 255
     t.integer  "voter_id",     limit: 4

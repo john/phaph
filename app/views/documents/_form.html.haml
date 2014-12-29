@@ -13,23 +13,23 @@
           - unless action_name == 'edit'
             Collection:
         
-          - if @document.collection.present? && @document.collection.public? && !@document.collection.owned_by?(current_user)
-            = f.hidden_field :collection_id
-            = @document.collection.name
+          / - if @document.collection.present? && @document.collection.public? && !@document.collection.owned_by?(current_user)
+          /   = f.hidden_field :collection_id
+          /   = @document.collection.name
+          /
+          / - else
 
+          - if current_user.collections.present?
+            = f.label :collection_id, :class => 'sr-only'
+            
+            = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name', selected: @selected_collection_id), class: 'form-control'
+
+            -# no collection_id, no user collections, create default
           - else
-
-            - if current_user.collections.present?
-              = f.label :collection_id, :class => 'sr-only'
-              
-              = f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name', selected: @selected_collection_id), class: 'form-control'
-
-              -# no collection_id, no user collections, create default
-            - else
-              #{current_user.name}'s documents
-              &nbsp;
-              -# This should happen inline
-              (or #{link_to 'create a new collection', new_collection_path})
+            #{current_user.name}'s documents
+            &nbsp;
+            -# This should happen inline
+            (or #{link_to 'create a new collection', new_collection_path})
 
             -# = f.label :collection_id, :class => 'sr-only'
             -#= f.select :collection_id, options_from_collection_for_select(current_user.collections, 'id', 'name'), :class => 'form-control'
