@@ -12,7 +12,7 @@
 /db/*.sqlite3-journal
 
 .DS_Store
-.ruby-version
+# .ruby-version
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
